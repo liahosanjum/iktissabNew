@@ -1,4 +1,5 @@
-ikt220
+Iktissab Website Version 2
 ======
 
-A Symfony project created on November 29, 2016, 6:23 am.
+This is the new version of iktissab website, Which will overcome the issues that we were facing in drupal version.
+This new version is based on symfony version 3.1.7. 
