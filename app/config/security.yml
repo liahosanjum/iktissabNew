@@ -5,10 +5,11 @@ security:
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
 #        memory: ~
-        webservice:
-            id: app.webservice_user_provider
+#        webservice:
+        iktuser_provider:
+            id: app.iktissab_user_provider
     encoders:
-        AppBundle\Security\User\WebserviceUser:
+        AppBundle\Security\User\IktissabUser:
             algorithm: md5
             iterations: 0
             encode_as_base64: false
@@ -17,15 +18,19 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        wuser_area:
-            context: wuser_area
+        iktuser_area:
+            context: iktuser_area
             anonymous: ~
             pattern: ^/
             simple_form:
+#              success_handler: loginsuccess
+              default_target_path: loginsuccess
+              always_use_default_target_path: true
               login_path: login
               check_path: login
-              authenticator: app.webservice_authenticator
-              provider: webservice
+              authenticator: app.iktissab_authenticator
+              provider: iktuser_provider
+
 
             # activate different ways to authenticate
 
@@ -36,4 +41,4 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
     access_control:
        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-       - { path: ^/, roles: ROLE_ADMIN }
+       - { path: ^/account, roles: ROLE_IKTUSER }
