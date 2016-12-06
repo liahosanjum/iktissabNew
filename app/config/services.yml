@@ -7,9 +7,12 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    app.webservice_user_provider:
-        class: AppBundle\Security\User\WebserviceUserProvider
+    app.iktissab_user_provider:
+        class: AppBundle\Security\User\IktissabUserProvider
         arguments: ["@doctrine.orm.entity_manager"]
-    app.webservice_authenticator:
-        class: AppBundle\Security\WebserviceAuthenticator
+    app.iktissab_authenticator:
+        class: AppBundle\Security\IktissabAuthenticator
         arguments: ["@security.password_encoder"]
+    app.login_login:
+        class: AppBundle\Services\LoginLogService
+        arguments: ["@doctrine.orm.entity_manager"]

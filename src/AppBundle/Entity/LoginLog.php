@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class LoginLog
  * @ORM\Entity()
  * @ORM\Table(name="login_log")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\LoginLogRepository")
  */
 class LoginLog{
     /**
