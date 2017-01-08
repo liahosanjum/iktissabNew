@@ -7,7 +7,7 @@
 
 {% endif %}
 
-<form action="{{ path('login') }}" method="post">
+<form action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
     <label for="username">Username: </label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
 

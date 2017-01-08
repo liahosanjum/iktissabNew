@@ -1,3 +1,6 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+#    path: /{_locale}/
+captcha_routing:
+  resource: "@CaptchaBundle/Resources/config/routing.yml"

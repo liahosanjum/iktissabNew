@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/{_country}/{_locale}/login", name="login")
      */
     public function loginAciton(Request $request){
 
@@ -33,5 +33,12 @@ class SecurityController extends Controller
            'last_username' => $lastUsername,
             'error' => $error
         ));
+    }
+    /**
+     * @Route("{_country}/{_locale}/account/logout", name="account_logout")
+     */
+    public function accountLogout(Request $request)
+    {
+//       die('account logout');
     }
 }

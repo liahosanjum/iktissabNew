@@ -1,0 +1,63 @@
+lang-E: انجليزي
+lang-A: arabic
+Language: 'اللغة المفضلة'
+pur_group-1: الـــزوج
+pur_group-2: الـــزوجـــة
+pur_group-3: الأبـنـاء
+pur_group-4: أحدالأقرباء
+pur_group-5: 'مقدم الطلب'
+pur_group-6: 'الخادم/السائق'
+gender-M: ذكر
+gender-f: أنثى
+Name: __Name
+'Customer Status': 'حالة العميل'
+'Iktissab Card No': 'رقم بطاقة اكتساب'
+Area: 'الحي/المنطقة'
+'House Number': 'رقم المنزل'
+'PO Box': 'رقم صندوق البريد'
+'Zip Code': 'الرمز البريدي'
+City: 'المدينة'
+'Telephone (Home)': 'رقم الهاتف (المكتب)'
+'Telephone (Office)': 'رقم الهاتف (المكتب)'
+Mobile: 'رقم الجوال'
+Email: 'البريد الإلكتروني'
+Nationality: الجنسية
+'Marital Status': 'الحالة الإجتماعية'
+Birthdate: 'تاريخ الميلاد'
+'Job Title': 'المسمى الوظيفي'
+Balance: 'رصيد العميل'
+'Gender:': الجنس/النوع
+Shoppers: 'المتسوق'
+'Customer Name': 'اسم العميل'
+'Iktissab ID': 'رقم بطاقة إكتساب'
+'Full name': 'الإسم'
+'Password': 'كلمة المرور'
+'Repeat password': 'تأكيد كلمة المرور'
+'Gender': 'الجنس'
+'Nationality': 'الجنسية'
+'Marital Status': 'الحالة الإجتماعية'
+'Job': 'المهنة'
+'Preffered Language': 'أختر اللغة'
+'Select Country': 'أختر المدينة'
+'Select Area': 'الحي'
+'Street': 'الشارع'
+'Select Nationality': 'اختر'
+'Day': 'يوم'
+'Month': 'شهر'
+'Year': 'سنة'
+'Select Language': 'اللغة'
+'Single': 'غير متزوج'
+'Married': 'متزوج'
+'Widow': 'أرملة'
+'Divorce': 'مطلق/مطلقة'
+'Husband': '	الـــزوج '
+'Wife': '	الـــزوجـــة	'
+'Children': '	الأبـنـاء	'
+'Relative': 'أحدالأقرباء'
+'Applicant': 'مقدم الطلب'
+'Servent': 'الخادم/السائق'
+'Select Shopper': 'أختر المتسوق'
+English: انجليزي
+Arabic: 'العربية'
+'Iqama/SSN Number': 'رقم الهوية/ الإقامة :  '
+'Next step': 'الخطوة التالية'

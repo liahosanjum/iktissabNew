@@ -8,32 +8,39 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppConstant;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 class AccountController extends Controller
 {
 
     /**
-     * @Route("/account/home", name="account_home")
+     * @Route("/{_country}/{_locale}/account/home", name="account_home")
      */
-    public function myAccountAction()
+    public function myAccountAction(Request $request)
     {
-        echo "This is my account function";
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
-        ]);
+        $restClient = $this->get('app.rest_client');
+
+        if(!$this->get('session')->get('iktUserData')) {
+            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+            $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
+            if($data['success'] == "true") {
+                $this->get('session')->set('iktUserData', $data['user']);
+            }
+        }
+        $iktUserData = $this->get('session')->get('iktUserData');
+        var_dump($iktUserData);
+        return $this->render('/account/home.twig',
+            array('iktData' => $iktUserData)
+            );
     }
 
-    /**
-     * @Route("/account/loginsuccess", name="loginsuccess")
-     */
-    public function loginSuccessAction()
-    {
-        $user = $this->getUser();
-        $loginLog = $this->get('app.login_login');
-        $loginLog->logEvent($user->getIktCardNo());
 
-    }
 }

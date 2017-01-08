@@ -39,7 +39,6 @@ class IktissabUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
 
-        echo "username = ".$username;
         $user = $this->em->createQueryBuilder()
             ->select('u')
             ->from('AppBundle:User', 'u')

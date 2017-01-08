@@ -21,15 +21,18 @@ security:
         iktuser_area:
             context: iktuser_area
             anonymous: ~
-            pattern: ^/
+            pattern: ^/(%app_countries%)/(%app_locales%)/*
             simple_form:
-#              success_handler: loginsuccess
-              default_target_path: loginsuccess
+              success_handler: app.ikt_success_handler
+#              default_target_path: homepage
               always_use_default_target_path: true
               login_path: login
               check_path: login
               authenticator: app.iktissab_authenticator
               provider: iktuser_provider
+            logout:
+              path: account_logout
+              success_handler: app.logout_handler
 
 
             # activate different ways to authenticate
@@ -40,5 +43,5 @@ security:
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
     access_control:
-       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-       - { path: ^/account, roles: ROLE_IKTUSER }
+       - { path: ^/(%app_countries%)/(%app_locales%)/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/(%app_countries%)/(%app_locales%)/account/, roles: ROLE_IKTUSER }

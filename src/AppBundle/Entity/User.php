@@ -1,70 +1,55 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: abdulali
- * Date: 11/30/16
- * Time: 3:40 PM
- */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class User
- * @package AppBundle\Entity
- * @ORM\Entity()
+ * User
+ *
  * @ORM\Table(name="user")
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
  */
 class User
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ikt_card_no", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $iktCardNo;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id()
-     */
-    private $ikt_card_no;
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var integer
      *
+     * @ORM\Column(name="reg_date", type="integer", nullable=false)
+     */
+    private $regDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="last_login", type="integer", nullable=false)
+     */
+    private $lastLogin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $reg_date;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $last_login;
-
-    public function __construct()
-    {
-        $this->active = true;
-    }
 
 
-
-
-    /**
-     * Set iktCardNo
-     *
-     * @param integer $iktCardNo
-     *
-     * @return User
-     */
-    public function setIktCardNo($iktCardNo)
-    {
-        $this->ikt_card_no = $iktCardNo;
-
-        return $this;
-    }
 
     /**
      * Get iktCardNo
@@ -73,7 +58,7 @@ class User
      */
     public function getIktCardNo()
     {
-        return $this->ikt_card_no;
+        return $this->iktCardNo;
     }
 
     /**
@@ -101,6 +86,54 @@ class User
     }
 
     /**
+     * Set regDate
+     *
+     * @param integer $regDate
+     *
+     * @return User
+     */
+    public function setRegDate($regDate)
+    {
+        $this->regDate = $regDate;
+
+        return $this;
+    }
+
+    /**
+     * Get regDate
+     *
+     * @return integer
+     */
+    public function getRegDate()
+    {
+        return $this->regDate;
+    }
+
+    /**
+     * Set lastLogin
+     *
+     * @param integer $lastLogin
+     *
+     * @return User
+     */
+    public function setLastLogin($lastLogin)
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLogin
+     *
+     * @return integer
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
+    }
+
+    /**
      * Set password
      *
      * @param string $password
@@ -122,53 +155,5 @@ class User
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Set regDate
-     *
-     * @param integer $regDate
-     *
-     * @return User
-     */
-    public function setRegDate($regDate)
-    {
-        $this->reg_date = $regDate;
-
-        return $this;
-    }
-
-    /**
-     * Get regDate
-     *
-     * @return integer
-     */
-    public function getRegDate()
-    {
-        return $this->reg_date;
-    }
-
-    /**
-     * Set lastLogin
-     *
-     * @param integer $lastLogin
-     *
-     * @return User
-     */
-    public function setLastLogin($lastLogin)
-    {
-        $this->last_login = $lastLogin;
-
-        return $this;
-    }
-
-    /**
-     * Get lastLogin
-     *
-     * @return integer
-     */
-    public function getLastLogin()
-    {
-        return $this->last_login;
     }
 }

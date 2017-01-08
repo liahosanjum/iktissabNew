@@ -13,6 +13,24 @@ services:
     app.iktissab_authenticator:
         class: AppBundle\Security\IktissabAuthenticator
         arguments: ["@security.password_encoder"]
-    app.login_login:
-        class: AppBundle\Services\LoginLogService
-        arguments: ["@doctrine.orm.entity_manager"]
+    app.activity_log:
+        class: AppBundle\Services\ActivityLogService
+        arguments: ["@doctrine.orm.entity_manager","@service_container"]
+    app.ikt_success_handler:
+        class: AppBundle\Security\IktissabSuccessHandler
+        arguments: ["@router", "@service_container"]
+    app.logout_handler:
+        class: AppBundle\Security\LogoutHandler
+        arguments: ["@router", "@service_container","@session"]
+    app.rest_client:
+        class: AppBundle\Services\RestClientService
+        arguments: ["@circle.restclient","@serializer.encoder.json"]
+    app.userlang_extension:
+        class: AppBundle\Twig\UserlangExtension
+        public: false
+        arguments: ['@service_container']
+        tags:
+            - {name: twig.extension}
+    app.ikt_reg_form:
+        class: AppBundle\Form\IktReg
+        arguments: ['@app.rest_client']

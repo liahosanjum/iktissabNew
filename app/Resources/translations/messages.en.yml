@@ -1,0 +1,63 @@
+lang-E: English
+lang-A: العربي
+Language: Language
+pur_group-1: Husband
+pur_group-2: Wife
+pur_group-3: Children
+pur_group-4: Relative
+pur_group-5: Applicant
+pur_group-6: Servent
+gender-M: Male
+gender-f: Female
+Name: Name
+'Customer Status': 'Customer Status'
+'Iktissab Card No': 'Iktissab Card No'
+Area: Area
+'House Number': 'House Number'
+'PO Box': 'PO Box'
+'Zip Code': 'Zip Code'
+City: City
+'Telephone (Home)': 'Telephone (Home)'
+'Telephone (Office)': 'Telephone (Office)'
+Mobile: Mobile
+Email: Email
+Nationality: Nationality
+'Marital Status': 'Marital Status'
+Birthdate: Birthdate
+'Job Title': 'Job Title'
+Balance: Balance
+'Gender:': 'Gender:'
+Shoppers: Shoppers
+'Customer Name': 'Customer Name'
+'Iktissab ID': 'Iktissab ID'
+'Full name': 'Full name'
+'Password': 'Password'
+'Repeat password': 'Repeat password'
+'Gender': 'Gender'
+'Nationality': 'Nationality'
+'Marital Status': 'Marital Status'
+'Job': 'Job'
+'Preffered Language': 'Preffered Language'
+'Select Country': 'Select Country'
+'Select Area': 'Select Area'
+'Street': 'Street'
+'Select Nationality': 'Select Nationality'
+'Day': 'Day'
+'Month': 'Month'
+'Year': 'Year'
+'Select Language': 'Select Language'
+'Single': 'Single'
+'Married': 'Married'
+'Widow': 'Widow'
+'Divorce': 'Divorce'
+'Husband': 'Husband'
+'Wife': 'Wife'
+'Children': 'Children'
+'Relative': 'Relative'
+'Applicant': 'Applicant'
+'Servent': 'Servent'
+'Select Shopper': 'Select Shopper'
+English: 'English'
+Arabic: Arabic
+'Iqama/SSN Number': 'Iqama/SSN Number'
+'Next step': 'Next Step'
