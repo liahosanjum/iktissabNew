@@ -171,18 +171,26 @@ class ActivationController extends Controller
 
                 //send sms code
                 $otp = rand(111111,999999);
+                $this->get('session')->set('otp',$otp);
                 $msgID = rand(19,990);
-                $message = "new messss $otp";
-                
-                $url = 'HTTP://www.mobily.ws/api/msgSend.php';
-                $payload = "mobile=".$this->getParameter('mobily_user')."&password=".$this->getParameter('mobily_pass')."&numbers=966569858396"."&sender=Iktissab&msg=ASDF989000welcomewelcome&timeSend=0&dateSend=0&applicationType=68&domainName=".$_SERVER['SERVER_NAME']."&msgId=".$msgID."&deleteKey=152485&lang=3";
-                $payload = "mobile=othaim&password=0557554443&numbers=966569858396&sender=Iktissab&msg=ty989000welcomewelcome&timeSend=0&dateSend=0&applicationType=68&domainName=othaimmarkets.com&msgId=3183&deleteKey=109485&lang=3";
-                echo "<br /> payload == ". $payload;
-                $sms = $restClient->restPost($url, $payload,array());
+                $delKay = rand(0,99999);
+                $message = "Please insert this temporary code $otp , to continue with Iktissab website registration.";
+
+                $payload = "mobile=".$this->getParameter('mobily_user')."&password=".$this->getParameter('mobily_pass')."&numbers=".$pData['mobile']."&sender=".$this->getParameter('mobily_sender')."&msg=". urlencode(iconv ( "UTF-8", "windows-1256", $message ))."&timeSend=0&dateSend=0&applicationType=68&domainName=othaimmarkets.com&msgId=".$msgID."&deleteKey=".$delKay."&lang=3";
+                $url = 'http://www.mobily.ws/api/msgSend.php?'.$payload;
+
+                $sms = $restClient->restPost($url,'',array());
+                if ($sms == 1){
+                    // one status code mobily that sms sent sucessfully
+                    $request->getSession()
+                        ->getFlashBag()
+                        ->add('smsSent', 'One time password has been sent to your mobile, please enter to continue!')
+                    ;
+                }
                 var_dump($sms);
                 echo "mobily url is".$url;
                 var_dump($sms);
-                die('---');
+//                die('---');
 
 
 //                $url = $request->getLocale() . '/api/add_new_user.json';
