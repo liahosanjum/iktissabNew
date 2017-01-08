@@ -184,7 +184,7 @@ class ActivationController extends Controller
                     // one status code mobily that sms sent sucessfully
                     $request->getSession()
                         ->getFlashBag()
-                        ->add('smsSent', 'One time password has been sent to your mobile, please enter to continue!')
+                        ->add('smsSuccess', 'One time password has been sent to your mobile, please enter to continue!')
                     ;
                 }
                 var_dump($sms);
