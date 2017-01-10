@@ -11,6 +11,15 @@ class AppConstant
     //Activity Log Constants
     const  ACTIVITY_LOGIN = 'Login';
     const  ACTIVITY_LOGOUT = 'Logout';
+    const  ACTIVITY_SEND_SMS = 'SmsSent';
+    const  ACTIVITY_SEND_EMAIL = 'EmailSent';
+    const  ACTIVITY_NEW_CARD_REGISTRATION = 'NewCardRegistration';
+    const  ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS = 'NewCardRegistrationSuccessfull';
+    const  ACTIVITY_NEW_CARD_REGISTRATION_ERROR = 'NewCardRegistrationError';
+    const  ACTIVITY_EXISTING_CARD_REGISTRATION = 'ExistingCardRegistration';
+    const  ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS = 'ExistingCardRegistrationSuccessfull';
+    const  ACTIVITY_EXISTING_CARD_REGISTRATION_ERROR = 'ExistingCardRegistrationError';
+
 
     //related to cookies
     const  COOKIE_EXPIRY = 2592000; //'86400*30';
@@ -28,4 +37,11 @@ class AppConstant
 
     const IKT_REG_SCENERIO_1 = 'SCENERIO1';
     const IKT_REG_SCENERIO_2 = 'SCENERIO2';
+
+
+    const IKT_SA_PREFIX = '966';
+    const IKT_EG_PREFIX = '002';
+
+
+    const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
 }

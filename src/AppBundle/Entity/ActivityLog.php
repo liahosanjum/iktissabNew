@@ -45,7 +45,7 @@ class ActivityLog
     /**
      * @var string
      *
-     * @ORM\Column(name="action_type", type="string", length=100, nullable=false)
+     * @ORM\Column(name="action_type", type="string", length=255, nullable=false)
      */
     private $actionType;
 

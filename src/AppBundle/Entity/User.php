@@ -17,7 +17,6 @@ class User
      *
      * @ORM\Column(name="ikt_card_no", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $iktCardNo;
 
@@ -38,7 +37,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="last_login", type="integer", nullable=false)
+     * @ORM\Column(name="last_login", type="integer", nullable=true)
      */
     private $lastLogin;
 
@@ -95,6 +94,20 @@ class User
     public function setRegDate($regDate)
     {
         $this->regDate = $regDate;
+
+        return $this;
+    }
+
+    /**
+     * Set iktCardNo
+     *
+     * @param integer $iktCardNo
+     *
+     * @return User
+     */
+    public function setIktCardNo($iktCardNo)
+    {
+        $this->iktCardNo = $iktCardNo;
 
         return $this;
     }

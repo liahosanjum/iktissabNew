@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class IktReg extends AbstractType
+class IktRegType extends AbstractType
 {
 
 
@@ -33,6 +32,7 @@ class IktReg extends AbstractType
     {
 
         $lookupData = $options['additional'];
+        $mobileVal =
         $builder->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
             'constraints' => array(
 
@@ -111,12 +111,12 @@ class IktReg extends AbstractType
                 'label' => 'Iqama/SSN Number',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
-//                    new Assert\Regex(
-//                        array(
-//                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
-//                            'match' => true,
-//                            'message' => 'Invalid Iqama/SSN Number')
-//                    ),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
+                            'match' => true,
+                            'message' => 'Invalid Iqama/SSN Number')
+                    ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']
 //                    ])
@@ -160,6 +160,13 @@ class IktReg extends AbstractType
                 'label' => 'Mobile',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^([0-9]){14}$/',
+                            'match' => true,
+                            'message' => "Mobile Number Must be ".($lookupData['country'] == 'sa' ? '9' : '14' )." digits")
+                    ),
+
                 )
             ))
             ->add('pur_group', ChoiceType::class, array(
@@ -203,7 +210,6 @@ class IktReg extends AbstractType
     {
 
 
-        echo "<br />iqqqqqqqq == ".$iqama;
         $evenSum = 0;
         $oddSum = 0;
         $entireSum = 0;
@@ -228,7 +234,7 @@ class IktReg extends AbstractType
         if (($entireSum % 10) == 0) {
             // valid
         } else {
-            $context->buildViolation('Iqama Number is invalid -- ')
+            $context->buildViolation('Iqama Number is invalid')
                 ->atPath('iqama')
                 ->addViolation();
         }

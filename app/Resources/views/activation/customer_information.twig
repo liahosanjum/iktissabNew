@@ -13,6 +13,33 @@
         <div class="col-lg-12 text-center ">
 
             {{ form_start(form) }}
+            {{ form_row(form.iktCardNo) }}
+            {{ form_row(form.fullName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.gender) }}
+            {{ form_row(form.nationality) }}
+            {{ form_row(form.dob) }}
+            {{ form_row(form.maritial_status) }}
+            {{ form_row(form.iqama) }}
+            {{ form_row(form.job_no) }}
+            {{ form_row(form.city_no) }}
+            {{ form_row(form.area_no) }}
+            {{ form_row(form.language) }}
+            {{ form_row(form.street) }}
+            {{ form_row(form.houseno) }}
+            {{ form_row(form.pobox) }}
+            {{ form_row(form.zip) }}
+            {{ form_row(form.tel_office) }}
+
+            {{ form_row(form.tel_home) }}
+            {{ form_errors(form.mobile) }}
+            {#{{ form_row(form.mobile) }}#}
+            {{ form_label(form.mobile) }}
+            <input type="text" value="966"  readonly disabled>{{ form_widget(form.mobile) }}
+            {{ form_row(form.pur_group) }}
+            {{ form_row(form.submit) }}
+
 
             {{ form_end(form) }}
         </div>
