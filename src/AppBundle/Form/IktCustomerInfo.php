@@ -4,15 +4,15 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ActivateCardone extends AbstractType
+class IktCustomerInfo extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
@@ -22,7 +22,7 @@ class ActivateCardone extends AbstractType
 
         )
         ))
-            ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID',
+            ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
                 'constraints' => array(
 
                     new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
@@ -31,17 +31,17 @@ class ActivateCardone extends AbstractType
                     )
                 )
             ))
-//            ->add('captchaCode', 'Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType', array(
-//                    'captchaConfig' => 'ExampleCaptcha',
-////                    'mapped' => false,
-//                    'label' => false,
-//                    'attr' => array('placeholder' => 'Enter Code'),
-//                    'constraints' => array(
-//
-//                        new Assert\NotBlank(array('message' => 'Captcha is required'))
-//                    )
-//                )
-//            )
+            ->add('password', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'The password fields must match',
+                    'required' => true,
+                    'first_options' => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat password'),
+                    'constraints' => array(
+                        new Assert\NotBlank(array('message' => 'This field is required')),
+                    )
+                )
+            )
             ->add('submit', SubmitType::class);
     }
 
@@ -52,3 +52,4 @@ class ActivateCardone extends AbstractType
         ));
     }
 }
+?>
