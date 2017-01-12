@@ -6,6 +6,8 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}"/>
+
     {% endblock %}
     {% block javascripts %}
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
@@ -15,15 +17,22 @@
 </head>
 <body>
     <div class="main-container" id="main-container" >
-        <div class="container-fluid" >
+        <div class="container-fluid">
              <div class="container header-top-section" style="border:1px solid;">
-        Header
+                 <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="Header-area">Iktissab Admin Panel</div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="login-area"> login area</div>
+                        </div>
+                        <div class="clearfix"></div>
+                 </div>
              </div>
-            <div class="clearfix"></div>
+             <div class="clearfix"></div>
         </div>
 
         <div class="container-fluid">
-
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 left-sidebar">
@@ -31,10 +40,8 @@
                         <div class="links"><a href="">Create Pages</a></div>
                         <div class="links"><a href="">Create Pages</a></div>
                         <div class="links"><a href="">Create Pages</a></div>
-                    <div class="clearfix"></div>
-
+                        <div class="clearfix"></div>
                     </div>
-
                     <div class="col-lg-9 col-md-9 col-sm-9 middle-contents">
                         {% block body %}{% endblock %}
                     </div>
@@ -44,8 +51,8 @@
             </div>
         </div>
         <div class="container-fluid"  >
-            <div class="container header-footer-section" style="border:1px solid;">
-                Footer Section
+            <div class="container header-footer-section">
+               <div class="footer"> All Rights Reserved to Abdullah AlOthaim Markets Company @ 2017</div>
             </div>
             <div class="clearfix"></div>
         </div>

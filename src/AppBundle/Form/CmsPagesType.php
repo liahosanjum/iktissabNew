@@ -50,11 +50,14 @@ class CmsPagesType extends AbstractType
             ->add('edesc'  , TextareaType::class, array('label' => 'Description English','attr' => array(
                 'class' => 'form-control'
             ),))
-            
+
             ->add('status', CheckboxType::class, array(
-                'label'    => '1',
+                'label'    => 'Status',
+                'mapped' => false,
+                
+
                 'required' => false,
-                'value' => 0
+
             ))
             ->add('save', SubmitType::class, array('label' => 'Create Page','attr' => array(
                 'class' => 'form-control cms-button' , 
@@ -81,44 +84,6 @@ class CmsPagesType extends AbstractType
 
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validateIqama($iqama, ExecutionContextInterface $context)
-    {
 
-
-        echo "<br />iqqqqqqqq == ".$iqama;
-        $evenSum = 0;
-        $oddSum = 0;
-        $entireSum = 0;
-        for ($i = 0; $i < strlen($iqama); $i++) {
-            $temp = '';
-            if ($i % 2) { // odd number
-
-                $oddSum = $oddSum + $iqama[$i];
-
-            } else {
-                //even
-                $multE = $iqama[$i] * 2;
-                if (strlen($multE) > 1) {
-                    $temp = (string)$multE;
-                    $evenSum = $evenSum + ($temp[0] + $temp[1]);
-                } else {
-                    $evenSum = $evenSum + $multE;
-                }
-            }
-        }
-        $entireSum = $evenSum + $oddSum;
-        if (($entireSum % 10) == 0) {
-            // valid
-        } else {
-            $context->buildViolation('Iqama Number is invalid -- ')
-                ->atPath('iqama')
-                ->addViolation();
-        }
-
-
-    }
 
 }

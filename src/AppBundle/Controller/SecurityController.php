@@ -34,6 +34,34 @@ class SecurityController extends Controller
             'error' => $error
         ));
     }
+
+    /**
+     * @Route("/admin/admin")
+     */
+    public function adminAciton(Request $request){
+
+       
+
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
+
+
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(':admin:login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error' => $error
+        ));
+    }
+
+
+
     /**
      * @Route("{_country}/{_locale}/account/logout", name="account_logout")
      */

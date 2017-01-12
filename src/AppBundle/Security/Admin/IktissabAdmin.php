@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Security\User;
+namespace AppBundle\Security\Admin;
 use AppBundle\Entity\LoginLog;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
 
-class IktissabUser implements UserInterface, EquatableInterface
+class IktissabAdmin implements UserInterface, EquatableInterface
 {
 
     private $username;
@@ -56,7 +56,7 @@ class IktissabUser implements UserInterface, EquatableInterface
     public function isEqualTo(UserInterface $user)
     {
         //die('inside is equal to the user is');
-        if (!$user instanceof IktissabUser) {
+        if (!$user instanceof IktissabAdmin) {
             return false;
         }
 
@@ -72,7 +72,7 @@ class IktissabUser implements UserInterface, EquatableInterface
             return false;
         }
 
-       
+
 
         return true;
     }

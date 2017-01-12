@@ -21,10 +21,10 @@ use AppBundle\Entity\CmsPages;
 
 
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
     /**
-     * @Route("/admin/admin")
+     * @Route("/dashboard/admin")
      */
     public function adminAction()
     {
@@ -34,7 +34,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/cmslist")
+     * @Route("/dashboard/cmslist", name="cmslist")
      */
     public function cmsListAction(Request $request)
     {
@@ -124,7 +124,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/cmslistall", name="cmslistall")
+     * @Route("/dashboard/cmslistall", name="cmslistall")
      */
     public function cmsListAllAction(Request $request)
     {
@@ -160,7 +160,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/cmslistupdate/{page}", name="cmslistupdate")
+     * @Route("/dashboard/cmslistupdate/{page}", name="cmslistupdate")
      *
      */
 
@@ -219,7 +219,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/cmslistdelete/{page}", name="cmslistdelete")
+     * @Route("/dashboard/cmslistdelete/{page}", name="cmslistdelete")
      *
      */
 
@@ -236,7 +236,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/cmslistview/{page}", name="cmslistview")
+     * @Route("/dashboard/cmslistview/{page}", name="cmslistview")
      *
      */
     public function cmsListviewAction(Request $request,$page)

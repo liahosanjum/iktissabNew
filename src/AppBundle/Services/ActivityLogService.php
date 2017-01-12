@@ -34,8 +34,6 @@ class ActivityLogService
         $this->em->persist($activityLog);
         // update the lastlogin in user table
         $this->em->flush();
-
-
     }
 
     public function logLoginEvent($ikt_card_no)

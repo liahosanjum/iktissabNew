@@ -6,8 +6,9 @@
  * Time: 1:01 PM
  */
 
-namespace AppBundle\Security\User;
+namespace AppBundle\Security\Admin;
 
+use AppBundle\Security\Admin\IktissabAdmin;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 
-class IktissabUserProvider implements UserProviderInterface
+class IktissabAdminProvider implements UserProviderInterface
 {
     private $em;
 
@@ -26,7 +27,7 @@ class IktissabUserProvider implements UserProviderInterface
 
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof IktissabUser) {
+        if (!$user instanceof IktissabAdmin) {
             throw new UnsupportedUserException(
                 sprintf('instance of "%s" are not supported', get_class($user))
             );
@@ -51,7 +52,7 @@ class IktissabUserProvider implements UserProviderInterface
 
 
 //        return new WebserviceUser($username, $password, $salt, $roles);
-            return new IktissabUser($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTUSER'));
+            return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTUSER'));
             // TODO: Implement loadUserByUsername() method.
         }
         throw new UsernameNotFoundException(
@@ -62,7 +63,7 @@ class IktissabUserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === 'AppBundle\Security\User\IktissabUser';
+        return $class === 'AppBundle\Security\Admin\IktissabAdmin';
         // TODO: Implement supportsClass() method.
     }
 }

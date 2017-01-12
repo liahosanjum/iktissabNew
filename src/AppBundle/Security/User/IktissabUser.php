@@ -55,7 +55,7 @@ class IktissabUser implements UserInterface, EquatableInterface
 
     public function isEqualTo(UserInterface $user)
     {
-//        die('inside is equal to the user is');
+        //die('inside is equal to the user is');
         if (!$user instanceof IktissabUser) {
             return false;
         }
