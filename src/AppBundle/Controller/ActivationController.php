@@ -43,6 +43,7 @@ class ActivationController extends Controller
                 $this->get('session')->set('iktCardNo', $pData['iktCardNo']);
                 $this->get('session')->set('email', $pData['email']);
                 $acrivityLog = $this->get('app.activity_log');
+                $this->checkInStagging($pData['iktCardNo']);
                 if ($this->get('session')->get('scenerio') == AppConstant::IKT_REG_SCENERIO_1) {
                     // make log
                     $acrivityLog->logEvent(AppConstant::ACTIVITY_NEW_CARD_REGISTRATION, 1, array('ikt_card' => $pData['iktCardNo'], 'email' => $pData['email']));
@@ -408,7 +409,15 @@ class ActivationController extends Controller
         } else {
             Throw New Exception($this->get('translator')->trans('Error in adding new card'));
         }
+        $this->checkInStagging($iktCardNo);
 
+
+    }
+
+    function checkInStagging($iktCardNo)
+    {
+        $request = Request::createFromGlobals();
+        $restClient = $this->get('app.rest_client');
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/is_in_stagging.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['success'] == true) // this card is in stagging so dont add again
