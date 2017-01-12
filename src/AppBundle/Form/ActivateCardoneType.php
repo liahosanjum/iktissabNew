@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -22,9 +23,9 @@ class ActivateCardoneType extends AbstractType
 
         )
         ))
-            ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID',
+            ->add('iktCardNo', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array('label' => 'Iktissab ID',
+                'attr' =>array( 'maxlength' => 8),
                 'constraints' => array(
-
                     new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
                     new Assert\Regex(
                         array('pattern' => '/^[9,5]([0-9]){7}$/', 'match' => true, 'message' => 'Invalid Iktissab Card Number')

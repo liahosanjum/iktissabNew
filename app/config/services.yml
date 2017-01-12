@@ -34,3 +34,17 @@ services:
     app.sms_service:
         class: AppBundle\Services\SmsService
         arguments: ['@app.rest_client',%sms_parameters%]
+    app.api_user_provider:
+        class: AppBundle\Security\User\ApiUserProvider
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.api_authenticator:
+        class: AppBundle\Security\ApiAuthenticator
+        arguments: ["@security.password_encoder"]
+    wsse.security.authentication.provider:
+        class: AppBundle\Security\Authentication\Provider\WsseProvider
+        arguments: ['@doctrine.orm.entity_manager', '@cache.app','']
+        public: false
+    wsse.security.authentication.listener:
+        class: AppBundle\Security\Firewall\WsseListener
+        arguments: ['@security.token_storage', '@security.authentication.manager']
+        public: false

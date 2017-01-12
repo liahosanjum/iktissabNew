@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class IktCustomerInfo extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
@@ -23,6 +24,7 @@ class IktCustomerInfo extends AbstractType
         )
         ))
             ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
+                'attr' =>array('maxlength'=>8),
                 'constraints' => array(
 
                     new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
@@ -39,6 +41,7 @@ class IktCustomerInfo extends AbstractType
                     'second_options' => array('label' => 'Repeat password'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
                     )
                 )
             )

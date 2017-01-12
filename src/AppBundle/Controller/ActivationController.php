@@ -99,7 +99,7 @@ class ActivationController extends Controller
         $locale = $request->getLocale();
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-//       echo "here the data is"; var_dump($data); die('---');
+//       echo "here the data is"; var_dump($data); //die('---');
         if ($data['success'] == false) {
             Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
         } else {
@@ -467,6 +467,7 @@ class ActivationController extends Controller
     function checkiqamaAction()
     {                       // function to validate iqama this code will be implemented in the FormType as callback validation
         $this->checkIqamaLocal('2374777710');
+        $this->checkIqamaLocal('2407152277');
         $iqama = '2309121604';
         $iqama = '1001744588';
         $evenSum = 0;
