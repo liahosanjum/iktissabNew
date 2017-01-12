@@ -32,8 +32,8 @@ class IktRegType extends AbstractType
     {
 
         $lookupData = $options['additional'];
-        $mobileVal =
         $builder->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
+            'attr' =>array('maxlength'=>8),
             'constraints' => array(
 
                 new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
@@ -46,8 +46,10 @@ class IktRegType extends AbstractType
             )
         ))
             ->add('fullName', TextType::class, array('label' => 'Full name',
+                    'attr' =>array('maxlength' => 50),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array('min' => 5, 'max'=>50, 'minMessage'=> "Length is too small", 'maxMessage' => "Length is too big"))
                     )
                 )
             )
@@ -65,6 +67,7 @@ class IktRegType extends AbstractType
                     'second_options' => array('label' => 'Repeat password'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
                     )
                 )
             )
@@ -150,7 +153,7 @@ class IktRegType extends AbstractType
                     )
                 )
             )
-            ->add('street', TextType::class, array('label' => 'Street'))
+            ->add('street', TextType::class, array('label' => 'Street', 'attr' => array('maxlength' => 100)))
             ->add('houseno', TextType::class, array('label' => 'House Number'))
             ->add('pobox', TextType::class, array('label' => 'PO Box'))
             ->add('zip', TextType::class, array('label' => 'Zip Code'))
@@ -158,6 +161,7 @@ class IktRegType extends AbstractType
             ->add('tel_home', TextType::class, array('label' => 'Telephone (Home)'))
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
+                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 14),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(

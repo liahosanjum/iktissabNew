@@ -169,4 +169,10 @@ class User
     {
         return $this->password;
     }
+
+    public function getRoles()
+    {
+        return array('ROLE_API');
+    }
+
 }
