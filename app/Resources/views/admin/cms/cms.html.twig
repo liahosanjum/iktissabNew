@@ -1,0 +1,57 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center ">
+           ADD Pages
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 col-md-offset-2 col-md-8 col-sm-8 col-md-offset-2 text-center ">
+
+            <div class="cmsForm">
+
+            {{ message }}
+            </div>
+            {{ form_start(form) }}
+
+
+            <div class="cmsForm">
+                {{ form_label(form.atitle) }}
+                {{ form_errors(form.atitle) }}
+                {{ form_widget(form.atitle) }}
+            </div>
+
+            <div class="cmsForm">
+                {{ form_label(form.etitle) }}
+                {{ form_errors(form.etitle) }}
+                {{ form_widget(form.etitle) }}
+            </div>
+
+            <div class="cmsForm">
+                {{ form_label(form.adesc) }}
+                {{ form_errors(form.adesc) }}
+                {{ form_widget(form.adesc) }}
+            </div>
+            <div class="cmsForm">
+                {{ form_label(form.edesc) }}
+                {{ form_errors(form.edesc) }}
+                {{ form_widget(form.edesc) }}
+            </div>
+            <div class="cmsForm">
+                {{ form_label(form.status) }}
+
+                {{ form_widget(form.status) }}
+            </div>
+
+            <div class="cmsFormSaveBtn">
+                {{ form_label(form.save) }}
+
+                {{ form_widget(form.save) }}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
