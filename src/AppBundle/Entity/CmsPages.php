@@ -166,7 +166,7 @@ class CmsPages
     /**
      * Set status
      *
-     * @param boolean $status
+     * @param integer $status
      *
      * @return CmsPages
      */
@@ -180,7 +180,7 @@ class CmsPages
     /**
      * Get status
      *
-     * @return boolean
+     * @return integer
      */
     public function getStatus()
     {

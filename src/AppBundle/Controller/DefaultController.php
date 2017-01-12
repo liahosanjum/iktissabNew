@@ -47,6 +47,7 @@ class DefaultController extends Controller
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale,time()+AppConstant::COOKIE_EXPIRY,'/',null,false,false));
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country,time()+AppConstant::COOKIE_EXPIRY,'/',null,false,false));
         $response->sendHeaders();
+        //TODO:: add template for home page display
 
         
 

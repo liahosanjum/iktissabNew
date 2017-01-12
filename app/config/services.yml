@@ -10,15 +10,25 @@ services:
     app.iktissab_user_provider:
         class: AppBundle\Security\User\IktissabUserProvider
         arguments: ["@doctrine.orm.entity_manager"]
+    app.iktissab_admin_provider:
+            class: AppBundle\Security\Admin\IktissabAdminProvider
+            arguments: ["@doctrine.orm.entity_manager"]
     app.iktissab_authenticator:
         class: AppBundle\Security\IktissabAuthenticator
         arguments: ["@security.password_encoder"]
+    app.iktissabadmin_authenticator:
+            class: AppBundle\Security\IktissabAdminAuthenticator
+            arguments: ["@security.password_encoder"]
+
     app.activity_log:
         class: AppBundle\Services\ActivityLogService
         arguments: ["@doctrine.orm.entity_manager","@service_container"]
     app.ikt_success_handler:
         class: AppBundle\Security\IktissabSuccessHandler
         arguments: ["@router", "@service_container"]
+    app.iktadmin_success_handler:
+            class: AppBundle\Security\IktissabAdminSuccessHandler
+            arguments: ["@router", "@service_container"]
     app.logout_handler:
         class: AppBundle\Security\LogoutHandler
         arguments: ["@router", "@service_container","@session"]
