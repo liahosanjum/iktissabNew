@@ -14,7 +14,7 @@ class WsseUserToken extends AbstractToken
     public $created;
     public $digest;
     public $nonce;
-
+    public $area;
     public function __construct(array $roles = array())
     {
 //        var_dump($roles);

@@ -28,7 +28,9 @@ class AppConstant
 
     //webservice main url
     const WEBAPI_URL = 'http://150.150.101.26:8080/iktserv2_2/web/';
-
+    const IKTISSAB_API_URL = 'http://150.150.101.26:8080/iktserv2_2/web/%s/api/%s.json';
+    const IKTISSAB_API_USER = "anounymouse@email.com";
+    const IKTISSAB_API_SECRET = 'anounymouse';
     //ikt user languages
     const IKT_USER_LANG_EN_EN = 'English';
     const IKT_USER_LANG_EN_AR = 'Arabic';
@@ -44,4 +46,6 @@ class AppConstant
 
 
     const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
+
+    const INVALID_DATA = "Invalid Data";
 }

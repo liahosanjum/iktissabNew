@@ -31,10 +31,11 @@ class ApiUser implements EquatableInterface, AdvancedUserInterface
      * @param string $salt
      * @param array $roles
      */
-    public function __construct($email, $password, $salt="", $roles=array('ROLE_API'))
+    public function __construct($id, $email, $password, $salt="", $roles=['ROLE_API', 'ROLE_API_CUSTOMER'])
     {
         $this->email = $email;
         $this->password = $password;
+        $this->id = $id;
         $this->roles = $roles;
         $this->salt = $salt;
 
@@ -149,7 +150,7 @@ class ApiUser implements EquatableInterface, AdvancedUserInterface
 
     public function setName($name)
     {
-        $this->appId = $name;
+        $this->id = $name;
         return $this;
     }
 

@@ -45,16 +45,20 @@ class SmsService
         $messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
         $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
         $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;
-        echo $url;
+        //echo $url;
         $sms = $this->restClient->restGet($url, array());
 //        $sms = 1;
-        var_dump($sms);
+       // var_dump($sms);
 //        die('---');
         if ($sms == '1') {
             return true;
-        } else {
+        }
+        /*
+        else {
             Throw new Exception('Failed to send sms');
         }
+        */
 
+        return false;
     }
 }

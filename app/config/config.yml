@@ -93,6 +93,7 @@ fos_rest:
     routing_loader:
         default_format: json
     param_fetcher_listener: true
+    body_listener: true
     view:
         view_response_listener: true
         formats:

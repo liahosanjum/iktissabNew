@@ -1,5 +1,6 @@
 
 <?php
+phpinfo();die();
 global $arraySendMsg;
 $url = "www.mobily.ws/api/msgSend.php";
 $applicationType = "68";

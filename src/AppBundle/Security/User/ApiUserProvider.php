@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Security\User;
 
-use AppBundle\Entity\ApiUser;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -22,12 +21,14 @@ class ApiUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($email)
     {
-
+        /**
+         * @var User
+         */
         $user =  $this->em->getRepository('AppBundle:User')->findOneByEmail($email);
 
         if($user != null){
 
-            return new \AppBundle\Security\User\ApiUser($user->getEmail(), $user->getPassword(), null, $user->getRoles() );
+            return new \AppBundle\Security\User\ApiUser($user->getIktCardNo(), $user->getEmail(), $user->getPassword(), null, $user->getRoles() );
             
         }
 

@@ -8,4 +8,4 @@ captcha_routing:
 apiroute:
     type: rest
     resource: AppBundle\Controller\ApiController
-    prefix: /api
+    prefix: /{_country}/{_locale}/api
