@@ -6,7 +6,7 @@
  * Time: 1:23 PM
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Api;
 
 
 use AppBundle\AppConstant;
