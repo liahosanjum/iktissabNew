@@ -43,13 +43,19 @@ services:
             - {name: twig.extension}
     app.sms_service:
         class: AppBundle\Services\SmsService
-        arguments: ['@app.rest_client', '%sms_parameters%']
+        arguments: ['@app.rest_client','%sms_parameters%']
     app.api_user_provider:
         class: AppBundle\Security\User\ApiUserProvider
         arguments: ["@doctrine.orm.entity_manager"]
     app.api_authenticator:
         class: AppBundle\Security\ApiAuthenticator
         arguments: ["@security.password_encoder"]
+    app.services.iktissab_rest_service:
+        class: AppBundle\Services\IktissabRestService
+        arguments: ['@circle.restclient', '@serializer.encoder.json', '@request_stack']
+    app.services.iktissab_card_service:
+        class: AppBundle\Services\IktissabCardService
+        arguments: ['@doctrine.orm.entity_manager', '@service_container']
     wsse.security.authentication.provider:
         class: AppBundle\Security\Authentication\Provider\WsseProvider
         arguments: ['@doctrine.orm.entity_manager', '@cache.app','']

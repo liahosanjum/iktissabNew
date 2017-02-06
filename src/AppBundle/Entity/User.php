@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+    const ACTIVATION_SOURCE_WEB = 'W';
+    const ACTIVATION_SOURCE_MOBILE = 'M';
+    const ACTIVATION_SOURCE_CALL_CENTER = 'C';
     /**
      * @var integer
      *
@@ -48,7 +52,13 @@ class User
      */
     private $password;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="activation_source", type="string", length=1, nullable=false)
+     */
+    private $activationSource;
+    
 
     /**
      * Get iktCardNo
@@ -172,7 +182,26 @@ class User
 
     public function getRoles()
     {
-        return array('ROLE_API');
+        return array('ROLE_API', 'ROLE_API_CUSTOMER');
     }
 
+    /**
+     * @param $activationSource
+     * @return User
+     */
+    public function setActivationSource($activationSource)
+    {
+        if(!in_array($activationSource, [self::ACTIVATION_SOURCE_WEB, self::ACTIVATION_SOURCE_MOBILE, self::ACTIVATION_SOURCE_CALL_CENTER])){
+            throw new InvalidArgumentException('Invalid Activation Source');
+        }
+        $this->activationSource = $activationSource;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getActivationSource()
+    {
+        return $this->activationSource;
+    }
 }

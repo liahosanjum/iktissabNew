@@ -9,7 +9,7 @@ class AppKernel extends Kernel
 
     public function __construct($environment, $debug)
     {
-        date_default_timezone_set( 'Europe/Paris' );
+        date_default_timezone_set( 'Asia/Riyadh' );
         parent::__construct($environment, $debug);
     }
 
@@ -25,10 +25,11 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Boekkooi\Bundle\JqueryValidationBundle\BoekkooiJqueryValidationBundle(),
-            new AppBundle\AppBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Circle\RestClientBundle\CircleRestClientBundle(),
             new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),
+            new AppBundle\AppBundle(),
+            
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

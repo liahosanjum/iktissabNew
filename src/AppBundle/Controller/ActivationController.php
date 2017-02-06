@@ -15,16 +15,20 @@ use AppBundle\Form\ActivateCardoneType;
 use AppBundle\Form\EnterOtpType;
 use AppBundle\Form\IktCustomerInfo;
 use AppBundle\Form\IktRegType;
-use FOS\RestBundle\Controller\Annotations\Route;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ActivationController extends Controller
 {
     /**
-     * @Route("/{_country}/{_locale}/card-activation", name="card_activation")
+     * @Route("/{_country}/{_locale}/card-activation", name="front_card_activation")
+     * @param Request $request
+     * @return Response
      */
     public function cardActivationAction(Request $request)
     {
@@ -143,7 +147,7 @@ class ActivationController extends Controller
                 $this->get('session')->set('mobile',$data['user']['mobile']);
                 $otp = rand(111111, 999999);
                 $this->get('session')->set('otp', $otp);
-                $message = "Please insert this temporary code $otp , to continue with Iktissab website registration.";
+                $message = $this->get('translator')->trans("Please insert this temporary code %s , to continue with Iktissab Card registration.", ["%s"=>$otp]);
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
@@ -250,7 +254,7 @@ class ActivationController extends Controller
                     "gender" => $pData['gender'],
                     "pur_grp" => $pData['pur_group'],
                     "additional_mobile" => '',
-                    "G_birthdate" => $pData['dob']->format('d/m/Y'),
+                    "G_birthdate" => $pData['dob']->format('Y-m-d h:i:s'),
                     "pincode" => mt_rand(1000, 9999),
                 );
                 $this->get('session')->set('new_customer', $newCustomer);

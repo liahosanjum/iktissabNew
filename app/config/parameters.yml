@@ -5,11 +5,11 @@ parameters:
     database_name: ikt220
     database_user: root
     database_password: null
-    mailer_transport: "gmail"
-    mailer_host: "localhost"
-    mailer_user: "fidakhan0007@gmail.com"
-    mailer_password: "qwer@1234"
-    secret: "e31eee78f64f1557ab4e9b33e9a680749cab33de"
+    mailer_transport: gmail
+    mailer_host: localhost
+    mailer_user: fidakhan0007@gmail.com
+    mailer_password: qwer@1234
+    secret: e31eee78f64f1557ab4e9b33e9a680749cab33de
     sms_parameters:
         mobily_url: "http://www.mobily.ws/api/msgSend.php"
         mobily_user: "Othaim"

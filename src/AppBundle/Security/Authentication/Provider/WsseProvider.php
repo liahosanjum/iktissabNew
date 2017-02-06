@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Security\Authentication\Provider;
 
+
 use AppBundle\Security\User\ApiUserProvider;
 use Doctrine\ORM\EntityManager;
 use Psr\Cache\CacheItemPoolInterface;
@@ -23,17 +24,31 @@ class WsseProvider implements AuthenticationProviderInterface
     private $cachePool;
     private $em;
 
-//    public function __construct(UserProviderInterface $userProvider, CacheItemPoolInterface $cachePool)
     public function __construct(EntityManager $entityManager, CacheItemPoolInterface $cachePool)
     {
-//        die('---');
+
         $this->em = $entityManager;
         $this->cachePool = $cachePool;
     }
 
+    /**
+     * @param TokenInterface $token
+     * @return WsseUserToken
+     */
     public function authenticate(TokenInterface $token)
     {
-//        $em
+
+        //For api call which does not required authentication
+        if($token->area == 'anonymous'){
+
+            $authenticatedToken = new WsseUserToken(['ROLE_API']);
+            $authenticatedToken->area = $token->area;
+            $authenticatedToken->setUser($token->getUser());
+
+            return $authenticatedToken;
+
+        }
+
         $this->userProvider = new ApiUserProvider($this->em);
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
 
@@ -70,7 +85,7 @@ class WsseProvider implements AuthenticationProviderInterface
         // Validate that the nonce is *not* in cache
         // if it is, this could be a replay attack
         if ($cacheItem->isHit()) {
-            throw new NonceExpiredException('Previously used nonce detected');
+           // throw new NonceExpiredException('Previously used nonce detected');
         }
 
         // Store the item in cache for 5 minutes

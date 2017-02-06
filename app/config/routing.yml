@@ -7,5 +7,9 @@ captcha_routing:
 
 apiroute:
     type: rest
-    resource: AppBundle\Controller\ApiController
-    prefix: /api
+    resource: AppBundle\Controller\Api\ApiController
+    prefix: /{_country}/{_locale}/api
+enquiryandsuggestion:
+    type: rest
+    resource: AppBundle\Controller\Api\EnquiryAndSuggestionController
+    prefix: /{_country}/{_locale}/api
