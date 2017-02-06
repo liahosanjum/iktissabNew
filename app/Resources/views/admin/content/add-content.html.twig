@@ -1,0 +1,33 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12  col-md-12 col-sm-12 ">
+
+            {{ form_start(form) }}
+
+            {% for page in form.pages %}
+                <div class="cmsForm">
+                    {{ form_row(page.title) }}
+                </div>
+                <div class="cmsForm">
+                    {{ form_row(page.content) }}
+                </div>
+
+            {% endfor %}
+            <div class="cmsForm">
+                {{ form_row(form.page_path) }}
+            </div>
+
+
+            <div class="cmsForm">
+                {{ form_row(form.submit) }}
+            </div>
+            <div class="cmsForm"></div>
+            <div class="cmsForm"></div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,7 +1,12 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\AppConstant;
+use AppBundle\Entity\Category;
+use AppBundle\Entity\CategoryTranslation;
+use AppBundle\Entity\ContentPages;
+use Doctrine\ORM\Mapping\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +28,27 @@ use AppBundle\Entity\CmsPages;
 
 class DashboardController extends Controller
 {
+    /**
+     * @Route("/{_country}/{_locale}/khan")
+     * @param Request $request
+     */
+    public function khanAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $food = new Category();
+        $food->setTitle('Food');
+        $food->addTranslation(new CategoryTranslation('lt', 'title', 'Maistas'));
+
+        $fruits = new Category();
+        $fruits->setParent($food);
+        $fruits->setTitle('Fruits');
+        $fruits->addTranslation(new CategoryTranslation('lt', 'title', 'Vaisiai'));
+        $fruits->addTranslation(new CategoryTranslation('ru', 'title', 'rus trans'));
+
+        $em->persist($food);
+        $em->persist($fruits);
+        $em->flush();
+        die("item saved");
+    }
     /**
      * @Route("/dashboard/admin")
      */

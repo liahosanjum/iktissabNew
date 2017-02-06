@@ -30,7 +30,8 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/rest-bundle": "^2.1",
         "ci/restclientbundle": "^2.0",
-        "captcha-com/symfony-captcha-bundle": "4.*"
+        "captcha-com/symfony-captcha-bundle": "4.*",
+        "gedmo/doctrine-extensions": "^2.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

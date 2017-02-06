@@ -17,7 +17,6 @@ use AppBundle\HttpCode;
 
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
@@ -31,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ApiController
- * @package AppBundle\Controller
+ * @package AppBundle\Controller\Api
  * @RouteResource("User", pluralize=false)
  */
 class ApiController extends FOSRestController

@@ -15,16 +15,20 @@ use AppBundle\Form\ActivateCardoneType;
 use AppBundle\Form\EnterOtpType;
 use AppBundle\Form\IktCustomerInfo;
 use AppBundle\Form\IktRegType;
-use FOS\RestBundle\Controller\Annotations\Route;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ActivationController extends Controller
 {
     /**
-     * @Route("/{_country}/{_locale}/card-activation", name="card_activation")
+     * @Route("/{_country}/{_locale}/card-activation", name="front_card_activation")
+     * @param Request $request
+     * @return Response
      */
     public function cardActivationAction(Request $request)
     {

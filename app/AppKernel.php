@@ -24,10 +24,11 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Circle\RestClientBundle\CircleRestClientBundle(),
             new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),
+            new AppBundle\AppBundle(),
+            
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
