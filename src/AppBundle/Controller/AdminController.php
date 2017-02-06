@@ -24,17 +24,35 @@ use AppBundle\Entity\CmsPages;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin/admin")
+     * @Route("/admin/admin" , name= "admin_admin")
      */
     public function adminAction()
     {
         // url = /admin/index
 
-        return new Response('<html><body>Admin page!</body></html>');
+
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
+
+
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(':admin:login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error' => $error
+        ));
+
+
     }
 
     /**
-     * @Route("/admin/cmslist")
+     * @Route("/admin/cmslist" , name = "admin_home")
      */
     public function cmsListAction(Request $request)
     {
@@ -80,7 +98,7 @@ class AdminController extends Controller
         ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true))
         ->add('edesc'  , TextType::class, array('label' => 'Title English'))
         ->add('adesc'  , TextType::class, array('label' => 'Title English'))
-        ->add('save', SubmitType::class, array('label' => 'Create Post'))
+        ->add('save', SubmitType::class, array('label'  => 'Create Post'))
         ->getForm();
         */
 
@@ -236,18 +254,14 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/cmslistview/{page}", name="cmslistview")
+     * @Route("/admin/uploadfile/", name="uploadfile")
      *
      */
-    public function cmsListviewAction(Request $request,$page)
+    public function uploadFileAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
-        $status = $cmsPage->getStatus();
 
-        return $this->render('admin/cms/cmsview.html.twig', array(
-            'form' => $form->createView(),'message' => '',
-        ));
+
+        return $this->render('admin/cms/upload.html.twig');
     }
 
 

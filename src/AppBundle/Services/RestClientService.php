@@ -33,7 +33,8 @@ class RestClientService
         foreach ($headers as $key => $val) {
             $headerFormatted[$key] = $key . ':' . $val;
         }
-        if (!empty($headerFormatted)) {
+        if ($headerFormatted) {
+            //if (!empty($headerFormatted)) {
             $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
         }
         try {

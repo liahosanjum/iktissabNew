@@ -1,0 +1,50 @@
+{% extends '::baseadmin.html.twig' %}
+ {% block stylesheets %}
+     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="{{ asset('demo/css/style.css') }}"/>
+<link rel="stylesheet" href="{{ asset('demo/css/jquery.fileupload.css') }}"/>
+
+
+ {% endblock %}
+
+
+
+{% block body %}
+    <div class="container">
+        <!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span> ...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" multiple>
+    </span>
+        <br>
+        <br>
+        <!-- The global progress bar -->
+        <div id="progress" class="progress">
+            <div class="progress-bar progress-bar-success"></div>
+        </div>
+        <!-- The container for the uploaded files -->
+        <div id="files" class="files"></div>
+        <br>
+
+
+    </div>
+{% endblock %}
+
+ {% block javascripts %}
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <script src="{{ asset('demo/js/vendor/jquery.ui.widget.js') }}"></script>
+     <script src="{{ asset('demo/js/load-image.all.min.js') }}"></script>
+     <script src="{{ asset('demo/js/canvas-to-blob.min.js') }}"></script>
+     <script src="{{ asset('demo/js/bootstrap.min.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.iframe-transport.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload-process.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload-image.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload-audio.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload-video.js') }}"></script>
+     <script src="{{ asset('demo/js/jquery.fileupload-validate.js') }}"></script>
+     <script src="{{ asset('demo/js/my.js') }}"></script>
+
+ {% endblock %}

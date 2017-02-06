@@ -3,7 +3,7 @@
 // BotDetect PHP Captcha configuration options
 
 return [
-    'ExampleCaptcha' => [
+    'FormCaptcha' => [
         'UserInputID' => 'captchaCode',
         'ImageWidth' => 150,
         'ImageHeight' => 35,
@@ -18,3 +18,4 @@ return [
         ]
 
 ];
+

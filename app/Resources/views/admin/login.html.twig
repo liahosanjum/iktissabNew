@@ -1,20 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseadmin.html.twig' %}
 
 {% block body %}
-{% if error %}
+    {% if error %}
 
-    <div> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
 
-{% endif %}
+    {% endif %}
 
-<form action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
-    <label for="username">Username: </label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
-
-
-    <button type="submit">Login</button>
-</form>
+    <form action="{{ path('admin_admin')}}" method="post">
+        <label  for="username">Username: </label>
+        <input  type="text" id="username" name="_username" value="{{ last_username }}" />
+        <label  for="password">Password:</label>
+        <input  type="password" id="password" name="_password" />
+        <button type="submit">Login</button>
+    </form>
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div>
+                        {{ 'Update your mobile'|trans}}
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                    <!--<a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>-->
+                    <form id="mobile-form" name="mobile-form" action="mobile" method="post" >
+                        <div class="error">
+                            {{ message }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">{{ 'Registered SSN/Iqama'|trans }}<span class="mandatory">*</span></label>
+                            <input class="form-control"   value="{{ iktData.ID_no }}" name="iqamaid_mobile" maxlength="14" autocomplete="off" readonly="readonly"  id="iqamaid_mobile" placeholder="{{ 'Registered SSN/Iqama'|trans }}" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">{{ 'Mobile'|trans }}<span class="mandatory">*</span></label>
+                            <input class="form-control" style="width: 70px;" value="0020" name="mobileext"  readonly="readonly" id="mobileext"  />
+                            <input class="form-control"  maxlength ="10" value="{% if posted %}{{ posted.mobile }}{% endif %}" autocomplete="off"  name="mobile"  id="mobile" placeholder="{{ 'Mobile'|trans }}" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">{{ 'Comments'|trans }}<span class="mandatory">*</span></label>
+                            <textarea class="form-control"   name="comment_mobile" autocomplete="off"  id="comment_mobile"  >{% if posted %}{{ posted.comment_mobile }}{% endif %}</textarea>
+                        </div>
+                        <input type="submit" id="mobile-submit" name="mobile-submit" class="btn btn-primary" />
+                    </form>
+
+                </div>
+            </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+    <script src="{{ asset('js/lib/eg/formvalidation_mobile_'~ app.request.getLocale() ~'.js' )}}"></script>
+
+{% endblock %}
+

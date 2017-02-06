@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+
+{% block javascripts %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Datepicker - Default functionality</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            {{ form_jquery_validation(form1) }}
+            var city_id;
+            var originalContent = $('#form_area_no').html();
+            $("#form_city_no" ).change(function()
+            {
+                jQuery('#form_area_no').html(originalContent);
+                $("#form_city_no" ).val();
+                city_id = $("#form_city_no" ).val();
+                // set the hidden field with the choice selected
+                $("#form_selected_city").val(city_id);
+                alert($("#form_city_no" ).val() );
+                $('option[value=city_id]', this);
+
+                /*$("#form_city_no option[value='4']").each(function() {
+                 alert("asdf");
+                 });*/
+                $('#form_city_no option').each(function(){
+                    // alert($("#form_city_no option").val());
+                });
+
+                jQuery('#form_area_no option').each(function()
+                {
+
+
+                    var selected_city = jQuery("#form_selected_city").val();
+                    // get current iteration of area
+                    var current_element_area = jQuery(this).val();
+                    var arr = current_element_area.split('_');
+                    //alert(current_element_area + "----" +arr[0]+"--"+arr[1]);
+
+                    if(arr[0] == selected_city)
+                    {
+                        var val = jQuery(this).val();
+                        //alert("__"+val);
+                        //alert(jQuery(this).val()+"selected option"+jQuery(this).text());
+                        //jQuery("#form_city_no option[value=val]").remove();
+                    }
+                    else
+                    {
+                        var val = jQuery(this).val();
+                        jQuery("#form_area_no option[value='" + val + "']").remove();
+                    }
+
+                });
+            });
+
+        });
+
+        $( function() {
+            //$( "#form_dob" ).datepicker();
+            //dateFormat: "yyyy-mm-dd"
+            //var dateFormat = $( "#form_dob" ).datepicker( "option", "dateFormat" );
+            //$( "#form_dob" ).datepicker( "option", "dateFormat", "yyyy-mm-dd" );
+        } );
+
+
+        $("#form_calender_converter").change(function ()
+        {
+            var str;
+            str = jQuery("#form_calender_converter").val();
+            var str_to_convert;
+
+            str_to_convert = jQuery("#form_dob").val();
+
+            alert("testing"+str);
+            if (str == "" )
+            {
+                //alert("testing2");
+                jQuery("#form_dob_result").val(str_to_convert);
+                return;
+            }
+            if (str_to_convert == "" )
+            {
+                //alert("testing3");
+                jQuery("#form_dob_result").val('Invalid date');
+                return;
+            }
+
+
+
+
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            } else { // code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function() {
+                if (this.readyState==4 && this.status==200) {
+                    document.getElementById("form_dob_result").value  = this.responseText;
+                }
+                else
+                {
+                    document.getElementById("form_dob_result").value  = str_to_convert;
+                }
+            }
+            xmlhttp.open("GET","http://localhost/iktissabNew/web/app_dev.php/account/dateofbirthconverter/"+str_to_convert+"/"+str,true);
+            xmlhttp.send();
+
+        });
+
+    </script>
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div>
+                {{ 'Update Personal Information'|trans}}EG
+            </div>
+            <div class="">
+                {{ message }}
+            </div>
+            <div>
+
+                {{ form(form1) }}
+                {{ form_row(form1.iqama) }}
+                {{ form_row(form1.dob) }}
+                {{ form_row(form1.calender_converter) }}
+                {{ form_row(form1.dob_result) }}
+
+                {{ form_row(form1.maritial_status) }}
+                {{ form_row(form1.job_no) }}
+                {{ form_row(form1.language) }}
+                {{ form_row(form1.city_no) }}
+                {{ form_row(form1.area_no) }}
+
+                {{ form_row(form1.houseno) }}
+                {{ form_row(form1.pobox) }}
+                {{ form_row(form1.zip) }}
+                {{ form_row(form1.tel_office) }}
+                {{ form_row(form1.tel_home) }}
+                {{ form_row(form1.pur_group) }}
+                <input type="text" id="datepicker1">
+
+                {{ form_end(form1) }}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery("#form_calender_converter").onChange(function () {
+        alert("teting");
+    });
+
+
+</script>
+{% endblock %}
+
+

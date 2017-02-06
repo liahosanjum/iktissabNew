@@ -35,7 +35,11 @@ class IktissabUser implements UserInterface, EquatableInterface
     {
         return $this->password;
     }
-
+    public function setPassword($value)
+    {
+        $this->password = $value;
+        return $this;
+    }
     public function getSalt()
     {
         return $this->salt;
@@ -45,6 +49,13 @@ class IktissabUser implements UserInterface, EquatableInterface
     {
         return $this->username;
     }
+    public function setUsername($value)
+    {
+        $this->username = $value;
+        return $this;
+    }
+
+
     public function getIktCardNo(){
         return $this->ikt_card_no;
     }

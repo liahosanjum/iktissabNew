@@ -14,7 +14,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class SmsService
 {
-
     private $params;
     private $restClient;
 

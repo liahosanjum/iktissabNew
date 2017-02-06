@@ -19,6 +19,9 @@ class SecurityController extends Controller
     public function loginAciton(Request $request){
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            // create current user country session
+            
+            $this->get('session')->set('userSelectedCountry',$request->get('_country'));
             return $this->redirectToRoute('homepage');
         }
 
@@ -38,11 +41,8 @@ class SecurityController extends Controller
     /**
      * @Route("/admin/admin")
      */
-    public function adminAciton(Request $request){
-
-       
-
-
+    public function adminAciton(Request $request)
+    {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('homepage');
         }

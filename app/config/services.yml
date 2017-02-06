@@ -43,7 +43,7 @@ services:
             - {name: twig.extension}
     app.sms_service:
         class: AppBundle\Services\SmsService
-        arguments: ['@app.rest_client',%sms_parameters%]
+        arguments: ['@app.rest_client', '%sms_parameters%']
     app.api_user_provider:
         class: AppBundle\Security\User\ApiUserProvider
         arguments: ["@doctrine.orm.entity_manager"]

@@ -21,13 +21,33 @@ class AppConstant
     const  ACTIVITY_EXISTING_CARD_REGISTRATION_ERROR = 'ExistingCardRegistrationError';
 
 
+    const  ACTIVITY_UPDATE_MOBILE_SUCCESS = 'UpdateMobileSuccessfull';
+    const  ACTIVITY_UPDATE_MOBILE_ERROR = 'UpdateMobileError';
+
+    const  ACTIVITY_UPDATE_IQAMA_SUCCESS = 'UpdateIqamaSuccessfull';
+    const  ACTIVITY_UPDATE_IQAMA_ERROR   = 'UpdateIqamaError';
+
+    const  ACTIVITY_UPDATE_FULLNAME_SUCCESS = 'UpdateFullnameSuccessfull';
+    const  ACTIVITY_UPDATE_FULLNAME_ERROR   = 'UpdateFullnameError';
+
+    const  ACTIVITY_UPDATE_MISSINGCARD_SUCCESS = 'UpdateMissingCardSuccessfull';
+    const  ACTIVITY_UPDATE_MISSINGCARD_ERROR   = 'UpdateMissingCardError';
+
+    const  ACTIVITY_UPDATE_PASSWORD_SUCCESS = 'UpdatePasswordSuccessfull';
+    const  ACTIVITY_UPDATE_PASSWORD_ERROR   = 'UpdatePasswordError';
+
+    const  ACTIVITY_UPDATE_USERINFO_SUCCESS = 'UpdateUserInfoSuccessfull';
+    const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
+
+
     //related to cookies
     const  COOKIE_EXPIRY = 2592000; //'86400*30';
     const  COOKIE_LOCALE = 'c_locale';
     const  COOKIE_COUNTRY = 'c_country';
 
     //webservice main url
-    const WEBAPI_URL = 'http://150.150.101.26:8080/iktserv2_2/web/';
+    const WEBAPI_URL = 'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
+
 
     //ikt user languages
     const IKT_USER_LANG_EN_EN = 'English';

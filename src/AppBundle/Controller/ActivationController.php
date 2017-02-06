@@ -147,6 +147,7 @@ class ActivationController extends Controller
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+                
                 $acrivityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $data['user']));
                 $request->getSession()
                     ->getFlashBag()
@@ -206,20 +207,23 @@ class ActivationController extends Controller
             $jobsArranged[($request->getLocale() == 'en') ? $value['edesc'] : $value['adesc']] = $value['job_no'];
         }
         //TODO::get all regions and display in javascript array and then upon change of city update the regions accordingly getallcities API call is not ready yet
+
         $pData = array('iktCardNo' => $this->get('session')->get('iktCardNo'), 'email' => $this->get('session')->get('email'));
+
         $form = $this->createForm(IktRegType::class, $pData, array(
-                'additional' => array(
+                    'additional' => array(
                     'locale' => $request->getLocale(),
                     'country' => $request->get('_country'),
                     'cities' => $citiesArranged,
                     'jobs' => $jobsArranged,
                     'areas' => $citiesArranged
-
                 )
             )
         );
         $form->handleRequest($request);
+
         $pData = $form->getData();
+
         $error = array('success' => true);
         if ($form->isValid() && $form->isSubmitted()) {
             try {
@@ -271,8 +275,6 @@ class ActivationController extends Controller
                 $error['success'] = false;
                 $error['message'] = $e->getMessage();
             }
-
-
         }
         return $this->render('/activation/customer_information.twig',
             array('form' => $form->createView(),
@@ -383,11 +385,9 @@ class ActivationController extends Controller
                             $error['success'] = false;
                             $error['message'] = $e->getMessage();
                         }
-
                     }
                     break;
             }
-
         }
         return $this->render('/activation/enter_otp.twig',
             array(
@@ -401,7 +401,6 @@ class ActivationController extends Controller
     {
         $request = Request::createFromGlobals();
         $restClient = $this->get('app.rest_client');
-
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['data']['cust_status'] == 'NEW' || $data['data']['cust_status'] == 'Distributed') {

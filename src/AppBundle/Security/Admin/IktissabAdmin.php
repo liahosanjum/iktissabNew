@@ -16,7 +16,7 @@ class IktissabAdmin implements UserInterface, EquatableInterface
     private $roles;
     private $ikt_card_no;
 
-    public function __construct($username, $password, $ikt_card_no, $salt="", $roles = array('ROLE_IKTUSER'))
+    public function __construct($username, $password, $ikt_card_no, $salt="", $roles = array('ROLE_IKTADMIN'))
     {
 //        die('webservice use const');
         $this->username = $username;

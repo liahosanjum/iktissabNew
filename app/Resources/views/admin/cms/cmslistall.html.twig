@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 ">
            <div class="addNew">
-               <a href="{{ path('cmslist')}}">ADD Pages</a></div>
+               <a href="{{ path('admin_home')}}">ADD Pages</a></div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="cmsFormList">
@@ -27,7 +27,7 @@
                     <div class="header-title-list">{{ item.Status }}</div>
                     <div class="header-title"></div>
                     <div class="header-title-action-list">
-                        <div class="header-action-list"><a href="cmslistdelete/{{ item.id }}">Delete</a></div>
+                        <div class="header-action-list"><a href="cmslistdelete/{{ item.id }}" onclick="return delRecord({{ item.id }})">Delete</a></div>
                         <div class="header-action-list"><a href="cmslistupdate/{{item.id}}">Update</a></div>
                         <div class="clearboth"></div>
                     </div>
@@ -41,5 +41,6 @@
 
             </div>
     </div>
+
 {% endblock %}
 

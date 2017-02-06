@@ -57,7 +57,75 @@ Shoppers: Shoppers
 'Applicant': 'Applicant'
 'Servent': 'Servent'
 'Select Shopper': 'Select Shopper'
-English: 'English'
-Arabic: Arabic
+'English': 'English'
+'Arabic': 'Arabic'
 'Iqama/SSN Number': 'Iqama/SSN Number'
 'Next step': 'Next Step'
+'Current Email': 'Current Email'
+'New Email': 'New Email'
+'Confirm New Email': 'Confirm New Email'
+'Update': 'Update'
+'You can update your email through the following form': 'You can update your email through the following form'
+'Dear Customer': 'Dear Customer'
+'Update your email': 'Update your email'
+'Please enter the verification code you received on your mobile number ******': 'Please enter the verification code you received on your mobile number ******'
+'Verification code:': ' Verification code: '
+'Changing account email': ' Changing account email'
+'The new email is already registered before , please enter a valid email': 'The new email is already registered before , please enter a valid email'
+'Please enter valid email address': 'Please enter valid email address'
+'New Email and Confirm new email must be same': 'New Email and Confirm new email must be same'
+'New email and current email must not be the same': 'New email and current email must not be the same'
+'Your record is not updated': 'Your record is not updated'
+'SMS not sent': 'SMS not sent'
+'Please enter correct verification code': 'Please enter correct verification code'
+'Invalid user': 'Invalid user'
+'Registered SSN/Iqama': 'Registered SSN/Iqama'
+'Comments': 'Comments'
+'Update your mobile': 'Update your mobile'
+'UpdateMobileSuccessfullUpdateMobileError': 'UpdateMobileSuccessfullUpdateMobileError'
+'UpdateMobileError': 'UpdateMobileError'
+'UpdateIqamaSuccessfull': 'UpdateIqamaSuccessfull'
+'UpdateIqamaError': 'UpdateIqamaError'
+'Update your Iqama Id/ SSN': 'Update your Iqama Id/ SSN'
+'Registered Iqama ID/SSN': 'Registered Iqama ID/SSN'
+'New Iqama ID/SSN': 'New Iqama ID/SSN'
+'Confirm New Iqama ID/SSN': 'Confirm New Iqama ID/SSN'
+'Please enter valid 10 digits Iqama Id/SSN': 'Please enter valid 10 digits Iqama Id/SSN'
+'New Iqama Id/SSN and old Iqama Id/SSN must not be same': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same'
+'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same'
+'Please enter comments': 'Please enter comments'
+'Please enter valid 14 digits Iqama Id/SSN': 'Please enter valid 14 digits Iqama Id/SSN'
+'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number'
+'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN'
+'Update Your Name': 'Update Your Name'
+'Full Name': 'Full Name'
+'Name must be in two parts': 'Name must be in two parts'
+'Update Missing Card': 'Update Missing Card'
+'New Iktissab Number': 'New Iktissab Number'
+'Confirm Iktissab Number': 'Confirm Iktissab Number'
+'You can change your IKTISSAB Card with the new one through the following form': 'You can change your IKTISSAB Card with the new one through the following form'
+'Dear customer': 'Dear Customer'
+'Update': 'Update'
+'Invalid token detected.Please submit again': 'Invalid token detected.Please submit the form again'
+'You can update your full name through the following form': 'You can update your full name through the following form'
+'This field is required': 'This field is required'
+'Update Password': 'Update Password'
+'Enter Current Password': 'Enter Currrent Password'
+'New Password': 'New Password'
+'Confirm New Password': 'Confirm New Password'
+'Please enter correct old password': 'Please enter correct old password'
+"Select City": "Select City"
+"Select Job": "Select Job"
+"Update Personal Information": "Update Personal Information"
+"Jan": "Jan"
+"Result": "Result"
+"Convert to": "Convert to"
+"Result ( yyyy-MM-dd)": "Result ( yyyy-MM-dd)"
+"BirthDate ( yyyy-MM-dd)": "BirthDate ( yyyy-MM-dd)"
+"Inquiries and Suggestions": "Inquiries and Suggestions"
+"If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible": "If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible"
+"Before sending the form,please read our": "Before sending the form,please read our"
+"FAQs": "FAQs"
+"Please enter a valid email address.": "Please enter a valid email address"
+
+

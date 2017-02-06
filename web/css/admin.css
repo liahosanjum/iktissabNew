@@ -52,7 +52,7 @@ textarea.form-control{ height: 200px;}
 .header-title-list{ padding-left: 10px; padding-right: 10px; float: left; width:260px; text-align: center;   }
 .header-title-sno-list{ padding-left: 10px; padding-right: 10px; float: left; width:10px; text-align: center;    }
 .header-title-action-list{ padding-left: 10px; padding-right: 10px; float: left; width:280px; text-align: center;    }
-.header-action-list{ float:left; width: 70px }
+.header-action-list{ float:left; width: 130px }
 .page-heading{ padding-bottom:20px;  }
 .login-area{ width:30%; float: left; }
 .Header-area{ width:70%; float: left}

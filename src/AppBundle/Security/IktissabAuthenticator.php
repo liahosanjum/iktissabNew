@@ -27,6 +27,7 @@ class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
 
+        //var_dump("auth");die();
         try{
 
             $user = $userProvider->loadUserByUsername($token->getUsername());
@@ -35,17 +36,18 @@ class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
             throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
         }
 
-//        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_member_area']));
-//         var_dump(unserialize($_SESSION['_sf2_attributes']['_security_admin_area']));die();
-//        var_dump($user);
-//        echo "<hr />";
-//        var_dump($token->getRoles());
-//        die('--');
+ //        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_member_area']));
+ //         var_dump(unserialize($_SESSION['_sf2_attributes']['_security_admin_area']));die();
+       //var_dump($user);
+ //        echo "<hr />";
+ //        var_dump($token->getRoles());
+        // die('--');
         $passwordValid = $this->encoder->isPasswordValid($user, $token->getCredentials());
 
 
 
-        if($passwordValid){
+        if($passwordValid)
+        {
             //TODO: check member status here
 
             return new UsernamePasswordToken($user, $user->getPassword(), $providerKey, $user->getRoles());

@@ -40,7 +40,7 @@ class IktissabAdminSuccessHandler implements AuthenticationSuccessHandlerInterfa
             $user = $token->getUser()->getIktCardNo();
             $acrivityLog = $this->containerInterface->get('app.activity_log');
             $acrivityLog->logLoginEvent($user);
-            $response = new RedirectResponse($this->router->generate('account_home',array('_locale'=>$request->getLocale(),'_country'=>$request->get('_country'))));
+            $response = new RedirectResponse($this->router->generate('admin_home'));
         }
         return $response;
     }

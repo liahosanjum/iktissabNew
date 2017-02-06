@@ -39,6 +39,7 @@ class IktissabAdminProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
+        
 
         $user = $this->em->createQueryBuilder()
             ->select('u')
@@ -47,12 +48,14 @@ class IktissabAdminProvider implements UserProviderInterface
             ->setParameter('email', $username)
             ->getQuery()
             ->getOneOrNullResult();
-//        echo $user->getQuery()->getSQL();
+
+        //echo $user->getQuery()->getSQL();
+
         if ($user) {
 
 
 //        return new WebserviceUser($username, $password, $salt, $roles);
-            return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTUSER'));
+            return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTADMIN'));
             // TODO: Implement loadUserByUsername() method.
         }
         throw new UsernameNotFoundException(
