@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -80,7 +81,7 @@ class EnquiryAndSuggestion
      *
      * @ORM\Column(name="comments", type="string", length=1000)
      * @Assert\NotBlank(message="This Field is Required")
-     * @Assert\LessThan(message="Comments must not exceed 1000 character", value=1000)
+     * @Assert\LessThanOrEqual(message="Comments must not exceed 1000 character", value=1000)
      */
     private $comments;
 
@@ -349,5 +350,29 @@ class EnquiryAndSuggestion
     public function OnPreUpdate(){
         $this->modified = new \DateTime('now');
     }
+
+    /**
+     * @Assert\NotBlank(message="This field is required")
+     * @ValidCaptcha(message="Invalid captcha code")
+     */
+    private $captchaCode;
+
+    /**
+     * @return mixed
+     */
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    /**
+     * @param mixed $captchaCode
+     */
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+        return $this;
+    }
+
 }
 

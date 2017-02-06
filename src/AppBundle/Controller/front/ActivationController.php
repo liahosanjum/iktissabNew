@@ -6,7 +6,7 @@
  * Time: 12:44 PM
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Front;
 
 
 use AppBundle\AppConstant;

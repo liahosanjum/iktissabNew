@@ -126,7 +126,7 @@ class DefaultController extends Controller
             ->add('captchaCode', CaptchaType::class, array('constraints' => array(
                 new NotBlank(array('message' =>  'This field is required')),
                 new CaptchaAssert\ValidCaptcha ( array('message' => 'Invalid captcha code'))),
-                     'captchaConfig' => 'ContactCaptcha',
+                     'captchaConfig' => 'FormCaptcha',
                 'label' => 'Retype the characters from the picture'
             ))
 

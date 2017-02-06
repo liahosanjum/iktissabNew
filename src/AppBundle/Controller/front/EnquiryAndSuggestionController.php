@@ -24,10 +24,11 @@ class EnquiryAndSuggestionController extends Controller
 
         $form->handleRequest($request);
         if($form->isValid()){
+            $enquiryAndSuggestion->setCountry($request->get('_country'));
             \AppBundle\Controller\Common\EnquiryAndSuggestion::save($this->getDoctrine()->getManager(), $enquiryAndSuggestion);
         }
         return $this->render(
-            'front/default/add-enquiry-and-suggestion.html.twig',
+            'front/enquiry/add-enquiry-and-suggestion.html.twig',
             array('form' => $form->createView())
         );
     }

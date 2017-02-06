@@ -47,9 +47,7 @@ class AppConstant
 
     //webservice main url
     const WEBAPI_URL = 'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
-
-
-    const WEBAPI_URL = 'http://150.150.101.26:8080/iktserv2_2/web/';
+    
     const IKTISSAB_API_URL = 'http://150.150.101.26:8080/iktserv2_2/web/%s/api/%s.json';
     const IKTISSAB_API_USER = "anounymouse@email.com";
     const IKTISSAB_API_SECRET = 'anounymouse';

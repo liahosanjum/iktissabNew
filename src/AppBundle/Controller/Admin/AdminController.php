@@ -1,12 +1,7 @@
 <?php
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
-use AppBundle\AppBundle;
 use AppBundle\AppConstant;
-use AppBundle\Entity\Category;
-use AppBundle\Entity\CategoryTranslation;
-use AppBundle\Entity\ContentPages;
-use Doctrine\ORM\Mapping\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,41 +21,38 @@ use AppBundle\Entity\CmsPages;
 
 
 
-class DashboardController extends Controller
+class AdminController extends Controller
 {
     /**
-     * @Route("/{_country}/{_locale}/khan")
-     * @param Request $request
-     */
-    public function khanAction(Request $request){
-        $em = $this->getDoctrine()->getManager();
-        $food = new Category();
-        $food->setTitle('Food');
-        $food->addTranslation(new CategoryTranslation('lt', 'title', 'Maistas'));
-
-        $fruits = new Category();
-        $fruits->setParent($food);
-        $fruits->setTitle('Fruits');
-        $fruits->addTranslation(new CategoryTranslation('lt', 'title', 'Vaisiai'));
-        $fruits->addTranslation(new CategoryTranslation('ru', 'title', 'rus trans'));
-
-        $em->persist($food);
-        $em->persist($fruits);
-        $em->flush();
-        die("item saved");
-    }
-    /**
-     * @Route("/dashboard/admin")
+     * @Route("/admin/admin" , name= "admin_admin")
      */
     public function adminAction()
     {
         // url = /admin/index
 
-        return new Response('<html><body>Admin page!</body></html>');
+
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
+
+
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(':admin:login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error' => $error
+        ));
+
+
     }
 
     /**
-     * @Route("/dashboard/cmslist", name="cmslist")
+     * @Route("/admin/cmslist" , name = "admin_home")
      */
     public function cmsListAction(Request $request)
     {
@@ -106,7 +98,7 @@ class DashboardController extends Controller
         ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true))
         ->add('edesc'  , TextType::class, array('label' => 'Title English'))
         ->add('adesc'  , TextType::class, array('label' => 'Title English'))
-        ->add('save', SubmitType::class, array('label' => 'Create Post'))
+        ->add('save', SubmitType::class, array('label'  => 'Create Post'))
         ->getForm();
         */
 
@@ -150,7 +142,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/dashboard/cmslistall", name="cmslistall")
+     * @Route("/admin/cmslistall", name="cmslistall")
      */
     public function cmsListAllAction(Request $request)
     {
@@ -186,7 +178,7 @@ class DashboardController extends Controller
 
 
     /**
-     * @Route("/dashboard/cmslistupdate/{page}", name="cmslistupdate")
+     * @Route("/admin/cmslistupdate/{page}", name="cmslistupdate")
      *
      */
 
@@ -245,7 +237,7 @@ class DashboardController extends Controller
 
 
     /**
-     * @Route("/dashboard/cmslistdelete/{page}", name="cmslistdelete")
+     * @Route("/admin/cmslistdelete/{page}", name="cmslistdelete")
      *
      */
 
@@ -262,18 +254,14 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/dashboard/cmslistview/{page}", name="cmslistview")
+     * @Route("/admin/uploadfile/", name="uploadfile")
      *
      */
-    public function cmsListviewAction(Request $request,$page)
+    public function uploadFileAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
-        $status = $cmsPage->getStatus();
 
-        return $this->render('admin/cms/cmsview.html.twig', array(
-            'form' => $form->createView(),'message' => '',
-        ));
+
+        return $this->render('admin/cms/upload.html.twig');
     }
 
 

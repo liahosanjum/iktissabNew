@@ -2,7 +2,11 @@
 
 namespace AppBundle\Form;
 
+
+use AppBundle\Entity\EnquiryAndSuggestion;
+use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,9 +24,15 @@ class EnquiryAndSuggestionType extends AbstractType
             ->add('job', TextType::class, array('label'=>"Job"))
             ->add('mobile', TextType::class, array('label'=>"Mobile"))
             ->add('email', TextType::class, array('label'=>"Email"))
-            ->add('reason', TextType::class, array('label'=>"Reason"))
+            ->add('reason', ChoiceType::class, array('label'=>"Reason", "choices"=>array(
+                "Complaint" => EnquiryAndSuggestion::COMPLAINT,
+                "Enquiry"=>EnquiryAndSuggestion::ENQUIRY,
+                "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
+                "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
+            )))
             ->add('comments', TextareaType::class, array('label'=>"Comments"))
             //->add('country', TextType::class, array('label'=>"Country"))
+            ->add('captchaCode', CaptchaType::class, array('label' => 'Retype the characters from the picture', 'captchaConfig' => 'FormCaptcha'))
             ->add('submit', SubmitType::class, array('label'=>"Submit"));
     }
     
@@ -32,7 +42,8 @@ class EnquiryAndSuggestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion'
+            'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion',
+            'attr' => array('novalidate' => 'novalidate')
         ));
     }
 

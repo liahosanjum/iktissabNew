@@ -20,7 +20,7 @@
     {% else %}
          <a href="{{ path('login', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
             Login </a> |
-        <a href="{{ path('card_activation', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
+        <a href="{{ path('front_card_activation', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
             Card Activation </a>
     {% endif %}
 

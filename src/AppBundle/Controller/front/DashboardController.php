@@ -1,7 +1,12 @@
 <?php
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Front;
 
+use AppBundle\AppBundle;
 use AppBundle\AppConstant;
+use AppBundle\Entity\Category;
+use AppBundle\Entity\CategoryTranslation;
+use AppBundle\Entity\ContentPages;
+use Doctrine\ORM\Mapping\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,38 +26,41 @@ use AppBundle\Entity\CmsPages;
 
 
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
     /**
-     * @Route("/admin/admin" , name= "admin_admin")
+     * @Route("/{_country}/{_locale}/khan")
+     * @param Request $request
+     */
+    public function khanAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $food = new Category();
+        $food->setTitle('Food');
+        $food->addTranslation(new CategoryTranslation('lt', 'title', 'Maistas'));
+
+        $fruits = new Category();
+        $fruits->setParent($food);
+        $fruits->setTitle('Fruits');
+        $fruits->addTranslation(new CategoryTranslation('lt', 'title', 'Vaisiai'));
+        $fruits->addTranslation(new CategoryTranslation('ru', 'title', 'rus trans'));
+
+        $em->persist($food);
+        $em->persist($fruits);
+        $em->flush();
+        die("item saved");
+    }
+    /**
+     * @Route("/dashboard/admin")
      */
     public function adminAction()
     {
         // url = /admin/index
 
-
-
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('homepage');
-        }
-
-
-        $authenticationUtils = $this->get('security.authentication_utils');
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render(':admin:login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error' => $error
-        ));
-
-
+        return new Response('<html><body>Admin page!</body></html>');
     }
 
     /**
-     * @Route("/admin/cmslist" , name = "admin_home")
+     * @Route("/dashboard/cmslist", name="cmslist")
      */
     public function cmsListAction(Request $request)
     {
@@ -98,7 +106,7 @@ class AdminController extends Controller
         ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true))
         ->add('edesc'  , TextType::class, array('label' => 'Title English'))
         ->add('adesc'  , TextType::class, array('label' => 'Title English'))
-        ->add('save', SubmitType::class, array('label'  => 'Create Post'))
+        ->add('save', SubmitType::class, array('label' => 'Create Post'))
         ->getForm();
         */
 
@@ -142,7 +150,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/cmslistall", name="cmslistall")
+     * @Route("/dashboard/cmslistall", name="cmslistall")
      */
     public function cmsListAllAction(Request $request)
     {
@@ -178,7 +186,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/cmslistupdate/{page}", name="cmslistupdate")
+     * @Route("/dashboard/cmslistupdate/{page}", name="cmslistupdate")
      *
      */
 
@@ -237,7 +245,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/cmslistdelete/{page}", name="cmslistdelete")
+     * @Route("/dashboard/cmslistdelete/{page}", name="cmslistdelete")
      *
      */
 
@@ -254,14 +262,18 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/uploadfile/", name="uploadfile")
+     * @Route("/dashboard/cmslistview/{page}", name="cmslistview")
      *
      */
-    public function uploadFileAction(Request $request)
+    public function cmsListviewAction(Request $request,$page)
     {
+        $em = $this->getDoctrine()->getManager();
+        $cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
+        $status = $cmsPage->getStatus();
 
-
-        return $this->render('admin/cms/upload.html.twig');
+        return $this->render('admin/cms/cmsview.html.twig', array(
+            'form' => $form->createView(),'message' => '',
+        ));
     }
 
 

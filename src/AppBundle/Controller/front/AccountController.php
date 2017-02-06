@@ -6,12 +6,13 @@
  * Time: 9:47 AM
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Front;
 
 use AppBundle\AppConstant;
 use AppBundle\Entity\User;
 use AppBundle\Security\User\IktissabUser;
-use FOS\RestBundle\Controller\Annotations\Route;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
