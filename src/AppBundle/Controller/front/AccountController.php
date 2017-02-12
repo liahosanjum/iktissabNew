@@ -1965,10 +1965,8 @@ class AccountController extends Controller
     public function dateOfBirhtConverterAction(Request $request,$datetoconvert , $conversionto)
     {
         try {
-            //$DateConv = new HijriGregorianConvert();
-            $datetoconvert = $request->get('datetoconvert');
-            $conversionto = $request->get('conversionto');
-
+            $DateConv       = new HijriGregorianConvert();
+            $conversionto   = $request->get('conversionto');
             if ($datetoconvert) {
                 if ($conversionto == 'Hijri') {
                     /********/
