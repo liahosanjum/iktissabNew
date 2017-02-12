@@ -442,10 +442,12 @@ class DefaultController extends Controller
     {
         $this->get('session')->set('passwordrest', 'abc@123456');
         $response = new Response();
-        $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'abc@123456',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
+        $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'reset_password',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
 
         echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
+        $response->sendHeaders();
         $this->get('session')->get('passwordrest');
+        return $this->redirect($this->generateUrl('resetpassword', array('_country'=>'sa','_locale'=>'en')));
     }
 
 
