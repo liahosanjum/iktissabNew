@@ -26,7 +26,8 @@ class ApiUserProvider implements UserProviderInterface
          */
         $user =  $this->em->getRepository('AppBundle:User')->findOneByEmail($email);
 
-        if($user != null){
+        if($user != null)
+        {
 
             return new \AppBundle\Security\User\ApiUser($user->getIktCardNo(), $user->getEmail(), $user->getPassword(), null, $user->getRoles() );
             

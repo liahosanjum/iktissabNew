@@ -10,6 +10,7 @@ parameters:
     locale: en
     app_locales: en|ar|ur
     app_countries: eg|sa
+    brochures_directory: '%kernel.root_dir%/../web/demo/server/php'
 
 framework:
     #esi:             ~

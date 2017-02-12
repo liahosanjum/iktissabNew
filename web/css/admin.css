@@ -57,3 +57,16 @@ textarea.form-control{ height: 200px;}
 .login-area{ width:30%; float: left; }
 .Header-area{ width:70%; float: left}
 .addNew{float: right; font-weight: bold; padding-bottom: 20px;}
+
+
+.header-title-wrapper_settings{ float:left; width: 100%;   background-color: #e7e7e7;  border: 1px solid #eeeeee; }
+
+.header-title_settings{ padding-left: 10px; padding-right: 10px; float: left; width:135px; text-align: center; font-weight: bold;  }
+.header-title-sno_settings{ padding-left: 10px; padding-right: 10px; float: left; width:10px; text-align: center; font-weight: bold;  }
+.header-title-action_settings{ padding-left: 10px; padding-right: 10px; float: left; width:120px; text-align: center; font-weight: bold;  }
+
+
+.header-title-list_settings{ padding-left: 10px; padding-right: 10px; float: left; width:138px; text-align: center;   }
+.header-title-sno-list_settings{ padding-left: 10px; padding-right: 10px; float: left; width:10px; text-align: center;    }
+.header-title-action-list_settings{ padding-left: 10px; padding-right: 10px; float: left; width:130px; text-align: center;    }
+.header-action-list_settings{ float:left; width: 50px }

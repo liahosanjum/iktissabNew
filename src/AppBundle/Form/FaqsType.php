@@ -18,50 +18,45 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 
 
-class EnquiryAndSuggestionType extends AbstractType
+class FaqsType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $country = 'sa';
-        $builder ->add('name', TextType::class, array('label' => 'Full name'))
-            ->add('job', TextType::class, array('label' => 'Job'))
+        $builder ->add('email', TextType::class, array('label' => 'Full name'))
+            ->add('email', TextType::class, array('label' => 'Email',
+
+                'constraints' => array(
+                    new NotBlank(array('message' =>  'This field is required')),
+                    new Email(array("message"=> 'Invalid email address'))
+                )))
+
+
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14)))
-            ->add('email', TextType::class, array('label' => 'Email'))
-            ->add('reason', ChoiceType::class, array('label'=>"Reason", "choices"=>array(
-                        "Complaint" => EnquiryAndSuggestion::COMPLAINT,
-                        "Enquiry"=> EnquiryAndSuggestion::ENQUIRY,
-                        "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
-                        "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
-            )))
-            ->add('comments', TextareaType::class, array('label'=>"Comments"))
-            //->add('country', TextType::class, array('label'=>"Country"))
+            ->add('question', TextType::class, array('label' => 'Ask your Question',
+                'constraints' => array(
+                    new NotBlank(array('message' =>  'This field is required')),
+                )))
+
+
             ->add('captchaCode', CaptchaType::class, array('label' => 'Captcha', 'captchaConfig' => 'FormCaptcha'))
+
+
+
             ->add('submit', SubmitType::class, array('label'=>"Submit"));
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion',
+
             'attr' => array('novalidate' => 'novalidate')
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_enquiryandsuggestion';
-    }
+
 
 
 }

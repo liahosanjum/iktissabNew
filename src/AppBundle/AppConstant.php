@@ -41,9 +41,11 @@ class AppConstant
 
 
     //related to cookies
+    const  COOKIE_EXPIRY_RESET_PASSWORD = 2592000; //'86400*30';
     const  COOKIE_EXPIRY = 2592000; //'86400*30';
     const  COOKIE_LOCALE = 'c_locale';
     const  COOKIE_COUNTRY = 'c_country';
+    const  COOKIE_RESET_PASSWORD = 'rest_password';
 
     //webservice main url
     const WEBAPI_URL = 'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';

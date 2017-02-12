@@ -13,11 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class IktCustomerInfo extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
-
             new Assert\NotBlank(array('message' => 'Email is required')),
             new Assert\Email(array('message' => 'Invalid email'))
 
