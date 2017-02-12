@@ -422,24 +422,30 @@ class DefaultController extends Controller
      */
     public function resetPasswordAction(Request $request)
     {
-        $this->get('session')->set('passwordrest', 'abc@123456');
-        $response = new Response();
-        $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'abc@123456',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
-
         echo $cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
         echo $this->get('session')->get('passwordrest');
-
-
-        if($cookieResetPassword <> '')
+        if($cookieResetPassword == '')
         {
-            $message = $this->get('translator')->trans('Your session for the reset password link has expired. Please try again');
+            echo $message = $this->get('translator')->trans('Your session for the reset password link has expired. Please try again');
             return $this->redirect($this->generateUrl('forgotpassword', array('message'=>$message)));
         }
         else
         {
             echo 'testing';
         }
+    }
 
+    /**
+     * @Route("/{_country}/{_locale}/setpassword", name="setpassword")
+     */
+    public function setPasswordAction(Request $request)
+    {
+        $this->get('session')->set('passwordrest', 'abc@123456');
+        $response = new Response();
+        $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'abc@123456',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
+
+        echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
+        $this->get('session')->get('passwordrest');
     }
 
 

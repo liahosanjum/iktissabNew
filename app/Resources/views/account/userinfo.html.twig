@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Datepicker - Default functionality</title>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('js/jquery-1.12.4.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui-1.12.1.js') }}"></script>
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.12.1.js') }}">
+
 
 
     <script type="text/javascript">
@@ -114,6 +114,7 @@
                     document.getElementById("form_dob_result").value  = str_to_convert;
                 }
             }
+            // TODO: need to modified it
             xmlhttp.open("GET","http://localhost/iktissabNew/web/app_dev.php/account/dateofbirthconverter/"+str_to_convert+"/"+str,true);
             xmlhttp.send();
 
@@ -124,7 +125,7 @@
 {% endblock %}
 {% block body %}
 <div class="container">
-    <div class="row">
+    <div class="row">{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}
         <div class="col-lg-12 text-center">
             <div>
                 {{ 'Update Personal Information'|trans}}EG

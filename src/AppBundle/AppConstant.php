@@ -41,7 +41,7 @@ class AppConstant
 
 
     //related to cookies
-    const  COOKIE_EXPIRY_RESET_PASSWORD = 2592000; //'86400*30';
+    const  COOKIE_EXPIRY_REST_PASSWORD = 23000; //'86400*30';
     const  COOKIE_EXPIRY = 2592000; //'86400*30';
     const  COOKIE_LOCALE = 'c_locale';
     const  COOKIE_COUNTRY = 'c_country';
