@@ -62,7 +62,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="activation_source", type="string", length=1, nullable=false)
+     * @ORM\Column(name="activation_source", type="string", length=1, nullable=true)
      */
     private $activationSource;
     
