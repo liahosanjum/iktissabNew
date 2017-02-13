@@ -135,7 +135,7 @@ class IktRegType extends AbstractType
             ->add('city_no', ChoiceType::class, array(
                 'choices' => $lookupData['cities'],
                 'label' => 'City',
-                'placeholder' => 'Select Country',
+                'placeholder' => 'Select City',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -143,7 +143,16 @@ class IktRegType extends AbstractType
             ->add('area_no', ChoiceType::class, array(
                 'choices' => $lookupData['areas'],
                 'label' => 'Area',
-                'placeholder' => 'Select Area'
+                'placeholder' => 'Select Area',
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+            ))
+            ->add('area_text', TextType::class, array(
+                'label' => 'Area',
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
             ))
             ->add('language', ChoiceType::class, array(
                     'label' => 'Preffered Language',

@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
+
+    <script src="{{ asset('js/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <div class="row" xmlns="http://www.w3.org/1999/html">
         <div class="col-lg-12 text-center ">
             Activatoin step One
         </div>
@@ -24,7 +27,12 @@
             {{ form_row(form.iqama) }}
             {{ form_row(form.job_no) }}
             {{ form_row(form.city_no) }}
-            {{ form_row(form.area_no) }}
+            <div id="area_no">
+                {{ form_row(form.area_no) }}
+            </div>
+            <div id="area_text">
+                {{ form_row(form.area_text) }}
+            </div>
             {{ form_row(form.language) }}
             {{ form_row(form.street) }}
             {{ form_row(form.houseno) }}
@@ -36,12 +44,52 @@
             {{ form_errors(form.mobile) }}
             {#{{ form_row(form.mobile) }}#}
             {{ form_label(form.mobile) }}
-            <input type="text" value="966"  readonly disabled>{{ form_widget(form.mobile) }}
+            <input type="text" value="966" readonly disabled>{{ form_widget(form.mobile) }}
             {{ form_row(form.pur_group) }}
             {{ form_row(form.submit) }}
 
 
             {{ form_end(form) }}
+
         </div>
     </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#area_no').hide();
+
+
+            var areas = {{ areas.content| raw }} ;
+            $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+            jQuery('#ikt_reg_city_no').on('change', function () {
+                var  city_count = 0;
+                var city = $(this).val();
+
+                $('#ikt_reg_area_no').empty().append('<option value="">{{ 'Select Area'|trans }}</option>');
+
+                if (city != '') {
+
+                    $.each(areas, function (index, el) {
+                        if (city == el.city_no) {
+                            city_count++;
+                            $('#ikt_reg_area_no').append('<option value="' + el.name + '">' + el.name + '</option>');
+                        }
+                    });
+
+                }
+                if(city_count > 0){
+
+                    $('#ikt_reg_area_text').val('-1');
+                    jQuery('#area_no').show();
+                    jQuery('#area_text').hide();
+                }else{
+                    $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+                    jQuery('#area_no').hide();
+                    jQuery('#area_text').show();
+                }
+
+            });
+            {{ form_jquery_validation(form) }}
+
+        });
+    </script>
 {% endblock %}
