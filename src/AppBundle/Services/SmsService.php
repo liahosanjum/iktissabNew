@@ -25,12 +25,16 @@ class SmsService
 
     function sendSms($receiver, $message, $country)
     {
-        if ($country == 'eg') {
+        if ($country == 'eg')
+        {
             $mobilyUser = $this->params['mobily_user_eg'];
             $mobilyPass = $this->params['mobily_pass_eg'];
-            $countryPrefix = AppConstant::IKT_EG_PREFIX;
+            // for EG we store the
+            $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
             $mobilySender = $this->params['mobily_sender_eg'];
-        } else {
+        }
+        else
+        {
             $mobilyUser = $this->params['mobily_user'];
             $mobilyPass = $this->params['mobily_pass'];
             $countryPrefix = AppConstant::IKT_SA_PREFIX;
@@ -39,7 +43,7 @@ class SmsService
             if(strlen($receiver) == 10)
                 $receiver = substr($receiver,1 ,strlen($receiver)-1);
         }
-        $msgID = rand(1, 9999);
+        $msgID  = rand(1, 9999);
         $delKey = rand(1, 9999);
         $messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
         $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
@@ -48,6 +52,48 @@ class SmsService
         $sms = $this->restClient->restGet($url, array());
 //        $sms = 1;
        // var_dump($sms);
+//        die('---');
+        if ($sms == '1') {
+            return true;
+        }
+        /*
+        else {
+            Throw new Exception('Failed to send sms');
+        }
+        */
+        return false;
+    }
+
+
+    function sendSmsEmail($receiver, $message, $country)
+    {
+        if ($country == 'eg')
+        {
+            $mobilyUser = $this->params['mobily_user_eg'];
+            $mobilyPass = $this->params['mobily_pass_eg'];
+            // for EG we store the full mobile number format 14
+            $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
+            $mobilySender  = $this->params['mobily_sender_eg'];
+        }
+        else
+        {
+            $mobilyUser = $this->params['mobily_user'];
+            $mobilyPass = $this->params['mobily_pass'];
+            $countryPrefix = AppConstant::IKT_SA_PREFIX;
+            $mobilySender = $this->params['mobily_sender'];
+            // format number
+            if(strlen($receiver) == 10)
+                $receiver = substr($receiver,1 ,strlen($receiver)-1);
+        }
+        $msgID  = rand(1, 9999);
+        $delKey = rand(1, 9999);
+        $messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
+        $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
+        $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;
+        //echo $url;
+        $sms = $this->restClient->restGet($url, array());
+//        $sms = 1;
+        // var_dump($sms);
 //        die('---');
         if ($sms == '1') {
             return true;

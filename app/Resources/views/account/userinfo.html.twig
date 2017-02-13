@@ -1,23 +1,68 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div>
+                {{ 'Update Personal Information'|trans}}
+            </div>
+            <div class="">
+                {{ message }}
+            </div>
+            <div>
 
+                {{ form(form1) }}
+                {{ form_row(form1.iqama) }}
+                {{ form_row(form1.dob) }}
+                {{ form_row(form1.calender_converter) }}
+                {{ form_row(form1.dob_result) }}
+
+                {{ form_row(form1.maritial_status) }}
+                {{ form_row(form1.job_no) }}
+                {{ form_row(form1.language) }}
+                {{ form_row(form1.city_no) }}
+                {{ form_row(form1.area_no) }}
+
+                {{ form_row(form1.houseno) }}
+                {{ form_row(form1.pobox) }}
+                {{ form_row(form1.zip) }}
+                {{ form_row(form1.tel_office) }}
+                {{ form_row(form1.tel_home) }}
+                {{ form_row(form1.pur_group) }}
+                <input type="text" id="datepicker1">
+
+                {{ form_end(form1) }}
+
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock %}
 {% block javascripts %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Datepicker - Default functionality</title>
-    <script src="{{ asset('js/jquery-1.12.4.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui-1.12.1.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.12.1.js') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+<script type="text/javascript">
 
+    jQuery(document).ready(function () {
+        {{ form_jquery_validation(form1) }}
+    });
 
-
+</script>
     <script type="text/javascript">
         $(document).ready(function ()
         {
             {{ form_jquery_validation(form1) }}
+            jQuery("#form_area_no_txt").css('display', 'none');
+
             var city_id;
             var originalContent = $('#form_area_no').html();
             $("#form_city_no" ).change(function()
@@ -27,7 +72,7 @@
                 city_id = $("#form_city_no" ).val();
                 // set the hidden field with the choice selected
                 $("#form_selected_city").val(city_id);
-                alert($("#form_city_no" ).val() );
+                //alert($("#form_city_no" ).val() );
                 $('option[value=city_id]', this);
 
                 /*$("#form_city_no option[value='4']").each(function() {
@@ -39,8 +84,6 @@
 
                 jQuery('#form_area_no option').each(function()
                 {
-
-
                     var selected_city = jQuery("#form_selected_city").val();
                     // get current iteration of area
                     var current_element_area = jQuery(this).val();
@@ -60,17 +103,37 @@
                         jQuery("#form_area_no option[value='" + val + "']").remove();
                     }
 
+                    if(jQuery("#form_area_no").find('option:not(:disabled)').length == 0)
+                    {
+                        jQuery("#form_area_no_txt").css('display', 'block');
+                        jQuery("#form_area_no").css('display', 'none');
+                        form_area_no
+                    }
+                    else
+                    {
+                        jQuery("#form_area_no_txt").css('display', 'none');
+                        jQuery("#form_area_no").css('display', 'block');
+
+                    }
+
                 });
+
+
+
+
+
+
+
+
+
+
+
             });
+
+
 
         });
 
-        $( function() {
-            //$( "#form_dob" ).datepicker();
-            //dateFormat: "yyyy-mm-dd"
-            //var dateFormat = $( "#form_dob" ).datepicker( "option", "dateFormat" );
-            //$( "#form_dob" ).datepicker( "option", "dateFormat", "yyyy-mm-dd" );
-        } );
 
 
         $("#form_calender_converter").change(function ()
@@ -121,54 +184,6 @@
         });
 
     </script>
-
-{% endblock %}
-{% block body %}
-<div class="container">
-    <div class="row">{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}
-        <div class="col-lg-12 text-center">
-            <div>
-                {{ 'Update Personal Information'|trans}}EG
-            </div>
-            <div class="">
-                {{ message }}
-            </div>
-            <div>
-
-                {{ form(form1) }}
-                {{ form_row(form1.iqama) }}
-                {{ form_row(form1.dob) }}
-                {{ form_row(form1.calender_converter) }}
-                {{ form_row(form1.dob_result) }}
-
-                {{ form_row(form1.maritial_status) }}
-                {{ form_row(form1.job_no) }}
-                {{ form_row(form1.language) }}
-                {{ form_row(form1.city_no) }}
-                {{ form_row(form1.area_no) }}
-
-                {{ form_row(form1.houseno) }}
-                {{ form_row(form1.pobox) }}
-                {{ form_row(form1.zip) }}
-                {{ form_row(form1.tel_office) }}
-                {{ form_row(form1.tel_home) }}
-                {{ form_row(form1.pur_group) }}
-                <input type="text" id="datepicker1">
-
-                {{ form_end(form1) }}
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    jQuery("#form_calender_converter").onChange(function () {
-        alert("teting");
-    });
-
-
-</script>
 {% endblock %}
 
 
