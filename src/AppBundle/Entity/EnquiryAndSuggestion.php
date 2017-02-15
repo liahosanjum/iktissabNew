@@ -18,9 +18,9 @@ class EnquiryAndSuggestion
 {
 
     const TECHNICAL_SUPPORT = "T";
-    const SUGGESTION = "S";
-    const COMPLAINT = "C";
-    const ENQUIRY = "E";
+    const SUGGESTION        = "S";
+    const COMPLAINT         = "C";
+    const ENQUIRY           = "E";
 
     /**
      * @var int
@@ -35,8 +35,8 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
-     * @Assert\NotBlank(message="This Field is Required")
-     * @Assert\LessThanOrEqual(message="Name must be less then 100 characters", value=100)
+     * @Assert\NotBlank(message="This Field is required")
+     *
      */
     private $name;
 
@@ -44,8 +44,8 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="job", type="string", length=200)
-     * @Assert\NotBlank(message="This Field is Required")
-     * @Assert\LessThanOrEqual(message="Job must be less then 100 characters", value=100)
+     * @Assert\NotBlank(message="This Field is required")
+     *
      */
     private $job;
 
@@ -53,7 +53,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="mobile", type="string", length=16)
-     * @Assert\NotBlank(message="This Field is Required")
+     * @Assert\NotBlank(message="This Field is required")
      * @Assert\Regex(pattern="/^\d{10,16}$/", message="Invalid mobile number")
      */
     private $mobile;
@@ -62,7 +62,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
-     * @Assert\NotBlank(message="This Field is Required")
+     * @Assert\NotBlank(message="This Field is required")
      * @Assert\Email(message="Invalid email address")
      */
     private $email;
@@ -71,7 +71,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="reason", type="string", length=1)
-     * @Assert\NotBlank(message="This Field is Required")
+     * @Assert\NotBlank(message="This Field is required")
      * @Assert\Choice(choices={EnquiryAndSuggestion::TECHNICAL_SUPPORT, EnquiryAndSuggestion::COMPLAINT, EnquiryAndSuggestion::ENQUIRY, EnquiryAndSuggestion::SUGGESTION }, message="Invalid reason")
      */
     private $reason;
@@ -80,8 +80,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="comments", type="string", length=1000)
-     * @Assert\NotBlank(message="This Field is Required")
-     * @Assert\LessThanOrEqual(message="Comments must not exceed 1000 character", value=1000)
+     * @Assert\NotBlank(message="This Field is required")
      */
     private $comments;
 
@@ -105,6 +104,12 @@ class EnquiryAndSuggestion
      * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_ip", type="string", length=50)
+     */
+    private $user_ip;
 
 
     /**
@@ -287,6 +292,34 @@ class EnquiryAndSuggestion
     {
         return $this->country;
     }
+
+
+    /**
+     * Set user_ip
+     *
+     * @param string $user_ip
+     *
+     * @return EnquiryAndSuggestion
+     */
+    public function setUser_ip($user_ip)
+    {
+        $this->user_ip = $user_ip;
+
+        return $this;
+    }
+
+    /**
+     * Get user_ip
+     *
+     * @return string
+     */
+    public function getUser_ip()
+    {
+        return $this->user_ip;
+    }
+
+
+
 
     /**
      * Set created

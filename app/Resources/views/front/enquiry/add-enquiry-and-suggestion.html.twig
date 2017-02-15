@@ -2,18 +2,35 @@
 
 {% block body %}
 
-    <div class="container">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div>
+                {{ 'Inquiries and Suggestions'|trans}}
+            </div>
+            <div>
+                {{ 'If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible'|trans}}
+                {{ 'Before sending the form,please read our'|trans }} <a href="{{ path('faqs',{'_country': 'sa', '_locale':'en'}) }}">{{ 'FAQs'|trans }}</a>
+            </div>
 
-    </div>
-    <div class="main">
+            <div class="">
+                {{ message }}
+            </div>
+
         <div class="row">
             <div class="col-lg-12 text-center">
                 {{ form_start(form) }}
-
+                {{ form_row(form.name) }}
+                {{ form_row(form.job) }}
+                {{ form_row(form.mobile) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.captchaCode) }}
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
+  </div>
+</div>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>

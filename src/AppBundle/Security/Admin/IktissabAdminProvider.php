@@ -43,7 +43,7 @@ class IktissabAdminProvider implements UserProviderInterface
 
         $user = $this->em->createQueryBuilder()
             ->select('u')
-            ->from('AppBundle:User', 'u')
+            ->from('AppBundle:Admin', 'u')
             ->where('u.email = :email')
             ->setParameter('email', $username)
             ->getQuery()
@@ -52,9 +52,7 @@ class IktissabAdminProvider implements UserProviderInterface
         //echo $user->getQuery()->getSQL();
 
         if ($user) {
-
-
-//        return new WebserviceUser($username, $password, $salt, $roles);
+            // return new WebserviceUser($username, $password, $salt, $roles);
             return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTADMIN'));
             // TODO: Implement loadUserByUsername() method.
         }

@@ -181,14 +181,14 @@ class AccountController extends Controller
                 $smsService = $this->get('app.sms_service');
 
 
-                echo 'testing';
+                //echo 'testing';
 
 
-                $numbers = "0583847092";
+                //$numbers = "0583847092";
 
                 $MsgID = rand(1, 99999);
                 $msg = $message;  //$this->get('translator')->trans('test_message'); //"welcome to you in mobily.ws ,testing sms service";
-                echo "====>".$smsResponse = $smsService->sendSms($numbers, $smsmessage, $request->get('_country'));
+                echo "====>".$smsResponse = $smsService->sendSmsEmail($mobile, $smsmessage, $request->get('_country'));
                 //echo 'testing';
                 //exit();
 
@@ -1417,6 +1417,11 @@ class AccountController extends Controller
 
             ))
 
+            ->add('area_no_txt', TextType::class, array('attr' => ['class' => 'form-control col-lg-12', 'readonly' => 'readonly', 'display' => 'none' ],
+                'label' => ' ',
+
+            ))
+
 
 
             ->add('language', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
@@ -1426,8 +1431,7 @@ class AccountController extends Controller
                 )
             )
             ->add('houseno', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'House Number',
-
-                ))
+            ))
             ->add('pobox', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'PO Box'))
             ->add('zip', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Zip Code'))
             ->add('tel_office', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Telephone (Office)'))
@@ -1555,6 +1559,8 @@ class AccountController extends Controller
                     else
                     {
                         $area_no = "";
+
+
                     }
 
 
@@ -1628,7 +1634,7 @@ class AccountController extends Controller
                 }
                 else
                 {
-                    $message = $this->get('translator')->trans('Invalid token detected.Please submit again');
+                    $message = $this->get('translator')->trans('');
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                     return $this->render('account/userinfo.html.twig',
                         array('form1' => $form->createView(), 'message' => $message));
@@ -1965,10 +1971,8 @@ class AccountController extends Controller
     public function dateOfBirhtConverterAction(Request $request,$datetoconvert , $conversionto)
     {
         try {
-            //$DateConv = new HijriGregorianConvert();
-            $datetoconvert = $request->get('datetoconvert');
-            $conversionto = $request->get('conversionto');
-
+            $DateConv       = new HijriGregorianConvert();
+            $conversionto   = $request->get('conversionto');
             if ($datetoconvert) {
                 if ($conversionto == 'Hijri') {
                     /********/

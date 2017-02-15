@@ -56,6 +56,9 @@ services:
     app.services.iktissab_card_service:
         class: AppBundle\Services\IktissabCardService
         arguments: ['@doctrine.orm.entity_manager', '@service_container']
+    app.services.enquiry_and_suggestion:
+            class: AppBundle\Controller\Common\EnquiryAndSuggestion
+            arguments: ['@service_container', '@doctrine.orm.entity_manager']
     wsse.security.authentication.provider:
         class: AppBundle\Security\Authentication\Provider\WsseProvider
         arguments: ['@doctrine.orm.entity_manager', '@cache.app','']
