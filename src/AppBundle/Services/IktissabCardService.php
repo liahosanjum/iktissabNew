@@ -119,6 +119,42 @@ class IktissabCardService
         return $result;
     }
 
+    public function updateApprovalCycleField($field, $data){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $fieldsPath = array();
+        if(!key_exists($field, $fieldsPath)){
+
+        }
+        $result  = $client->Post($fieldsPath[$field], $data);
+
+        return $result;
+    }
+    public function updateEmail($data)
+    {
+        $user = $this->em->getRepository("AppBundle:User")->find($data['card']);
+        if($user){
+            //Todo: it is not yet completed
+            $client = $this->container->get('app.services.iktissab_rest_service');
+            $client->Post('update_user_email', $data);
+            $user->setEmail($data['email']);
+            $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $data['card'], $data);
+
+            return array('success'=>true);
+        }
+        return array('success'=>false);
+    }
+    public function updatePassword($data)
+    {
+
+        $user = $this->em->getRepository("AppBundle:User")->find($data['card']);
+        if($user){
+            $user->setPassword(md5($data['password']));
+            $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_SUCCESS, $data['card'], $data['password']);
+
+            return array('success'=>true);
+        }
+        return array('success'=>false);
+    }
     public function updateCard($post){
         $client = $this->container->get('app.services.iktissab_rest_service');
         return $client->Post($post, "/");

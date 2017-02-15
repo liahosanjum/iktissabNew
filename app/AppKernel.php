@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Boekkooi\Bundle\JqueryValidationBundle\BoekkooiJqueryValidationBundle(),
+            //new Boekkooi\Bundle\JqueryValidationBundle\BoekkooiJqueryValidationBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Circle\RestClientBundle\CircleRestClientBundle(),
             new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),

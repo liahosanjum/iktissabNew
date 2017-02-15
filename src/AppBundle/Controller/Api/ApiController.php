@@ -489,4 +489,14 @@ class ApiController extends FOSRestController
         return $builder->getForm();
 
     }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postUpdate_user_details(Request $request){
+
+    }
+
 }
