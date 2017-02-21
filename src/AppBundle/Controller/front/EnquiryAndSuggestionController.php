@@ -244,7 +244,7 @@ class EnquiryAndSuggestionController extends Controller
         }
         catch (\Exception $e)
         {
-            $message = $e->getMessage();
+            echo $message = $e->getMessage();
             return $this->render('front/faqs.html.twig', array(
                 'form' => $form->createView(), 'message' => $message,
             ));
