@@ -73,7 +73,7 @@ class EnquiryAndSuggestion
             $message->addFrom($this->container->getParameter('mailer_user'))
             ->setSubject(AppConstant::EMAIL_SUBJECT)
             ->setBody(
-                $this->container->get('templating')->render(':email-templates/enquiries:enquiries_and_suggestions.html.twig', ['name' => $entity->getName()
+                $this->container->get('templating')->render('enquiries_and_suggestions_en.html.twig', ['name' => $entity->getName()
                     , 'email' => $entity->getEmail()
                     , 'job' => $entity->getJob()
                     , 'mobile' => $entity->getMobile()

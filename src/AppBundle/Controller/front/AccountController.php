@@ -10,44 +10,31 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\AppConstant;
 use AppBundle\Entity\User;
-use AppBundle\Security\User\IktissabUser;
-
+use AppBundle\Form\ForgotEmailType;
+use AppBundle\HijriGregorianConvert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use SoapClient;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use AppBundle\HijriGregorianConvert;
-
-
-
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 class AccountController extends Controller
@@ -437,6 +424,7 @@ class AccountController extends Controller
 
     }
 
+
     private function checkEmail($email,$Country_id){
         //$em = $this->getDoctrine()->getManager("default2");
         $em   = $this->getDoctrine()->getEntityManager();
@@ -655,6 +643,17 @@ class AccountController extends Controller
                     'old_value' =>  $iktMobile,
                     'new_value' =>  $mobile_format_webservice,
                     'comments'  =>  $data['comment_mobile']
+
+                );
+                $mobile_format_webservice = $this->getMobileFormat($request, $data['mobile']);
+
+                $form_data = array(
+                    'C_id' => $iktCardNo,
+                    'field' => 'mobile',
+                    'old_value' => $iktMobile,
+                    'new_value' => $mobile_format_webservice,
+                    'comments' => $data['comment_mobile']
+
                 );
 
                 $postData = json_encode($form_data);
@@ -749,6 +748,7 @@ class AccountController extends Controller
             $language    = $request->getLocale();
             //echo '===='.$this->get('session')->get('userSelectedCountry');
             echo $this->getUser()->getIktCardNo();
+
             $restClient  = $this->get('app.rest_client');
             if($this->get('session')->get('iktUserData')) {
 
@@ -901,6 +901,25 @@ class AccountController extends Controller
                 array('iktData' => $iktUserData, 'posted' => $posted, 'message' => $message)
             );
         }
+
+//            if (!empty($data)) {
+//                if (!empty($data)) {
+//                    // here we will add validation to the form
+//                    /************************/
+//                    $full_name = trim($data['full_name']);
+//                    $comment_fullname = trim($data['comment_fullname']);
+//                    $posted['fullname_registered_iqamaid'] = $iktID_no;
+//                    $posted['full_name'] = $full_name;
+//                    $posted['comment_fullname'] = $comment_fullname;
+//                }
+//                $message = $e->getMessage();
+//                //$this->get('translator')->trans('An invalid exception occurred');
+//                echo 'account/' . $country_file_ext . '/fullname.html.twig';
+//                return $this->render('account/' . $country_file_ext . '/fullname.html.twig',
+//                    array('iktData' => $iktUserData, 'posted' => $posted, 'message' => $message)
+//                );
+//            }
+
 
     }
 
@@ -1305,27 +1324,14 @@ class AccountController extends Controller
      */
     public function userinfoAction(Request $request)
     {
-        try
-        {
-            $activityLog = $this->get('app.activity_log');
-            $tokenStorage = $this->get('security.token_storage');
+
+
+        try {
             // get all cities
             $restClient = $this->get('app.rest_client');
-            //$smsService = $this->get('app.sms_service');
             $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
             $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-            //var_dump($cities_jobs_area);
-            //var_dump($cities_jobs_area['cities']);
-            //var_dump($cities_jobs_area['jobs']);
-            //print_r($cities_jobs_area['areas']);
-            /*************/
-            // only get cities according to the language provided
-            // $url = $request->getLocale() . '/api/get_cities.json';
-            // $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-            // var_dump($cities_jobs_area);
-            /*************/
-
-            /********/
+//            dump($cities_jobs_area); die('--');
 
             $citiesListing = array();
             foreach ($cities_jobs_area['cities'] as $key_city => $value_city)
@@ -1520,6 +1526,7 @@ class AccountController extends Controller
                     /*****************/
                     // manipulating old values from logged user data;
 
+
                     $Marital_status = substr($iktUserData['marital_status_en'],0,1);
                     $birthdate    = $iktUserData['birthdate'];
                     $job_no         = $iktUserData['job_no'];
@@ -1532,6 +1539,7 @@ class AccountController extends Controller
                     $tel_home       = $iktUserData['tel_home'];
                     $tel_office     = $iktUserData['tel_office'];
                     $pur_group      = $iktUserData['pur_grp'];
+
                     /*****************/
 
                     /*if($postData['form']['dob']['year'] != "" ) {
@@ -1631,6 +1639,7 @@ class AccountController extends Controller
                     //$csrf_token_udatepassword = trim($postData['_csrf_token_udatepassword']);
                     // $new_password = $postData['form']['new_password'];
                     $messageLog = $this->get('translator')->trans('User details Updated');
+
 
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
 
@@ -1744,7 +1753,6 @@ class AccountController extends Controller
             $posted = array();
             $iktCardNo = $iktUserData['C_id'];
             // --> echo '--'.$iktID_no = $iktUserData['ID_no'];
-            $iktID_no = $iktUserData['ID_no'];
             $iktID_no = $iktUserData['ID_no'];
             $iktMobile_no = $iktUserData['mobile'];
 
@@ -2004,6 +2012,118 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * @Route("/{_country}/{_locale}/account/transactions/{page}", name="ikt_transactions")
+     */
+    public function transactionsAction(Request $request, $page)
+    {
+        if ($request->query->get('draw')) {
+            $page = $request->query->get('draw');
+        }
+        $restClient = $this->get('app.rest_client');
+        //fetch trans count and save in session for future
+        if (!$this->get('session')->get('trans_count')) {
+            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
+            $countData = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            if ($countData['success'] == true) {
+                $this->get('session')->set('trans_count', $countData['transaction_count']);
+            }
+        }
+        $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_trans_bypage/' . $page . '.json';
+        // echo AppConstant::WEBAPI_URL.$url;
+        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        if ($data['success'] == true) {
+            // format data before displaying in datatables
+            $count = 0;
+            foreach ($data['data'] as $key => $value) {
+                $trans[$count] = array(
+                    ($request->getLocale() == 'en') ? $value['bran_en'] : $value['bran_ar'],
+                    $value['inv_no'],
+                    number_format($value['inv_amt'], 2),
+                    $value['trans_date'],
+                    number_format($value['credit'], 2),
+                    number_format($value['debt'], 2),
+                    number_format($value['expired'], 2),
+
+                );
+                $count++;
+            }
+            $resp['draw'] = $page;
+            $resp['recordsTotal'] = $this->get('session')->get('trans_count');;
+            $resp['recordsFiltered'] = $this->get('session')->get('trans_count');;
+            $resp['data'] = $trans;
+        }
+    }
 
 
+
+    /**
+     * @Route("/{_country}/{_locale}/forgot/email", name="forgot_email")
+     * Request $request
+     */
+    public function forgotEmailAction(Request $request)
+    {
+        $error = array('success' => true, 'message' =>'');
+        $restClient = $this->get('app.rest_client');
+        $smsService = $this->get('app.sms_service');
+        $form = $this->createForm(ForgotEmailType::class, array(), array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                )
+            )
+        );
+
+        $form->handleRequest($request);
+        $pData = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $accountEmail = $this->iktExist($pData['iktCardNo']);
+                $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($data['success'] == "true") {
+
+                    // match the iqama numbers ( from form and other from the local data)
+                    if ($pData['iqama'] != $data['user']['ID_no']) {
+                        $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama number')));
+
+
+                    }else{
+                        $message = $this->get('translator')->trans("Your account registration email is %s", ["%s"=>$accountEmail]);
+                        $acrivityLog = $this->get('app.activity_log');
+                        //send sms code
+                        $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+
+                        $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
+                        $error['success'] = true;
+                        $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', [ "%s" => substr($data['user']['mobile'] , 8, 12)] );
+                    }
+
+                }
+            } catch (Exception $e) {
+                $error['success'] = false;
+                $error['message'] = $e->getMessage();
+
+            }
+        }
+        return $this->render('/account/forgot_email.twig',
+            array(
+                'form' => $form->createView(),
+                'error' => $error
+            )
+        );
+    }
+
+    function iktExist($ikt)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $checkIktCard = $em->getRepository('AppBundle:User')->find($ikt);
+        if (is_null($checkIktCard)) {
+            Throw new Exception($this->get('translator')->trans('Card is not registered on website'), 1);
+        } else {
+            return $checkIktCard->getEmail();
+        }
+
+    }
 }

@@ -39,6 +39,8 @@ class AppConstant
     const  ACTIVITY_UPDATE_USERINFO_SUCCESS = 'UpdateUserInfoSuccessfull';
     const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
 
+    const ACTIVITY_FORGOT_EMAIL_SMS = 'SmsSentForForgotEmail';
+
 
     const  ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS = 'UpdateRestPasswordSuccessfull';
     const  ACTIVITY_UPDATE_RESETPASSWORD_ERROR   = 'UpdateRestPasswordError';
@@ -81,9 +83,14 @@ class AppConstant
     const INVALID_DATA = "Invalid Data";
 
 
+
     const SECRET_KEY_FP = 'SDAWEI123123AJT';
 
     const DATE_FORMAT = "m/d/Y";
     
+
+
+
+     
 
 }
