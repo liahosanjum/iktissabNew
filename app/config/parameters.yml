@@ -21,5 +21,3 @@ parameters:
         mobily_pass_eg: "Iktissab.eg*2016"
         mobily_sender_eg: "Iktissab.eg"
         mobily_domain: "othaimmarkets.com"
-    test: asdf
-

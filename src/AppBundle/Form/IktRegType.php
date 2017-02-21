@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -103,6 +104,18 @@ class IktRegType extends AbstractType
                 )
 
             ))
+            ->add('dob_h', DateType::class, array(
+                'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),
+                'widget' => 'choice',
+                'label' => 'Birthdate',
+                'placeholder' => array(
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+
+            ))
             ->add('maritial_status', ChoiceType::class, array(
                 'label' => 'Marital Status',
                 'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
@@ -135,7 +148,7 @@ class IktRegType extends AbstractType
             ->add('city_no', ChoiceType::class, array(
                 'choices' => $lookupData['cities'],
                 'label' => 'City',
-                'placeholder' => 'Select Country',
+                'placeholder' => 'Select City',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -143,7 +156,16 @@ class IktRegType extends AbstractType
             ->add('area_no', ChoiceType::class, array(
                 'choices' => $lookupData['areas'],
                 'label' => 'Area',
-                'placeholder' => 'Select Area'
+                'placeholder' => 'Select Area',
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+            ))
+            ->add('area_text', TextType::class, array(
+                'label' => 'Area',
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
             ))
             ->add('language', ChoiceType::class, array(
                     'label' => 'Preffered Language',
@@ -153,12 +175,6 @@ class IktRegType extends AbstractType
                     )
                 )
             )
-            ->add('street', TextType::class, array('label' => 'Street', 'attr' => array('maxlength' => 100)))
-            ->add('houseno', TextType::class, array('label' => 'House Number'))
-            ->add('pobox', TextType::class, array('label' => 'PO Box'))
-            ->add('zip', TextType::class, array('label' => 'Zip Code'))
-            ->add('tel_office', TextType::class, array('label' => 'Telephone (Office)'))
-            ->add('tel_home', TextType::class, array('label' => 'Telephone (Home)'))
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 14),
@@ -183,7 +199,11 @@ class IktRegType extends AbstractType
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Next step'
-            ));
+            ))
+            ->add('date_type', HiddenType::class, array(
+                'data' => 'g'
+            ))
+            ;
 
     }
 
@@ -244,6 +264,12 @@ class IktRegType extends AbstractType
         }
 
 
+    }
+    public function getCurrentHijYear(){
+        $reference_year = array('gyear'=>2017, 'hyear'=>1438);
+        $current_year = date('Y');
+        $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
+        return $islamicYear;
     }
 
 }

@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}"/>
+    <script src="{{ asset('js/datatables.js') }}"></script>
     <div class="container">
 
     </div>
@@ -43,7 +44,7 @@
                             <li role="presentation" class="active"><a href="#personal" aria-controls="home" role="tab"
                                                                       data-toggle="tab">Personal Details</a></li>
                             <li role="presentation"><a href="#statement" aria-controls="profile" role="tab"
-                                                       data-toggle="tab">Customer Transactions</a></li>
+                                                       data-toggle="tab" id="trans-tab">Customer Transactions</a></li>
                         </ul>
 
                         <!-- Tab panes -->
@@ -243,7 +244,25 @@
                                 </div>
 
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="statement">...</div>
+                            <div role="tabpanel" class="tab-pane fade" id="statement">...
+                                <table id="tbl_transactions" class="display" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Branch</th>
+                                        <th>Invoice No.</th>
+                                        <th>Trans. Amount</th>
+                                        <th>Date</th>
+                                        <th>Credit</th>
+                                        <th>Gifts</th>
+                                        <th>Expired</th>
+                                    </tr>
+                                    </thead>
+
+                                </table>
+                                <div id="div_transactions_page">
+
+                            </div>
+                            </div>
                         </div>
 
                     </div>
@@ -353,10 +372,37 @@
             });// end getScript
 
             // for tabs
-            $('#myTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })
+//            $('#myTabs a').click(function (e) {
+//                e.preventDefault()
+//                alert("The tab name is");
+//                $(this).tab('show')
+//            })
+
+//            $('#trans-tab').click(function (e){
+//                alert('show me trans');
+//            })
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href") // activated tab
+                if(target == '#statement'){
+                    {#$.ajax({#}
+                        {#url: "{{ path('ikt_transactions',{ '_country': app.request.get('_country'), '_locale':app.request.get('_locale'), 'page':1 }) }}"#}
+                    {#}).done(function(result){#}
+                        {#$('#div_transactions').empty().append(result)#}
+                    {#})#}
+                    $('#tbl_transactions').DataTable( {
+                        "processing": true,
+                        "serverSide": true,
+                        'searching': false,
+                        'ordering': false,
+                        'lengthChange': false,
+                        "ajax": {
+                            "url": '{{ path('ikt_transactions',{ '_country': app.request.get('_country'), '_locale':app.request.get('_locale'), 'page':1 }) }}',
+                            "dataType": "json"
+                        }
+                    } );
+                }
+            });
         </script>
         <style>
             /* CSS used here will be applied after bootstrap.css */

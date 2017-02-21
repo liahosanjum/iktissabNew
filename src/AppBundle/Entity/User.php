@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+    const NUM_ITEMS = 10;
     const ACTIVATION_SOURCE_WEB = 'W';
     const ACTIVATION_SOURCE_MOBILE = 'M';
     const ACTIVATION_SOURCE_CALL_CENTER = 'C';

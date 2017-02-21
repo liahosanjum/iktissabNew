@@ -1,0 +1,209 @@
+<div class="row">
+    <div class="col-lg-12 profile-tabs">
+        <div>
+
+            <!-- Nav tabs -->
+
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade active in" id="personal">
+                    <div class="row">
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Customer Name'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['cname'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Customer Status'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {#{{ iktData['customer_status_'~app.request.get('_locale')] }}#}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Iktissab Card No'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['C_id'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Area'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['area'] }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'House Number'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['houseno'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'PO Box'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['pobox'] }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Zip Code'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['zip'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'City'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {#{{ iktData['city_'~app.request.get('_locale')] }}#}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Telephone (Home)'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['tel_home'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Telephone (Office)'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['tel_office'] }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Mobile'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['mobile'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Email'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['email'] }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Nationality'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {#{{ iktData['country_'~app.request.get('_locale')] }}#}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Marital Status'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {#{{ iktData['marital_status_'~app.request.get('_locale')] }}#}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Birthdate'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['birthdate'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Job Title'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {#{{ iktData['job_'~app.request.get('_locale')] }}#}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Balance'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ iktData['balance'] }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Language'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ ('lang-'~'E')|trans }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                        <!--row-->
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Gender:'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ ('gender-'~iktData['gender'])|trans }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">
+                                {{ 'Shoppers'|trans }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ ('pur_group-'~iktData['pur_grp'])|trans }}
+                            </div>
+
+                        </div>
+                        <!-- end of row -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

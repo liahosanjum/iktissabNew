@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <script src="{{ asset('js/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-lg-12 text-center ">
+            Update your profile information
+        </div>
+        <div class="col-lg-12 text-center ">
+            {{ form_start(form) }}
+
+            <div id="div_dg">
+                {{ form_row(form.dob) }}
+            </div>
+            <div id="div_dh">
+                {{ form_row(form.dob_h) }}
+            </div>
+            <input type="button" id="btn_dob" value="Hijri"/>
+            {{ form_row(form.maritial_status) }}
+            {{ form_row(form.job_no) }}
+            {{ form_row(form.language) }}
+            {{ form_row(form.city_no) }}
+            <div id="area_no">
+                {{ form_row(form.area_no) }}
+            </div>
+            <div id="area_text">
+                {{ form_row(form.area_text) }}
+            </div>
+
+
+
+
+            {{ form_row(form.pur_group) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // for months in hijri
+            var sel_month = $('#ikt_update_dob_h_month').val();
+            jQuery("#ikt_update_dob_h_month option[value=1]"). text("{{ 'Muharram'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=2]"). text("{{ 'Safar'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=3]"). text("{{ 'Rabi ul Awwal'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=4]"). text("{{ 'Rabi ul Akhir'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=5]"). text("{{ 'Jumadal Awwal'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=6]"). text("{{ 'Jumadal Akhira'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=7]"). text("{{ 'Rajab'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=8]"). text("{{ 'Shaban'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=9]"). text("{{ 'Ramadan'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=10]"). text("{{ 'Shawwal'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=11]"). text("{{ 'Dhul Qaada'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=12]"). text("{{ 'Dhul Hijja'|trans }}");
+            $('#div_dh').hide();
+            if ($('#ikt_update_date_type').val() == 'g') {
+                $('#div_dg').show();
+                $('#div_dh').hide();
+                $('#btn_dob').val('{{ 'Hijri'|trans }}');
+                $('#ikt_update_dob_h_month option:nth-child(1)').prop("selected", "selected");
+                $('#ikt_update_dob_h_day option:nth-child(1)').prop("selected", "selected");
+                $('#ikt_update_dob_h_year option:nth-child(1)').prop("selected", "selected");
+
+            } else {
+                $('#div_dg').hide();
+                $('#div_dh').show();
+                $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                $('#ikt_update_dob_month option:nth-child(1)').prop("selected", "selected");
+                $('#ikt_update_dob_day option:nth-child(1)').prop("selected", "selected");
+                $('#ikt_update_dob_year option:nth-child(1)').prop("selected", "selected");
+
+            }
+            jQuery('#btn_dob').on('click', function () {
+                toggle_date();
+
+            });
+            function toggle_date() {
+                if ($('#ikt_update_date_type').val() == 'g') {
+                    // change to hijri now
+                    $('#div_dh').show();
+                    $('#div_dg').hide();
+                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#ikt_update_date_type').val('h');
+
+                } else {
+                    $('#div_dh').hide();
+                    $('#div_dg').show();
+                    $('#btn_dob').val('{{ 'Hijri'|trans }}')
+                    $('#ikt_update_date_type').val('g')
+                    //change to greg
+                }
+            }
+
+
+            // for city and areas
+            $('#area_no').hide();
+
+
+            var areas = {{ areas.content| raw }} ;
+            $('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
+            jQuery('#ikt_update_city_no').on('change', function () {
+                manage_areas($(this).val())
+            });
+            // if form is submitted then manage the areas and cities
+            if ($('#ikt_update_city_no').val() != '') {
+                manage_areas($('#ikt_update_city_no').val());
+            }
+
+            function manage_areas(city) {
+                var city_count = 0;
+
+                $('#ikt_update_area_no').empty().append('<option value="">{{ 'Select Area'|trans }}</option>');
+
+                if (city != '') {
+
+                    $.each(areas, function (index, el) {
+                        if (city == el.city_no) {
+                            city_count++;
+                            $('#ikt_update_area_no').append('<option value="' + el.name + '">' + el.name + '</option>');
+                        }
+                    });
+
+                }
+                if (city_count > 0) {
+
+                    $('#ikt_update_area_text').val('-1');
+                    jQuery('#area_no').show();
+                    jQuery('#area_text').hide();
+                } else {
+                    $('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
+                    $('#ikt_update_area_text').val('');
+                    jQuery('#area_no').hide();
+                    jQuery('#area_text').show();
+                }
+
+            }
+
+//            $('#ikt_reg').submit(function (e) {
+//
+//            });
+            {{ form_jquery_validation(form) }}
+
+        });
+    </script>
+
+{% endblock %}

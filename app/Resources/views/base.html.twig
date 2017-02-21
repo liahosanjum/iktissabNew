@@ -9,6 +9,9 @@
     {% endblock %}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {#<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>#}
 </head>
 <body>
 {% block topmenu %}
@@ -26,10 +29,25 @@
 
 
 {% endblock %}
+{% block messages %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="col-lg-12 text-center alert alert-danger">
+            {{ flashMessage }}
+        </div>
+
+
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="col-lg-12 text-center alert alert-success">
+            {{ flashMessage }}
+        </div>
+
+
+    {% endfor %}
+{% endblock %}
 {% block body %}{% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
 {% endblock %}
 </body>
 </html>
