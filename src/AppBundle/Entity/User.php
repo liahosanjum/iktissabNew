@@ -55,6 +55,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="data", type="string", length=800, nullable=false)
+     */
+    private $data;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="activation_source", type="string", length=1, nullable=false)
      */
     private $activationSource;
@@ -178,6 +185,31 @@ class User
     public function getPassword()
     {
         return $this->password;
+    }
+
+
+    /**
+     * Set data
+     *
+     * @param string $data
+     *
+     * @return User
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return string
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     public function getRoles()

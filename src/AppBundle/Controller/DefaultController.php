@@ -33,6 +33,8 @@ use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\User;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Validator\Constraints\Length;
 
 
 class DefaultController extends Controller
@@ -64,8 +66,8 @@ class DefaultController extends Controller
     public function homepageAction(Request $request)
     {
         $response = new Response();
-        $locale = $request->getLocale();
-        $country = $request->get('_country');
+        $locale   = $request->getLocale();
+        $country  = $request->get('_country');
 
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale,time()+AppConstant::COOKIE_EXPIRY,'/',null,false,false));
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country,time()+AppConstant::COOKIE_EXPIRY,'/',null,false,false));
@@ -330,32 +332,33 @@ class DefaultController extends Controller
         return $country_id = $request->get('_country');
     }
 
+    private function getCountryLocal(Request $request)
+    {
+        return $locale = $request->getLocale();
+    }
+
 
     /**
      * @Route("/{_country}/{_locale}/forgotpassword", name="forgotpassword")
      */
     public function forgotPasswordAction(Request $request , $message)
     {
-        echo 'testing';
         $form = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']])
-            ->add('email', TextType::class, array('label' => 'Email',
+            ->add('email', EmailType::class, array('label' => 'Email',
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
-                )))
+            )))
             ->add('captchaCode', CaptchaType::class, array('constraints' => array(
                 new NotBlank(array('message' =>  'This field is required')),
                 new CaptchaAssert\ValidCaptcha ( array('message' => 'Invalid captcha code'))),
                 'captchaConfig' => 'FormCaptcha',
-                'label' => 'Retype the characters from the picture'
+                'label' => 'Captcha Code'
             ))
             ->add($this->get('translator')->trans('Send Email'), SubmitType::class ,array(
                 'attr' => array('class' => 'btn btn-primary'),
             ))
             ->getForm();
-
-
         $country_id = $this->getCountryCode($request);
-
         $form->handleRequest($request);
         $posted = array();
         $postData = $request->request->all();
@@ -367,7 +370,10 @@ class DefaultController extends Controller
             // 1 get user password according to the email provided
             $em   = $this->getDoctrine()->getManager();
             $conn = $em->getConnection();
-            $email = $form->get('email')->getData();
+            $email   = $form->get('email')->getData();
+
+            $country_id = $this->getCountryCode($request);
+            $locale     = $this->getCountryCode($request);
 
             $stm = $conn->prepare('SELECT * FROM user WHERE country = ? AND email = ?   ');
             $stm->bindValue(1, $country_id);
@@ -378,30 +384,55 @@ class DefaultController extends Controller
             if($result)
             {
                 // send email
-                $message = \Swift_Message::newInstance();
-                $request = new Request();
                 $email = 'sa.aspire@gmail.com';
-                $message->addTo($email);
-                $message->addFrom($this->container->getParameter('mailer_user'))
-                    ->setSubject(AppConstant::EMAIL_SUBJECT)
-                    ->setBody(
-                        $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
+                //--> $email = $result[0]['email'];
+                //--> print_r($result);
+                $user_id = $result[0]['ikt_card_no'];
+                //$token = hash('sha256', uniqid(mt_rand(), true), true);
+                $time = time();
+                $token = uniqid() . md5($email . time() . rand(111111, 999999));
+                $link = $this->generateUrl('resetpassword', array('_country' => $country_id ,'_locale' => $locale , 'time' => $time, 'token' => $token), UrlGenerator::ABSOLUTE_URL);
+                $data = serialize(array('time' => $time, 'token' => $token));
+                $data_values = array(
+                    $data,
+                    $country_id,
+                    $user_id,
+                );
+                //print_r($data_values);
+                $stm = $conn->executeUpdate('UPDATE user  SET  
+                                                    data    = ?
+                                                    WHERE country = ?  AND ikt_card_no = ? ', $data_values);
+                // here checking the others equal to 1.
+                //$stm->execute();
 
-                            'email'    => $email
 
-                        ]),
-                        'text/html'
-                    );
 
-                $this->container->get('mailer')->send($message);
+                if($stm == 1) {
+                    $message = \Swift_Message::newInstance();
+                    $request = new Request();
+                    $email = 'sa.aspire@gmail.com';
+                    $message->addTo($email);
+                    $message->addFrom($this->container->getParameter('mailer_user'))
+                        ->setSubject(AppConstant::EMAIL_SUBJECT)
+                        ->setBody(
+                            $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
+                                'email' => $email,
+                                'link' => $link
+                            ]),
+                            'text/html'
+                        );
 
-                $this->get('session')->set('passwordrest', 'abc@123456');
-                $response = new Response();
-                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'abc@123456',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
-                $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
-                return $this->render('front/forgotpassword.html.twig', array(
-                    'form' => $form->createView(), 'message' => $message,
-                ));
+                    $this->container->get('mailer')->send($message);
+                    $this->get('session')->set('passwordrest', 'abc@123456');
+                    $response = new Response();
+
+                    $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
+                    return $this->render('front/forgotpassword.html.twig', array(
+                        'form' => $form->createView(), 'message' => $message,
+                    ));
+
+                }
+
             }
             else
             {
@@ -418,22 +449,95 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_country}/{_locale}/resetpassword", name="resetpassword")
+     * @Route("/{_country}/{_locale}/resetpassword/{time}/{token}/", name="resetpassword")
+     * @param $time
+     * @param $token
      */
-    public function resetPasswordAction(Request $request)
+    public function resetPasswordAction(Request $request , $time , $token)
     {
-        echo $cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
-        echo $this->get('session')->get('passwordrest');
-        if($cookieResetPassword == '')
-        {
-            echo $message = $this->get('translator')->trans('Your session for the reset password link has expired. Please try again');
-            return $this->redirect($this->generateUrl('forgotpassword', array('message'=>$message)));
+        $em    = $this->getDoctrine()->getManager();
+        $time  = (integer)$time;
+        $dataValue = serialize(array('time' => $time, 'token' => $token));
+
+        $user = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue));
+        $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate')))
+            ->add('password', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'constraints' => array(
+                    new NotBlank(),
+                    new Length(array('minMessage' => 'Password must be at least 8 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 8, 'max' => 40))
+                ),
+                'invalid_message'   => 'Password and confirm password must match',
+                'first_options'     => array('label' => 'Enter New Password'),
+                'second_options'    => array('label' => 'Confirm Password'),
+                'second_name'       => 'confirmPassword'
+            ))
+            ->add('submit', SubmitType::class, array('label' => 'Reset Password'))
+            ->getForm();
+        if($user && $user != null) {
+
+
+            $data = unserialize($user->getData());
+            $currentPassword = $user->getPassword();
+
+
+            if (strtotime('+1 day', $data['time']) > time()) {
+
+
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+
+                    $formData = $form->getData();
+                    $newPassword = $formData['password'];
+
+                    if ($currentPassword == md5($newPassword)) {
+                        $message = $this->get('translator')->trans('New Password and old password must not be the same');
+                        return $this->render('front/resetpassword.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                        ));
+                    } else {
+                        $user->setPassword(md5($formData['password']));
+                        $user->setData('');
+                        $em->persist($user);
+                        $em->flush();
+                        $message = $this->get('translator')->trans('Your password has been reset successfully');
+
+                        return $this->render('front/resetpassword.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                        ));
+                    }
+
+                }
+                else
+                {
+                    $message = $this->get('translator')->trans('Reset your password here');
+                    return $this->render('front/resetpassword.html.twig', array(
+                        'form' => $form->createView(), 'message' => $message,
+                    ));
+                }
+
+            }
+            else
+            {
+
+                $message = $this->get('translator')->trans('Link expired');
+                return $this->render('front/resetpassword.html.twig', array(
+                    'form' => $form->createView(), 'message' => $message,
+                ));
+            }
+
+
         }
         else
         {
-            echo 'testing';
+            $message = $this->get('translator')->trans('Link expired');
+            return $this->render('front/resetpassword.html.twig', array(
+                'form' => $form->createView(), 'message' => $message,
+            ));
         }
     }
+
+
 
     /**
      * @Route("/{_country}/{_locale}/setpassword", name="setpassword")
@@ -443,7 +547,6 @@ class DefaultController extends Controller
         $this->get('session')->set('passwordrest', 'abc@123456');
         $response = new Response();
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'reset_password',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
-
         echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
         $response->sendHeaders();
         $this->get('session')->get('passwordrest');
