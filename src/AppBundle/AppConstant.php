@@ -82,10 +82,6 @@ class AppConstant
 
     const INVALID_DATA = "Invalid Data";
 
-<<<<<<< HEAD
     const SECRET_KEY_FP = 'SDAWEI123123AJT';
-=======
     const DATE_FORMAT = "m/d/Y";
-    
->>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
 }
