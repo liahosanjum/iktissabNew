@@ -2052,7 +2052,9 @@ class AccountController extends Controller
             $resp['recordsTotal'] = $this->get('session')->get('trans_count');;
             $resp['recordsFiltered'] = $this->get('session')->get('trans_count');;
             $resp['data'] = $trans;
+            return new Response(json_encode($resp));
         }
+        return new Response("Transaction resp");
     }
 
 
