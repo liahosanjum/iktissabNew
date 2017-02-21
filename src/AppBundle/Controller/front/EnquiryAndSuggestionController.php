@@ -38,6 +38,7 @@ class EnquiryAndSuggestionController extends Controller
             {
                 try {
                     $data = $this->getEmailList($request, 'Inquiries And Suggestion', $form->get('reason')->getData());
+                    //print_r($data);exit;
                     if ($data['success'])
                     {
                         $enquiryAndSuggestion->setCountry($request->get('_country'));
