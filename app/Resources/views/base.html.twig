@@ -26,6 +26,8 @@
         <a href="{{ path('front_card_activation', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
             Card Activation </a>
     {% endif %}
+    | <a href="{{ path('forgot_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
+        Forgot Email </a>
 
 
 {% endblock %}

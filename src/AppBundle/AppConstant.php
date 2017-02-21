@@ -39,6 +39,8 @@ class AppConstant
     const  ACTIVITY_UPDATE_USERINFO_SUCCESS = 'UpdateUserInfoSuccessfull';
     const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
 
+    const ACTIVITY_FORGOT_EMAIL_SMS = 'SmsSentForForgotEmail';
+
 
     //related to cookies
     const  COOKIE_EXPIRY = 2592000; //'86400*30';
