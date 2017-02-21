@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\AppConstant;
 use AppBundle\Entity\User;
+use AppBundle\Form\ForgotEmailType;
 use AppBundle\Form\IktUpdateType;
 use AppBundle\HijriGregorianConvert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -1957,7 +1959,7 @@ class AccountController extends Controller
      */
     public function transactionsAction(Request $request, $page)
     {
-        if($request->query->get('draw')){
+        if ($request->query->get('draw')) {
             $page = $request->query->get('draw');
         }
         $restClient = $this->get('app.rest_client');
@@ -1965,8 +1967,8 @@ class AccountController extends Controller
         if (!$this->get('session')->get('trans_count')) {
             $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
             $countData = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-            if($countData['success'] == true){
-                $this->get('session')->set('trans_count',$countData['transaction_count']);
+            if ($countData['success'] == true) {
+                $this->get('session')->set('trans_count', $countData['transaction_count']);
             }
         }
         $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_trans_bypage/' . $page . '.json';
@@ -1974,7 +1976,6 @@ class AccountController extends Controller
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['success'] == true) {
             // format data before displaying in datatables
-//            dump($data); die('---');
             $count = 0;
             foreach ($data['data'] as $key => $value) {
                 $trans[$count] = array(
@@ -1999,5 +2000,73 @@ class AccountController extends Controller
         return new Response("Transaction resp");
     }
 
+    /**
+     * @Route("/{_country}/{_locale}/forgot/email", name="forgot_email")
+     */
 
+    public function forgotEmailAction(Request $request)
+    {
+        $error = array('success' => true, 'message' =>'');
+        $restClient = $this->get('app.rest_client');
+        $smsService = $this->get('app.sms_service');
+        $form = $this->createForm(ForgotEmailType::class, array(), array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                )
+            )
+        );
+
+        $form->handleRequest($request);
+        $pData = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $accountEmail = $this->iktExist($pData['iktCardNo']);
+                $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($data['success'] == "true") {
+
+                    // match the iqama numbers ( from form and other from the local data)
+                    if ($pData['iqama'] != $data['user']['ID_no']) {
+                        $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama number')));
+
+
+                    }else{
+                        $message = $this->get('translator')->trans("Your account registration email is %s", ["%s"=>$accountEmail]);
+                        $acrivityLog = $this->get('app.activity_log');
+                        //send sms code
+                        $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+
+                        $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
+                        $error['success'] = true;
+                        $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', [ "%s" => substr($data['user']['mobile'] , 8, 12)] );
+                    }
+
+                }
+            } catch (Exception $e) {
+                $error['success'] = false;
+                $error['message'] = $e->getMessage();
+
+            }
+        }
+        return $this->render('/account/forgot_email.twig',
+            array(
+                'form' => $form->createView(),
+                'error' => $error
+            )
+        );
+    }
+
+    function iktExist($ikt)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $checkIktCard = $em->getRepository('AppBundle:User')->find($ikt);
+        if (is_null($checkIktCard)) {
+            Throw new Exception($this->get('translator')->trans('Card is not registered on website'), 1);
+        } else {
+            return $checkIktCard->getEmail();
+        }
+
+    }
 }
