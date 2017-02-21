@@ -254,12 +254,13 @@ class AccountController extends Controller
             $val = $data['smsverify'];
             if ($val == $code) {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
-                $form_data[0] = array(
-                    'C_id' => $iktCardNo,
-                    'field' => 'email',
+                $comments = '';
+                $form_data[0]   = array(
+                    'C_id'      => $iktCardNo,
+                    'field'     => 'email',
                     'new_value' => $this->get('session')->get('new_value'),
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments'  => $comments
                 );
 
                 $postData = json_encode($form_data);
@@ -386,12 +387,13 @@ class AccountController extends Controller
             $url = $request->getLocale() . '/api/update_user_detail.json';
             if (!empty($data)) {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+                $comments = '';
                 $form_data[0] = array(
                     'C_id' => $iktCardNo,
                     'field' => 'email',
                     'new_value' => $data['newemail'],
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments' => $comments
                 );
                 // before calling the rest we need to check if there is any email already registered with the new email value
                 $email_val = $this->checkEmail($data['newemail'], $Country_id);
@@ -449,6 +451,68 @@ class AccountController extends Controller
 
     }
 
+<<<<<<< HEAD
+    private function checkEmail($email,$Country_id){
+        //$em = $this->getDoctrine()->getManager("default2");
+            $em   = $this->getDoctrine()->getEntityManager();
+            $conn = $em->getConnection();
+            $queryBuilder = $conn->createQueryBuilder();
+            if($Country_id == 'SA'){$tbl_suffix = "";}
+            else{$tbl_suffix = "_EG";}
+            // right now all the data comes to user table only
+            // this code is commented beacuse we have changed the user table in in . both the egypt and ksa user will be mangeed in this table
+            /*$tbl_suffix = '';
+            $stm  = $conn->prepare('
+            SELECT * FROM   user'.$tbl_suffix.'  WHERE   
+              email = ?
+            ');*/
+
+
+            $stm  = $conn->prepare('
+              SELECT * FROM   user  WHERE   
+                email = ?
+            ');
+
+            $stm->bindValue(1, $email);
+
+            $stm->execute();
+            $result = $stm->fetch();
+            return $result;
+    }
+
+
+    private function updateEmail( $email , $Country_id, $C_id )
+    {
+        try
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $conn = $em->getConnection();
+            echo $email = $email;
+            echo $Country_id = $Country_id;
+            echo $C_id = $C_id;
+
+            $queryBuilder = $conn->createQueryBuilder();
+            if ($Country_id == 'EG') {
+                $tbl_suffix = "_EG";
+            } else {
+                $tbl_suffix = "";
+            }
+            $data_values = array($email = $email, $C_id = $C_id);
+            $stm = $conn->executeUpdate('UPDATE user SET  
+                                                    email    = ?
+                                                    WHERE ikt_card_no = ?   ', $data_values);
+            return $stm;
+        }
+        catch (\Exception $e)
+        {
+            return 'INVALID_DATA';
+        }
+    }
+
+
+
+=======
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
     /**
      * @Route("/{_country}/{_locale}/account/test")
      */
@@ -517,9 +581,7 @@ class AccountController extends Controller
                 $posted['iqamaid_mobile'] = $iqamaid_mobile;
                 $posted['mobile'] = $mobile;
                 $posted['comment_mobile'] = $comment_mobile;
-
                 //print_r($posted);
-
                 /************************/
                 if ($country_id == 'SA') {
                     if (!preg_match('/^[0-9]{10}$/', $iqamaid_mobile)) {
@@ -587,6 +649,16 @@ class AccountController extends Controller
                 // then we are forcing user to enter 9 digits without 0 for KSA.
 
                 // mobile format for webservice
+<<<<<<< HEAD
+                echo $mobile_format_webservice = $this->getMobileFormat($request , $data['mobile']);
+
+                $form_data      =   array(
+                    'C_id'      =>  $iktCardNo,
+                    'field'     =>  'mobile',
+                    'old_value' =>  $iktMobile,
+                    'new_value' =>  $mobile_format_webservice,
+                    'comments'  =>  $data['comment_mobile']
+=======
                 $mobile_format_webservice = $this->getMobileFormat($request, $data['mobile']);
 
                 $form_data = array(
@@ -595,6 +667,7 @@ class AccountController extends Controller
                     'old_value' => $iktMobile,
                     'new_value' => $mobile_format_webservice,
                     'comments' => $data['comment_mobile']
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
                 );
 
                 $postData = json_encode($form_data);
@@ -682,6 +755,17 @@ class AccountController extends Controller
             $language = $request->getLocale();
             //echo '===='.$this->get('session')->get('userSelectedCountry');
             echo $this->getUser()->getIktCardNo();
+<<<<<<< HEAD
+            $restClient  = $this->get('app.rest_client');
+            if($this->get('session')->get('iktUserData')) {
+
+                    $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                    // echo AppConstant::WEBAPI_URL.$url;
+                    $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                    if ($data['success'] == "true") {
+                        $this->get('session')->set('iktUserData', $data['user']);
+                    }
+=======
             $restClient = $this->get('app.rest_client');
             if ($this->get('session')->get('iktUserData')) {
 
@@ -693,6 +777,7 @@ class AccountController extends Controller
                 }
 
 
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
             }
             $iktUserData = $this->get('session')->get('iktUserData');
             if ($country_id == 'eg') {
@@ -807,8 +892,13 @@ class AccountController extends Controller
         } catch (\Exception $e) {
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
             $data = $request->request->all();
+<<<<<<< HEAD
+            if(!empty($data))
+            {
+=======
             if (!empty($data)) {
                 // here we will add validation to the form
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
                 /************************/
                 $full_name = trim($data['full_name']);
                 $comment_fullname = trim($data['comment_fullname']);
@@ -1198,6 +1288,36 @@ class AccountController extends Controller
      */
     public function userinfoAction(Request $request)
     {
+<<<<<<< HEAD
+        try
+        {
+            $activityLog = $this->get('app.activity_log');
+            $tokenStorage = $this->get('security.token_storage');
+            // get all cities
+            $restClient = $this->get('app.rest_client');
+            //$smsService = $this->get('app.sms_service');
+            $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+            $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            //var_dump($cities_jobs_area);
+            //var_dump($cities_jobs_area['cities']);
+            //var_dump($cities_jobs_area['jobs']);
+            //print_r($cities_jobs_area['areas']);
+            /*************/
+            // only get cities according to the language provided
+            // $url = $request->getLocale() . '/api/get_cities.json';
+            // $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            // var_dump($cities_jobs_area);
+            /*************/
+
+        /********/
+
+        $citiesListing = array();
+        foreach ($cities_jobs_area['cities'] as $key_city => $value_city)
+        {
+            if (array_key_exists('name', $value_city)) {
+
+                $citiesListing[($request->getLocale() == 'ar') ? $value_city['name'] : $value_city['name']] = $value_city['city_no'];
+=======
         try {
             // get all cities
             $restClient = $this->get('app.rest_client');
@@ -1210,6 +1330,7 @@ class AccountController extends Controller
 
                     $citiesListing[($request->getLocale() == 'ar') ? $value_city['name'] : $value_city['name']] = $value_city['city_no'];
                 }
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
             }
 
 
@@ -1378,6 +1499,20 @@ class AccountController extends Controller
                     /*****************/
                     // manipulating old values from logged user data;
 
+<<<<<<< HEAD
+                    $Marital_status = substr($iktUserData['marital_status_en'],0,1);
+                    $birthdate    = $iktUserData['birthdate'];
+                    $job_no         = $iktUserData['job_no'];
+                    $city_no        = $iktUserData['city_no'];
+                    $area           = $iktUserData['area'];
+                    $lang           = $iktUserData['lang'];
+                    $houseno        = $iktUserData['houseno'];
+                    $pobox          = $iktUserData['pobox'];
+                    $zip            = $iktUserData['zip'];
+                    $tel_home       = $iktUserData['tel_home'];
+                    $tel_office     = $iktUserData['tel_office'];
+                    $pur_group      = $iktUserData['pur_grp'];
+=======
                     $Marital_status = substr($iktUserData['marital_status_en'], 0, 1);
                     $G_birthdate = $iktUserData['birthdate'];
                     $job_no = $iktUserData['job_no'];
@@ -1390,6 +1525,7 @@ class AccountController extends Controller
                     $tel_home = $iktUserData['tel_home'];
                     $tel_office = $iktUserData['tel_office'];
                     $pur_group = $iktUserData['pur_grp'];
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
                     /*****************/
 
                     /*if($postData['form']['dob']['year'] != "" ) {
@@ -1437,6 +1573,30 @@ class AccountController extends Controller
                     "   G_birthdate"       => $birth_date,
                     "   city_no"              => $postData['form']['city_no']
                     );*/
+<<<<<<< HEAD
+                echo "test5";
+                echo '========-----11----=========';
+                var_dump($postData);
+                var_dump($Data);
+                echo '========-----11----=========';
+                $url = $request->getLocale() . '/api/update_user_detail.json';
+                //$this->get('session')->set('edit_customer', $Data);
+                $i=0;
+                foreach($Data as $key => $key_value) {
+                    //echo $kay_value = trim($key_value);
+
+                    if($key_value !="")
+                    {
+                        echo "Key = " . $key . ", Value = " . $key_value ."==<br>";
+                        $key_field = $key;
+                        if($key == 'birthdate'){
+                            $key_field = 'birthdate';
+                        }
+                        if($key == 'marital_status_en'){
+                            $key_field = 'Marital_status';
+                        }
+
+=======
                     echo "test5";
                     echo '========-----11----=========';
                     var_dump($postData);
@@ -1457,6 +1617,7 @@ class AccountController extends Controller
                             if ($key == 'marital_status_en') {
                                 $key_field = 'Marital_status';
                             }
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
 
 
                             $form_data[$i] = array(
@@ -1479,7 +1640,9 @@ class AccountController extends Controller
                     //$csrf_token_udatepassword = trim($postData['_csrf_token_udatepassword']);
                     // $new_password = $postData['form']['new_password'];
                     $messageLog = $this->get('translator')->trans('User details Updated');
+                    
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
+                    
                     $message = $this->get('translator')->trans('Account updated successfully');
                     return $this->render('account/userinfo.html.twig',
                         array('form1' => $form->createView(), 'message' => $message));
@@ -1703,8 +1866,13 @@ class AccountController extends Controller
             //var_dump($iktUserData);
             $posted = array();
             $iktCardNo = $iktUserData['C_id'];
+<<<<<<< HEAD
+            // --> echo '--'.$iktID_no = $iktUserData['ID_no'];
+            $iktID_no = $iktUserData['ID_no'];
+=======
             echo '--' . $iktID_no = $iktUserData['ID_no'];
 
+>>>>>>> 8a1522c4908045e1447577568d553f55487b2f53
             $iktID_no = $iktUserData['ID_no'];
             $iktMobile_no = $iktUserData['mobile'];
 

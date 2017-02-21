@@ -25,7 +25,8 @@ class EnquiryAndSuggestionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $country = 'sa';
+        $country = $options['extras']['country'];
+
         $builder ->add('name', TextType::class, array('label' => 'Full name'))
             ->add('job', TextType::class, array('label' => 'Job'))
             ->add('mobile', TextType::class, array(
@@ -53,6 +54,7 @@ class EnquiryAndSuggestionType extends AbstractType
             'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion',
             'attr' => array('novalidate' => 'novalidate')
         ));
+        $resolver->setRequired('extras');
     }
 
     /**
