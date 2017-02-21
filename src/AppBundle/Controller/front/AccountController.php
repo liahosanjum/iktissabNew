@@ -259,12 +259,13 @@ class AccountController extends Controller
             $val  = $data['smsverify'];
             if ($val == $code) {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
-                $form_data[0] = array(
-                    'C_id' => $iktCardNo,
-                    'field' => 'email',
+                $comments = '';
+                $form_data[0]   = array(
+                    'C_id'      => $iktCardNo,
+                    'field'     => 'email',
                     'new_value' => $this->get('session')->get('new_value'),
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments'  => $comments
                 );
 
                 $postData = json_encode($form_data);
@@ -369,12 +370,13 @@ class AccountController extends Controller
             if (!empty($data))
             {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+                $comments = '';
                 $form_data[0] = array(
                     'C_id' => $iktCardNo,
                     'field' => 'email',
                     'new_value' => $data['newemail'],
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments' => $comments
                 );
                 // before calling the rest we need to check if there is any email already registered with the new email value
                 $email_val = $this->checkEmail($data['newemail'], $Country_id);
@@ -443,10 +445,17 @@ class AccountController extends Controller
             if($Country_id == 'SA'){$tbl_suffix = "";}
             else{$tbl_suffix = "_EG";}
             // right now all the data comes to user table only
-            $tbl_suffix = '';
+            // this code is commented beacuse we have changed the user table in in . both the egypt and ksa user will be mangeed in this table
+            /*$tbl_suffix = '';
             $stm  = $conn->prepare('
             SELECT * FROM   user'.$tbl_suffix.'  WHERE   
               email = ?
+            ');*/
+
+
+            $stm  = $conn->prepare('
+              SELECT * FROM   user  WHERE   
+                email = ?
             ');
 
             $stm->bindValue(1, $email);
@@ -565,9 +574,7 @@ class AccountController extends Controller
                 $posted['iqamaid_mobile'] = $iqamaid_mobile;
                 $posted['mobile'] = $mobile;
                 $posted['comment_mobile'] = $comment_mobile;
-
                 //print_r($posted);
-
                 /************************/
                 if($country_id == 'SA') {
                     if (!preg_match('/^[0-9]{10}$/', $iqamaid_mobile)) {
@@ -640,7 +647,7 @@ class AccountController extends Controller
                 // then we are forcing user to enter 9 digits without 0 for KSA.
 
                 // mobile format for webservice
-                $mobile_format_webservice = $this->getMobileFormat($request , $data['mobile']);
+                echo $mobile_format_webservice = $this->getMobileFormat($request , $data['mobile']);
 
                 $form_data      =   array(
                     'C_id'      =>  $iktCardNo,
@@ -751,8 +758,6 @@ class AccountController extends Controller
                     if ($data['success'] == "true") {
                         $this->get('session')->set('iktUserData', $data['user']);
                     }
-
-
             }
             $iktUserData = $this->get('session')->get('iktUserData');
             if($country_id == 'eg')
@@ -882,7 +887,6 @@ class AccountController extends Controller
             $data = $request->request->all();
             if(!empty($data))
             {
-                // here we will add validation to the form
                 /************************/
                 $full_name = trim($data['full_name']);
                 $comment_fullname = trim($data['comment_fullname']);
@@ -1305,21 +1309,21 @@ class AccountController extends Controller
         {
             $activityLog = $this->get('app.activity_log');
             $tokenStorage = $this->get('security.token_storage');
-        // get all cities
-        $restClient = $this->get('app.rest_client');
-        //$smsService = $this->get('app.sms_service');
-        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
-        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        //var_dump($cities_jobs_area);
-        //var_dump($cities_jobs_area['cities']);
-        //var_dump($cities_jobs_area['jobs']);
-        //print_r($cities_jobs_area['areas']);
-        /*************/
-        // only get cities according to the language provided
-        // $url = $request->getLocale() . '/api/get_cities.json';
-        // $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        // var_dump($cities_jobs_area);
-        /*************/
+            // get all cities
+            $restClient = $this->get('app.rest_client');
+            //$smsService = $this->get('app.sms_service');
+            $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+            $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            //var_dump($cities_jobs_area);
+            //var_dump($cities_jobs_area['cities']);
+            //var_dump($cities_jobs_area['jobs']);
+            //print_r($cities_jobs_area['areas']);
+            /*************/
+            // only get cities according to the language provided
+            // $url = $request->getLocale() . '/api/get_cities.json';
+            // $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            // var_dump($cities_jobs_area);
+            /*************/
 
         /********/
 
@@ -1517,7 +1521,7 @@ class AccountController extends Controller
                     // manipulating old values from logged user data;
 
                     $Marital_status = substr($iktUserData['marital_status_en'],0,1);
-                    $G_birthdate    = $iktUserData['birthdate'];
+                    $birthdate    = $iktUserData['birthdate'];
                     $job_no         = $iktUserData['job_no'];
                     $city_no        = $iktUserData['city_no'];
                     $area           = $iktUserData['area'];
@@ -1599,7 +1603,7 @@ class AccountController extends Controller
                         echo "Key = " . $key . ", Value = " . $key_value ."==<br>";
                         $key_field = $key;
                         if($key == 'birthdate'){
-                            $key_field = 'G_birthdate';
+                            $key_field = 'birthdate';
                         }
                         if($key == 'marital_status_en'){
                             $key_field = 'Marital_status';
@@ -1627,7 +1631,9 @@ class AccountController extends Controller
                 //$csrf_token_udatepassword = trim($postData['_csrf_token_udatepassword']);
                 // $new_password = $postData['form']['new_password'];
                     $messageLog = $this->get('translator')->trans('User details Updated');
+                    
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
+                    
                     $message = $this->get('translator')->trans('Account updated successfully');
                     return $this->render('account/userinfo.html.twig',
                         array('form1' => $form->createView(), 'message' => $message));
@@ -1737,8 +1743,8 @@ class AccountController extends Controller
             //var_dump($iktUserData);
             $posted = array();
             $iktCardNo = $iktUserData['C_id'];
-            echo '--'.$iktID_no = $iktUserData['ID_no'];
-
+            // --> echo '--'.$iktID_no = $iktUserData['ID_no'];
+            $iktID_no = $iktUserData['ID_no'];
             $iktID_no = $iktUserData['ID_no'];
             $iktMobile_no = $iktUserData['mobile'];
 

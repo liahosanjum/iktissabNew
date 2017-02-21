@@ -39,8 +39,6 @@ class IktissabAdminProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-        
-
         $user = $this->em->createQueryBuilder()
             ->select('u')
             ->from('AppBundle:Admin', 'u')

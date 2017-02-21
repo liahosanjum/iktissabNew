@@ -16,11 +16,13 @@
             </div>
             <div>
 
-                {{ form(form) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.mobile) }}
-                {{ form_row(form.captchaCode) }}
-                {{ form_end(form) }}
+        {% if show_form == true %}
+                    {{ form(form) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.mobile) }}
+                    {{ form_row(form.captchaCode) }}
+                    {{ form_end(form) }}
+        {% endif %}
 
             </div>
         </div>
@@ -37,7 +39,11 @@
                 {{ form_jquery_validation(form) }}
             });
         </script>
+<div class="row">
 
+    rest of the contents
+
+</div>
 
 </div>
 {% endblock %}
