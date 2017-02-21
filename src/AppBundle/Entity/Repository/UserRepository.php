@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Entity\Repository;
+use AppBundle\Entity\User;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * UserRepository
@@ -10,5 +13,16 @@ namespace AppBundle\Entity\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-   
+    public function searchUsers($ikt,$email)
+    {
+        $builder = $this->_em->createQueryBuilder()->select(array('u'))
+            ->from('AppBundle:User', 'u')
+            ->orderBy('u.regDate', 'desc');
+        if ($ikt != '') $builder->andWhere('u.iktCardNo = :ikt')->setParameter('ikt', $ikt);
+        if ($email != '') $builder->andWhere('u.email like  :email')->setParameter('email', '%'. $email. '%');
+        return $builder
+            ->getQuery()
+            ->setHydrationMode(3);
+    }
+
 }

@@ -68,4 +68,7 @@ class AppConstant
     const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
 
     const INVALID_DATA = "Invalid Data";
+
+    const DATE_FORMAT = "m/d/Y";
+    
 }

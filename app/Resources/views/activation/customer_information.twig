@@ -15,14 +15,21 @@
         {% endif %}
         <div class="col-lg-12 text-center ">
 
-            {{ form_start(form) }}
+            {{ form_start(form,{'attr': {'id': 'ikt_reg'}}) }}
             {{ form_row(form.iktCardNo) }}
             {{ form_row(form.fullName) }}
             {{ form_row(form.email) }}
             {{ form_row(form.password) }}
             {{ form_row(form.gender) }}
             {{ form_row(form.nationality) }}
-            {{ form_row(form.dob) }}
+            <div id="div_dg">
+                {{ form_row(form.dob) }}
+            </div>
+            <div id="div_dh">
+                {{ form_row(form.dob_h) }}
+            </div>
+
+            <input type="button" id="btn_dob" value="Hijri"/>
             {{ form_row(form.maritial_status) }}
             {{ form_row(form.iqama) }}
             {{ form_row(form.job_no) }}
@@ -34,13 +41,6 @@
                 {{ form_row(form.area_text) }}
             </div>
             {{ form_row(form.language) }}
-            {{ form_row(form.street) }}
-            {{ form_row(form.houseno) }}
-            {{ form_row(form.pobox) }}
-            {{ form_row(form.zip) }}
-            {{ form_row(form.tel_office) }}
-
-            {{ form_row(form.tel_home) }}
             {{ form_errors(form.mobile) }}
             {#{{ form_row(form.mobile) }}#}
             {{ form_label(form.mobile) }}
@@ -54,15 +54,103 @@
         </div>
     </div>
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery('#area_no').hide();
+        $(document).ready(function () {
+
+            // for months in hijri
+
+            $('#ikt_reg_dob_h_month').empty().append('' +
+                    '<option value="">{{ 'Month'|trans }}</option>' +
+                    '<option value="1">{{ 'Muharram'|trans }}</option>' +
+                    '<option value="2">{{ 'Safar'|trans }}</option>' +
+                    '<option value="3">{{ 'Rabi ul Awwal'|trans }}</option>' +
+                    '<option value="4">{{ 'Rabi ul Akhir'|trans }}</option>' +
+                    '<option value="5">{{ 'Jumadal Awwal'|trans }}</option>' +
+                    '<option value="6">{{ 'Jumadal Akhira'|trans }}</option>' +
+                    '<option value="7">{{ 'Rajab'|trans }}</option>' +
+                    '<option value="8">{{ 'Shaban'|trans }}</option>' +
+                    '<option value="9">{{ 'Ramadan'|trans }}</option>' +
+                    '<option value="10">{{ 'Shawwal'|trans }}</option>' +
+                    '<option value="11">{{ 'Dhul Qaada'|trans }}</option>' +
+                    '<option value="12">{{ 'Dhul Hijja'|trans }}</option>'
+            );
+
+            $('#div_dh').hide();
+            if($('#ikt_reg_date_type').val() == 'g'){
+                $('#div_dg').show();
+                $('#div_dh').hide();
+                $('#btn_dob').val('{{ 'Hijri'|trans }}');
+                $('#ikt_reg_dob_h_month option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_h_day option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_h_year option:nth-child(2)').prop("selected", "selected");
+
+
+            }else{
+                $('#div_dg').hide();
+                $('#div_dh').show();
+                $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");
+
+
+            }
+            jQuery('#btn_dob').on('click', function () {
+
+                toggle_date();
+
+            });
+            function toggle_date() {
+                if ($('#ikt_reg_date_type').val() == 'g') {
+                    // change to hijri now
+                    // select default value for dates in greg to bypass validation
+                    $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_h_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dh').show();
+                    $('#div_dg').hide();
+                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#ikt_reg_date_type').val('h');
+
+                } else {
+                    $('#ikt_reg_dob_h_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dh').hide();
+                    $('#div_dg').show();
+                    $('#btn_dob').val('{{ 'Hijri'|trans }}')
+                    $('#ikt_reg_date_type').val('g')
+                    //change to greg
+                }
+            }
+
+
+
+            // for city and areas
+            $('#area_no').hide();
 
 
             var areas = {{ areas.content| raw }} ;
             $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
             jQuery('#ikt_reg_city_no').on('change', function () {
-                var  city_count = 0;
-                var city = $(this).val();
+                manage_areas($(this).val())
+            });
+            // if form is submitted then manage the areas and cities
+            if($('#ikt_reg_city_no').val() != '') {
+                manage_areas($('#ikt_reg_city_no').val());
+            }
+
+            function manage_areas(city){
+                var city_count = 0;
 
                 $('#ikt_reg_area_no').empty().append('<option value="">{{ 'Select Area'|trans }}</option>');
 
@@ -76,18 +164,22 @@
                     });
 
                 }
-                if(city_count > 0){
+                if (city_count > 0) {
 
                     $('#ikt_reg_area_text').val('-1');
                     jQuery('#area_no').show();
                     jQuery('#area_text').hide();
-                }else{
+                } else {
                     $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+                    $('#ikt_reg_area_text').val('');
                     jQuery('#area_no').hide();
                     jQuery('#area_text').show();
                 }
 
-            });
+            }
+//            $('#ikt_reg').submit(function (e) {
+//
+//            });
             {{ form_jquery_validation(form) }}
 
         });

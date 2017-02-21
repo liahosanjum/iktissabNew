@@ -198,19 +198,29 @@ class ActivationController extends Controller
         // get all cities
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
-        $url = $request->getLocale() . '/api/get_cities.json';
-        $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+//        var_dump($cities_jobs_area); die('---');
+        $cities = $cities_jobs_area['cities'];
         $citiesArranged = array();
-        foreach ($cities['data'] as $key => $value) {
-            $citiesArranged[($request->getLocale() == 'en') ? $value['ename'] : $value['aname']] = $value['city_no'];
+        foreach ($cities as $key => $value) {
+            $citiesArranged[$value['name']] = $value['city_no'];
         }
-        $url = $request->getLocale() . '/api/alljoblist.json';
-        $jobs = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $jobs = $cities_jobs_area['jobs'];
         $jobsArranged = array();
-        foreach ($jobs['data'] as $key => $value) {
-            $jobsArranged[($request->getLocale() == 'en') ? $value['edesc'] : $value['adesc']] = $value['job_no'];
+        foreach ($jobs as $key => $value) {
+            $jobsArranged[$value['name']] = $value['job_no'];
         }
-        //TODO::get all regions and display in javascript array and then upon change of city update the regions accordingly getallcities API call is not ready yet
+        $areas = $cities_jobs_area['areas'];
+        $areasArranged = array();
+        foreach ($areas as $key => $value) {
+            if(!isset($value['name'])){
+                continue;
+            }
+            $areasArranged[$value['name']] = $value['name'];
+        }
+        $areasArranged['-1'] = '-1';
+        $areas = $this->json($cities_jobs_area['areas']);
 
         $pData = array('iktCardNo' => $this->get('session')->get('iktCardNo'), 'email' => $this->get('session')->get('email'));
 
@@ -220,7 +230,7 @@ class ActivationController extends Controller
                     'country' => $request->get('_country'),
                     'cities' => $citiesArranged,
                     'jobs' => $jobsArranged,
-                    'areas' => $citiesArranged
+                    'areas' => $areasArranged,
                 )
             )
         );
@@ -229,22 +239,23 @@ class ActivationController extends Controller
         $pData = $form->getData();
 
         $error = array('success' => true);
+//        dump($_POST); die('--');
         if ($form->isValid() && $form->isSubmitted()) {
             try {
+                $area = ($pData['area_no'] == '-1' ) ? $pData['area_text'] : $pData['area_no'];
                 // check iqama in local SQl db
                 $this->checkIqamaLocal($pData['iqama']);
+                if($pData['date_type'] == 'h'){
+                    $dob = $pData['dob_h']->format('Y-m-d h:i:s');
+                }else{
+                    $dob = $pData['dob']->format('Y-m-d h:i:s');
+                }
                 // save the provided data to session
                 $newCustomer = array(
                     "C_id" => $pData['iktCardNo'],
                     "cname" => $pData['fullName'],
-                    "street" => $pData['street'],
-                    "area" => $pData['area_no'],
-                    "houseno" => $pData['houseno'],
-                    "pobox" => $pData['pobox'],
-                    "zip" => $pData['zip'],
+                    "area" => $area,
                     "city_no" => $pData['city_no'],
-                    "tel_home" => $pData['tel_home'],
-                    "tel_office" => $pData['tel_office'],
                     "mobile" => ($request->get('_country') == 'sa' ? "0" : "0") . $pData['mobile'],
                     "email" => $pData['email'],
                     "nat_no" => $pData['nationality']->getId(),
@@ -253,9 +264,9 @@ class ActivationController extends Controller
                     "job_no" => $pData['job_no'],
                     "gender" => $pData['gender'],
                     "pur_grp" => $pData['pur_group'],
-                    "additional_mobile" => '',
-                    "G_birthdate" => $pData['dob']->format('Y-m-d h:i:s'),
+                    "birthdate" => $dob,
                     "pincode" => mt_rand(1000, 9999),
+                    "source" => User::ACTIVATION_SOURCE_WEB
                 );
                 $this->get('session')->set('new_customer', $newCustomer);
                 $this->get('session')->set('pass', md5($pData['password']));
@@ -280,9 +291,14 @@ class ActivationController extends Controller
                 $error['message'] = $e->getMessage();
             }
         }
+        $reference_year = array('gyear'=>2017, 'hyear'=>1438);
+        $current_year = date('Y');
+        $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
         return $this->render('/activation/customer_information.twig',
             array('form' => $form->createView(),
-                'error' => $error)
+                'error' => $error,
+                'areas' => $areas,
+                'islamicyear' => $islamicYear)
         );
 
 
@@ -329,6 +345,7 @@ class ActivationController extends Controller
                         $user->setIktCardNo($this->get('session')->get('iktCardNo'));
                         $user->setRegDate(time());
                         $user->setPassword($this->get('session')->get('pass'));
+                        $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
                         $em->persist($user);
                         $em->flush();
                         $request->getSession()
@@ -443,6 +460,10 @@ class ActivationController extends Controller
         try {
             $this->checkOnline(array('iktCardNo' => $newCustomer['C_id'], 'email' => $newCustomer['email']));
             $saveCustomer = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $cData, array('Country-Id' => strtoupper($request->get('_country'))));
+            var_dump($cData);
+            var_dump($url);
+            var_dump($saveCustomer);
+            die('----');
             if ($saveCustomer != true) {
                 Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
             }
@@ -451,6 +472,7 @@ class ActivationController extends Controller
             $user->setIktCardNo($newCustomer['C_id']);
             $user->setRegDate(time());
             $user->setPassword($this->get('session')->get('pass'));
+            $user->setActivationSource(User::ACTIVATION_SOURCE_WEB);
             $em->persist($user);
             $em->flush();
 

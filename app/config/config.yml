@@ -12,7 +12,6 @@ parameters:
     app_countries: eg|sa
     brochures_directory: '%kernel.root_dir%/../web/demo/server/php'
 
-
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
