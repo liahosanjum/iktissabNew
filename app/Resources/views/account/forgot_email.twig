@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 text-center ">
+            Forgot your Iktissab email
+        </div>
+        {% if(error.success == false) %}
+            <div class="col-lg-12 text-center alert alert-danger">
+                {{ error.message }}
+            </div>
+        {% endif %}
+        {% if(error.success == true and error.message != '') %}
+            <div class="col-lg-12 text-center alert alert-success">
+                {{ error.message }}
+            </div>
+        {% endif %}
+        <div class="col-lg-12 text-center ">
+
+            {{ "Please fill the form below"|trans }}
+
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

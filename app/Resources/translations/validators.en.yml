@@ -16,3 +16,4 @@
 'Mobile Number Must be 9 digits': 'Mobile Number Must be 9 digits'
 'Mobile Number Must be 14 digits': 'Mobile Number Must be 14 digits'
 'Invalid captcha code': 'Invalid captcha code'
+"Password and confirm password must match": "Password and confirm password must match"

@@ -10,44 +10,32 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\AppConstant;
 use AppBundle\Entity\User;
-use AppBundle\Security\User\IktissabUser;
-
+use AppBundle\Form\ForgotEmailType;
+use AppBundle\Form\IktUpdateType;
+use AppBundle\HijriGregorianConvert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use SoapClient;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use AppBundle\HijriGregorianConvert;
-
-
-
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 class AccountController extends Controller
@@ -197,7 +185,7 @@ class AccountController extends Controller
                     // next time the user will be logged in with the new email as user name
                     // $message  = "Please insert this temporary code you recieved on your mobile";
                     return $this->render('account/sendsms.html.twig',
-                            array('iktData' => $iktUserData, 'posted' => $posted , 'message' => $message)
+                        array('iktData' => $iktUserData, 'posted' => $posted , 'message' => $message)
                     );
                 }
                 else
@@ -259,12 +247,13 @@ class AccountController extends Controller
             $val  = $data['smsverify'];
             if ($val == $code) {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
-                $form_data[0] = array(
-                    'C_id' => $iktCardNo,
-                    'field' => 'email',
+                $comments = '';
+                $form_data[0]   = array(
+                    'C_id'      => $iktCardNo,
+                    'field'     => 'email',
                     'new_value' => $this->get('session')->get('new_value'),
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments'  => $comments
                 );
 
                 $postData = json_encode($form_data);
@@ -369,12 +358,13 @@ class AccountController extends Controller
             if (!empty($data))
             {
                 //$url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+                $comments = '';
                 $form_data[0] = array(
                     'C_id' => $iktCardNo,
                     'field' => 'email',
                     'new_value' => $data['newemail'],
                     'old_value' => $currentEmail,
-                    'comments' => 'test comments test comments'
+                    'comments' => $comments
                 );
                 // before calling the rest we need to check if there is any email already registered with the new email value
                 $email_val = $this->checkEmail($data['newemail'], $Country_id);
@@ -435,25 +425,33 @@ class AccountController extends Controller
 
     }
 
+
     private function checkEmail($email,$Country_id){
         //$em = $this->getDoctrine()->getManager("default2");
-            $em   = $this->getDoctrine()->getEntityManager();
-            $conn = $em->getConnection();
-            $queryBuilder = $conn->createQueryBuilder();
-            if($Country_id == 'SA'){$tbl_suffix = "";}
-            else{$tbl_suffix = "_EG";}
-            // right now all the data comes to user table only
-            $tbl_suffix = '';
-            $stm  = $conn->prepare('
-            SELECT * FROM   user'.$tbl_suffix.'  WHERE   
-              email = ?
+        $em   = $this->getDoctrine()->getEntityManager();
+        $conn = $em->getConnection();
+        $queryBuilder = $conn->createQueryBuilder();
+        if($Country_id == 'SA'){$tbl_suffix = "";}
+        else{$tbl_suffix = "_EG";}
+        // right now all the data comes to user table only
+        // this code is commented beacuse we have changed the user table in in . both the egypt and ksa user will be mangeed in this table
+        /*$tbl_suffix = '';
+        $stm  = $conn->prepare('
+        SELECT * FROM   user'.$tbl_suffix.'  WHERE
+          email = ?
+        ');*/
+
+
+        $stm  = $conn->prepare('
+              SELECT * FROM   user  WHERE   
+                email = ?
             ');
 
-            $stm->bindValue(1, $email);
+        $stm->bindValue(1, $email);
 
-            $stm->execute();
-            $result = $stm->fetch();
-            return $result;
+        $stm->execute();
+        $result = $stm->fetch();
+        return $result;
     }
 
 
@@ -565,9 +563,7 @@ class AccountController extends Controller
                 $posted['iqamaid_mobile'] = $iqamaid_mobile;
                 $posted['mobile'] = $mobile;
                 $posted['comment_mobile'] = $comment_mobile;
-
                 //print_r($posted);
-
                 /************************/
                 if($country_id == 'SA') {
                     if (!preg_match('/^[0-9]{10}$/', $iqamaid_mobile)) {
@@ -640,7 +636,7 @@ class AccountController extends Controller
                 // then we are forcing user to enter 9 digits without 0 for KSA.
 
                 // mobile format for webservice
-                $mobile_format_webservice = $this->getMobileFormat($request , $data['mobile']);
+                echo $mobile_format_webservice = $this->getMobileFormat($request , $data['mobile']);
 
                 $form_data      =   array(
                     'C_id'      =>  $iktCardNo,
@@ -648,6 +644,17 @@ class AccountController extends Controller
                     'old_value' =>  $iktMobile,
                     'new_value' =>  $mobile_format_webservice,
                     'comments'  =>  $data['comment_mobile']
+
+                );
+                $mobile_format_webservice = $this->getMobileFormat($request, $data['mobile']);
+
+                $form_data = array(
+                    'C_id' => $iktCardNo,
+                    'field' => 'mobile',
+                    'old_value' => $iktMobile,
+                    'new_value' => $mobile_format_webservice,
+                    'comments' => $data['comment_mobile']
+
                 );
 
                 $postData = json_encode($form_data);
@@ -742,17 +749,16 @@ class AccountController extends Controller
             $language    = $request->getLocale();
             //echo '===='.$this->get('session')->get('userSelectedCountry');
             echo $this->getUser()->getIktCardNo();
+
             $restClient  = $this->get('app.rest_client');
             if($this->get('session')->get('iktUserData')) {
 
-                    $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
-                    // echo AppConstant::WEBAPI_URL.$url;
-                    $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                    if ($data['success'] == "true") {
-                        $this->get('session')->set('iktUserData', $data['user']);
-                    }
-
-
+                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($data['success'] == "true") {
+                    $this->get('session')->set('iktUserData', $data['user']);
+                }
             }
             $iktUserData = $this->get('session')->get('iktUserData');
             if($country_id == 'eg')
@@ -882,7 +888,6 @@ class AccountController extends Controller
             $data = $request->request->all();
             if(!empty($data))
             {
-                // here we will add validation to the form
                 /************************/
                 $full_name = trim($data['full_name']);
                 $comment_fullname = trim($data['comment_fullname']);
@@ -897,6 +902,25 @@ class AccountController extends Controller
                 array('iktData' => $iktUserData, 'posted' => $posted, 'message' => $message)
             );
         }
+
+//            if (!empty($data)) {
+//                if (!empty($data)) {
+//                    // here we will add validation to the form
+//                    /************************/
+//                    $full_name = trim($data['full_name']);
+//                    $comment_fullname = trim($data['comment_fullname']);
+//                    $posted['fullname_registered_iqamaid'] = $iktID_no;
+//                    $posted['full_name'] = $full_name;
+//                    $posted['comment_fullname'] = $comment_fullname;
+//                }
+//                $message = $e->getMessage();
+//                //$this->get('translator')->trans('An invalid exception occurred');
+//                echo 'account/' . $country_file_ext . '/fullname.html.twig';
+//                return $this->render('account/' . $country_file_ext . '/fullname.html.twig',
+//                    array('iktData' => $iktUserData, 'posted' => $posted, 'message' => $message)
+//                );
+//            }
+
 
     }
 
@@ -1120,25 +1144,25 @@ class AccountController extends Controller
         catch (\Exception $e)
         {
 
-                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
-                // $error['success'] = false;
-                // $error['message'] = $e->getMessage();
-                echo $e->getMessage();
-                $data = $request->request->all();
-                if(!empty($data))
-                {
-                    // here we will add validation to the form
-                    /************************/
-                    echo $iqamassn_registered = trim($data['iqamassn_registered']);
-                    echo '<br>';
-                    echo $iqamassn_new = trim($data['iqamassn_new']);
-                    $confirm_iqamassn_new = trim($data['confirm_iqamassn_new']);
-                    $comment_iqamassn = trim($data['comment_iqamassn']);
-                    $posted['iqamassn_registered'] = $iktID_no;
-                    $posted['iqamassn_new'] = $iqamassn_new;
-                    $posted['confirm_iqamassn_new'] = $confirm_iqamassn_new;
-                    $posted['comment_iqamassn'] = $comment_iqamassn;
-                }
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
+            // $error['success'] = false;
+            // $error['message'] = $e->getMessage();
+            echo $e->getMessage();
+            $data = $request->request->all();
+            if(!empty($data))
+            {
+                // here we will add validation to the form
+                /************************/
+                echo $iqamassn_registered = trim($data['iqamassn_registered']);
+                echo '<br>';
+                echo $iqamassn_new = trim($data['iqamassn_new']);
+                $confirm_iqamassn_new = trim($data['confirm_iqamassn_new']);
+                $comment_iqamassn = trim($data['comment_iqamassn']);
+                $posted['iqamassn_registered'] = $iktID_no;
+                $posted['iqamassn_new'] = $iqamassn_new;
+                $posted['confirm_iqamassn_new'] = $confirm_iqamassn_new;
+                $posted['comment_iqamassn'] = $comment_iqamassn;
+            }
 
 
 
@@ -1165,7 +1189,7 @@ class AccountController extends Controller
         //dump($tokenStorage->getToken()->getUser());die();
         $message = '';
 
-            $form = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']])
+        $form = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']])
             ->add('old_password', TextType::class, ['label' => "Enter Current Password", 'label_attr' => ['class' => 'CUSTOM_LABEL_CLASS'], 'attr' => ['class' => 'form-control col-lg-12'],
                 'constraints' => array(
                     new NotBlank(array('message' => $this->get('translator')->trans('This field is required'))),
@@ -1251,31 +1275,31 @@ class AccountController extends Controller
                 if ($form->isValid())
                 {
                     if ($password_current != $old_password) {
-                            $message = $this->get('translator')->trans('Please enter correct old password');
-                            return $this->render('account/updatepassword.html.twig',
-                                array('form1' => $form->createView(), 'message' => $message));
-                        }
-                        $new_password = $postData['form']['new_password'];
-                        $userInfoLoggedIn->setPassword(md5($form->get('new_password')->getData()));
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($userInfoLoggedIn);
-                        $em->flush();
-                        $tokenStorage = $this->get('security.token_storage');
-                        $tokenStorage->getToken()->getUser()->setPassword(md5($form->get('new_password')->getData()));
+                        $message = $this->get('translator')->trans('Please enter correct old password');
+                        return $this->render('account/updatepassword.html.twig',
+                            array('form1' => $form->createView(), 'message' => $message));
+                    }
+                    $new_password = $postData['form']['new_password'];
+                    $userInfoLoggedIn->setPassword(md5($form->get('new_password')->getData()));
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($userInfoLoggedIn);
+                    $em->flush();
+                    $tokenStorage = $this->get('security.token_storage');
+                    $tokenStorage->getToken()->getUser()->setPassword(md5($form->get('new_password')->getData()));
                     $messageLog = $this->get('translator')->trans('Password updated successfully');
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
                     $message = $this->get('translator')->trans('Your password is changed.Please logged in again using new password');
-                        return $this->render('account/updatepassword.html.twig',
-                            array('form1' => $form->createView(), 'message' => $message));
-                    }
-                    else
-                    {
-                        $message = $this->get('translator')->trans('Invalid token detected.Please submit again');
-                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                        return $this->render('account/updatepassword.html.twig',
-                            array('form1' => $form->createView(), 'message' => $message));
+                    return $this->render('account/updatepassword.html.twig',
+                        array('form1' => $form->createView(), 'message' => $message));
+                }
+                else
+                {
+                    $message = $this->get('translator')->trans('Invalid token detected.Please submit again');
+                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                    return $this->render('account/updatepassword.html.twig',
+                        array('form1' => $form->createView(), 'message' => $message));
 
-                    }
+                }
             }
             else
             {
@@ -1301,154 +1325,141 @@ class AccountController extends Controller
      */
     public function userinfoAction(Request $request)
     {
-        try
-        {
-            $activityLog = $this->get('app.activity_log');
-            $tokenStorage = $this->get('security.token_storage');
-        // get all cities
-        $restClient = $this->get('app.rest_client');
-        //$smsService = $this->get('app.sms_service');
-        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
-        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        //var_dump($cities_jobs_area);
-        //var_dump($cities_jobs_area['cities']);
-        //var_dump($cities_jobs_area['jobs']);
-        //print_r($cities_jobs_area['areas']);
-        /*************/
-        // only get cities according to the language provided
-        // $url = $request->getLocale() . '/api/get_cities.json';
-        // $cities = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        // var_dump($cities_jobs_area);
-        /*************/
-
-        /********/
-
-        $citiesListing = array();
-        foreach ($cities_jobs_area['cities'] as $key_city => $value_city)
-        {
-            if (array_key_exists('name', $value_city)) {
-
-                $citiesListing[($request->getLocale() == 'ar') ? $value_city['name'] : $value_city['name']] = $value_city['city_no'];
-            }
-        }
 
 
-        foreach ($cities_jobs_area['jobs'] as $key_job => $value_job)
-        {
-            if (array_key_exists('name', $value_job)) {
-                $jobListing[($request->getLocale() == 'ar') ? $value_job['name'].$value_job['job_no'] : $value_job['name'].$value_job['job_no']] = $value_job['job_no'];
-            }
-        }
+        try {
+            // get all cities
+            $restClient = $this->get('app.rest_client');
+            $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+            $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+//            dump($cities_jobs_area); die('--');
 
-        $arreaListing = array();
-        $i = 1;
-        foreach ($cities_jobs_area['areas'] as $key_area => $value_area)
-        {
-            if (array_key_exists('name', $value_area)) {
-                if ($request->getLocale() == 'ar') {
-                    $arreaListing[trim($value_area['name'])] =  trim($value_area["city_no"].'_'.$value_area['area_code']);
-                } else {
-                    $i++;
-                    $arreaListing[trim($value_area["name"])] = trim($value_area["city_no"].'_'.$value_area['area_code']);
+            $citiesListing = array();
+            foreach ($cities_jobs_area['cities'] as $key_city => $value_city)
+            {
+                if (array_key_exists('name', $value_city)) {
+
+                    $citiesListing[($request->getLocale() == 'ar') ? $value_city['name'] : $value_city['name']] = $value_city['city_no'];
                 }
             }
-        }
 
 
-        // dump($tokenStorage->getToken()->getUser());die();
+            foreach ($cities_jobs_area['jobs'] as $key_job => $value_job)
+            {
+                if (array_key_exists('name', $value_job)) {
+                    $jobListing[($request->getLocale() == 'ar') ? $value_job['name'].$value_job['job_no'] : $value_job['name'].$value_job['job_no']] = $value_job['job_no'];
+                }
+            }
 
-        $message = '';
+            $arreaListing = array();
+            $i = 1;
+            foreach ($cities_jobs_area['areas'] as $key_area => $value_area)
+            {
+                if (array_key_exists('name', $value_area)) {
+                    if ($request->getLocale() == 'ar') {
+                        $arreaListing[trim($value_area['name'])] =  trim($value_area["city_no"].'_'.$value_area['area_code']);
+                    } else {
+                        $i++;
+                        $arreaListing[trim($value_area["name"])] = trim($value_area["city_no"].'_'.$value_area['area_code']);
+                    }
+                }
+            }
 
 
-        $form = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate' , 'action' => '' ]])
-            ->add('iqama', TextType::class, array('attr' => ['class' => 'form-control col-lg-12', 'readonly' => 'readonly'],
-                'label' => 'Iqama/SSN Number',
-                'constraints' => array(
-                    new NotBlank(array('message' => $this->get('translator')->trans('This field is required'))),
-                    new Regex(
-                        array(
-                            'pattern' => ($request->get('_country') == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
-                            'match' => true,
-                            'message' => $this->get('translator')->trans('Invalid Iqama Id / SSN'))
-                    ),
+            // dump($tokenStorage->getToken()->getUser());die();
+
+            $message = '';
+
+
+            $form = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate' , 'action' => '' ]])
+                ->add('iqama', TextType::class, array('attr' => ['class' => 'form-control col-lg-12', 'readonly' => 'readonly'],
+                    'label' => 'Iqama/SSN Number',
+                    'constraints' => array(
+                        new NotBlank(array('message' => $this->get('translator')->trans('This field is required'))),
+                        new Regex(
+                            array(
+                                'pattern' => ($request->get('_country') == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
+                                'match' => true,
+                                'message' => $this->get('translator')->trans('Invalid Iqama Id / SSN'))
+                        ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']
 //                    ])
+                    )
+                ))
+                ->add('dob', DateType::class, array(
+                    'widget' => 'single_text','format' => 'yyyy-MM-dd',
+                    'label' => $this->get('translator')->trans('BirthDate ( yyyy-MM-dd)'),
+                ))
+
+                ->add('calender_converter', ChoiceType::class, array('attr' => ['class' => ''],
+                        'label' => $this->get('translator')->trans('Convert to'),
+                        'choices' => array($this->get('translator')->trans('Convert to') => '', 'Hijri' => 'Hijri', 'Gregorian' => 'Gregorian'),
+                    )
                 )
-            ))
-            ->add('dob', DateType::class, array(
-                'widget' => 'single_text','format' => 'yyyy-MM-dd',
-                'label' => $this->get('translator')->trans('BirthDate ( yyyy-MM-dd)'),
-            ))
+                ->add('dob_result', DateType::class, array(
+                    'widget' => 'single_text','format' => 'yyyy-MM-dd',
+                    'label' => $this->get('translator')->trans('Result ( yyyy-MM-dd)'),
+                ))
 
-            ->add('calender_converter', ChoiceType::class, array('attr' => ['class' => ''],
-                    'label' => $this->get('translator')->trans('Convert to'),
-                    'choices' => array($this->get('translator')->trans('Convert to') => '', 'Hijri' => 'Hijri', 'Gregorian' => 'Gregorian'),
+
+                ->add('maritial_status', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                    'label' => 'Marital Status',
+                    'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
+
+                ))
+
+                ->add('job_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                    'choices' => $jobListing,
+                    'label' => 'Job',
+                    'placeholder' => 'Select Job',
+
+                ))
+                ->add('city_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                    'choices' => $citiesListing,
+                    'label' => $this->get('translator')->trans('City'),
+                    'placeholder' => 'Select City',
+
+                ))
+                ->add('area_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                    'choices' => $arreaListing,
+                    'label' => $this->get('translator')->trans('Area'),
+                    'placeholder' => $this->get('translator')->trans('Select Area'),
+
+                ))
+
+                ->add('area_no_txt', TextType::class, array('attr' => ['class' => 'form-control col-lg-12', 'readonly' => 'readonly', 'display' => 'none' ],
+                    'label' => ' ',
+
+                ))
+
+
+
+                ->add('language', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                        'label' => $this->get('translator')->trans('Select Language'),
+                        'choices' => array('Preffered Language' => '', 'Arabic' => 'A', 'English' => 'E'),
+
+                    )
                 )
-            )
-            ->add('dob_result', DateType::class, array(
-                'widget' => 'single_text','format' => 'yyyy-MM-dd',
-                'label' => $this->get('translator')->trans('Result ( yyyy-MM-dd)'),
-            ))
+                ->add('houseno', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'House Number',
+                ))
+                ->add('pobox', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'PO Box'))
+                ->add('zip', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Zip Code'))
+                ->add('tel_office', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Telephone (Office)'))
+                ->add('tel_home', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Telephone (Home)'))
 
+                ->add('pur_group', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
+                    'label' => 'Shoppers',
+                    'placeholder' => 'Select Shopper',
+                    'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
 
-            ->add('maritial_status', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                'label' => 'Marital Status',
-                'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
+                ))
+                ->add('selected_city', HiddenType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => ''))
+                ->add($this->get('translator')->trans('Update'), SubmitType::class ,array(
+                    'attr' => array('class' => 'btn btn-primary'),
+                ) )
 
-            ))
-
-            ->add('job_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                'choices' => $jobListing,
-                'label' => 'Job',
-                'placeholder' => 'Select Job',
-
-            ))
-            ->add('city_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                'choices' => $citiesListing,
-                'label' => $this->get('translator')->trans('City'),
-                'placeholder' => 'Select City',
-
-            ))
-            ->add('area_no', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                'choices' => $arreaListing,
-                'label' => $this->get('translator')->trans('Area'),
-                'placeholder' => $this->get('translator')->trans('Select Area'),
-
-            ))
-
-            ->add('area_no_txt', TextType::class, array('attr' => ['class' => 'form-control col-lg-12', 'readonly' => 'readonly', 'display' => 'none' ],
-                'label' => ' ',
-
-            ))
-
-
-
-            ->add('language', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                    'label' => $this->get('translator')->trans('Select Language'),
-                    'choices' => array('Preffered Language' => '', 'Arabic' => 'A', 'English' => 'E'),
-
-                )
-            )
-            ->add('houseno', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'House Number',
-            ))
-            ->add('pobox', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'PO Box'))
-            ->add('zip', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Zip Code'))
-            ->add('tel_office', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Telephone (Office)'))
-            ->add('tel_home', NumberType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => 'Telephone (Home)'))
-
-            ->add('pur_group', ChoiceType::class, array('attr' => ['class' => 'form-control col-lg-12'],
-                'label' => 'Shoppers',
-                'placeholder' => 'Select Shopper',
-                'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
-
-            ))
-            ->add('selected_city', HiddenType::class, array('attr' => ['class' => 'form-control col-lg-12'],'label' => ''))
-            ->add($this->get('translator')->trans('Update'), SubmitType::class ,array(
-                'attr' => array('class' => 'btn btn-primary'),
-            ) )
-
-            ->getForm();
+                ->getForm();
 
             $activityLog = $this->get('app.activity_log');
             $data = $request->request->all();
@@ -1516,8 +1527,9 @@ class AccountController extends Controller
                     /*****************/
                     // manipulating old values from logged user data;
 
+
                     $Marital_status = substr($iktUserData['marital_status_en'],0,1);
-                    $G_birthdate    = $iktUserData['birthdate'];
+                    $birthdate    = $iktUserData['birthdate'];
                     $job_no         = $iktUserData['job_no'];
                     $city_no        = $iktUserData['city_no'];
                     $area           = $iktUserData['area'];
@@ -1528,6 +1540,7 @@ class AccountController extends Controller
                     $tel_home       = $iktUserData['tel_home'];
                     $tel_office     = $iktUserData['tel_office'];
                     $pur_group      = $iktUserData['pur_grp'];
+
                     /*****************/
 
                     /*if($postData['form']['dob']['year'] != "" ) {
@@ -1583,51 +1596,54 @@ class AccountController extends Controller
                     "   G_birthdate"       => $birth_date,
                     "   city_no"              => $postData['form']['city_no']
                     );*/
-                echo "test5";
-                echo '========-----11----=========';
-                var_dump($postData);
-                var_dump($Data);
-                echo '========-----11----=========';
-                $url = $request->getLocale() . '/api/update_user_detail.json';
-                //$this->get('session')->set('edit_customer', $Data);
-                $i=0;
-                foreach($Data as $key => $key_value) {
-                    //echo $kay_value = trim($key_value);
+                    echo "test5";
+                    echo '========-----11----=========';
+                    var_dump($postData);
+                    var_dump($Data);
+                    echo '========-----11----=========';
+                    $url = $request->getLocale() . '/api/update_user_detail.json';
+                    //$this->get('session')->set('edit_customer', $Data);
+                    $i=0;
+                    foreach($Data as $key => $key_value) {
+                        //echo $kay_value = trim($key_value);
 
-                    if($key_value !="")
-                    {
-                        echo "Key = " . $key . ", Value = " . $key_value ."==<br>";
-                        $key_field = $key;
-                        if($key == 'birthdate'){
-                            $key_field = 'G_birthdate';
+                        if($key_value !="")
+                        {
+                            echo "Key = " . $key . ", Value = " . $key_value ."==<br>";
+                            $key_field = $key;
+                            if($key == 'birthdate'){
+                                $key_field = 'birthdate';
+                            }
+                            if($key == 'marital_status_en'){
+                                $key_field = 'Marital_status';
+                            }
+
+
+
+                            $form_data[$i]   =     array(
+                                'C_id'      =>  $iktCardNo,
+                                'field'     =>  $key_field,
+                                'new_value' =>  $key_value,
+                                'old_value' =>  $iktUserData[$key],
+                                'comments'  =>  'Update registered user details for field'.$key_field
+                            );
+                            $i++;
                         }
-                        if($key == 'marital_status_en'){
-                            $key_field = 'Marital_status';
-                        }
-
-
-
-                        $form_data[$i]   =     array(
-                            'C_id'      =>  $iktCardNo,
-                            'field'     =>  $key_field,
-                            'new_value' =>  $key_value,
-                            'old_value' =>  $iktUserData[$key],
-                            'comments'  =>  'Update registered user details for field'.$key_field
-                        );
-                        $i++;
                     }
-                }
-                $postData = json_encode($form_data);
-                //print_r($postData);
+                    $postData = json_encode($form_data);
+                    //print_r($postData);
 
-                $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                print_r($data);
-                // var_dump($Data);
-                /***********/
-                //$csrf_token_udatepassword = trim($postData['_csrf_token_udatepassword']);
-                // $new_password = $postData['form']['new_password'];
+                    $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                    print_r($data);
+                    // var_dump($Data);
+                    /***********/
+                    //$csrf_token_udatepassword = trim($postData['_csrf_token_udatepassword']);
+                    // $new_password = $postData['form']['new_password'];
                     $messageLog = $this->get('translator')->trans('User details Updated');
+
+
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
+
                     $message = $this->get('translator')->trans('Account updated successfully');
                     return $this->render('account/userinfo.html.twig',
                         array('form1' => $form->createView(), 'message' => $message));
@@ -1658,7 +1674,131 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * @Route("/{_country}/{_locale}/account/update" , name="account_update")
+     * @param Request $request
+     * @return Response
+     */
+    public function updateProfileAction(Request $request)
+    {
+        $user = $this->get('session')->get('iktUserData');
+        $restClient = $this->get('app.rest_client');
+        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $cities = $cities_jobs_area['cities'];
+        $citiesArranged = array();
+        foreach ($cities as $key => $value) {
+            $citiesArranged[$value['name']] = $value['city_no'];
+        }
+        $jobs = $cities_jobs_area['jobs'];
+        $jobsArranged = array();
+        foreach ($jobs as $key => $value) {
+            $jobsArranged[$value['name']] = $value['job_no'];
+        }
+        $areas = $cities_jobs_area['areas'];
+        $areasArranged = array();
+        foreach ($areas as $key => $value) {
+            if (!isset($value['name'])) {
+                continue;
+            }
+            $areasArranged[$value['name']] = $value['name'];
+        }
+        $areasArranged['-1'] = '-1';
+        $areas = $this->json($cities_jobs_area['areas']);
+        $birthdate = explode('/', $user['birthdate']);
+        if ($birthdate[2] > 1850) {
+            $dateType = 'g';
+            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+            $dob = $date->format(AppConstant::DATE_FORMAT);
+            $dob_h = '';
+        } else {
+            $dateType = 'h';
+            $dob = '';
+            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+            $dob_h = $date->format(AppConstant::DATE_FORMAT);
+        }
+        $dataArr = array(
+            'date_type' => $dateType,
+            'job_no' => $user['job_no'],
+            'maritial_status' => $user['marital_status_en'][0],
+            'language' => $user['lang'],
+            'city_no' => $user['city_no'],
+            'pur_group' => $user['pur_grp'],
+            'dob' => new \DateTime($dob),
+            'dob_h' => new \DateTime($dob_h),
+        );
 
+        $form = $this->createForm(IktUpdateType::class, $dataArr, array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                    'cities' => $citiesArranged,
+                    'jobs' => $jobsArranged,
+                    'areas' => $areasArranged,
+                )
+            )
+        );
+        $reference_year = array('gyear' => 2017, 'hyear' => 1438);
+        $current_year = date('Y');
+        $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
+        $form->handleRequest($request);
+        $pData = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($pData['date_type'] == 'g') {
+                $dateBirth = $pData['dob']->format('Y-d-m');
+            } else {
+                $dateBirth = $pData['dob_h']->format('Y-d-m');
+            }
+            $profileFields = array(
+                "birthdate" => array('old_value' => $user['birthdate'], 'new_value' => $dateBirth),
+                "Marital_status" => array('old_value' => $user['marital_status_en'][0], 'new_value' => $pData['maritial_status']),
+                "job_no" => array('old_value' => $user['job_no'], 'new_value' => $pData['job_no']),
+                "city_no" => array('old_value' => $user['city_no'], 'new_value' => $pData['city_no']),
+                "area" => array('old_value' => $user['area'], 'new_value' => ($pData['area_no'] == '-1') ? $pData['area_text'] : $pData['area_no']),
+                "lang" => array('old_value' => $user['lang'], 'new_value' => ($pData['language'])),
+                "pur_grp" => array('old_value' => $user['pur_grp'], 'new_value' => ($pData['pur_group'])),
+            );
+            // now pass only those fields which are changed and are not empty
+            $count = 0;
+            foreach ($profileFields as $key => $val) {
+                if ($val['new_value'] != '' && ($val['new_value'] != $val['old_value'])) {
+                    $form_data[$count] = array(
+                        'C_id' => $user['C_id'],
+                        'field' => $key,
+                        'new_value' => $val['new_value'],
+                        'old_value' => $val['old_value'],
+                        'comments' => 'Update registered user details for field ' . $key
+                    );
+                }
+                $count++;
+            }
+            try {
+                $activityLog = $this->get('app.activity_log');
+                $postData = json_encode($form_data);
+                $url = $request->getLocale() . '/api/update_user_detail.json';
+                $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $user['C_id'], $form_data);
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Profile has been updated');
+            } catch (Exception $e) {
+                die('in catch');
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('error', 'Error While processing your request');
+                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_ERROR, $user['C_id'], $form_data);
+
+            }
+            return $this->redirectToRoute('account_update', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+        }
+        return $this->render('/account/update.html.twig',
+            array(
+                'form' => $form->createView(),
+                'areas' => $areas,
+                'islamicyear' => $islamicYear
+            )
+        );
+    }
 
     /**
      * @Route("/{_country}/{_locale}/account/salem")
@@ -1667,7 +1807,7 @@ class AccountController extends Controller
      */
     public function salemAction(Request $request){
         $form = $this->createFormBuilder(null, ['attr'=>['novalidate'=>'novalidate']])
-           ->add('iqamaid', TextType::class, ['label'=>"Iqama/SSN Number", 'attr'=>['disabled'=>'disabled']])
+            ->add('iqamaid', TextType::class, ['label'=>"Iqama/SSN Number", 'attr'=>['disabled'=>'disabled']])
             ->add('new_iktissab_id', RepeatedType::class, [
                 'type' => TextType::class,
                 'invalid_message' => 'Iktissab fields must match',
@@ -1677,10 +1817,10 @@ class AccountController extends Controller
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
                     new Regex(array('pattern'=>'/^[0-9]{8}$/', 'message'=> 'Invalid Iktissab number')))
-                ])
-           ->add('comment', TextareaType::class, ['label'=>'Comments', 'constraints'=>[new NotBlank()]])
-           ->add('submit', SubmitType::class)
-           ->getForm();
+            ])
+            ->add('comment', TextareaType::class, ['label'=>'Comments', 'constraints'=>[new NotBlank()]])
+            ->add('submit', SubmitType::class)
+            ->getForm();
         $postData = $request->request->all();
         if(!empty($postData)){
             $form->submit($postData['form'], ['method'=>'POST'], false);
@@ -1691,9 +1831,9 @@ class AccountController extends Controller
         }
 
 
-       return $this->render('account/salem.html.twig',
-           array('form1'=>$form->createView())
-       );
+        return $this->render('account/salem.html.twig',
+            array('form1'=>$form->createView())
+        );
     }
 
     /**
@@ -1737,8 +1877,7 @@ class AccountController extends Controller
             //var_dump($iktUserData);
             $posted = array();
             $iktCardNo = $iktUserData['C_id'];
-            echo '--'.$iktID_no = $iktUserData['ID_no'];
-
+            // --> echo '--'.$iktID_no = $iktUserData['ID_no'];
             $iktID_no = $iktUserData['ID_no'];
             $iktMobile_no = $iktUserData['mobile'];
 
@@ -1998,6 +2137,120 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * @Route("/{_country}/{_locale}/account/transactions/{page}", name="ikt_transactions")
+     */
+    public function transactionsAction(Request $request, $page)
+    {
+        if ($request->query->get('draw')) {
+            $page = $request->query->get('draw');
+        }
+        $restClient = $this->get('app.rest_client');
+        //fetch trans count and save in session for future
+        if (!$this->get('session')->get('trans_count')) {
+            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
+            $countData = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            if ($countData['success'] == true) {
+                $this->get('session')->set('trans_count', $countData['transaction_count']);
+            }
+        }
+        $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_trans_bypage/' . $page . '.json';
+        // echo AppConstant::WEBAPI_URL.$url;
+        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        if ($data['success'] == true) {
+            // format data before displaying in datatables
+            $count = 0;
+            foreach ($data['data'] as $key => $value) {
+                $trans[$count] = array(
+                    ($request->getLocale() == 'en') ? $value['bran_en'] : $value['bran_ar'],
+                    $value['inv_no'],
+                    number_format($value['inv_amt'], 2),
+                    $value['trans_date'],
+                    number_format($value['credit'], 2),
+                    number_format($value['debt'], 2),
+                    number_format($value['expired'], 2),
+
+                );
+                $count++;
+            }
+            $resp['draw'] = $page;
+            $resp['recordsTotal'] = $this->get('session')->get('trans_count');;
+            $resp['recordsFiltered'] = $this->get('session')->get('trans_count');;
+            $resp['data'] = $trans;
+            return new Response(json_encode($resp));
+        }
+        return new Response("Transaction resp");
+    }
 
 
+
+    /**
+     * @Route("/{_country}/{_locale}/forgot/email", name="forgot_email")
+     * Request $request
+     */
+    public function forgotEmailAction(Request $request)
+    {
+        $error = array('success' => true, 'message' =>'');
+        $restClient = $this->get('app.rest_client');
+        $smsService = $this->get('app.sms_service');
+        $form = $this->createForm(ForgotEmailType::class, array(), array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                )
+            )
+        );
+
+        $form->handleRequest($request);
+        $pData = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $accountEmail = $this->iktExist($pData['iktCardNo']);
+                $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($data['success'] == "true") {
+
+                    // match the iqama numbers ( from form and other from the local data)
+                    if ($pData['iqama'] != $data['user']['ID_no']) {
+                        $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama number')));
+
+
+                    }else{
+                        $message = $this->get('translator')->trans("Your account registration email is %s", ["%s"=>$accountEmail]);
+                        $acrivityLog = $this->get('app.activity_log');
+                        //send sms code
+                        $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+
+                        $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
+                        $error['success'] = true;
+                        $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', [ "%s" => substr($data['user']['mobile'] , 8, 12)] );
+                    }
+
+                }
+            } catch (Exception $e) {
+                $error['success'] = false;
+                $error['message'] = $e->getMessage();
+
+            }
+        }
+        return $this->render('/account/forgot_email.twig',
+            array(
+                'form' => $form->createView(),
+                'error' => $error
+            )
+        );
+    }
+
+    function iktExist($ikt)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $checkIktCard = $em->getRepository('AppBundle:User')->find($ikt);
+        if (is_null($checkIktCard)) {
+            Throw new Exception($this->get('translator')->trans('Card is not registered on website'), 1);
+        } else {
+            return $checkIktCard->getEmail();
+        }
+
+    }
 }

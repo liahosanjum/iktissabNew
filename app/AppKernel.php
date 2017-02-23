@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Circle\RestClientBundle\CircleRestClientBundle(),
             new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),
             new AppBundle\AppBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             
         ];
 

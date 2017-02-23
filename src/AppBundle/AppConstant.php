@@ -39,14 +39,27 @@ class AppConstant
     const  ACTIVITY_UPDATE_USERINFO_SUCCESS = 'UpdateUserInfoSuccessfull';
     const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
 
+    const ACTIVITY_FORGOT_EMAIL_SMS = 'SmsSentForForgotEmail';
+
+
+    const  ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS = 'UpdateRestPasswordSuccessfull';
+    const  ACTIVITY_UPDATE_RESETPASSWORD_ERROR   = 'UpdateRestPasswordError';
+
+    const  ACTIVITY_FORGOT_PASSWORD_SUCCESS = 'UpdateForgotPasswordSuccessfull';
+    const  ACTIVITY_FORGOT_PASSWORD_ERROR   = 'UpdateForgotPasswordError';
+
+
+
+
+
 
     //related to cookies
-    const  COOKIE_EXPIRY = 2592000; //'86400*30';
-    const  COOKIE_LOCALE = 'c_locale';
-    const  COOKIE_COUNTRY = 'c_country';
+    const  COOKIE_EXPIRY   = 2592000; //'86400*30';
+    const  COOKIE_LOCALE   = 'c_locale';
+    const  COOKIE_COUNTRY  = 'c_country';
 
     //webservice main url
-    const WEBAPI_URL = 'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
+    const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
     
     const IKTISSAB_API_URL    = 'http://150.150.101.26:8080/iktserv2_2/web/%s/api/%s.json';
     const IKTISSAB_API_USER   = "anounymouse@email.com";
@@ -68,4 +81,16 @@ class AppConstant
     const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
 
     const INVALID_DATA = "Invalid Data";
+
+
+
+    const SECRET_KEY_FP = 'SDAWEI123123AJT';
+
+    const DATE_FORMAT = "m/d/Y";
+    
+
+
+
+     
+
 }

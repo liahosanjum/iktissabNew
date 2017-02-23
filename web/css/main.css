@@ -1,0 +1,7 @@
+label.required:after {
+    content: " *";
+    color: #e32;
+}
+label.error{
+    color: #e32;
+}

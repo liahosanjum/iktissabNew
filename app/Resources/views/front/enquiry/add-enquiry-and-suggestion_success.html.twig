@@ -1,0 +1,46 @@
+{% extends ':front:layout.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div>
+                {{ 'Inquiries and Suggestions'|trans}}
+            </div>
+            <div>
+
+                {{ 'Our Dear Customer'|trans}}
+                <br>
+                {{ 'We are pleased to be one of Alothaim Markets customers'|trans }}
+                <br>
+                <br>
+                {{ 'We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply.'|trans }}
+                <br>
+                <br>
+                {{ 'We extend our thanks to you for communicating with us via the website of Alothaim Markets company and will be always happy to serve you round the clock.'|trans }}
+                <br>
+                <br>
+                {{ 'Greetings'|trans }}
+                <br>
+                {{ 'Customer Service Team'|trans }}
+                <br>
+                <!--<a href="">test</a>-->
+                <br>
+
+
+            </div>
+        </div>
+  </div>
+</div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+{% endblock %}
+

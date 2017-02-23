@@ -10,16 +10,3 @@ parameters:
     mailer_user: fidakhan0007@gmail.com
     mailer_password: qwer@1234
     secret: e31eee78f64f1557ab4e9b33e9a680749cab33de
-    sms_parameters:
-        mobily_url: "http://www.mobily.ws/api/msgSend.php"
-        mobily_user: "Othaim"
-        mobily_pass: "0557554443"
-        mobily_sender: "Iktissab"
-        mobily_app_type: "68"
-        mobily_domain: "othaimmarkets.com"
-        mobily_user_eg: "Iktissab.eg"
-        mobily_pass_eg: "Iktissab.eg*2016"
-        mobily_sender_eg: "Iktissab.eg"
-        mobily_domain: "othaimmarkets.com"
-    test: asdf
-

@@ -35,7 +35,8 @@ class FaqsType extends AbstractType
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14)))
-            ->add('question', TextType::class, array('label' => 'Ask your Question',
+
+            ->add('question', TextareaType::class, array('label' => 'Ask your Question',
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
                 )))

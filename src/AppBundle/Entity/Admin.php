@@ -15,10 +15,11 @@ class Admin
     /**
      * @var integer
      *
-     * @ORM\Column(name="ikt_card_no", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
-    private $iktCardNo;
+    private $id;
 
     /**
      * @var string
@@ -50,16 +51,7 @@ class Admin
 
 
 
-    /**
-     * Get iktCardNo
-     *
-     * @return integer
-     */
-    public function getIktCardNo()
-    {
-        return $this->iktCardNo;
-    }
-
+    
     /**
      * Set email
      *
@@ -168,5 +160,15 @@ class Admin
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

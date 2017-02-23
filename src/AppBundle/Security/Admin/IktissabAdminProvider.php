@@ -39,8 +39,6 @@ class IktissabAdminProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-        
-
         $user = $this->em->createQueryBuilder()
             ->select('u')
             ->from('AppBundle:Admin', 'u')
@@ -53,7 +51,7 @@ class IktissabAdminProvider implements UserProviderInterface
 
         if ($user) {
             // return new WebserviceUser($username, $password, $salt, $roles);
-            return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTADMIN'));
+            return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getId(), '', array('ROLE_IKTADMIN'));
             // TODO: Implement loadUserByUsername() method.
         }
         throw new UsernameNotFoundException(

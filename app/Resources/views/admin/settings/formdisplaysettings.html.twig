@@ -1,0 +1,69 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
+           <div class="addNew">
+               <a href="{{ path('admin_addformdisplaysetting')}}">ADD New Record</a>
+           </div>
+            <div class="header-title-wrapper_settings">
+                {{ message }}
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 form-display-settings">
+            <table class="table">
+
+                        <thead>
+                        <tr>
+                            <th>S.no</th>
+                            <th>FormType</th>
+                            <th>Country</th>
+                            <th>Submissions</th>
+                            <th>Limit To</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+
+                {% set i = 1 %}
+                {% for item in data %}
+                <tbody>
+                <tr>
+                    <td>{{  i }}</td>
+                    <td>{{ item.FormType }}</td>
+                    <td>{{ item.Country }}</td>
+                    <td>{{ item.Submissions }}</td>
+                    <td>{{ item.Limitto }}</td>
+                    <td>{{ item.Status }}</td>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsdelete/{{ item.Id }}" onclick="return delRecord({{ item.Id }})">Delete</a>
+                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsupdate/{{ item.Id }}">Update</a>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </td>
+                </tr>
+
+                {% set i = i + 1 %}
+                {% endfor %}
+
+
+
+        </tbody>
+            </table>
+            </div>
+<style type="text/css">
+
+    </style>
+{% endblock %}
+
