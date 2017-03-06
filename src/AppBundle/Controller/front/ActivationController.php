@@ -103,6 +103,8 @@ class ActivationController extends Controller
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $locale = $request->getLocale();
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+        echo AppConstant::WEBAPI_URL.$url;
+//        die('---');
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
 //        echo AppConstant::WEBAPI_URL . $url;
         if ($data['success'] != true) {
@@ -460,10 +462,10 @@ class ActivationController extends Controller
         try {
             $this->checkOnline(array('iktCardNo' => $newCustomer['C_id'], 'email' => $newCustomer['email']));
             $saveCustomer = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $cData, array('Country-Id' => strtoupper($request->get('_country'))));
-            var_dump($cData);
-            var_dump($url);
-            var_dump($saveCustomer);
-            die('----');
+//            var_dump($cData);
+//            var_dump($url);
+//            var_dump($saveCustomer);
+//            die('----');
             if ($saveCustomer != true) {
                 Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
             }

@@ -14,6 +14,7 @@ use AppBundle\Form\ForgotEmailType;
 use AppBundle\Form\FaqsType;
 
 
+use AppBundle\Form\IktUpdateType;
 use AppBundle\Form\MobileType;
 use AppBundle\Form\UpdateEmailType;
 use AppBundle\Form\UpdateFullnameType;
@@ -1165,7 +1166,131 @@ class AccountController extends Controller
         }
 
     }
+    /**
+     * @Route("/{_country}/{_locale}/account/update" , name="account_update")
+     * @param Request $request
+     * @return Response
+     */
+    public function updateProfileAction(Request $request)
+    {
+        $user = $this->get('session')->get('iktUserData');
+        $restClient = $this->get('app.rest_client');
+        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $cities = $cities_jobs_area['cities'];
+        $citiesArranged = array();
+        foreach ($cities as $key => $value) {
+            $citiesArranged[$value['name']] = $value['city_no'];
+        }
+        $jobs = $cities_jobs_area['jobs'];
+        $jobsArranged = array();
+        foreach ($jobs as $key => $value) {
+            $jobsArranged[$value['name']] = $value['job_no'];
+        }
+        $areas = $cities_jobs_area['areas'];
+        $areasArranged = array();
+        foreach ($areas as $key => $value) {
+            if (!isset($value['name'])) {
+                continue;
+            }
+            $areasArranged[$value['name']] = $value['name'];
+        }
+        $areasArranged['-1'] = '-1';
+        $areas = $this->json($cities_jobs_area['areas']);
+        $birthdate = explode('/', $user['birthdate']);
+        if ($birthdate[2] > 1850) {
+            $dateType = 'g';
+            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+            $dob = $date->format(AppConstant::DATE_FORMAT);
+            $dob_h = '';
+        } else {
+            $dateType = 'h';
+            $dob = '';
+            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+            $dob_h = $date->format(AppConstant::DATE_FORMAT);
+        }
+        $dataArr = array(
+            'date_type' => $dateType,
+            'job_no' => $user['job_no'],
+            'maritial_status' => $user['marital_status_en'][0],
+            'language' => $user['lang'],
+            'city_no' => $user['city_no'],
+            'pur_group' => $user['pur_grp'],
+            'dob' => new \DateTime($dob),
+            'dob_h' => new \DateTime($dob_h),
+        );
 
+        $form = $this->createForm(IktUpdateType::class, $dataArr, array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                    'cities' => $citiesArranged,
+                    'jobs' => $jobsArranged,
+                    'areas' => $areasArranged,
+                )
+            )
+        );
+        $reference_year = array('gyear' => 2017, 'hyear' => 1438);
+        $current_year = date('Y');
+        $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
+        $form->handleRequest($request);
+        $pData = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($pData['date_type'] == 'g') {
+                $dateBirth = $pData['dob']->format('Y-d-m');
+            } else {
+                $dateBirth = $pData['dob_h']->format('Y-d-m');
+            }
+            $profileFields = array(
+                "birthdate" => array('old_value' => $user['birthdate'], 'new_value' => $dateBirth),
+                "Marital_status" => array('old_value' => $user['marital_status_en'][0], 'new_value' => $pData['maritial_status']),
+                "job_no" => array('old_value' => $user['job_no'], 'new_value' => $pData['job_no']),
+                "city_no" => array('old_value' => $user['city_no'], 'new_value' => $pData['city_no']),
+                "area" => array('old_value' => $user['area'], 'new_value' => ($pData['area_no'] == '-1') ? $pData['area_text'] : $pData['area_no']),
+                "lang" => array('old_value' => $user['lang'], 'new_value' => ($pData['language'])),
+                "pur_grp" => array('old_value' => $user['pur_grp'], 'new_value' => ($pData['pur_group'])),
+            );
+            // now pass only those fields which are changed and are not empty
+            $count = 0;
+            foreach ($profileFields as $key => $val) {
+                if ($val['new_value'] != '' && ($val['new_value'] != $val['old_value'])) {
+                    $form_data[$count] = array(
+                        'C_id' => $user['C_id'],
+                        'field' => $key,
+                        'new_value' => $val['new_value'],
+                        'old_value' => $val['old_value'],
+                        'comments' => 'Update registered user details for field ' . $key
+                    );
+                }
+                $count++;
+            }
+            try {
+                $activityLog = $this->get('app.activity_log');
+                $postData = json_encode($form_data);
+                $url = $request->getLocale() . '/api/update_user_detail.json';
+                $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $user['C_id'], $form_data);
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Profile has been updated');
+            } catch (Exception $e) {
+                die('in catch');
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('error', 'Error While processing your request');
+                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_ERROR, $user['C_id'], $form_data);
+
+            }
+            return $this->redirectToRoute('account_update', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+        }
+        return $this->render('/account/update.html.twig',
+            array(
+                'form' => $form->createView(),
+                'areas' => $areas,
+                'islamicyear' => $islamicYear
+            )
+        );
+    }
 
 
 
