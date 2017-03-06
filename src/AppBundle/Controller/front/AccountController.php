@@ -79,7 +79,7 @@ class AccountController extends Controller
     {
         try
         {
-            $activityLog = $this->get('app.activity_log');
+            $activityLog      = $this->get('app.activity_log');
             $Country_id       = strtoupper($this->getCountryId($request));
             $iktUserData      = $this->get('session')->get('iktUserData');
             $posted           = array();
@@ -89,8 +89,8 @@ class AccountController extends Controller
             $currentEmail     = $iktUserData['email'];
             $mobile  = $iktUserData['mobile'];
             $form = $this->createForm(UpdateEmailType::class, array() ,array(
-                    'extras' => array(
-                    'email'  => $currentEmail
+                    'extras'  => array(
+                    'email'   => $currentEmail
             )));
             // form posted data
             $data = $request->request->all();
@@ -287,7 +287,7 @@ class AccountController extends Controller
                     else
                     {
                         $message = $this->get('translator')->trans('An invalid exception occurred');
-                        return $this->render('account/email.html.twig',
+                        return $this->render('account/sendsmssuccess.html.twig',
                             array('message' => $message)
                         );
                     }
@@ -1026,8 +1026,6 @@ class AccountController extends Controller
                     echo "test2".$postData['form']['maritial_status'];
                     /*****************/
                     // manipulating old values from logged user data;
-
-
                     /*$Marital_status = substr($iktUserData['marital_status_en'],0,1);
                     $birthdate    = $iktUserData['birthdate'];
                     $job_no         = $iktUserData['job_no'];
@@ -1040,15 +1038,12 @@ class AccountController extends Controller
                     $tel_home       = $iktUserData['tel_home'];
                     $tel_office     = $iktUserData['tel_office'];
                     $pur_group      = $iktUserData['pur_grp'];*/
-
                     /*****************/
-
                     /*if($postData['form']['dob']['year'] != "" ) {
                         $birth_date = $postData['form']['dob']['year'] . "-" . $postData['form']['dob']['month'] . "-" . $postData['form']['dob']['day'];
                     }else{
                         $birth_date = "";
                     }*/
-
                     if($postData['form']['dob_result'] !="")
                     {
                         $birth_date = $postData['form']['dob_result'];
@@ -1235,9 +1230,10 @@ class AccountController extends Controller
                 array('extras' => array('iktID_no'  => $iktID_no, 'country' => $country_id)
             ));
             $data = $request->request->all();
-            $url = $request->getLocale() . '/api/update_lost_card.json';
-            //print_r($data);exit;
-            if(!empty($data)) {
+            $url  = $request->getLocale() . '/api/update_lost_card.json';
+            // print_r($data);exit;
+            if(!empty($data))
+            {
                     /************************/
                     $form_data = array(
                         'ID_no'     => $iktID_no,
@@ -1439,25 +1435,25 @@ class AccountController extends Controller
         );
         $form->handleRequest($request);
         $pData = $form->getData();
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             try {
                 $accountEmail = $this->iktExist($pData['iktCardNo']);
                 $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
                 // echo AppConstant::WEBAPI_URL.$url;
                 $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                if ($data['success'] == "true")
+                // print_r($data);exit;
+
+                if($data['success'] == true)
                 {
                     // match the iqama numbers ( from form and other from the local data)
                     if ($pData['iqama'] != $data['user']['ID_no']) {
                         $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama number')));
-
-
                     }else{
                         $message = $this->get('translator')->trans("Your account registration email is %s", ["%s"=>$accountEmail]);
                         $acrivityLog = $this->get('app.activity_log');
                         //send sms code
                         $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
-
                         $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
                         $error['success'] = true;
                         $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', [ "%s" => substr($data['user']['mobile'] , 8, 12)] );

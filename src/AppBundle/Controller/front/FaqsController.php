@@ -422,16 +422,15 @@ class FaqsController extends Controller
     public function getFaqList(Request $request)
     {
         $restClient = $this->get('app.rest_client');
-
-            $url = $request->getLocale() . '/api/faqlist.json';
-            // echo AppConstant::WEBAPI_URL.$url;
-            $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
-            var_dump($data);
-            $i = 0;
-            $message = '';
-            return $this->render('front/faqslist.html.twig', array(
-                'message' => $message, 'Data' => $data['data']
-            ));
+        $url = $request->getLocale() . '/api/faqlist.json';
+        // echo AppConstant::WEBAPI_URL.$url;
+        $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
+        // var_dump($data);
+        $i = 0;
+        $message = '';
+        return $this->render('front/faqslist.html.twig', array(
+            'message' => $message, 'Data' => $data['data']
+        ));
     }
 
 
