@@ -316,8 +316,6 @@ class ActivationController extends Controller
         } else {
             Throw new Exception($this->get('translator')->trans($data['message']), 1);
         }
-
-
     }
 
     /**

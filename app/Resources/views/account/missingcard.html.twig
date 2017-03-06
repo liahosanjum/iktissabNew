@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div>
+                    {{ 'Update Missing Card'|trans}}
+                </div>
+                <div>
+                    {{ 'Dear customer'|trans}}
+                </div>
+                <div>
+                    {{ 'You can change your IKTISSAB Card with the new one through the following form'|trans }}
+                </div>
+                {% if message != '' %}
+                <div>
+                    {{ message }}
+                </div>
+                {% endif %}
+
+                <!--<a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>-->
+
+                <div class="col-lg-12 text-center">
+                    {{ form_start(form) }}
+                    {{ form_row(form.missingcard_registered_iqamaid) }}
+                    {{ form_row(form.new_iktissab_id) }}
+                    {{ form_row(form.new_iktissab_id) }}
+                    {{ form_row(form.comment_missingcard) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
+{% endblock %}
+

@@ -40,10 +40,9 @@ class DefaultController extends Controller
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
 
 
-        if (isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieLocale <> '') {
-            return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+        if(isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieLocale <> ''){
+            return $this->redirect($this->generateUrl('homepage', array('_country'=>$cookieCountry,'_locale'=>$cookieLocale)));
         }
-
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath(
                     $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
@@ -65,8 +64,6 @@ class DefaultController extends Controller
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
         $response->sendHeaders();
         //TODO:: add template for home page display
-
-
     }
 
 
@@ -110,10 +107,8 @@ class DefaultController extends Controller
             ->add('forgot_password', SubmitType::class, array(
                 'attr' => array('class' => 'btn btn-primary', 'id' => 'forgot_password'),
                 'label' => $this->get('translator')->trans('E-mail new password'),
-            ))
-            ->getForm();
+            ))->getForm();
         $activityLog = $this->get('app.activity_log');
-
         $form->handleRequest($request);
         // $posted = array();
         // $postData = $request->request->all();
@@ -233,10 +228,10 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $time = (integer)$time;
         $dataValue = serialize(array('time' => $time, 'token' => $token));
-        $id = $this->decrypt($id, AppConstant::SECRET_KEY_FP);
-        $user = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue, 'iktCardNo' => $id));
-        print_r($user);
-        if ($user && $user != null) {
+        $id    = $this->decrypt($id, AppConstant::SECRET_KEY_FP);
+        $user  = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
+        // print_r($user);
+        if(isset($user) && $user != null) {
             $user_email = $user->getEmail();
         } else {
             $user_email = '';
@@ -395,6 +390,13 @@ class DefaultController extends Controller
         //print_r($query);
         $users = $query->getResult();
         print_r($users);
+        // $this->get('session')->set('passwordrest', 'abc@123456');
+        // $response = new Response();
+        // $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'reset_password',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
+        // echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
+        // $response->sendHeaders();
+        // $this->get('session')->get('passwordrest');
+        // return $this->redirect($this->generateUrl('resetpassword', array('_country'=>'sa','_locale'=>'en')));
     }
     /**
      * @Route("{_country}/{_locale}/subscription/", name="subscription")
@@ -492,7 +494,6 @@ class DefaultController extends Controller
                 } else {
                     $return = array('error' => true, 'message' => $this->get('translator')->trans('You have already subscribed'));
                 }
-
             }
             echo json_encode($return);
             die();
@@ -505,6 +506,9 @@ class DefaultController extends Controller
             )
         );
     }
+   
+
+
 
 
     private function getIP()

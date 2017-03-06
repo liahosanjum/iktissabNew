@@ -28,7 +28,8 @@ class EnquiryAndSuggestionController extends Controller
             'extras' => array(
                 'country' => $comFunction->getCountryCode($request)
         )));
-        echo "===>>".$display_settings = $this->getFormSubmissionSettings($request, $form);
+
+        $display_settings = $this->getFormSubmissionSettings($request, $form);
         $show_form = true;
 
         $form->handleRequest($request);
@@ -38,7 +39,7 @@ class EnquiryAndSuggestionController extends Controller
             {
                 try {
                     $data = $this->getEmailList($request, 'Inquiries And Suggestion', $form->get('reason')->getData());
-                    //print_r($data);exit;
+                    // print_r($data);exit;
                     if ($data['success'])
                     {
                         $enquiryAndSuggestion->setCountry($request->get('_country'));
@@ -58,7 +59,7 @@ class EnquiryAndSuggestionController extends Controller
                         return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $message ,'show_form' => $show_form));
                     }
 
-                } catch (\Exception $e) {
+                }   catch (\Exception $e) {
                     $message = $e->getMessage();
                     return $this->render(
                         'front/enquiry/add-enquiry-and-suggestion.html.twig',
@@ -68,30 +69,26 @@ class EnquiryAndSuggestionController extends Controller
             }
             else
             {
-                $message = 'testing testing11';
+                $message = '';
                 return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
                     array('form' => $form->createView(),'message' => $message,'show_form' => $show_form )
                 );
             }
-            //
         }
         else
         {
             if($form->isSubmitted())
             {
-                $message = $this->get('translator')->trans('You have already submitted the form');
+                $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
             }
             else
-            {   $message = 'You have already submitted the form.You cannot submit the form right now'; }
-
+            {   $message = ''; // 0
+            }
             $show_form  = false;
             return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
                 array('form' => $form->createView(), 'message' => $message , 'show_form' => $show_form ));
-
         }
-
         $message = '';
-
         return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
             array('form' => $form->createView(),'message' => $message,'show_form' => $show_form )
         );
@@ -104,11 +101,11 @@ class EnquiryAndSuggestionController extends Controller
             $country_current = $this->getCountryCode($request);
             if ($enquiry_type == 'T') {
                 $enguiry_email_type = 'technical';
-            } else {
+            } else
+            {
                 // default email are all others but for technical we have to choose T
                 $enguiry_email_type = 'other';
             }
-
 
             $language = $request->getLocale();
             $em = $this->getDoctrine()->getManager();
@@ -153,12 +150,12 @@ class EnquiryAndSuggestionController extends Controller
         try
         {
             $commFunction    = new FunctionsController();
+            $country_id      = $commFunction->getCountryCode($request);
             $formSettingList = $this->getDoctrine()
                 ->getRepository('AppBundle:FormSettings')
-                ->findOneBy(array('status' => 1, 'formtype' => $form));
-            // print_r($formSettingList);
+                ->findOneBy(array('status' => 1, 'formtype' => $form , 'country' => $country_id));
+            // print_r($formSettingList); exit;
             $country_id = $commFunction->getCountryCode($request);
-
             $i = 0;
             if($formSettingList == '' && $formSettingList == null)
             {
@@ -200,11 +197,14 @@ class EnquiryAndSuggestionController extends Controller
                     $formSettingList1 = $this->getDoctrine()
                         ->getRepository('AppBundle:EnquiryAndSuggestion')
                         ->findBy(array('user_ip' => $user_ip, 'country' => $country_id), array('id' => 'DESC'), $number_of_entries );
-                    //  print_r($formSettingList1);
+                    // print_r($formSettingList1);exit;
 
                     if(isset($formSettingList1) && $formSettingList1 != null)
                     {
-                          $i=0;
+                        if(count($formSettingList1) < $number_of_entries){
+                            return true;
+                        }
+                        $i=0;
                           foreach ($formSettingList1 as $form_setting_list)
                           {
                               echo '<br>'.'===>'.$date_of_submission = $formSettingList1[$i]->getCreated()->format('Y-m-d H:i:s');
@@ -239,12 +239,15 @@ class EnquiryAndSuggestionController extends Controller
                           // change it to false
                           return false;
                     }
+                    else{
+                        return true;
+                    }
                 }
             }
         }
         catch (\Exception $e)
         {
-            echo $message = $e->getMessage();
+            echo   $message = $e->getMessage();
             return $this->render('front/faqs.html.twig', array(
                 'form' => $form->createView(), 'message' => $message,
             ));

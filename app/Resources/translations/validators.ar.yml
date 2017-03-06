@@ -29,4 +29,10 @@
 'Mobile Number Must be 14 digits': 'Mobile Number Must be 14 digits ar'
 'Invalid captcha code': 'لكلمة التحقق غير صحيحة'
 "Password and confirm password must match": "Password and confirm password must match ar"
+'Invalid Iktissab Card Number': 'رقم بطاقة اكتساب غير صحيح'
+'Iqama/SSN fields must match': 'رقم الهوية أو الإقامة غير متطابق'
+'New email and confirm email fields must match': 'New email and confirm email fields must match ar'
+"Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1 ar"
+"Please enter 10 digits mobile number starting with 5": "Please enter 10 digits mobile number starting with 5 ar"
+
 

@@ -19,13 +19,12 @@
             {% if show_form == true %}
                 <div class="row">
                     <div class="col-lg-12 text-center">
-
                         {{ form_start(form) }}
-                        {{ form_row(form.name) }}
-                        {{ form_row(form.job) }}
-                        {{ form_row(form.mobile) }}
-                        {{ form_row(form.email) }}
-                        {{ form_row(form.captchaCode) }}
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.job) }}
+                            {{ form_row(form.mobile) }}
+                            {{ form_row(form.email) }}
+                            {{ form_row(form.captchaCode) }}
                         {{ form_end(form) }}
                     </div>
 
@@ -34,14 +33,13 @@
     </div>
   </div>
 </div>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
         });
     </script>
+
 {% endblock %}
 
