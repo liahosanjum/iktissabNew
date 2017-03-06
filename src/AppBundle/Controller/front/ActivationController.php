@@ -103,10 +103,7 @@ class ActivationController extends Controller
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $locale = $request->getLocale();
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
-        echo AppConstant::WEBAPI_URL.$url;
-//        die('---');
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-//        echo AppConstant::WEBAPI_URL . $url;
         if ($data['success'] != true) {
             Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
 //            Throw new Exception($this->get('translator')->trans($data['message']), 1);
