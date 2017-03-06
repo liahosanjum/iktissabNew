@@ -100,13 +100,14 @@ class ActivationController extends Controller
     public function checkScenerio($iktCardNo)
     {
         $restClient = $this->get('app.rest_client');
-        $request = Request::createFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $locale = $request->getLocale();
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-//       echo "here the data is"; var_dump($data); die('---');
-        if ($data['success'] == false) {
+//        echo AppConstant::WEBAPI_URL . $url;
+        if ($data['success'] != true) {
             Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
+//            Throw new Exception($this->get('translator')->trans($data['message']), 1);
         } else {
             if ($data['data']['cust_status'] == 'Active' || $data['data']['cust_status'] == 'In-Active') {
                 return AppConstant::IKT_REG_SCENERIO_2;
@@ -121,7 +122,7 @@ class ActivationController extends Controller
     /**
      * @Route("/{_country}/{_locale}/activate-card", name="activate_card")
      */
-    public function acrivateCardAction(Request $request)
+    public function activateCardAction(Request $request)
     {
         // check referal
         if (!$this->isReferalValid('card_activation')) {
@@ -172,7 +173,7 @@ class ActivationController extends Controller
 
     function isReferalValid($url)
     {
-        $request = Request::createFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $referer = $request->headers->get('referer');
         $baseUrl = $request->getBaseUrl();
         $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
@@ -307,7 +308,7 @@ class ActivationController extends Controller
     function checkIqamaLocal($iqama)
     { // iqama validation in local MSSQL db
         $restClient = $this->get('app.rest_client');
-        $request = Request::createFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $url = $request->getLocale() . '/api/' . $iqama . '/is_ssn_used.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['success'] == false) { // this iqama is not registered previously
@@ -420,7 +421,7 @@ class ActivationController extends Controller
 
     function checckBeforeAdd($iktCardNo)
     {
-        $request = Request::createFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $restClient = $this->get('app.rest_client');
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
@@ -436,7 +437,8 @@ class ActivationController extends Controller
 
     function checkInStagging($iktCardNo)
     {
-        $request = Request::createFromGlobals();
+//        $request = Request::createFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $restClient = $this->get('app.rest_client');
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/is_in_stagging.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
@@ -451,7 +453,7 @@ class ActivationController extends Controller
     function add()
     {
         $error = array('status' => false, 'message' => '');
-        $request = Request::CreateFromGlobals();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->getDoctrine()->getEntityManager();
         $newCustomer = $this->get('session')->get('new_customer');
         $url = $request->getLocale() . '/api/add_new_user.json';

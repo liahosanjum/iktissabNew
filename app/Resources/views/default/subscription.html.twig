@@ -1,0 +1,62 @@
+<script src="{{ asset('js/jquery.validate.js') }}"></script>
+<script src="{{ asset('js/jquery.form.js') }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        Email subscription country = {{ app.request.get('_country') }} locale: {{ app.request.get('_locale') }}
+        {{ form_start(form,{attr:{'id':'subs_mob','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')} )} }) }}
+        {{ form_end(form) }}
+    </div>
+    <div class="col-lg-6">
+        Mobile subscription
+        {{ form_start(form_mob,{attr:{'id':'subs_email','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})} }) }}
+        {{ form_end(form_mob) }}
+
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {#{{ form_jquery_validation(form) }}#}
+            {#{{ form_jquery_validation(form_mob) }}#}
+
+            $('#subs_mob, #subs_email').ajaxForm({
+                dataType: 'json',
+                success: processJson
+            });
+
+            function processJson(data) {
+                if (data.error) {
+                    //$('#myModal #myModalLabel').html('Error !');
+                    $('#myModal .modal-body').html('<div class="alert alert-danger">' + data.message + '</div>');
+                    $('#myModal').modal('show')
+                }
+                else {
+                    //$('#myModal #myModalLabel').html('Success !');
+                    $('#myModal .modal-body').html('<div class="alert alert-success">' + data.message + '</div>');
+                    $('#myModal').modal('show')
+                }
+            }
+
+        })
+    </script>
+
+</div>
+
+

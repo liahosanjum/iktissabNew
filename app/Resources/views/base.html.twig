@@ -51,5 +51,19 @@
 {% block javascripts %}
 
 {% endblock %}
+<br />
+<br />
+<br />
+<br />
+<br />
+{#base.html country = {{ app.request.get('_country') }}#}
+{#{{ render(controller('AppBundle:Default:subscription',{'country':app.request.get('_country')})) }}#}
+{{ render(url('subscription', {'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})) }}
+<br />
+<br />
+<br />
+<br />
+<br />
+
 </body>
 </html>

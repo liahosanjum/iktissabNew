@@ -88,6 +88,9 @@ class AppConstant
 
     const DATE_FORMAT = "m/d/Y";
     
+    const PROMOTIONS_PATH = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
+    const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';
+    
 
 
 

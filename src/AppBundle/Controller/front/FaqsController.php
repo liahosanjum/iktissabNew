@@ -271,7 +271,10 @@ class FaqsController extends Controller
             }
             catch (\Exception $e)
             {
+
                 $message = $e->getMessage();
+                echo $message;
+                die('--');
                 return $this->render('front/faqs.html.twig', array(
                     'form' => $form->createView(), 'message' => $message,
                 ));
