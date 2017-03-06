@@ -22,30 +22,34 @@ class FaqsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $country = 'sa';
-        $builder ->add('email', TextType::class, array('label' => 'Full name'))
-            ->add('email', TextType::class, array('label' => 'Email',
+        $country = $options['extras']['country'];
+        $builder->add('email', TextType::class, array('label' => 'Email',
 
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
-                    new Email(array("message"=> 'Invalid email address'))
+                    new Email(array("message"    => 'Invalid email address'))
                 )))
 
 
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14)))
+                'attr' => array('maxlength' => ($country == 'sa') ? 10 : 14),
+                'constraints' => array (
+                    new NotBlank(array('message' =>  'This field is required')),
+                    new Regex(
+                        array(
+                            'pattern' => ($country == 'sa') ? '/^([0-9]){10}$/' : '/^([0-9]){14}$/',
+                            'match' => true,
+                            'message' => "Mobile Number Must be ".($country == 'sa' ? '10' : '14' )." digits")
+                    )
+                 )
+            ))
 
             ->add('question', TextareaType::class, array('label' => 'Ask your Question',
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
                 )))
-
-
             ->add('captchaCode', CaptchaType::class, array('label' => 'Captcha', 'captchaConfig' => 'FormCaptcha'))
-
-
-
             ->add('submit', SubmitType::class, array('label'=>"Submit"));
     }
 
@@ -55,6 +59,7 @@ class FaqsType extends AbstractType
 
             'attr' => array('novalidate' => 'novalidate')
         ));
+        $resolver->setRequired('extras');
     }
 
 

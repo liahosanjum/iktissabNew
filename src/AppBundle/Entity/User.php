@@ -56,7 +56,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="data", type="string", length=800, nullable=false)
+     * @ORM\Column(name="data", type="string", length=800, nullable=true)
      */
     private $data;
 

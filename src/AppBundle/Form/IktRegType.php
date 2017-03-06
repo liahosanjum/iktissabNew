@@ -232,8 +232,6 @@ class IktRegType extends AbstractType
      */
     public function validateIqama($iqama, ExecutionContextInterface $context)
     {
-
-
         $evenSum = 0;
         $oddSum = 0;
         $entireSum = 0;

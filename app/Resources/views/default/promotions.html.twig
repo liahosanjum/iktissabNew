@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+
+            <div class="tabbable" id="tabs-72987">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            {% for promotion in promotions %}
+
+                                {% if(promotion.is_active == '1') %}
+                            <li role="presentation" class="{% if(id == promotion.id) %} active {% endif %}">
+                                <a href="{{ url('promotions_id',{id:promotion.id,'_country':app.request.get('_country'), '_locale':app.request.getLocale}) }}"
+                                   id="tab{{ promotion.id }}link">
+                                    {% if(app.request.get('_locale') == 'ar') %} {{ promotion.title_ar }} {% else %} {{ promotion.title_en }} {% endif %}
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="tab-content">
+                            {% for promotion in promotions %}
+                            {% if(promotion.is_active == '1') %}
+                            <div class="tab-pan fade {% if(id == promotion.id) %} in active {% endif %}"
+                                 id="tab{{ promotion.id }}" role="tabpanel">
+
+                                <div class="row"> <!--  bar-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
+                                        <div class="promotion-date-bar">
+                                            <?php echo sprintf($promotionDate, $promotion['from_date'],
+                                                        $promotion['to_date']);
+                                                    ?>
+                                            {{ 'This Promotion Start From %s% To %e%'|trans|replace({'%s%':promotion.from_date,'%e%':promotion.to_date}) }}
+                                        </div>
+                                        <?php if ($pid == $promotionID) { ?>
+                                        <iframe id="promotion-{{ promotion.id }}"
+                                                src="{{ promotion.promotion_link }}"
+                                                class="promotion-page" allowfullscreen
+                                                allowtransparency></iframe>
+                                        <script type="text/javascript">
+                                            jQuery(document).ready(function () {
+                                                jQuery('#promotion-{{ promotion.id }}').css('height', (window.innerHeight - 80) + 'px');
+                                            });
+
+                                        </script>
+                                        <?php } ?>
+                                        <style type="text/css">
+                                            /*body {*/
+                                            /*overflow: hidden;*/
+                                            /*}*/
+                                        </style>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {#<?php#}
+                                {#}#}
+                            {#endforeach; ?>#}
+                             {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .sticky-container {
+        display: none;
+        visibility: hidden;
+    }
+    .promotion-page{
+        width: 97%;
+    }
+</style>
+
+<style type="text/css">
+
+    .othaim-promotions-index-index .container, .othaim-promotions-index-index div#promotions,
+    .othaim-promotions-index-index div#promotions .tab-content {
+        width: 100%;
+    }
+
+    /*.othaim-promotions-index-index .container {padding: 0;}*/
+
+    #wrap {
+        background-color: #3D3D3D;
+    }
+
+    ul.othaim-promotions li a {
+        height: 75px;
+        margin: 0;
+        padding: 11px 0 1px 75px;
+        width: 281px;
+    }
+
+    .nav-tabs > li > a {
+        border: 0px;
+        /*border-radius: 0px;*/
+    }
+
+    .nav-tabs > li > a:hover {
+        /*background-color: #ffffff;*/
+        /*border: 0px;*/
+        color: #555;
+    }
+
+    .tabbable .nav.nav-tabs {
+        margin-top: 0px;
+    }
+
+    .nav-tabs > li > a {
+        font-size: 18px;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px;
+    }
+
+    @media (max-width: 767px) {
+        .home-icon {
+            display: none
+        }
+
+        .nav-tabs > li > a {
+            font-size: 14px;
+        }
+
+        .tabbable .nav.nav-tabs {
+            display: none;
+        }
+
+        .promotion-date-bar {
+            line-height: 25px;
+            margin: 0px auto 0px;
+        }
+    }
+
+    h2.promotion-title {
+        margin: 0px;
+        padding: 5px;
+    }
+
+    .tab-pan {
+        display: none;
+    }
+
+    .tab-pan.in.active {
+        display: block;
+    }
+
+    #myTab.nav li a {
+        margin: 1px;
+    }
+
+</style>
+{% endblock %}

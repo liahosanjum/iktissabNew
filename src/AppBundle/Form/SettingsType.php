@@ -35,8 +35,7 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder
-            ->add('email' , TextType::class, array('label' => 'Email',
+        $builder->add('email' , TextType::class, array('label' => 'Email',
                 'attr' => array(
                     'class' => ''
                 ),'constraints' => array(
@@ -53,7 +52,7 @@ class SettingsType extends AbstractType
 
             ->add('country', ChoiceType::class, array(
                     'label' => 'Country',
-                    'choices' => array('Country' => '', 'Saudi Arabia' => '1', 'Egypt' => '2'),
+                    'choices' => array('Country' => '', 'Saudi Arabia' => 'sa', 'Egypt' => 'eg'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                     )

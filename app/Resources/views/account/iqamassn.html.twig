@@ -1,31 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div>
-                        {{ 'Update your email'|trans}}
+                        {{ 'Update your Iqama Id/ SSN'|trans}}
                     </div>
                     <div>
-                        {{ 'Dear Customer'|trans}}
+
                     </div>
                     <div>
-                        {{ 'You can update your email through the following form'|trans}}
+                        {{ message }}
                     </div>
-
-                    {% if message %}
-                        <div>{{ message }}</div>
-                    {% endif %}
-
-                    {{ form_start(form) }}
-                    {{ form_row(form.currentemail) }}
-
-                    {{ form_row(form.newemail) }}
-
-                    {{ form_end(form) }}
-
+                        {{ form(form) }}
+                            {{ form_row(form.iqamassn_registered) }}
+                            {{ form_row(form.iqamassn_new) }}
+                            {{ form_row(form.comment_iqamassn) }}
+                        {{ form_end(form) }}
                 </div>
             </div>
     </div>
@@ -35,6 +27,8 @@
 
 {% endblock %}
 {% block javascripts %}
+
+
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
@@ -42,6 +36,7 @@
             {{ form_jquery_validation(form) }}
         });
     </script>
+
 
 {% endblock %}
 
