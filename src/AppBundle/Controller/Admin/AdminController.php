@@ -41,7 +41,7 @@ class AdminController extends Controller
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-return $this->render(':admin:login.html.twig', array(
+        return $this->render(':admin:login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error
         ));
@@ -54,59 +54,16 @@ return $this->render(':admin:login.html.twig', array(
      */
     public function cmsListAction(Request $request)
     {
-        // url = /admin/cmslist
-        // echo "get all cms listing";
-        /*
-            $cms  = new CmsPagesType();
-            $form = $this->createForm(CmsPagesType::class, $cms, array(
-                'additional'  => array(
-                    'locale'  => $request->getLocale(),
-                    'country' => $request->get('_country'))
-            ));
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($cms);
-                $em->flush();
-                return $this->redirect($this->generateUrl(
-                    'cmslist',
-                    array('id' => $cms->getId())
-                ));
-            }
-            return $this->render('admin/cms/cms.html.twig',
-                array('iktData' => "1234")
-            );
-        */
-
-        // echo $this->get('translator')->trans('lang-A');
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
 
         $cmsPage = new CmsPages();
-        /*
-        $cmsPage->setAtitle('test page name ar');
-        $cmsPage->setEtitle('test page name en');
-        $cmsPage->setAdesc('test page name ar');
-        $cmsPage->setEdesc('test page name en');
-        $cmsPage->setStatus(1);
-        */
-        // $title = $this->get('translator')->trans('lang-A');
-
-        /*
-        $form = $this->createFormBuilder($cmsPage)
-            ->add('atitle' , TextType::class, array('label' => 'Title Arabic'))
-        ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true))
-        ->add('edesc'  , TextType::class, array('label' => 'Title English'))
-        ->add('adesc'  , TextType::class, array('label' => 'Title English'))
-        ->add('save', SubmitType::class, array('label'  => 'Create Post'))
-        ->getForm();
-        */
-
-        //echo '====='.$cmsPage->getAdesc();
         $form = $this->createForm(CmsPagesType::class, $cmsPage);
         // print_r($form);
         $form->handleRequest($request);
         $request->request->get('adesc');
         $cmsData = $form->getData();
-        //echo $adesc = $form->getAdesc('adesc')->getData();
         if ($form->isValid() && $form->isSubmitted())
         {
             $cmsPage->setAtitle($form->get('atitle')->getData());
@@ -124,19 +81,12 @@ return $this->render(':admin:login.html.twig', array(
                     'form' => $form->createView(),'message' => $message,
                 ));
             }
-            return new Response('Saved new product with id'.$cmsPage->getId());
+            //return new Response('Content page added');
         }
         return $this->render('admin/cms/cms.html.twig', array(
             'form' => $form->createView(),'message' => '',
         ));
 
-
-        /* $em = $this->getDoctrine()->getManager();
-        // tells Doctrine you want to (eventually) save the Product (no queries yet)
-        $em->persist($cmsPage);
-        // actually executes the queries (i.e. the INSERT query)
-        $em->flush();
-        return new Response('Saved new product with id '.$cmsPage->getId());*/
     }
 
     /**
@@ -268,7 +218,7 @@ return $this->render(':admin:login.html.twig', array(
     public function settingsAction(Request $request)
     {
         $settings = new Settings();
-        //echo '====='.$cmsPage->getAdesc();
+        // echo '====='.$cmsPage->getAdesc();
         $form = $this->createForm(SettingsType::class, $settings);
         // print_r($form);
         $form->handleRequest($request);
@@ -292,9 +242,9 @@ return $this->render(':admin:login.html.twig', array(
                     'form' => $form->createView(),'message' => $message,
                 ));
             }
-
         }
-        return $this->render('admin/settings/settings.html.twig', array(
+        return $this->render('admin/settings/settings.html.twig',
+        array(
             'form' => $form->createView(),'message' => '',
         ));
     }
@@ -324,7 +274,6 @@ return $this->render(':admin:login.html.twig', array(
             $em->flush();
             if($settingsData->getId())
             {
-                $message = $this->get('translator')->trans('Record Added successfully');
                 return $this->render('admin/settings/settingsedit.html.twig', array(
                     'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
                 ));

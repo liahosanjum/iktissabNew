@@ -56,7 +56,9 @@ class RestClientService
         $headerFormatted = array();
         $options = array();
         $resultFormatted = array();
+
         $returnFailure = array('success' => 'false', 'msg' => 'APi error');
+
         foreach ($headers as $key => $val) {
             $headerFormatted[$key] = $key . ':' . $val;
         }
@@ -65,7 +67,7 @@ class RestClientService
         }
 
         try {
-//            $result = $this->restClient->post($this->apiUrl . $url,$payload, $options);
+            // $result = $this->restClient->post($this->apiUrl . $url,$payload, $options);
             $result = $this->restClient->post($url,$payload, $options);
             if ($result->headers->get('content_type') == 'application/json') {
                 $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
@@ -78,4 +80,61 @@ class RestClientService
             return $returnFailure;
         }
     }
+
+    public function restPostForm($url, $payload, $headers = array())
+    {
+        $headerFormatted = array();
+        $options = array();
+        $resultFormatted = array();
+        $returnFailure = array('success' => false, 'message' => 'APi Error');
+        foreach ($headers as $key => $val) {
+            $headerFormatted[$key] = $key . ':' . $val;
+        }
+        if (!empty($headerFormatted)) {
+            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+        }
+
+        try {
+            // $result = $this->restClient->post($this->apiUrl . $url,$payload, $options);
+            $result = $this->restClient->post($url,$payload, $options);
+            if ($result->headers->get('content_type') == 'application/json') {
+                $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
+                return $resultFormatted;
+            } else {
+                return $result->getContent();
+            }
+
+        } catch (CurlException $e) {
+            return $returnFailure;
+        }
+    }
+
+
+    public function restGetForm($url, array $headers = array())
+    {
+        $headerFormatted = array();
+        $options = array();
+        $resultFormatted = array();
+        $returnFailure = array('success' => false, 'message' => 'APi error');
+        foreach ($headers as $key => $val) {
+            $headerFormatted[$key] = $key . ':' . $val;
+        }
+        if ($headerFormatted) {
+            //if (!empty($headerFormatted)) {
+            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+        }
+        try {
+            $result = $this->restClient->get($url, $options);
+            if ($result->headers->get('content_type') == 'application/json') {
+                $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
+                return $resultFormatted;
+            } else {
+                return $result->getContent();
+            }
+
+        } catch (CurlException $e) {
+            return $returnFailure;
+        }
+    }
+
 }

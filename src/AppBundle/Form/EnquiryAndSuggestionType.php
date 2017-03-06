@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
 class EnquiryAndSuggestionType extends AbstractType
@@ -29,19 +30,50 @@ class EnquiryAndSuggestionType extends AbstractType
 
         $builder ->add('name', TextType::class, array('label' => 'Full name'))
             ->add('job', TextType::class, array('label' => 'Job'))
+
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14)))
-            ->add('email', TextType::class, array('label' => 'Email'))
-            ->add('reason', ChoiceType::class, array('label'=>"Reason", "choices"=>array(
+
+                'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14   )  ,
+                'constraints' => array(
+
+                    new NotBlank(array('message' => 'This field is required')),
+                    new Regex(
+                        array(
+                            'pattern' => ($country == 'sa') ? '/^([0-9]){10}$/' : '/^([0-9]){14}$/',
+                            'match' => true,
+                            'message' => "Mobile Number Must be ".($country == 'sa' ? '10' : '14' )." digits")
+                    ),)))
+
+            ->add('email', EmailType::class, array('label' => 'Email' ,
+                    'constraints' => array(
+                        new NotBlank(array('message' => 'Email is required')),
+                        new Email(array('message' => 'Invalid email'))
+                    )))
+            ->add('reason', ChoiceType::class, array('label'=>"Reason",
+
+
+                "choices"=>array(
                         "Complaint" => EnquiryAndSuggestion::COMPLAINT,
                         "Enquiry"=> EnquiryAndSuggestion::ENQUIRY,
                         "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
                         "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
             )))
-            ->add('comments', TextareaType::class, array('label'=>"Comments"))
+            ->add('comments', TextareaType::class, array('label'=>"Comments",
+                'constraints' => array(
+                    new NotBlank(array('message' => 'This field is required')),
+                )
+
+            ))
             //->add('country', TextType::class, array('label'=>"Country"))
-            ->add('captchaCode', CaptchaType::class, array('label' => 'Captcha', 'captchaConfig' => 'FormCaptcha'))
+            ->add('captchaCode', CaptchaType::class, array(
+
+                'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
+                'constraints' => array(
+                    new NotBlank(array('message' => 'Email is required'))),
+                ))
+
+
             ->add('submit', SubmitType::class, array('label'=>"Submit"));
     }
     

@@ -51,7 +51,7 @@ class EnquiryAndSuggestion
         $this->em->persist($entity);
         $this->em->flush();
         if ($entity->getId()) {
-            $this->email($entity, $data);
+            $this->email($entity, $data,$request);
             return true;
         }
         else{
@@ -59,11 +59,12 @@ class EnquiryAndSuggestion
         }
     }
 
-    public function email(\AppBundle\Entity\EnquiryAndSuggestion $entity , $data){
+    public function email(\AppBundle\Entity\EnquiryAndSuggestion $entity , $data , $request){
 
         $message = \Swift_Message::newInstance();
         $request = new Request();
         $entity->getEmail();
+
        
 
         $message->addTo($entity->getEmail());
@@ -73,19 +74,25 @@ class EnquiryAndSuggestion
             $message->addFrom($this->container->getParameter('mailer_user'))
             ->setSubject(AppConstant::EMAIL_SUBJECT)
             ->setBody(
-                $this->container->get('templating')->render('enquiries_and_suggestions_en.html.twig', ['name' => $entity->getName()
-                    , 'email' => $entity->getEmail()
-                    , 'job' => $entity->getJob()
-                    , 'mobile' => $entity->getMobile()
-                    , 'reason' => $entity->getReason()
-                    , 'country' => $entity->getCountry()
+                $this->container->get('templating')->render(':email-templates/enquiries:enquiries_and_suggestions_en.html.twig', ['name' => $entity->getName()
+                    , 'email'    => $entity->getEmail()
+                    , 'job'      => $entity->getJob()
+                    , 'mobile'   => $entity->getMobile()
+                    , 'reason'   => $entity->getReason()
+                    , 'country'  => $entity->getCountry()
                     , 'comments' => $entity->getComments()
                 ]),
                 'text/html'
             );
 
         $this->container->get('mailer')->send($message);
-        return $this->container->get('activation_thanks', array('_locale' => 'en', '_country' => 'sa'));
+        if($this->container->get('mailer')->send($message)){
+            return true;
+        }
+        else{ return false; }
+        // exit;
+
+        // return $this->container->get('activation_thanks', array('_locale' => $request->getLocale(), '_country' => 'sa'));
 
 
     }

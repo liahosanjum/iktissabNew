@@ -48,12 +48,14 @@ class AppConstant
     const  ACTIVITY_FORGOT_PASSWORD_SUCCESS = 'UpdateForgotPasswordSuccessfull';
     const  ACTIVITY_FORGOT_PASSWORD_ERROR   = 'UpdateForgotPasswordError';
 
+    const  ACTIVITY_UPDATE_EMAIL_SUCCESS = 'UpdateEmailSuccessfull';
+    const  ACTIVITY_UPDATE_EMAIL_ERROR   = 'UpdateEmailError';
+
+    const  ACTIVITY_EMAIL_UPDATE_SMS_SUCCESS = 'UpdateEmailSMSSuccessfull';
+    const  ACTIVITY_EMAIL_UPDATE_SMS_ERROR   = 'UpdateEmailSMSError';
 
 
-
-
-
-    //related to cookies
+    //   related to cookies
     const  COOKIE_EXPIRY   = 2592000; //'86400*30';
     const  COOKIE_LOCALE   = 'c_locale';
     const  COOKIE_COUNTRY  = 'c_country';

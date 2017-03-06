@@ -47,12 +47,9 @@ class DefaultController extends Controller
     {
         $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        
-
         if(isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieLocale <> ''){
             return $this->redirect($this->generateUrl('homepage', array('_country'=>$cookieCountry,'_locale'=>$cookieLocale)));
         }
-
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath(
                     $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
@@ -74,9 +71,6 @@ class DefaultController extends Controller
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country,time()+AppConstant::COOKIE_EXPIRY,'/',null,false,false));
         $response->sendHeaders();
         //TODO:: add template for home page display
-
-        
-
     }
 
     
@@ -135,14 +129,11 @@ class DefaultController extends Controller
                 'captchaConfig' => 'FormCaptcha',
                 'label' => 'Captcha Code'
             ))
-
             ->add('forgot_password',  SubmitType::class ,array(
                 'attr' => array('class' => 'btn btn-primary' , 'id' => 'forgot_password'  ),
                 'label' => $this->get('translator')->trans('E-mail new password'),
-            ))
-            ->getForm();
+            ))->getForm();
         $activityLog = $this->get('app.activity_log');
-
         $form->handleRequest($request);
         // $posted = array();
         // $postData = $request->request->all();
@@ -247,10 +238,10 @@ class DefaultController extends Controller
         $em    = $this->getDoctrine()->getManager();
         $time  = (integer)$time;
         $dataValue = serialize(array('time' => $time, 'token' => $token));
-        $id= $this->decrypt($id, AppConstant::SECRET_KEY_FP);
-        $user = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
-        print_r($user);
-        if($user && $user != null) {
+        $id    = $this->decrypt($id, AppConstant::SECRET_KEY_FP);
+        $user  = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
+        // print_r($user);
+        if(isset($user) && $user != null) {
             $user_email = $user->getEmail();
         }
         else {$user_email = '';}
@@ -341,81 +332,14 @@ class DefaultController extends Controller
      */
     public function setPasswordAction(Request $request)
     {
-        //$this->get('session')->set('passwordrest', 'abc@123456');
-        //$response = new Response();
-        //$response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'reset_password',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
-        //echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
-        //$response->sendHeaders();
-        //$this->get('session')->get('passwordrest');
-        //return $this->redirect($this->generateUrl('resetpassword', array('_country'=>'sa','_locale'=>'en')));
+        // $this->get('session')->set('passwordrest', 'abc@123456');
+        // $response = new Response();
+        // $response->headers->setCookie(new Cookie(AppConstant::COOKIE_RESET_PASSWORD, 'reset_password',time()+AppConstant::COOKIE_EXPIRY_REST_PASSWORD,'/',null,false,false));
+        // echo '==='.$cookieResetPassword = $request->cookies->get(AppConstant::COOKIE_RESET_PASSWORD);
+        // $response->sendHeaders();
+        // $this->get('session')->get('passwordrest');
+        // return $this->redirect($this->generateUrl('resetpassword', array('_country'=>'sa','_locale'=>'en')));
     }
-
-
-
-
-
-    /**
-     * @Route("/{_country}/{_locale}/checkFormsOption", name="checkFormsOption")
-     * @param $time
-     */
-
-    public function checkFormsOptionAction(Request $request, $form)
-    {
-        $current_time = date('Y-m-d');
-        $days_difference = 1;
-
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $formsettingsList = $this->getDoctrine()
-            ->getRepository('AppBundle:FormSettings')
-            ->findOneBy(array('status' => 1, 'formtype' => 'Contact Us'));
-        print_r($formsettingsList);
-        echo '<br>';
-        echo $formsettingsList->getId();
-        $data = array();
-        $i = 0;
-        $time = mktime(0,0,0, date('m'),date('d'), date('Y'));
-        echo '<br>';
-        $timeN = mktime(0,0,0, date('m'),date('d')+$days_difference, date('Y'));
-
-
-
-
-
-        $status_from_db = true;
-        if($time > $timeN && $status_from_db == true)
-        {
-           return true;
-        }
-        else{
-            return false;
-
-        }
-    }
-
-    /**
-     * @Route("/{_country}/{_locale}/getDataa", name="getDataa")
-     * @param $time
-     */
-
-
-    public function getDataaAction()
-    {
-        $em     = $this->getDoctrine()->getManager('default');
-        $this->getDoctrine()->getManager();
-        // $conn = $em->getConnection();
-        // $em = $this->getDoctrine()->getEntityManager();
-        $rsm = new ResultSetMapping();
-        //$rsm->addScalarResult('name', 'name');
-        $rsm->addScalarResult('name', 'name' );
-        // $em->createNativeQuery(, $rsm)
-        $query = $em->createNativeQuery('SELECT * from test',$rsm);
-        echo $query->getSQL();
-        //print_r($query);
-        $users = $query->getResult();
-        print_r($users);
-    }
-
 
 
 

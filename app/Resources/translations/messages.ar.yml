@@ -91,12 +91,12 @@ Shoppers: 'المتسوق'
 'New Iqama ID/SSN': 'رقم الهوية أو الإقامة الجديد'
 'Confirm New Iqama ID/SSN': 'تأكيد رقم الهوية أو الإقامة الجديد'
 'Please enter valid 10 digits Iqama Id/SSN': 'Please enter valid 10 digits Iqama Id/SSN'
-'New Iqama Id/SSN and old Iqama Id/SSN must not be same': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same'
-'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same'
+'New Iqama Id/SSN and old Iqama Id/SSN must not be same': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same ar'
+'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same ar'
 'Please enter comments': 'Please enter comments'
-'Please enter valid 14 digits Iqama Id/SSN': 'Please enter valid 14 digits Iqama Id/SSN'
-'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number'
-'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN'
+'Please enter valid 14 digits Iqama Id/SSN': 'Please enter valid 14 digits Iqama Id/SSN ar'
+'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number ar'
+'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN ar'
 'Update Your Name': 'تحديث الاسم'
 'Full Name': 'الإسم بالكامل'
 'Name must be in two parts': 'Name must be in two parts'
@@ -107,7 +107,7 @@ Shoppers: 'المتسوق'
 'Dear customer': 'عزيزي العميل'
 'Update': 'تحديث'
 'Invalid token detected.Please submit again': 'Invalid token detected.Please submit the form again ar'
-'You can update your full name through the following form': 'You can update your full name through the following form'
+'You can update your full name through the following form': 'يمكنك تحديث معلوماتك عن طريق النموذج التالي'
 'This field is required': 'نرجو تعبئة هذه الخانة'
 'Password fields must match': 'Password fields must match ar'
 'Update Password': 'تغيير كلمة المرور'
@@ -176,3 +176,25 @@ Shoppers: 'المتسوق'
 "Hijri": "هجري"
 "year_arabic": " سنة "
 "Year": " سنة "
+"Our Dear Customer": "عميلنا العزيز السلام عليكم ورحمة الله وبركاته،"
+"We are pleased to be one of Alothaim Markets customers": "يسعدنا أن تكون أحد عملاء أسواق العثيم كما يسعدنا تلقي ملاحظاتكم واقتراحاتكم."
+"We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply.": "نفيدكم بأننا قد إستلمنا ملاحظاتكم وسيتم تحويلها إلى الجهة المختصة، كما سيتم إخطاركم بالإجراء المتخذ بعد وصول الرد من الجهة المختصة."
+"We extend our thanks to you for communicating with us via the website of Alothaim Markets company and will be always happy to serve you round the clock.": "نشكر لكم تواصلكم معنا عبر الموقع الإلكتروني لشركة أسواق العثيم ونسعد بخدمتكم دائما على مدار الساعة."
+"Greetings": "مع تحيات"
+"Customer Service Team": "فريق خدمات العملاء"
+"Dear Customer, you have already make submission for this form": "عزيزنا العميل , لا يمكن التسجيل خلال هذا النموذج اكثر من مره فى اليوم"
+"Your request has been submitted": "Your request has been submitted ar"
+"New Iktissab ID": "رقم بطاقة إكتساب الجديدة"
+"Confirm Iktissab ID": "تأكيد رقم بطاقة اكتساب"
+"You have already make a change request .Hence cannot make a new request.": "عفواً لقد انهت الجلسة الخاصة بكم برجاء المحاولة مرة أخرى"
+"Iqama/SSN fields must match": "Iqama/SSN fields must match ar"
+"Your new and old password must not be the same": "Your new and old password must not be the same ar"
+"Password updated successfully": "Password updated successfully"
+"Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same ar"
+"Your email address is not updated.Please try again": "Your email address is not updated.Please try again ar"
+"Your email is not updated.Please try again": "Your email is not updated.Please try again ar"
+
+
+
+
+

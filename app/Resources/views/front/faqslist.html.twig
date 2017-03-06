@@ -13,17 +13,13 @@
 
             <div class="">
                 {{ message }}
-            </div>
+            </div>{{   app.request.getLocale() }}
             <div>
+                {% for item in Data %}
 
-        {% if show_form == true %}
-                    {{ form(form) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.mobile) }}
-                    {{ form_row(form.captchaCode) }}
-                    {{ form_end(form) }}
-        {% endif %}
-
+                    {{ item.id }} -  {{ attribute(item, 'question_'~app.request.get('_locale')) }}<br/>
+                    {{ attribute(item, 'answer_'~app.request.get('_locale')) }}<br/><br/>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -32,11 +28,7 @@
     {% block javascripts %}
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            {{ form_jquery_validation(form) }}
-        });
-    </script>
+    <script type="text/javascript"></script>
 
     <div class="row">
 

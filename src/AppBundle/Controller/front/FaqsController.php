@@ -42,10 +42,10 @@ use AppBundle\Controller\Common\FunctionsController;
 class FaqsController extends Controller
 {
 
+
     /**
      * @Route("/{_country}/{_locale}/faqs", name="faqs")
      * @param Request $request
-     *
      */
     public function faqsAction(Request $request)
     {
@@ -54,18 +54,20 @@ class FaqsController extends Controller
             $commFunction = new FunctionsController();
             $show_form = true;
             $form = 'Faqs Form';
-            $display_settings = $this->getFormSubmissionSettings($request, $form);
-            $faqs = new Faqs();
-            $form = $this->createForm(FaqsType::class, $faqs);
-            $locale   = $request->getLocale();
+            echo '--->>>>'.$display_settings = $this->getFormSubmissionSettings($request, $form);
 
+            $faqs = new Faqs();
+            $form = $this->createForm(FaqsType::class, $faqs ,array(
+                'extras' => array(
+                    'country' => $commFunction->getCountryCode($request)
+            )));
+            $locale   = $request->getLocale();
             $country  = $commFunction->getCountryCode($request);
             $form->handleRequest($request);
             $posted   = array();
             $postData = $request->request->all();
             if(isset($display_settings) && $display_settings != null)
             {
-                if (!empty($postData)) {
                     /***********/
                     if ($form->isSubmitted() && $form->isValid()) {
                         try {
@@ -115,16 +117,21 @@ class FaqsController extends Controller
                             ));
                         }
                     }
-                }
                 $message = '';
-                return $this->render('front/faqs.html.twig',
-                    array('form' => $form->createView(), 'message' => $message,'show_form' => $show_form));
+                return $this->render('front/faqs.html.twig', array(
+                    'form' => $form->createView(), 'message' => $message,'show_form' => $show_form
+                ));
             }
             else
             {
-                if($form->isSubmitted()) {
-                    $message = $this->get('translator')->trans('You have already submitted the form');
-                } else { $message = ''; }
+                if($form->isSubmitted())
+                {
+                    $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form.');
+                }
+                else
+                {
+                    $message = ''; //  0 
+                }
 
                 $show_form  = false;
                 return $this->render('front/faqs.html.twig',
@@ -142,16 +149,17 @@ class FaqsController extends Controller
 
 
 
-    public function getEmailList(Request $request , $formtype){
+    public function getEmailList(Request $request , $formtype)
+    {
         try
         {
             $commFunction = new FunctionsController();
             $country_current = $commFunction->getCountryCode($request);
-            // defualt category for the FAQS form is others
+            // defualt category for the FAQS form is "others"
             // here other is the field name in the database table settings
             // will retrieve all the emal list in the given country with other is equal to 1.
             $enguiry_email_type = 'other';
-            $language = $commFunction->getCountryLocal();
+            $language = $commFunction->getCountryLocal($request);
             $em   = $this->getDoctrine()->getManager();
             $conn = $em->getConnection();
             $stm  = $conn->prepare('SELECT * FROM email_setting WHERE country = ? AND type = ? AND ' . $enguiry_email_type . ' = ?  ');
@@ -161,10 +169,12 @@ class FaqsController extends Controller
             $stm->bindValue(3, 1);
             $stm->execute();
             $result = $stm->fetchAll();
-            $data = array(
-                'success' => true ,
-                'result'  => $result
-            );
+            if($result) {
+                $data = array(
+                    'success' => true,
+                    'result' => $result
+                );
+            }
             return $data;
         }
         catch (\Exception $e)
@@ -177,12 +187,129 @@ class FaqsController extends Controller
         }
     }
 
-    /**
-     * @Route("/{_country}/{_locale}/getFormSubmissionSettings", name="getFormSubmissionSettings")
-     * @param $form
-     */
-
     public function getFormSubmissionSettings(Request $request , $form)
+    {
+        // $form = 'Inquiries And Suggestion';
+        $form    = 'Faqs Form';
+        try
+        {
+            $commFunction    = new FunctionsController();
+            $country_id      = $commFunction->getCountryCode($request);
+            $formSettingList = $this->getDoctrine()
+                ->getRepository('AppBundle:FormSettings')
+                ->findOneBy(    array('status' => 1, 'formtype' => $form, 'country' => $country_id));
+            // print_r($formSettingList);exit;
+
+            $i = 0;
+            if($formSettingList == '' && $formSettingList == null)
+            {
+                return $formSettingList = false;
+            }
+            else
+            {
+                // get number of submission for the user IP
+                // if the user has submitted the form
+                // 'Every Hour' => '1', 'Every Day' => '24', 'Weekly' => '168', 'Monthly' => '720'
+                // This is the time that will add with the user submission time so that we know
+                // we can prevent the user from submitting the form agian.
+                // now we will add these housr to the sumbission time of the form
+                $submission_time_hours_for_checking = $formSettingList->getSubmissions();
+                $number_of_entries = $formSettingList->getLimitto();
+                if($submission_time_hours_for_checking)
+                {
+                    date_default_timezone_set("Asia/Riyadh");
+                    echo 'current_time'.$date_now = date('Y-m-d H:i:s');
+
+                    $date_current = explode(' ', $date_now );
+                    //print_r($date_now);
+                    $date_current_days      = explode('-', $date_current[0] );
+                    $date_current_year      = $date_current_days[0];
+                    $date_current_month     = $date_current_days[1];
+                    $date_current_day       = $date_current_days[2];
+                    //echo '<br>';
+                    $date_current_hours     = explode(':' ,$date_current[1]);
+                    $date_current_hour      = $date_current_hours[0];
+                    $date_current_minutes   = $date_current_hours[1];
+                    $date_current_seconds   = $date_current_hours[2];
+                    //echo '<br>';
+                    $current_time =  mktime($date_current_hour + 3, $date_current_minutes, $date_current_seconds, $date_current_month, $date_current_day , $date_current_year);
+                    //  echo '<br>';
+                    //  get_user_ip
+                    $user_ip = $commFunction->getIP();
+                    //  get the datetime of the form the user has submitted
+
+                    $formSettingList1 = $this->getDoctrine()
+                        ->getRepository('AppBundle:Faqs')
+                        ->findBy(array('user_ip' => $user_ip, 'country' => $country_id), array('id' => 'DESC'), $number_of_entries );
+                    // echo '<br>====>> ';  print_r($formSettingList1);
+                    echo '<br>====>><< ';
+                    if(isset($formSettingList1) && $formSettingList1 != null)
+                    {
+                        $i=0;
+                        // If the number of submissions are less then number_of_entries then return false
+                        //
+                        // echo '=======> '.count($formSettingList1). '-----' .$number_of_entries;
+                        if(count($formSettingList1) < $number_of_entries){
+                            return true;
+                        }
+
+
+                        foreach ($formSettingList1 as $form_setting_list)
+                        {
+                            //echo '<br>'.'===> >> >>>';
+                            if(count($formSettingList1) < $number_of_entries){
+                                return true;
+                            }
+                            echo $date_of_submission = $formSettingList1[$i]->getCreated()->format('Y-m-d H:i:s');
+                            //echo '<br>';
+
+                            $date_of_submission = explode(' ', $date_of_submission);
+                            //print_r($date_of_submission);
+                            $date_of_submission[0];
+                            $date_of_submission[1];
+                            $date_of_submission_days_array = explode('-', $date_of_submission[0]);
+                            //print_r($date_of_submission_days_array);
+                            $date_of_sub_year  = $date_of_submission_days_array[0];
+                            $date_of_sub_month = $date_of_submission_days_array[1];
+                            $date_of_sub_days  = $date_of_submission_days_array[2];
+                            $date_of_sub_hours_array = explode(':', $date_of_submission[1]);
+                            //print_r($date_of_sub_hours_array);
+                            $date_of_sub_hour    = $date_of_sub_hours_array[0];
+                            $date_of_sub_minutes = $date_of_sub_hours_array[1];
+                            $date_of_sub_seconds = $date_of_sub_hours_array[2];
+                            // final mktime of the user submitted form
+                            echo 'submission time';
+                            echo '<br>'.$submission_time = mktime($date_of_sub_hour + 3 + $submission_time_hours_for_checking, $date_of_sub_minutes, $date_of_sub_seconds, $date_of_sub_month, $date_of_sub_days, $date_of_sub_year);
+                            // here we will add the time with the submitted time for the user so that we know he still can submit the form or not
+                            // ie afer one hour or after one day the user will submit the form
+                            $submission_time;
+                            // echo '<br>';
+                            echo 'current time' . $current_time;
+                            // ct = 9 ; st = 8 ; gt = 2
+                            if ($submission_time < $current_time) {
+                                return true;
+                            }
+                            $i++;
+                        }
+                        // change it to false
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (\Exception $e)
+        {
+            $message = $e->getMessage(); // exit;
+            return $this->render('front/faqs.html.twig', array(
+                'form' => $form->createView(), 'message' => $message,
+            ));
+        }
+    }
+
+
+    public function getFormSubmissionSettingsss(Request $request , $form)
     {
          $form = 'Faqs Form';
          try
@@ -191,79 +318,86 @@ class FaqsController extends Controller
                 $formSettingList = $this->getDoctrine()
                     ->getRepository('AppBundle:FormSettings')
                     ->findOneBy(array('status' => 1, 'formtype' => $form));
+                 print_r($formSettingList);
                 $country_id = $commFunction->getCountryCode($request);
-
-                $i = 0;
-                if($formSettingList == '' && $formSettingList == null)
+                $i = 0 ;
+                if( $formSettingList == '' && $formSettingList == null )
                 {
                     return $formSettingList = false;
                 }
                 else
                 {
-                    // get number of submission for the user IP
-                    // if the user has submitted the form
-                    // 'Every Hour' => '1', 'Every Day' => '24', 'Weekly' => '168', 'Monthly' => '720'
-                    // This is the time that will add with the user submission time so that we know
-                    // we can prevent the user from submitting the form agian.
-                    // now we will add these housr to the sumbission time of the form
-                    $submission_time_hours_for_checking = $formSettingList->getSubmissions();
+                    echo $submission_time_hours_for_checking = $formSettingList->getSubmissions();
+                    echo '<br>';
                     if($submission_time_hours_for_checking)
                     {
-                        date_default_timezone_set("Asia/Riyadh");
-                        $date_now = date('Y-m-d H:i:s');
+                        // date_default_timezone_set("Asia/Riyadh");
+                        echo $date_now = date('Y-m-d H:i:s');
 
                         $date_current = explode(' ', $date_now );
-                        //print_r($date_now);
+                        // print_r($date_now);
                         $date_current_days  = explode('-', $date_current[0] );
                         $date_current_year  = $date_current_days[0];
                         $date_current_month = $date_current_days[1];
                         $date_current_day   = $date_current_days[2];
-                        //echo '<br>';
+                        // echo '<br>';
 
 
-                        $date_current_hours  = explode(':' ,$date_current[1]);
+                        $date_current_hours  = explode(':' , $date_current[1]);
                         $date_current_hour   = $date_current_hours[0];
                         $date_current_minutes   = $date_current_hours[1];
                         $date_current_seconds   = $date_current_hours[2];
                         //echo '<br>';
+
                         $current_time =  mktime($date_current_hour + 3, $date_current_minutes, $date_current_seconds, $date_current_month, $date_current_day , $date_current_year);
-                        //echo '<br>';
+
+                        //  echo '<br>';
                         //  get_user_ip
                         $user_ip = $commFunction->getIP();
                         //  get the datetime of the form the user has submitted
                         $formSettingList1 = $this->getDoctrine()
                             ->getRepository('AppBundle:Faqs')
                             ->findOneBy(array('user_ip' => $user_ip, 'country' => $country_id),array('id' => 'DESC'));
-                        //   print_r($formSettingList1);
-                        $date_of_submission = $formSettingList1->getCreated()->format('Y-m-d H:i:s');
-                        $date_of_submission = explode(' ', $date_of_submission );
-                        //print_r($date_of_submission);
-                        $date_of_submission[0];
-                        $date_of_submission[1];
-                        $date_of_submission_days_array     = explode('-' ,$date_of_submission[0]);
-                        //print_r($date_of_submission_days_array);
-                        $date_of_sub_year            = $date_of_submission_days_array[0];
-                        $date_of_sub_month           = $date_of_submission_days_array[1];
-                        $date_of_sub_days            = $date_of_submission_days_array[2];
-                        $date_of_sub_hours_array           = explode(':' ,$date_of_submission[1]);
-                        print_r($date_of_sub_hours_array);
-                        $date_of_sub_hour            = $date_of_sub_hours_array[0];
-                        $date_of_sub_minutes         = $date_of_sub_hours_array[1];
-                        $date_of_sub_seconds         = $date_of_sub_hours_array[2];
-                        // final mktime of the user submitted form
-                        $submission_time =  mktime($date_of_sub_hour + 3 + $submission_time_hours_for_checking, $date_of_sub_minutes, $date_of_sub_seconds, $date_of_sub_month , $date_of_sub_days , $date_of_sub_year);
-                        // here we will add the time with the submitted time for the user so that we know he still can submit the form or not
-                        // ie afer one hour or after one day the user will submit the form
-                        $submission_time;
-                        //echo '<br>';
-                        // echo 'current time' . $current_time;
-                        // ct = 9 ; st = 8 ; gt = 2
-                        if($submission_time > $current_time)
-                        {
+                        echo '<br>';
+                        print_r($formSettingList1);
+                        if(isset($formSettingList1) && $formSettingList1 != null) {
+                            $i=0;
+                            echo '<br>===';
+                            print_r($formSettingList1);
+                            foreach ($formSettingList1 as $form_setting_list)
+                            {
+                                echo '<br>==='; exit;
+                                echo $date_of_submission = $formSettingList1->getCreated()->format('Y-m-d H:i:s');
+                                $date_of_submission      = explode(' ', $date_of_submission);
+                                //print_r($date_of_submission);
+                                $date_of_submission[0];
+                                $date_of_submission[1];
+                                $date_of_submission_days_array = explode('-', $date_of_submission[0]);
+                                //print_r($date_of_submission_days_array);
+                                $date_of_sub_year  = $date_of_submission_days_array[0];
+                                $date_of_sub_month = $date_of_submission_days_array[1];
+                                $date_of_sub_days  = $date_of_submission_days_array[2];
+                                $date_of_sub_hours_array = explode(':', $date_of_submission[1]);
+                                print_r($date_of_sub_hours_array);
+                                $date_of_sub_hour    = $date_of_sub_hours_array[0];
+                                $date_of_sub_minutes = $date_of_sub_hours_array[1];
+                                $date_of_sub_seconds = $date_of_sub_hours_array[2];
+                                // final mktime of the user submitted form
+                                $submission_time = mktime($date_of_sub_hour + 3 + $submission_time_hours_for_checking, $date_of_sub_minutes, $date_of_sub_seconds, $date_of_sub_month, $date_of_sub_days, $date_of_sub_year);
+                                // here we will add the time with the submitted time for the user so that we know he still can submit the form or not
+                                // ie afer one hour or after one day the user will submit the form
+                                // $submission_time;
+                                // echo '<br>';
+                                // echo 'current time' . $current_time;
+                                // ct = 9 ; st = 8 ; gt = 2
+                                if ($submission_time < $current_time) {
+                                    return true;
+                                }
+                                $i++;
+                            }
                             return false;
                         }
-                        else
-                        {
+                        else{
                             return true;
                         }
                     }
@@ -277,6 +411,27 @@ class FaqsController extends Controller
                 ));
             }
     }
+
+    /**
+     * @Route("/{_country}/{_locale}/faqlist", name="faqlist")
+     * @param Request $request
+     */
+    public function getFaqList(Request $request)
+    {
+        $restClient = $this->get('app.rest_client');
+
+            $url = $request->getLocale() . '/api/faqlist.json';
+            // echo AppConstant::WEBAPI_URL.$url;
+            $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
+            var_dump($data);
+            $i = 0;
+            $message = '';
+            return $this->render('front/faqslist.html.twig', array(
+                'message' => $message, 'Data' => $data['data']
+            ));
+    }
+
+
 
    /* private function getIP()
     {
