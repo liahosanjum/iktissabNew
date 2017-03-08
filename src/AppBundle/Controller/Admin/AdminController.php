@@ -45,8 +45,6 @@ class AdminController extends Controller
             'last_username' => $lastUsername,
             'error' => $error
         ));
-
-
     }
 
     /**
@@ -54,9 +52,9 @@ class AdminController extends Controller
      */
     public function cmsListAction(Request $request)
     {
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('homepage');
-        }
+        //if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+          //  return $this->redirectToRoute('homepage');
+        // }
 
         $cmsPage = new CmsPages();
         $form = $this->createForm(CmsPagesType::class, $cmsPage);
@@ -74,8 +72,7 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($cmsPage);
             $em->flush();
-            if($cmsPage->getId())
-            {
+            if($cmsPage->getId()) {
                 $message = $this->get('translator')->trans('Record Added successfully');
                 return $this->render('admin/cms/cms.html.twig', array(
                     'form' => $form->createView(),'message' => $message,

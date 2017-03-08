@@ -111,6 +111,13 @@ class EnquiryAndSuggestion
      */
     private $user_ip;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source", type="string", length=100)
+     */
+    private $source;
+
 
     /**
      * Get id
@@ -405,6 +412,28 @@ class EnquiryAndSuggestion
     {
         $this->captchaCode = $captchaCode;
         return $this;
+    }
+
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return EnquiryAndSuggestion
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 
 }

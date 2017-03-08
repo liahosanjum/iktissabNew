@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div>
+                {{ 'Contents Pages'|trans}}
+            </div>
+            <div>
+
+            </div>
+
+            <div class="">
+                {{ message }}
+            </div>{{   app.request.getLocale() }}
+            <div>
+                {{   Data.id  }}
+                {{   Data.Etitle  }}
+                {{   Data.Atitle  }}
+            </div>
+
+        </div>
+    </div>
+
+    {% endblock %}
+    {% block javascripts %}
+    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <script type="text/javascript"></script>
+
+    <div class="row">
+
+    rest of the contents .....
+
+    </div>
+
+</div>
+{% endblock %}
