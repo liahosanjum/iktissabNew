@@ -13,6 +13,7 @@ use AppBundle\AppConstant;
 
 use AppBundle\Entity\User;
 use AppBundle\Exceptions\RestServiceFailedException;
+use AppBundle\Form\IktRegType;
 use AppBundle\HttpCode;
 
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -122,8 +123,40 @@ class ApiController extends FOSRestController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    public function getSalem_khanAction(Request $request){
+        $statuses = array(
+            'INVALID_DATA'=>0,
+            'PENDING'=>1,
+            'SERVICE_CONNECTION'=>2
+        );
+
+        if($request->headers->get('ApiResp', 'false') == 'true'){
+
+            return $this->handleView(
+                $this->view(array('ResponseTemplate'=>array('success'=>'false/true', 'status'=>'null/0/1/2'), 'status'=>$statuses)));
+
+        }
+
+        return $this->handleView(
+            $this->view());
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postFirst_time_registerationAction(Request $request)
     {
+        $responseCodes = array(
+            'INVALID_DATA'=>0,
+            'PENDING'=>1,
+            'SERVICE_CONNECTION'=>2
+        );
+
+        if($request->headers->get('ApiResp', 'false') == 'true'){
+            return $this->handleView(
+                $this->view(array('ResponseTemplate'=>array('Success'=>'false/true', 'ResponseCode'=>'null/0/1/2'), 'ResponseCodes'=>$responseCodes)));
+        }
+
 
         $translator = $this->get('translator');
         $cardService = $this->get('app.services.iktissab_card_service');
@@ -132,9 +165,8 @@ class ApiController extends FOSRestController
             $citesAreasAndJobs = $cardService->getCitiesAreasAndJobs();
         }
         catch (RestServiceFailedException $e){
-            return $this->handleView($this->view(['success'=>false, 'Value'=>$translator->trans('Connection to the service failed try latter')]));
+            return $this->handleView($this->view(array('success'=>false, "ResponseCode"=>$responseCodes['SERVICE_CONNECTION'])));
         }
-
 
         $citiesArranged = array();
         foreach ($citesAreasAndJobs['cities'] as $key => $value) {
@@ -146,10 +178,28 @@ class ApiController extends FOSRestController
             $jobsArranged[$value['name']] = $value['job_no'];
         }
 
+        $areasArranged = array();
+        foreach ($citesAreasAndJobs['areas'] as $key => $value) {
+            if(!isset($value['name'])){
+                continue;
+            }
+            $areasArranged[$value['name']] = $value['name'];
+        }
+
         $parameters = $request->request->all();
-        
-        $form = $this->getFirsTimeRegistrationForm(['locale' => $request->getLocale(), 'country' => $request->get('_country'),
-            'cities' => $citiesArranged, 'jobs' => $jobsArranged, 'areas' => $citiesArranged]);
+
+        $pData = array('iktCardNo' => $parameters['iktCardNo'], 'email' => $parameters['email']);
+
+        $options = array(
+            'additional'=>array(
+                'locale' => $request->getLocale(),
+                'country' => $request->get('_country'),
+                'cities' => $citiesArranged,
+                'jobs' => $jobsArranged,
+                'areas' => $areasArranged
+            ));
+        $form = $this->createForm(IktRegType::class, $pData, $options );
+
         $form->submit($parameters, true);
 
         if($form->isValid()){
@@ -160,13 +210,8 @@ class ApiController extends FOSRestController
                 "cname" => $parameters['fullName'],
                 "street" => $parameters['street'],
                 "area" => $parameters['area_no'],
-                "houseno" => $parameters['houseno'],
-                "pobox" => $parameters['pobox'],
-                "zip" => $parameters['zip'],
                 "city_no" => $parameters['city_no'],
-                "tel_home" => $parameters['tel_home'],
-                "tel_office" => $parameters['tel_office'],
-                "mobile" => '0' . $parameters['mobile'],
+                "mobile" => ($request->get("_country") == 'sa' ? '0':'002') . $parameters['mobile'],
                 "email" => $parameters['email'],
                 "nat_no" => $parameters['nationality'],
                 "Marital_status" => $parameters['maritial_status'],
@@ -174,23 +219,23 @@ class ApiController extends FOSRestController
                 "job_no" => $parameters['job_no'],
                 "gender" => $parameters['gender'],
                 "pur_grp" => $parameters['pur_group'],
-                "additional_mobile" => '',
-                "G_birthdate" => $birthDay->format('Y-m-d h:i:s'),
+                "birthdate" => $birthDay->format('Y-m-d h:i:s'),
                 "pincode" => mt_rand(1000, 9999),
+                'source'=> User::ACTIVATION_SOURCE_MOBILE
             );
 
             try {
                 $staging = $cardService->isCardInStaging($parameters['iktCardNo']);
                 if($staging == true){
-                    return $this->handleView($this->view(['success'=>false, 'Value'=>$translator->trans('You Have pending request')]));
+                    return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['PENDING'])));
                 }
                 $saveCustomer = $cardService->saveCard($newCustomer);
                 if ($saveCustomer['success'] != true) {
-                    return $this->handleView($this->view(['success'=>false, 'Value'=>$this->get('translator')->trans($saveCustomer['message'])], HttpCode::HTTP_OK));
+                    return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), HttpCode::HTTP_OK));
                 }
             }
             catch (RestServiceFailedException $e) {
-                return $this->handleView($this->view(['success'=>false, 'Value'=>$translator->trans('Connection to the service failed try latter')]));
+                return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), HttpCode::HTTP_OK));
             }
 
             $user = new User();
@@ -224,10 +269,10 @@ class ApiController extends FOSRestController
             $log->logEvent(
                 AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS,
                 $parameters['iktCardNo'], ['message' => 'New Card Registeration From Mobile', 'session' => $newCustomer]);
-            return $this->handleView($this->view(["success"=>true, "Value"=>"Registration successful"], HttpCode::HTTP_OK));
+            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), HttpCode::HTTP_OK));
         }
 
-        return $this->handleView($this->view(["success"=>false, "Value"=>AppConstant::INVALID_DATA], HttpCode::HTTP_OK));
+        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA']), HttpCode::HTTP_OK));
     }
 
     /**
@@ -236,6 +281,17 @@ class ApiController extends FOSRestController
      */
     public function postWebsite_registerationAction(Request $request)
     {
+        $responseCodes = array(
+            'INVALID_DATA'=>0,
+            'PENDING'=>1,
+            'SERVICE_CONNECTION'=>2
+        );
+
+        if($request->headers->get('ApiResp', 'false') == 'true'){
+            return $this->handleView(
+                $this->view(array('ResponseTemplate'=>array('Success'=>'false/true', 'ResponseCode'=>'null/0/1/2'), 'ResponseCodes'=>$responseCodes)));
+        }
+
         $parameters = $request->request->all();
         $cardService = $this->get('app.services.iktissab_card_service');
        
@@ -243,7 +299,7 @@ class ApiController extends FOSRestController
             $userInformation = $cardService->getUserInfo($parameters['iktCardNo']);
         }
         catch(RestServiceFailedException $ex){
-            return $this->handleView($this->view(['success'=>false, 'Value'=>$this->get('translator')->trans('Connection to the service failed try latter')]));
+            return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['INVALID_DATA']), HttpCode::HTTP_OK));
         }
 
         //build form
@@ -314,189 +370,24 @@ class ApiController extends FOSRestController
             $log->logEvent(
                 AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS,
                 $parameters['iktCardNo'], ['message' => 'New Card Registeration From Mobile', 'session' => serialize($userInformation['user'])]);
-            return $this->handleView($this->view(["success"=>true, "Value"=>"Registration successful"], HttpCode::HTTP_OK));
+
+            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), HttpCode::HTTP_OK));
         }
 
-        return $this->handleView($this->view(["success"=>false, "Value"=>"Registration unsuccessful"], HttpCode::HTTP_OK));
+        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA']), HttpCode::HTTP_OK));
 
     }
-
-
-    /**
-     * @param $lookupData
-     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
-     */
-    private function getFirsTimeRegistrationForm($lookupData){
-
-
-        $allNations = $this->getDoctrine()->getManager()->getRepository("AppBundle:Nationality")->findAll();
-
-        $nationalityIds = [];
-        foreach ($allNations as $nation){
-            $nationalityIds[$lookupData['locale'] == 'en'? $nation->getEdesc(): $nation->getAdesc()] = $nation->getId();
-        }
-
-        $builder = $this->createFormBuilder(null, ['method'=>'POST', 'csrf_protection'=>false]);
-
-        $builder->add('iktCardNo', TextType::class, ['label' => 'Iktissab ID', 'attr' =>array('maxlength'=>8),
-            'constraints' => [
-                new Assert\NotBlank(['message' => 'Iktissab id  is required']),
-                new Assert\Regex([
-                        'pattern' => '/^[9,5]([0-9]){7}$/',
-                        'match' => true,
-                        'message' => 'Invalid Iktissab Card Number'
-                    ])
-                ]
-            ])
-            ->add('fullName', TextType::class, array('label' => 'Full name', 'attr' =>['maxlength' => 50],
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Length(['min' => 5, 'max'=>50, 'minMessage'=> "Length is too small", 'maxMessage' => "Length is too big"])
-                    ]
-                )
-            )
-            ->add('email', TextType::class, array('label' => 'Email',
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Email(["message"=>"Invalid email address"])
-                    ]
-                )
-            )
-            ->add('password', RepeatedType::class,
-                array(
-                    'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match',
-                    'required' => true,
-                    'first_options' => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat password'],
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Length(['min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'])
-                    ]
-                )
-            )
-            ->add('gender', ChoiceType::class, [
-                    'label' => 'Gender',
-                    'choices' => ['Gender' => '', 'Male' => 'M', 'Female' => 'F'],
-                    'constraints' =>[
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Choice(['M', 'F'])
-                    ]
-                ])
-            ->add('nationality', ChoiceType::class, [
-                    'choices' => $nationalityIds,
-                    'label' => 'Nationality',
-                    'empty_data' => null,
-                    'placeholder' => 'Select Nationality',
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Choice(array_values($nationalityIds))
-                    ]
-                ]
-            )
-            ->add('dob', DateType::class, array(
-                'years' => range(date('Y') - 5, date('Y') - 77),
-                'widget' => 'single_text',
-                'label' => 'Birthdate',
-                'format'=>"yyyy-M-d",
-                'constraints' => [new Assert\NotBlank(['message' => 'This field is required'])]
-
-            ))
-            ->add('maritial_status', ChoiceType::class, array(
-                'label' => 'Marital Status',
-                'choices' => ['Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'],
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'This field is required']),
-                    new Assert\Choice(['S', 'M', 'W', 'D'])
-                ]
-            ))
-            ->add('iqama', TextType::class, array(
-                'label' => 'Iqama/SSN Number',
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'This field is required']),
-                    new Assert\Regex([
-                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
-                            'match' => true,
-                            'message' => 'Invalid Iqama/SSN Number']
-                        ),
-
-//                    new Assert\Callback([
-//                        'callback' => [$this, 'validateIqama']
-//                    ])
-                ]
-            ))
-            ->add('job_no', ChoiceType::class, array(
-                'choices' => $lookupData['jobs'],
-                'label' => 'Job',
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'This field is required']),
-                    new Assert\Choice( array_values($lookupData['jobs']))
-                ]
-            ))
-            ->add('city_no', ChoiceType::class, array(
-                'choices' => $lookupData['cities'],
-                'label' => 'City',
-                'placeholder' => 'Select City',
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'This field is required']),
-                    new Assert\Choice(array_values($lookupData['cities']))
-                ]
-            ))
-            ->add('area_no', ChoiceType::class, array(
-                'choices' => $lookupData['areas'],
-                'label' => 'Area',
-                'placeholder' => 'Select Area'
-            ))
-            ->add('language', ChoiceType::class, array(
-                    'label' => 'Preffered Language',
-                    'choices' => array('Select Language' => '', 'Arabic' => 'A', 'English' => 'E'),
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'This field is required']),
-                        new Assert\Choice(['A','E'])
-                    ]
-                )
-            )
-            ->add('street', TextType::class, array('label' => 'Street', 'attr' => array('maxlength' => 100)))
-            ->add('houseno', TextType::class, array('label' => 'House Number'))
-            ->add('pobox', TextType::class, array('label' => 'PO Box'))
-            ->add('zip', TextType::class, array('label' => 'Zip Code'))
-            ->add('tel_office', TextType::class, array('label' => 'Telephone (Office)'))
-            ->add('tel_home', TextType::class, array('label' => 'Telephone (Home)'))
-            ->add('mobile', TextType::class, array(
-                'label' => 'Mobile',
-                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 14),
-                'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),
-                    new Assert\Regex(
-                        array(
-                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^([0-9]){14}$/',
-                            'match' => true,
-                            'message' => "Mobile Number Must be ".($lookupData['country'] == 'sa' ? '9' : '14' )." digits")
-                    ),
-
-                )
-            ))
-            ->add('pur_group', ChoiceType::class, array(
-                'label' => 'Shoppers',
-                'placeholder' => 'Select Shopper',
-                'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
-                'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),
-                    new Assert\Choice(['1','2', '3', '4', '5', '6'])
-                )
-            ));
-
-        return $builder->getForm();
-
-    }
-
 
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postUpdate_user_details(Request $request){
+        $translator = $this->get('translator');
+        $cardService = $this->get('app.services.iktissab_card_service');
+        $parameters = $request->request->all();
 
+        //$this->createForm()
     }
 
 }

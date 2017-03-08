@@ -110,7 +110,12 @@ class IktissabCardService
     public function saveUser($data){
         
     }
-
+    public function updateUserDetails($card, $post){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $result = $client->Post('update_user_detail', $post);
+        $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $card, $post);
+        return $result;
+    }
     public function getCitiesAreasAndJobs()
     {
         $client = $this->container->get('app.services.iktissab_rest_service');
