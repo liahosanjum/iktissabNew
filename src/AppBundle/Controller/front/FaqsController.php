@@ -190,7 +190,7 @@ class FaqsController extends Controller
     public function getFormSubmissionSettings(Request $request , $form)
     {
         // $form = 'Inquiries And Suggestion';
-        $form    = 'Faqs Form';
+        // $form    = 'Faqs Form';
         try
         {
             $commFunction    = new FunctionsController();
@@ -416,22 +416,23 @@ class FaqsController extends Controller
     }
 
     /**
-     * @Route("/{_country}/{_locale}/faqlist", name="faqlist")
+     * @Route("/{_country}/{_locale}/faqlist", name="front_faqlist")
      * @param Request $request
      */
     public function getFaqList(Request $request)
     {
         $restClient = $this->get('app.rest_client');
-        $url = $request->getLocale() . '/api/faqlist.json';
+        $url  = $request->getLocale() . '/api/faqlist.json';
         // echo AppConstant::WEBAPI_URL.$url;
         $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
-        // var_dump($data);
+        // var_dump($data);$data['data']
+        echo 'testing';
         $i = 0;
         $message = '';
-        return $this->render('front/faqslist.html.twig', array(
-            'message' => $message, 'Data' => $data['data']
-        ));
+        return $this->render( 'front/faqslist.html.twig', array('message' => $message, 'Data' => $data['data'] ));
     }
+
+
 
 
 

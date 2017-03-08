@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FormSettings
 {
+    const Inquiries_And_Suggestion = "Inquiries And Suggestion";
+    const Faqs_Form = "Faqs Form";
     /**
      * @var int
      *

@@ -48,6 +48,7 @@ class EnquiryAndSuggestion
         $this->container->get('swiftmailer.mailer');
         $request = new Request();
         $entity->setUser_ip($this->getIP($request));
+        $entity->setSource('w');
         $this->em->persist($entity);
         $this->em->flush();
         if ($entity->getId()) {
