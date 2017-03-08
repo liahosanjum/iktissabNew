@@ -4,9 +4,11 @@ namespace AppBundle\Form;
 
 
 use AppBundle\Entity\EnquiryAndSuggestion;
+use AppBundle\Entity\FormSettings;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -72,6 +74,12 @@ class EnquiryAndSuggestionType extends AbstractType
                 'constraints' => array(
                     new NotBlank(array('message' => 'Email is required'))),
                 ))
+
+            ->add('source', HiddenType::class, array('label' => 'Source' ,
+                    'attr' =>array('value' => 'W'),))
+
+
+
 
 
             ->add('submit', SubmitType::class, array('label'=>"Submit"));

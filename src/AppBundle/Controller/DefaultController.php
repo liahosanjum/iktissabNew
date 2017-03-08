@@ -88,6 +88,41 @@ class DefaultController extends Controller
 
     }
 
+
+    /**
+     * @Route("/{_country}/{_locale}/list/{id}/{type}", name="front_cmscontent")
+     * @param Request $request
+     * @param $id
+     * @param $type
+     */
+    public function getCmsContent(Request $request , $id , $type )
+    {
+        echo 'asdf';
+        $em = $this->getDoctrine()->getEntityManager();
+        $cmspages = $this->getDoctrine()
+            ->getRepository('AppBundle:CmsPages')
+            ->findOneBy(array('id' => $id , 'status' => 1 , 'type' => 'CMS'));
+        $data = array();
+        $i = 0;
+        echo $cmspages->getId();
+        echo $cmspages->getAtitle();
+        echo $cmspages->getEtitle();
+        //$cmspages->getgetStatus();
+
+        if (!$cmspages)
+        {
+            return $this->render('front/cms/contents.html.twig', array(
+                'data' => $data , 'message' => 'No record found' ));
+        }
+        else
+        {
+            return $this->render('front/cms/contents.html.twig', array(
+                'data' => $data ,  'message' => '' , 'Data' => array(
+                    'id' => $cmspages->getId() ,'Atitle' => $cmspages->getAtitle() ,'Etitle' => $cmspages->getEtitle())));
+        }
+    }
+
+
     /**
      * @Route("/{_country}/{_locale}/forgotpassword", name="forgotpassword")
      */
