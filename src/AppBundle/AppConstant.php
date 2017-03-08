@@ -89,6 +89,7 @@ class AppConstant
     const SECRET_KEY_FP = 'SDAWEI123123AJT';
 
     const DATE_FORMAT = "m/d/Y";
+    const DATE_TIME_FORMAT = "Y-m-d h:i:m a";
     
     const PROMOTIONS_PATH = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
     const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';

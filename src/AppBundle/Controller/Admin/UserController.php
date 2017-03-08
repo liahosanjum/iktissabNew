@@ -28,8 +28,6 @@ class UserController extends Controller
      * @Cache(smaxage="10")
      */
 
-//* @Route("admin/users/{page}", requirements={"page": "[1-9]\d*"}, name="admin_users_paginated")
-
     public function adminUsersController(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -110,5 +108,39 @@ class UserController extends Controller
             return new Response("Failed to load data");
         }
     }
+
+    /**
+     * @Route("/admin/activity-logs", name= "admin_activitylogs")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     */
+
+    public function adminLogsController(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ikt = $request->query->get('ikt', '');
+        $action = $request->query->get('action', '');
+        $email = $request->query->get('email', '');
+        $page = $request->query->get('page', 1);
+        $logs = $em->getRepository('AppBundle:ActivityLog')->searchActivityLog($ikt, $action,$email);
+        $pager = new Pagerfanta(new DoctrineORMAdapter($logs, true));
+        $pager->setMaxPerPage(User::NUM_ITEMS);
+        $routeGenerator = function ($page) {
+            return '?pager=' . $page . '&email=eg';
+
+        };
+        if ($pager->haveToPaginate())
+            $pager->setCurrentPage($page);
+        return $this->render(
+            '/admin/cms/activitylogs.html.twig',
+            array(
+                'logs' => $pager,
+                'ikt' => $ikt,
+                'action' => $action,
+                'email' => $email
+            )
+        );
+    }
+
 
 }

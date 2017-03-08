@@ -33,7 +33,7 @@ class IktRegType extends AbstractType
     {
 
         $lookupData = $options['additional'];
-        $builder->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
+        $builder->add('iktCardNo', TextType::class, array('label' => 'Iktissab ID', 'disabled' => true,
             'attr' =>array('maxlength'=>8),
             'constraints' => array(
 
@@ -47,14 +47,15 @@ class IktRegType extends AbstractType
             )
         ))
             ->add('fullName', TextType::class, array('label' => 'Full name',
-                    'attr' =>array('maxlength' => 50),
+                    'attr' =>array('maxlength' => 100),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array('min' => 5, 'max'=>50, 'minMessage'=> "Length is too small", 'maxMessage' => "Length is too big"))
+                        new Assert\Length(array('min' => 5, 'max'=>100, 'minMessage'=> "Length is too small", 'maxMessage' => "Length is too big"))
                     )
                 )
             )
             ->add('email', EmailType::class, array('label' => 'Email', 'disabled' => true,
+                    'attr' =>array('maxlength' => 50),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                     )
@@ -125,6 +126,7 @@ class IktRegType extends AbstractType
             ))
             ->add('iqama', TextType::class, array(
                 'label' => 'Iqama/SSN Number',
+                'attr' =>array('maxlength' => ($lookupData['country'] == 'sa') ? 10 : 15),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -163,6 +165,7 @@ class IktRegType extends AbstractType
             ))
             ->add('area_text', TextType::class, array(
                 'label' => 'Area',
+                'attr' =>array('maxlength'=>50),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -177,12 +180,12 @@ class IktRegType extends AbstractType
             )
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 14),
+                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^([0-9]){14}$/',
+                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^([0-9]){10}$/',
                             'match' => true,
                             'message' => "Mobile Number Must be ".($lookupData['country'] == 'sa' ? '9' : '14' )." digits")
                     ),
