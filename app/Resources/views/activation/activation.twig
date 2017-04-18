@@ -17,4 +17,17 @@
             {{ form_end(form) }}
         </div>
     </div>
+
+    <script type="text/javascript"
+            src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <script type="text/javascript">
+
+        jQuery(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+
+    </script>
 {% endblock %}
