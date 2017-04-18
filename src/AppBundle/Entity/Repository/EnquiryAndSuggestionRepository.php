@@ -11,4 +11,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class EnquiryAndSuggestionRepository extends EntityRepository
 {
+    /**
+     * @param $date
+     * @return array
+     */
+    public function findByUserIPAndCreated($date)
+    {
+        return $this->_em->createQueryBuilder()->select("e")
+            ->from("AppBundle:EnquiryAndSuggestion", "e")
+            ->where("e.user_ip=:userip")
+            ->andWhere("e.created>:date")
+            ->setParameter("userip", $_SERVER['REMOTE_ADDR'])
+            ->setParameter("date", $date)
+            ->getQuery()
+            ->getResult();
+    }
 }

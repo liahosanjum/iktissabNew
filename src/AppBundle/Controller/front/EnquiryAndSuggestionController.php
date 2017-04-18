@@ -42,7 +42,7 @@ class EnquiryAndSuggestionController extends Controller
                     // print_r($data);exit;
                     if ($data['success'])
                     {
-                        $enquiryAndSuggestion->setCountry($request->get('_country'));
+                        $enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
                         $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
                         if ($rest)
                         {

@@ -38,7 +38,7 @@ class Settings
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="integer", length=50)
+     * @ORM\Column(name="country", type="string", length=10)
      */
     private $country;
 

@@ -128,10 +128,10 @@ fos_rest:
             - { path: ^/, priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: false}
     disable_csrf_role: ROLE_API
 
-#boekkooi_jquery_validation:
-#    form:
-#        enabled: true # Set to false to disable the form constraints being parsed/converted by default
-#        additionals: true # Set to true if jquery validate additional-method.js is included
+boekkooi_jquery_validation:
+    form:
+        enabled: true # Set to false to disable the form constraints being parsed/converted by default
+        additionals: true # Set to true if jquery validate additional-method.js is included
         #accept: false
         #ipv4: false
         #ipv6: false

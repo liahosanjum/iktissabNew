@@ -10,4 +10,16 @@ namespace AppBundle\Entity\Repository;
  */
 class FormSettingsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $country
+     * @param $formType
+     * @return \AppBundle\Entity\FormSettings|bool
+     */
+    public function findByCountryAndType($country, $formType){
+        $result  = $this->_em->getRepository("AppBundle:FormSettings")
+            ->findBy(["country"=>$country, "formtype"=>$formType]);
+        if($result != null) return $result[0];
+
+        return false;
+    }
 }

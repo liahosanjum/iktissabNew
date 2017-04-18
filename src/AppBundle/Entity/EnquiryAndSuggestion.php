@@ -391,10 +391,7 @@ class EnquiryAndSuggestion
         $this->modified = new \DateTime('now');
     }
 
-    /**
-     * @Assert\NotBlank(message="This field is required")
-     * @ValidCaptcha(message="Invalid captcha code")
-     */
+
     private $captchaCode;
 
     /**

@@ -124,16 +124,29 @@ class IktissabCardService
         return $result;
     }
 
-    public function updateApprovalCycleField($field, $data){
+    public function updateMobile($data){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $fieldsPath = array();
-        if(!key_exists($field, $fieldsPath)){
-
-        }
-        $result  = $client->Post($fieldsPath[$field], $data);
-
+        $result  = $client->Post("update_user_mobile", $data);
         return $result;
     }
+
+    public function updateSSN($data){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $result  = $client->Post("update_user_ssn", $data);
+        return $result;
+    }
+    public function updateLostCard($data){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $result  = $client->Post("update_lost_card", $data);
+        return $result;
+    }
+
+    public function updateName($data){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $result  = $client->Post("update_user_name", $data);
+        return $result;
+    }
+
     public function updateEmail($data)
     {
         $user = $this->em->getRepository("AppBundle:User")->find($data['card']);
@@ -142,7 +155,7 @@ class IktissabCardService
             $client = $this->container->get('app.services.iktissab_rest_service');
             $client->Post('update_user_email', $data);
             $user->setEmail($data['email']);
-            $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $data['card'], $data);
+            $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $data['card'], $data);
 
             return array('success'=>true);
         }
@@ -150,7 +163,6 @@ class IktissabCardService
     }
     public function updatePassword($data)
     {
-
         $user = $this->em->getRepository("AppBundle:User")->find($data['card']);
         if($user){
             $user->setPassword(md5($data['password']));
