@@ -2,20 +2,12 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 
 class UpdateFullnameType extends AbstractType
 {
@@ -26,7 +18,8 @@ class UpdateFullnameType extends AbstractType
         $country_id = $options['extras']['country'];
 
         $builder->add('fullname_registered_iqamaid', TextType::class, array('label' => 'Registered Iqama ID/SSN',
-            'attr' =>array('value' => $iktID_no , 'readonly' => 'readonly' ),
+            'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            'attr' =>array('class' => 'form-control formLayout' ,'value' => $iktID_no , 'readonly' => 'readonly' ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
@@ -37,11 +30,15 @@ class UpdateFullnameType extends AbstractType
                 ),)
         ))
         ->add('fullname', TextType::class, array('label' => 'Full Name',
+            'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            'attr' =>array('class' => 'form-control formLayout'),
             'constraints' => array(
              new Assert\NotBlank(array('message' => 'This field is required')))))
 
         ->add('comment_fullname', TextareaType::class, array('label' => 'Comments',
-             'attr' =>array('maxlength' => 255),
+            'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+              
+            'attr' =>array('class' => 'form-control formLayout','maxlength' => 255),
              'constraints' => array(
              new Assert\NotBlank(array('message' => 'This field is required')))))
         ->add('Update', SubmitType::class ,array(

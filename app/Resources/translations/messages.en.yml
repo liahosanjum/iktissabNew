@@ -23,7 +23,7 @@ Mobile: Mobile
 Email: Email
 Nationality: Nationality
 'Marital Status': 'Marital Status'
-Birthdate: Birthdate
+"Birthdate": "Birthdate"
 'Job Title': 'Job Title'
 Balance: Balance
 'Gender:': 'Gender:'
@@ -67,7 +67,7 @@ Shoppers: Shoppers
 'Update': 'Update'
 'You can update your email through the following form': 'You can update your email through the following form'
 'Dear Customer': 'Dear Customer'
-'Update your email': 'Update your email'
+'Update your email': 'Update Email'
 'Please enter the verification code you received on your mobile number ******': 'Please enter the verification code you received on your mobile number ******'
 'Verification code:': ' Verification code: '
 'Changing account email': ' Changing account email'
@@ -174,6 +174,144 @@ Shoppers: Shoppers
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same"
 "Your email address is not updated.Please try again": "Your email address is not updated.Please try again"
 "Your email is not updated.Please try again": "Your email is not updated.Please try again"
+"about iktissab": "About Iktisab"
+"about us": "About Us"
+"sharia complient": "Complient with Sharia"
+"inquiry and suggestion": "Inquiry"
+"Customer Service": "Customer Service"
+"Promotions": "Promotions"
+"participation store": "Participation Store"
+"community services": "Community Services"
+"faqs": "FAQs"
+"Contact Us": "Contact Us"
+"Personal Information": "Personal Information"
+"Update Mobile": "Update Mobile"
+"Update Name": "Update Name"
+"Update-Iqama-SSN": "Update Iqama-SSN"
+"Update lost card": "Update lost card"
+"Update Email": "Update Email"
+"Your Balance": "Your Balance"
+"Update Password": "UPdate Password"
+"Send Iktissab Password": "Send Iktissab Password"
+"Selected Language": "عربي"
+"logout": "Logout"
+"login": "Login"
+"Newsletter": "Newsletter"
+"News letter subscription": "Subscribe to our Newsletter Service"
+"Messages to receive the latest offers": "Messages to receive the latest offers"
+"Complaints & Suggestions emailing": "Complaints & Suggestions Emails"
+"Join Us": "Join Us"
+"Messaging Service": "Messaging Service"
+"Iktissab Card": "Iktissab Card"
+"my account": "My Account"
+"Customer Service Phone No": "Customer Services"
+"Email": "Email"
+"Follow Us": "Follow Us"
+"Terms and Conditions": "Terms and Conditions"
+"Copy rights": "All Rights Reserved to Abdullah AlOthaim Markets Company @ 2017"
+"Customer Services": "Customer Services"
+"My Account": "My Account"
+"Forgot Email": "Forgot Email"
+"Forgot Password": "Forgot Password"
+"Card Activation": "Card Activation"
+"Update Details": "Update Detail"
+"Saudia": "Saudi Arabia"
+"Egypt": "Egypt"
+"Activate Cards": "Activate Cards"
+"Get free iktissab card and start collecting money": "Get free iktissab card and start collecting money"
+"Weekly Promotions": "Weekly Promotions"
+"Exclusive offers only for Ikitssab card holders": "Exclusive offers only for Ikitssab card holders"
+"IKTISSAB PROMOTIONS": "IKTISSAB PROMOTIONS"
+"Iktissab": "Iktissab"
+"Save More": "Save More"
+"One of the Biggest Loyalty Program in KSA": "One of the Biggest Loyalty Program in KSA"
+"Iktissab save more message text home": "IKTISSAB card was launched by OTHAIM co. in 2004, and from that date we are developing the identification, mechanism and the operational systems of IKTISSAB. In November, 2011 OTHAIM launched the new IKTISSAB card which was totally developed (new design, content, policy, issuing mechanism and packaging) also the free points mechanism changed to be free cash balances to your account! All those features and benefits are working accurately by customer care service with smart systems. "
+"Used Balance": "Used Balance"
+"Participation stores": "Participation stores"
+"Community Services": "Community Services"
+"Iktissab Partners": "Iktissab Partners"
+"Contact Information": "Contact Information"
+"Membership No": "Membership No"
+"Current Balance": "Current Balance"
+"Total Balance": "Total Balance"
+"Card Information": "Card Information"
+"Country": "Country"
+"Card Status": "Card Status"
+"You can update your mobile with the new one through the following form": "You can update your mobile with the new one through the following form"
+"Update Information": "Update Information"
+"Home": "Home"
+"Profile has been updated": "Profile has been updated"
+"Jan": "January"
+"Feb": "February"
+"March": "March"
+"April": "April"
+"May": "May"
+"June": "June"
+"July": "July"
+"August": "August"
+"September": "September"
+"October": "October"
+"November": "November"
+"December": "December"
+"User Name": "User Name"
+"Login": "Login"
+"Please enter your username and password and click the Sign in button": "Please enter your username and password and click the Sign in button"
+"Signin for Iktissab Card Gain": "Signin for Iktissab Card Gain"
+"In order to view your membership account information it requires that you enter your username and password": "In order to view your membership account information it requires that you enter your username and password"
+"Login": "Login"
+"Did you forgot your password": "Did you forgot your password"
+"Reset Password": "Reset Password"
+"if you have forgotten your password, you can reset a new password by sending some instructions to our registered email": "if you have forgotten your password, you can reset a new password by sending some instructions to our registered email"
+"Please enter your e-mail and click the Reset Password button": "Please enter your e-mail and click the Reset Password button"
+"Please enter your user name": "Please enter your user name"
+"Please enter your password": "Please enter your password"
+"Submit": "Submit"
+"If you have any comments, suggestions or complaints, please send them to us": "If you have any comments, suggestions or complaints, please send them to us"
+"Please fill in the form below and a customer service staff will reply to you as soon as possible": "Please fill in the form below and a customer service staff will reply to you as soon as possible"
+"Head Office": "Head Office"
+"Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road": "Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road"
+"Riyadh": "Riyadh"
+'Telephone': 'Telephone'
+"Fax": "Fax"
+"Our site on Google": "Our site on Google"
+"Step One": "Step One"
+"Iktissab Card Activation": "Iktissab Card Activation"
+"Create an account for an activated card": "Create an account for an activated card"
+"Iktissab card activaiton step benefits": "To activate your card and get your secret number, and to take advantage of the opportunity to add cash and enjoy the benefits of acquisition Please enter here to enter your data and activate the card"
+"Customer Information": "Customer Information"
+"Verification": "Verification"
+"Accept terms and conditions": "Accept Terms and Conditions"
+"To better serve you, you are kindly required to redeem your acquired cash in a period not exceeding 36 months from the date of the transaction": "To better serve you, you are kindly required to redeem your acquired cash in a period not exceeding 36 months from the date of the transaction"
+"The card will be Inactive if you stop using it for 3 months and once you continue using Iktissab card, it will be activated automatically": "The card will be Inactive if you stop using it for 3 months and once you continue using Iktissab card, it will be activated automatically"
+"With every purchase with 100 riyals you will get 2 riyals in your card balance. Except for the promotion products": "With every purchase with 100 riyals you will get 2 riyals in your card balance. Except for the promotion products"
+"Discounted items and electronic devices are excluded from the discount percentage granted to the owner of the card": "Discounted items and electronic devices are excluded from the discount percentage granted to the owner of the card"
+"Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer.": "Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer."
+"Your use of the card will express your agreement to the terms and conditions, and Iktissab reserve the right to change the terms and conditions without prior notice to the customer": "Your use of the card will express your agreement to the terms and conditions, and Iktissab reserve the right to change the terms and conditions without prior notice to the customer"
+"The customer is not allowed to use more than 1 card, or any card that is not connected to data": "The customer is not allowed to use more than 1 card, or any card that is not connected to data"
+"This field is required": "This field is required"
+"First name": "First name"
+"Second name": "Second name"
+"Third name": "Third name"
+"Family name": "Family name"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

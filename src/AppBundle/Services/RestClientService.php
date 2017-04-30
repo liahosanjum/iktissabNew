@@ -86,7 +86,7 @@ class RestClientService
         $headerFormatted = array();
         $options = array();
         $resultFormatted = array();
-        $returnFailure = array('success' => false, 'message' => 'APi Error');
+        $returnFailure = array('success' => false, 'message' => 'APi Error' , 'status' => 0 );
         foreach ($headers as $key => $val) {
             $headerFormatted[$key] = $key . ':' . $val;
         }
@@ -115,7 +115,7 @@ class RestClientService
         $headerFormatted = array();
         $options = array();
         $resultFormatted = array();
-        $returnFailure = array('success' => false, 'message' => 'APi error');
+        $returnFailure = array('success' => false, 'message' => 'APi error' , 'status' => 0 );
         foreach ($headers as $key => $val) {
             $headerFormatted[$key] = $key . ':' . $val;
         }

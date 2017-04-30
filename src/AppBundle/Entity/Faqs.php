@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
+// use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

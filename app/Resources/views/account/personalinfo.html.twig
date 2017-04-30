@@ -1,83 +1,246 @@
-{% block headerhome %}
-    {{ parent() }}
-
-
-{% endblock %}
-
-<table class="table table-bordered">
-
-
-    <tr>
-        <td colspan="3" class="col-lg-12 eservice-content-company-title"> Information</td>
-    </tr>
-    <tr>
-        <td class="col-lg-4">
-            <div class="ikt-info-wrapper">
-                <div class="img-ikt-info">sdsd<img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
-                <div class="ikt-info-price">
-                    <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
-                    <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
-                </div>
-
-            </div>
-        </td>
-        <td class="col-lg-4 ">
-            <div class="ikt-info-wrapper">
-                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
-                <div class="ikt-info-price">
-                    <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
-                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
-                </div>
-
-            </div>
-        </td>
-        <td class="col-lg-4 ">
-            <div class="ikt-info-wrapper">
-                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/33.svg')}}"></div>
-                <div class="ikt-info-price">
-                    <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
-                    <div class="ikti-info-price-details light-red-color">{{ iktData['balance'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
-                </div>
-
-            </div>
-
-        </td>
-    </tr>
-    <tr>
-
-        <td colspan="3"  class="col-lg-12 user-details">
-            <table class="table table-bordered user-details" >
-                <tr>
-                    <td style="border-top:none !important;" class="user-details-date">
-                        <div class="ikt-date-info">
-                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                            <div class="ikt-date-title">Activation Date</div>
-                            <div class="ikt-date-date">26/09/2011</div>
-                            <div class="claerfix"></div>
-                        </div>
-                    </td>
-                    <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
-                        <div class="ikt-date-info">
-                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                            <div class="ikt-date-title">Last Used</div>
-                            <div class="ikt-date-date">26/09/2011</div>
-                            <div class="claerfix"></div>
-                        </div>
-                    </td>
-
-                </tr>
-            </table>
-        </td>
-
-    </tr>
-    <tr>
-
-    </tr>
-
-</table>
-<div style="  float: right; width: 100%;" class=" ">
-    <div id="placeholder" class="col-lg-12 col-xs-12"></div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        <div class="eservice-content-personal-title">
+            Personal Information
+        </div>
+    </div>
 </div>
+{% if(iktData) %}
+<div class="row">
+
+    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+        <div class="eservice-content-personal-description">
+            <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+            <div class="account-info-detail-wrapper">
+                <div class="account-info-column">{{ 'Full name'|trans }}</div>
+                <div class="account-info-value">{{ iktData['cname'] }}</div>
+                <div class="claerfix"></div>
+            </div>
+            <div class="claerfix"></div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+        <div class="eservice-content-personal-description">
+            <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+            <div class="account-info-detail-wrapper">
+                <div class="account-info-column">{{ 'Email'|trans }}</div>
+                <div class="account-info-value">{{ iktData['email'] }}</div>
+                <div class="claerfix"></div>
+            </div>
+            <div class="claerfix"></div>
+        </div>
+    </div>
+    <div class="claerfix"></div>
+</div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Iqama/SSN Number'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['ID_no'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Country'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['country_ar'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'birthdate'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['birthdate'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Job'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['job_'~app.request.get('_locale')] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Marital Status'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['marital_status_'~app.request.get('_locale')] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Language'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['lang'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'City'|trans }}</div>
+                    <div class="account-info-value">{{ iktData["city_"~app.request.get('_locale')] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Area'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['area'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Mobile'|trans }}</div>
+                    <div class="account-info-value">{{ iktData["mobile"] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Shoppers'|trans }}</div>
+                    <div class="account-info-value">{{ ("pur_group-"~iktData['pur_grp'])|trans }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Customer Status'|trans }}</div>
+                    <div class="account-info-value">{{ iktData["customer_status_"~app.request.get('_locale')] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Card Status'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['card_status'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Zip Code'|trans }}</div>
+                    <div class="account-info-value">{{ iktData["pobox"] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'Telephone (Office)'|trans }}</div>
+                    <div class="account-info-value">{{ iktData['tel_office'] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{{ 'House Number'|trans }}</div>
+                    <div class="account-info-value">{{ iktData["houseno"] }}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+{% else %}
+    <section class="container ">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                No user data found<br />
+                <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
+            </div>
+        </div>
+    </section>
+{% endif %}

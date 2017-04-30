@@ -1,31 +1,35 @@
-{% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="container">
+
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div>
+                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                    <div  class="eservice-content-personal-title title-form-wrapper">
                         {{ 'Update your Iqama Id/ SSN'|trans}}
                     </div>
-                    <div>
-
+                </div>
+                <div class="col-lg-12 col-md-10 col-sm-10 col-xs-10">
+                    <div class="titleForm_main_missingcard">
+                        {{ 'Dear customer'|trans}}
                     </div>
-                    <div>
-                        {{ message }}
+                    <div class="titleForm_sub_missingcard">
+                        {{ 'You can update your full name through the following form'|trans }}
                     </div>
+                    {% if message != '' %}
+                        <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                    <div id="preLoaders">
+                    </div>
+                    <div class="form-wrapper-inner">
                         {{ form(form) }}
                             {{ form_row(form.iqamassn_registered) }}
                             {{ form_row(form.iqamassn_new) }}
                             {{ form_row(form.comment_iqamassn) }}
                         {{ form_end(form) }}
+                     </div>
                 </div>
             </div>
-    </div>
 
-
-
-
-{% endblock %}
 {% block javascripts %}
 
 
@@ -35,8 +39,45 @@
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
         });
+
+        $('form[name="iqamassn"]').on('submit', function (event) {
+            if($( "#iqamassn_iqamassn_new_first" ).hasClass( "valid" )) {
+                if($( "#iqamassn_iqamassn_new_second" ).hasClass( "valid" )) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: "{{ path('front_account_iqamassn', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function() {
+                            $('#preLoaders').html('<div id="loader"></div>');
+                        },
+                        complete: function(){
+                            $('#preLoaders').html('');
+                        },
+                        success: function (response) {
+                            $('#contents-9').html(response);
+                        }
+                    })
+             }
+             else
+             {
+                return false;
+             }
+          }
+          else
+          {
+            return false;
+          }
+
+
+        });
+
+
     </script>
 
-
 {% endblock %}
+
+
 

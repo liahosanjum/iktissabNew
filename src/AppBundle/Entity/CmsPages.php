@@ -56,6 +56,20 @@ class CmsPages
      */
     private $status;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", nullable=false)
+     */
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", nullable=false)
+     */
+    private $country;
+
 
     /**
      * Get id
@@ -186,5 +200,57 @@ class CmsPages
     {
         return $this->status;
     }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return CmsPages
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get adesc
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return CmsPages
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+
+
+
 }
 

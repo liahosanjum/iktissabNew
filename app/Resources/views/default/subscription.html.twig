@@ -19,15 +19,20 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-6">
-        Email subscription country = {{ app.request.get('_country') }} locale: {{ app.request.get('_locale') }}
+<div class="row footer-subscription-wrapper">
+    <div class="col-xs-12 subscription-title">{{ 'Messaging Service'|trans }}</div>
+    <div class="col-xs-12 sub-cription-mobile">
         {{ form_start(form,{attr:{'id':'subs_mob','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')} )} }) }}
+
         {{ form_end(form) }}
     </div>
-    <div class="col-lg-6">
-        Mobile subscription
+    <div class=" col-xs-12 subscription-title-mobile">{{ 'Messaging Service'|trans }}</div>
+    <div class="col-xs-12 sub-cription-email">
+
         {{ form_start(form_mob,{attr:{'id':'subs_email','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})} }) }}
+        {{ form_widget(form) }}
+
+
         {{ form_end(form_mob) }}
 
     </div>

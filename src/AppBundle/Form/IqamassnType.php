@@ -2,20 +2,20 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+// use Symfony\Component\Form\Extension\Core\Type\EmailType;
+// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+// use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Regex;
+// use Symfony\Component\Validator\Constraints\Email;
+// use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+// use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 
 class IqamassnType extends AbstractType
 {
@@ -27,7 +27,8 @@ class IqamassnType extends AbstractType
 
         $builder->add('iqamassn_registered', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN',
-            'attr' =>array('value' => $iktID_no  , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
+            'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            'attr' =>array('value' => $iktID_no  , 'maxlength' => ($country_id == 'sa') ? 10 : 14  ,'class' => 'form-control formLayout' ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
@@ -43,8 +44,8 @@ class IqamassnType extends AbstractType
 
                 'invalid_message' => 'Iqama/SSN fields must match',
                 'required' => true,
-                'first_options'  => array('attr' =>array('maxlength' => ($country_id == 'sa') ? 10 : 14 ),  'label' => 'New Iqama ID/SSN', 'label_attr' => ['class' => 'CUSTOM_LABEL_CLASS']),
-                'second_options' => array( 'attr' =>array('maxlength' => ($country_id == 'sa') ? 10 : 14 ), 'label' => 'Confirm New Iqama ID/SSN', 'label_attr' => ['class' => 'CUSTOM_LABEL_CLASS']),
+                'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),  'label' => 'New Iqama ID/SSN', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'second_options' => array( 'attr' =>array('class' => 'form-control formLayout' ,'maxlength' => ($country_id == 'sa') ? 10 : 14 ), 'label' => 'Confirm New Iqama ID/SSN', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
@@ -52,11 +53,9 @@ class IqamassnType extends AbstractType
                     array (
                             'pattern'   => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match'     => true,
-                            'message'   => 'Invalid Iqama/SSN Number')),
-                    )
-            ])
-            ->add('comment_iqamassn', TextareaType::class, array('label' => 'Comments',
-                'attr'          =>array('maxlength' => 255),
+                            'message'   => 'Invalid Iqama/SSN Number')),)])
+            ->add('comment_iqamassn', TextareaType::class, array('label' => 'Comments',  'label_attr' => ['class' => 'formLayout required col-lg-12 col-md-12 col-sm-12 col-xs-12 form_labels'],
+                'attr'          =>array('maxlength' => 255 , 'class' => 'form-control formLayout'),
                 'constraints'   => array(
                     new Assert\NotBlank(array('message' => 'This field is required')))))
             ->add( 'Update', SubmitType::class ,array(

@@ -1,48 +1,159 @@
-{% extends 'base.html.twig' %}
 
-{% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <div>
-                {{ 'FAQs'|trans}}
+<section class="container-fluid se-iktitem-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="footer-title">{{ 'Contact Information'|trans }}</div>
+                <div class="footer-murasilat">
+                    <ul>
+                        <li>{{ 'Newsletter'|trans }}</li>
+                        <li>{{ 'News letter subscription'|trans }}</li>
+                        <li>{{ 'Messages to receive the latest offers'|trans }}</li>
+                        <li>{{ 'Complaints & Suggestions emailing'|trans }}</li>
+
+
+
+                        {{ render(url('subscription', {'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})) }}
+
+
+                    </ul>
+                </div>
             </div>
-            <div>
 
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <div class="footer-title">{{ 'about iktissab'|trans }}</div>
+                <div class="footer-about-iktissab">
+                    <ul>
+                        <li><a href="">{{ 'about us'|trans }}</a></li>
+                        <li><a href="">{{ 'Messaging Service'|trans }}</a></li>
+                        <li><a href="">{{ 'Promotions'|trans }}</a></li>
+                        <li><a href="">{{ 'Messaging Service'|trans }}</a></li>
+                        <li><a href="">{{ 'sharia complient'|trans }}</a></li>
+                        <li><a href="">{{ 'community services'|trans }}</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="">
-                {{ message }}
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <div class="footer-title">{{ 'Iktissab Card'|trans }}</div>
+                <div class="footer-bataqat">
+                    <ul>
+                        <li><a href="#">{{ 'my account'|trans }}</a></li>
+                        <li><a href="{{ path('forgotpassword',{'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }} ">{{ 'Forgot Password'|trans }}</a></li>
+                        <li><a href="#">{{ 'Forgot Email'|trans }}</a></li>
+                        <li><a href="#">{{ 'Card Activation'|trans }}</a></li>
+                        <li><a href="#">{{ 'Update Details'|trans }}</a></li>
+                        <li><a href="#">{{ 'Update lost card'|trans }}</a></li>
+                        <li><a href="#">{{ 'Your Balance'|trans }}</a></li>
+                    </ul>
+                </div>
             </div>
-            <div>
 
-        {% if show_form == true %}
-                    {{ form(form) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.mobile) }}
-                    {{ form_row(form.captchaCode) }}
-                    {{ form_end(form) }}
-        {% endif %}
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                <div class="footer-title">{{ 'community services'|trans }}</div>
+                <div class="footer-emp-services">
+                    <ul>
+                        <li><a href="#">{{ 'Contact Us'|trans }}</a></li>
+                        <li><a href="#">{{ 'faqs'|trans }}</a></li>
+                        <li><a href="#">{{ 'inquiry and suggestion'|trans }}</a></li>
+                    </ul>
+                </div>
+            </div>
 
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="footer-title">{{ 'Contact Us'|trans }}</div>
+                <div class="footer-contacts">
+                    <div class="list-wrapper">
+                        <div class="icon-list"><i class="fa fa-mobile" aria-hidden="true"></i></div>
+                        <div class="title-list">{{ 'Customer Service Phone No'|trans}} </div>
+                        <div class="claerfix"></div>
+                    </div>
+
+                    <div class="list-wrapper">
+                        <div class="icon-list">&nbsp;&nbsp;&nbsp;</div>
+                        <div class="title-list-phone">920000702 &nbsp;&nbsp;&nbsp;</div>
+                        <div class="claerfix"></div>
+                    </div>
+
+                    <div class="list-wrapper">
+                        <div class="icon-list"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
+                        <div class="title-list">{{ 'Email'|trans }}</div>
+                        <div class="claerfix"></div>
+                    </div>
+
+                    <div class="list-wrapper">
+                        <div class="icon-list">&nbsp;&nbsp;&nbsp;</div>
+                        <div class="title-list-text">wecare@othaimmarkets.com</div>
+                        <div class="claerfix"></div>
+                    </div>
+
+                    <div class="list-wrapper">
+                        <div class="icon-list"><i class="fa fa-laptop" aria-hidden="true"></i></div>
+                        <div class="title-list">{{ 'Follow Us'|trans }}</div>
+                        <div class="claerfix"></div>
+                    </div>
+                    <div class="list-wrapper">
+                        <div class="icon-list">&nbsp;&nbsp;&nbsp;</div>
+                        <div class="title-list-social">
+                            <ul class="social-icons-footer">
+                                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="https://twitter.com/OthaimMarkets"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="https://www.facebook.com/Othaim.Market"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="https://www.instagram.com/othaimmarkets/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="https://www.youtube.com/user/othaimmarkets"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="claerfix"></div>
+                    </div>
+                    <div class="claerfix"></div>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    {% endblock %}
-    {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            {{ form_jquery_validation(form) }}
-        });
-    </script>
+<section class="container-fluid se-ikt-item-copyright-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="se-ikt-item-copyright">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="copyright-content-wrapper">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12 nopadding-left">
+                                <div class="copyright-text">{{ 'Copy rights'|trans }}</div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                <div class="copyright-links">
+                                    <div class="col-offset-1"><a href="#" >{{ 'inquiry and suggestion'|trans }}</a></div>
+                                    <div class="footer-links-separator"> | </div>
+                                    <div class="footer-links"><a href="#" >{{ 'Terms and Conditions'|trans }}</a></div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="row">
 
-    rest of the contents .....
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding-left">
+                    <div class="playstore-wrapper">
+                        <div class="gplay"><a href="#" target="_blank"><img alt="google-play" class="img-responsive" src="{{ asset('img/gplay.svg') }}" /></a></div>
+                        <div class="appstore"><a href="#"  target="_blank"><img alt="appstore" class="img-responsive" src="{{ asset('img/appstore.svg') }}" /></a></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
     </div>
+</section>
+<!-- /.nav -->
+<!-- JS jquery, bootstrap ,migrate, etc ... -->
+<script src="{{ asset('js/webticker.js') }} "></script>
+<script src="{{ asset('js/jquery-webticker.js') }}"></script>
 
-</div>
-{% endblock %}
+
+
+
+

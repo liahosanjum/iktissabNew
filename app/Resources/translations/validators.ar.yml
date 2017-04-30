@@ -17,7 +17,6 @@
 'Invalid number': 'رقم غير صحيح'
 'Please upload the action plane as PDF file': 'مسموح فقط بإستخدام الملفات ذات الامتداد PDF'
 'This field is required.': 'نرجو تعبئة هذه الخانة'
-'This charity is already registered.': 'المؤسسة مسجلة بالفعل'
 'This username is already taken.': 'اسم المستخدم الذي ادخلته بالفعل محجوز لمستخدم آخر'
 'Required amount must be less then the total cost': 'المبلغ المطلوب يجب أن يكون أقل من أو يساوي أجمالي تكلفة المشروع'
 'Project start date must be before the ending date': 'تاريخ بداية المشروع يجب أن يكون قبل تاريخ نهاية المشروع'
@@ -34,5 +33,6 @@
 'New email and confirm email fields must match': 'New email and confirm email fields must match ar'
 "Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1 ar"
 "Please enter 10 digits mobile number starting with 5": "Please enter 10 digits mobile number starting with 5 ar"
+"Country-Code:": "Country-Code-ar:"
 
 

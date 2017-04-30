@@ -32,9 +32,11 @@ class ActivationController extends Controller
      */
     public function cardActivationAction(Request $request)
     {
-
         $error = array('success' => true);
-        $form = $this->createForm(ActivateCardoneType::class);
+        $country_id  = $request->get('_country');
+        $form = $this->createForm(ActivateCardoneType::class, array() ,
+            array('extras' => array('country' => $country_id)
+            ));
         $form->handleRequest($request);
         $pData = $form->getData();
         if ($form->isSubmitted() && $form->isValid()) {
@@ -124,8 +126,9 @@ class ActivationController extends Controller
     public function activateCardAction(Request $request)
     {
         // check referal
+        // to do: uncomment below
         if (!$this->isReferalValid('card_activation')) {
-//            return $this->redirectToRoute('card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+          return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
@@ -151,13 +154,13 @@ class ActivationController extends Controller
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
-                
                 $acrivityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $data['user']));
                 $request->getSession()
                     ->getFlashBag()
                     ->add('smsSuccess', 'One time password has been sent to your mobile, please enter to continue!');
                 return $this->redirectToRoute('enter_otp', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
             } catch (Exception $e) {
+
             }
         }
         return $this->render('/activation/customer_information_sc2.twig',
@@ -193,7 +196,7 @@ class ActivationController extends Controller
     {
         // check referal
         if (!$this->isReferalValid('card_activation')) {
-//            return $this->redirectToRoute('card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+            // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         // get all cities
         $restClient = $this->get('app.rest_client');

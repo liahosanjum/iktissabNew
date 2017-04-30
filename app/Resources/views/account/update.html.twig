@@ -1,50 +1,98 @@
-{% extends 'base.html.twig' %}
 
-{% block body %}
-    <script src="{{ asset('js/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <div class="row" xmlns="http://www.w3.org/1999/html">
-        <div class="col-lg-12 text-center ">
-            Update your profile information
-        </div>
-        <div class="col-lg-12 text-center ">
+
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 update_account_user_wrapper">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {{ 'Profile has been updated'|trans }}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% if message != '' %}
+                    <div id="message-return" class="alert-success-forms formMessage alert alert-success fade in alert-dismissable messsage-wrapper">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div id="preLoaders">
+            </div>
             {{ form_start(form) }}
 
             <div id="div_dg">
                 {{ form_row(form.dob) }}
+                <div class="btn_dob_wrappper">
+                    <input type="button" id="btn_dob" value="Hijri"/>
+                </div>
             </div>
             <div id="div_dh">
                 {{ form_row(form.dob_h) }}
+                <div class="btn_dob_h_wrappper">
+                    <input type="button" id="btn_dob_h" value="Gregorian"/>
+                </div>
             </div>
-            <input type="button" id="btn_dob" value="Hijri"/>
+
+            <div class="account_maritial_status">
             {{ form_row(form.maritial_status) }}
+            </div>
+            <div class="account_update_dd">
+
             {{ form_row(form.job_no) }}
+            </div>
+            <div class="account_update_dd">
+
             {{ form_row(form.language) }}
+            </div>
+            <div class="account_update_dd">
+
             {{ form_row(form.city_no) }}
-            <div id="area_no">
+            </div>
+
+
+            <div id="area_no" class="account_update_dd">
                 {{ form_row(form.area_no) }}
             </div>
-            <div id="area_text">
+
+            <div id="area_text" class="account_update_dd">
                 {{ form_row(form.area_text) }}
             </div>
 
 
 
-
+            <div   class="account_update_dd">
             {{ form_row(form.pur_group) }}
+            </div>
             {{ form_row(form.submit) }}
             {{ form_end(form) }}
         </div>
     </div>
+    {% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
+             var sel_month_greg = $('#ikt_update_dob_month').val();
+             jQuery("#ikt_update_dob_month option[value=1]").text("{{ 'Jan'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=2]").text("{{ 'Feb'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=3]").text("{{ 'March'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=4]").text("{{ 'April'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=5]").text("{{ 'May'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=6]").text("{{ 'June'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=7]").text("{{ 'July'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=8]").text("{{ 'August'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=9]").text("{{ 'September'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=10]").text("{{ 'October'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=11]").text("{{ 'November'|trans }}");
+             jQuery("#ikt_update_dob_month option[value=12]").text("{{ 'December'|trans }}");
+
+
             // for months in hijri
             var sel_month = $('#ikt_update_dob_h_month').val();
-            jQuery("#ikt_update_dob_h_month option[value=1]"). text("{{ 'Muharram'|trans }}");
-            jQuery("#ikt_update_dob_h_month option[value=2]"). text("{{ 'Safar'|trans }}");
-            jQuery("#ikt_update_dob_h_month option[value=3]"). text("{{ 'Rabi ul Awwal'|trans }}");
-            jQuery("#ikt_update_dob_h_month option[value=4]"). text("{{ 'Rabi ul Akhir'|trans }}");
-            jQuery("#ikt_update_dob_h_month option[value=5]"). text("{{ 'Jumadal Awwal'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=1]").text("{{ 'Muharram'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=2]").text("{{ 'Safar'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=3]").text("{{ 'Rabi ul Awwal'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=4]").text("{{ 'Rabi ul Akhir'|trans }}");
+            jQuery("#ikt_update_dob_h_month option[value=5]").text("{{ 'Jumadal Awwal'|trans }}");
             jQuery("#ikt_update_dob_h_month option[value=6]"). text("{{ 'Jumadal Akhira'|trans }}");
             jQuery("#ikt_update_dob_h_month option[value=7]"). text("{{ 'Rajab'|trans }}");
             jQuery("#ikt_update_dob_h_month option[value=8]"). text("{{ 'Shaban'|trans }}");
@@ -74,6 +122,10 @@
                 toggle_date();
 
             });
+            jQuery('#btn_dob_h').on('click', function () {
+                toggle_date_h();
+
+            });
             function toggle_date() {
                 if ($('#ikt_update_date_type').val() == 'g') {
                     // change to hijri now
@@ -88,6 +140,25 @@
                     $('#btn_dob').val('{{ 'Hijri'|trans }}')
                     $('#ikt_update_date_type').val('g')
                     //change to greg
+                }
+            }
+
+            function toggle_date_h() {
+                if ($('#ikt_update_date_type').val() == 'h') {
+
+                    $('#div_dh').hide();
+                    $('#div_dg').show();
+                    $('#btn_dob').val('{{ 'Hijri'|trans }}')
+                    $('#ikt_update_date_type').val('g')
+                    //change to greg
+
+                } else {
+                    // change to hijri now
+                    $('#div_dh').show();
+                    $('#div_dg').hide();
+                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#ikt_update_date_type').val('h');
+
                 }
             }
 
@@ -135,12 +206,38 @@
 
             }
 
-//            $('#ikt_reg').submit(function (e) {
-//
-//            });
+
             {{ form_jquery_validation(form) }}
 
-        });
-    </script>
 
-{% endblock %}
+
+
+
+                $('form[name="ikt_update"]').on('submit', function (event) {
+
+                        event.preventDefault();
+                        $.ajax({
+                            type: $(this).attr('method'),
+                            url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                            data: new FormData(this),
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function () {
+                                $('#message-return').html('');
+                                $('#preLoaders').html('<div id="loader"></div>');
+                            },
+                            complete: function () {
+                                $('#preLoaders').html('');
+                            },
+                            success: function (response) {
+                                $('#contents-6').html(response);
+                            }
+                        })
+
+                });
+        });
+            </script>
+
+
+    {% endblock %}
+

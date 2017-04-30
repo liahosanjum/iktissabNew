@@ -1,20 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
+<section class="container">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <div>
-                {{ 'FAQs'|trans}}
-            </div>
-            <div>
 
-            </div>
+                <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div><h1>{{ 'FAQs'|trans}}</h1></div>
+                </div>
 
-            <div class="">
+
+            <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable ">
                 {{ message }}
             </div>
-            <div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                 {{ form(form1) }}
                 {{ form_row(form1.email) }}
@@ -24,12 +22,12 @@
 
             </div>
         </div>
-    </div>
+    </section>
 
     {% endblock %}
     {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+
+
         <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
         <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
         <script type="text/javascript">

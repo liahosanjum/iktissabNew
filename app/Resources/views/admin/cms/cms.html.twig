@@ -37,6 +37,11 @@
                 {{ form_widget(form.edesc) }}
             </div>
             <div class="cmsForm">
+                {{ form_label(form.country) }}
+                {{ form_errors(form.country) }}
+                {{ form_widget(form.country) }}
+            </div>
+            <div class="cmsForm">
                 {{ form_label(form.status) }}
 
                 {{ form_widget(form.status) }}

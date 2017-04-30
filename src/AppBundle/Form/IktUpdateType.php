@@ -31,11 +31,14 @@ class IktUpdateType extends AbstractType
         $lookupData = $options['additional'];
         $builder->add('dob', DateType::class, array(
 //                'widget' => 'single_text',
+
                 'years' => range(date('Y') - 5, date('Y') - 77),
                 'label' => 'Birthdate',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
+                'attr' =>array('class' => '' ),
 
 
             ))
@@ -43,52 +46,70 @@ class IktUpdateType extends AbstractType
                 'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),
                 'widget' => 'choice',
                 'label' => 'Birthdate',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
+                'attr' =>array('class' => '' ),
 
 
             ))
             ->add('maritial_status', ChoiceType::class, array(
                 'label' => 'Marital Status',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' =>array('class' => 'form-control formLayout' ),
                 'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
 
             ))
             ->add('job_no', ChoiceType::class, array(
                 'choices' => $lookupData['jobs'],
                 'label' => 'Job',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
             ->add('city_no', ChoiceType::class, array(
                 'choices' => $lookupData['cities'],
                 'label' => 'City',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' =>array('class' => 'form-control formLayout' ),
                 'placeholder' => 'Select City',
 
             ))
             ->add('area_no', ChoiceType::class, array(
                 'choices' => $lookupData['areas'],
                 'label' => 'Area',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' =>array('class' => 'form-control formLayout' ),
                 'placeholder' => 'Select Area',
+                'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
             ->add('area_text', TextType::class, array(
                 'label' => 'Area',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
             ->add('language', ChoiceType::class, array(
                     'label' => 'Preffered Language',
+                    'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                    'attr' =>array('class' => 'form-control formLayout' ),
                     'choices' => array('Select Language' => '', 'Arabic' => 'A', 'English' => 'E'),
 
                 )
             )
             ->add('pur_group', ChoiceType::class, array(
                 'label' => 'Shoppers',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder' => 'Select Shopper',
                 'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
+                'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Update'
+
             ))
             ->add('date_type', HiddenType::class)
         ;

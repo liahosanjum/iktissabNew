@@ -1,16 +1,35 @@
-{% extends ':front:layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <div>
-                {{ 'Inquiries and Suggestions'|trans}}
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'right'  %}
+    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'left'  %}
+    {% endif %}
+    <div class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a title="Home" class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a href="#" class="last-breadcrumb">{{ 'FAQs'|trans}}</a>
             </div>
-            <div>
-                {{ 'If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible'|trans}}
-                {{ 'Before sending the form,please read our'|trans }} <a href="{{ path('faqs',{'_country': 'sa', '_locale':'en'}) }}">{{ 'FAQs'|trans }}</a>
+        </div>
+    </div>
+
+<section class="container contact-us-main-wrapper">
+    <div class="row">
+        <div class="contactus-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            <div class="contact-heading"><h1>{{ 'Contact Us'|trans }}</h1></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8  col-xs-12  contactus-list-wrapper">
+            <div class="contactus-inner-contents">
+                <div class="title-contents">{{ 'If you have any comments, suggestions or complaints, please send them to us'|trans }}</div>
+                <div class="sub-title-contents">{{ 'Please fill in the form below and a customer service staff will reply to you as soon as possible'|trans }}</div>
             </div>
 
             <div class="">
@@ -18,28 +37,107 @@
             </div>
             {% if show_form == true %}
                 <div class="row">
-                    <div class="col-lg-12 text-center">
+                    <div class="col-lg-12 ">
                         {{ form_start(form) }}
                             {{ form_row(form.name) }}
                             {{ form_row(form.job) }}
-                            {{ form_row(form.mobile) }}
+
+     {{ form_row(form.mobile) }}
+
+
                             {{ form_row(form.email) }}
+
+                        {{ form_row(form.reason) }}
+                        {{ form_row(form.comments) }}
+                        <div class="captcha-code">
                             {{ form_row(form.captchaCode) }}
+                            </div>
                         {{ form_end(form) }}
                     </div>
-
                 </div>
             {% endif %}
+            <div class="claerfix"></div>
     </div>
-  </div>
-</div>
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            {{ form_jquery_validation(form) }}
-        });
-    </script>
 
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 contact-other-info">
+            <div class="other-info-wrapper">
+                <div class="login-title"><h4>{{ 'Head Office'|trans }}</h4></div>
+                <div class="main-other-info">{{ 'Riyadh'|trans }} - {{ 'Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road'|trans }}</div>
+            </div>
+
+            <div class="other-info-wrapper">
+                <div class="sub-title">{{ 'PO BOX'|trans }}</div>
+                <div class="sub-other-info">41700 {{ 'Riyadh'|trans }}  11531 </div>
+            </div>
+
+            <div class="other-info-wrapper">
+                <div class="sub-title">{{ 'Telephone' }}</div>
+                <div class="sub-other-info">00966-112547000 </div>
+            </div>
+            <div class="other-info-wrapper">
+                <div class="sub-title">{{ 'Fax' }}</div>
+                <div class="sub-other-info">00966-112547000 </div>
+            </div>
+            <div class="other-info-wrapper">
+                <div class="sub-title">{{ 'Customer Service'|trans }}</div>
+                <div class="sub-other-info">920000702 </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 contact-other-google">
+            <div class="other-info-wrapper">
+                <div class="main-title"> {{ 'Our site on Google'|trans }}</div>
+            </div>
+            <div class="google-map">
+                <div class="contact-map">
+
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDkO_3wGqh6OIgK4rTpWsQmXlNVD6ZesE&callback=initMap"
+                            async defer></script>
+
+
+
+                    <div class="gmap-contact">
+                        <div style="width:358px;height:227px" id="gmap"></div>
+                    </div>
+                    <script type="text/javascript">
+
+                        var map;
+                        function initMap() {
+                            map = new google.maps.Map(document.getElementById('gmap'), {
+                                center: {lat:24.689082, lng: 46.774843},
+                                zoom: 14
+
+                            });
+                        }
+                    </script>
+
+                </div>
+            </div>
+            <div class="claerfix"></div>
+        </div>
+  </div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        {{ form_jquery_validation(form) }}
+    });
+</script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 {% endblock %}
 

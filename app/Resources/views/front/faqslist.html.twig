@@ -1,40 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+  {% if app.request.cookies.get('c_locale') == "en" %}
+      {%  set side = 'right'  %}
+  {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+      {%  set side = 'left'  %}
+  {% else %}
+      {%  set side = 'left'  %}
+  {% endif %}
+
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a title="Home" class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a href="#" class="last-breadcrumb">{{ 'FAQs'|trans}}</a>
+            </div>
+        </div>
+    </section>
 <div class="container">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <div>
-                {{ 'FAQs'|trans}}
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 login-list-title-wrapper">
+            <div class=" ">
+                <h1>   {{ 'FAQs'|trans}} </h1>
             </div>
-            <div>
+            <div class="faqs-inner-wrapper">
 
-            </div>
-
-            <div class="">
-                {{ message }}
-            </div>{{   app.request.getLocale() }}
-            <div>
-                {% for item in Data %}
-
-                    {{ item.id }} -  {{ attribute(item, 'question_'~app.request.get('_locale')) }}<br/>
-                    {{ attribute(item, 'answer_'~app.request.get('_locale')) }}<br/><br/>
-                {% endfor %}
+                 {% for item in data %}
+                    <div class="faqs-question">
+                        {{ item.question }}
+                    </div>
+                    <div class="faqs-answer">
+                        {{ item.answer }}
+                    </div>
+                 {% endfor %}
+                 <div class="claerfix"></div>
             </div>
         </div>
     </div>
-
-    {% endblock %}
-    {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <script type="text/javascript"></script>
-
-    <div class="row">
-
-    rest of the contents .....
-
-    </div>
-
 </div>
+
+
+
+
 {% endblock %}

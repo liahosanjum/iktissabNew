@@ -1,13 +1,41 @@
-{% extends '::base_nologin.html.twig' %}
+{% extends '::base.html.twig' %}
+{% set title = 'Home'|trans %}
+{% block headerhome %}
+    {{ parent() }}
+    <script type="text/javascript">
+        function changeImage(id , name)
+        {
+            var name = name + 'over';
+
+            document.getElementById(id).src = "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
+        }
+
+        function changeImageOver(id , name)
+        {
+            document.getElementById(id).src =  "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
+        }
+    </script>
+
+{% endblock %}
+
+{% block top_menu %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block main_menu %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
+
 
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
                 <div class="message-promo">
                     <div class="row">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow"><img alt="slider-arrow" src="img/slider-arrow-l.svg" /></div></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow"><img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" /></div></div>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8">
                             <div class="mid-arrow-content">
                                 <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
@@ -20,7 +48,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow"><img alt="slider2-arrow" src="img/slider-arrow-r.svg" /></div></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow"><img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" /></div></div>
                         <div class="claerfix"></div>
                     </div>
                 </div>
@@ -36,9 +64,9 @@
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6">
                             <a href="#">
                                 <div class="promotion-section"  onmouseover="changeImage('1','promo1');" onmouseout="changeImageOver('1','promo1');">
-                                    <div class="promo-ico"><img alt="promotion" id="1" class="promo-img" src="img/promo1.svg"></div>
-                                    <div class="promo-title">تفعيل البطاقات</div>
-                                    <div class="promo-detail">مجاناً فعل بطاقة اكتساب وابدء بحصد الأموال</div>
+                                    <div class="promo-ico"><img alt="promotion" id="1" class="promo-img" src="{{ asset('img/promo1.svg')}}"></div>
+                                    <div class="promo-title">{{ 'Activate Cards'|trans }}</div>
+                                    <div class="promo-detail">{{ 'Get free iktissab card and start collecting money'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -46,9 +74,9 @@
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6" >
                             <a href="#">
                                 <div class="promotion-section_down"  onmouseover="changeImage('2','cart');" onmouseout="changeImageOver('2','cart');">
-                                    <div class="promo-ico"><img alt="promtions" id="2" class="promo-img" src="img/cart.svg"></div>
-                                    <div class="promo-title">العروض الترويجية</div>
-                                    <div class="promo-detail">عروض حصرية فقط لحاملي بطاقة اكتساب</div>
+                                    <div class="promo-ico"><img alt="promtions" id="2" class="promo-img" src="{{ asset('img/cart.svg')}}"></div>
+                                    <div class="promo-title">{{ 'Weekly Promotions'|trans  }}</div>
+                                    <div class="promo-detail">{{ 'Exclusive offers only for Ikitssab card holders'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -63,21 +91,21 @@
                         <div class="home-page-slider">
                             <a href="#" class="Product-Details">
                                 <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="img/banner/1.jpg" />
+                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg') }}" />
                                 </div>
                             </a>
                         </div>
                         <div class="home-page-slider">
                             <a href="#" class="Product-Details">
                                 <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="img/banner/1.jpg" />
+                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
                                 </div>
                             </a>
                         </div>
                         <div class="home-page-slider">
                             <a href="#" class="Product-Details">
                                 <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="img/banner/1.jpg" />
+                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
                                 </div>
                             </a>
                         </div>
@@ -95,7 +123,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="main-wrapper-products">
-                    <div class="ikt-offer home-title">عـروض اكتســاب</div>
+                    <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
@@ -186,24 +214,26 @@
                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ikt-save-more-contents-inner-wrapper">
                             <div class="ikt-save-more-contents-inner">
                                 <div class="ikt-save-more-title">
-                                    <span class="title-big-green">اكتساب </span>
-                                    <span class="title-normal-green">توفير وإدخار </span>
+                                    <span class="title-big-green">{{ 'Iktissab'|trans }} </span>
+                                    <span class="title-normal-green">{{ 'Save More'|trans }}</span>
                                 </div>
                                 <div class="ikt-save-more-subtitle">
-                                    برنامج الولاء الرائد في المملكة
+                                    {{ 'One of the Biggest Loyalty Program in KSA'|trans  }}
                                 </div>
 
                                 <div class="claerfix"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="ikt-save-img"><img alt="save-more" src="img/smore.svg" /></div>
+                            <div class="ikt-save-img"><img alt="save-more" width="170" height="100" src="{{ asset('img/smore.svg')}}" /></div>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 smore-wrapper">
-                            <div class="smore-text"> قامت الشركة بإطلاق بطاقة الولاء (اكتساب ) في العام 2004م ، واستمرت عمليات التطوير على الهوية والآلية والأنظمة التشغيلية لها، وفي شهر نوفمبر من العام 2011م أطلقت شركة أسواق العثيم بطاقة اكتساب بهويتها الجديدة التي تضمنت تطويراً للشكل والمضمون والمحتوى والسياسة وآلية الإصدار والتغليف، واستبدال آلية إضافة النقاط بأرصدة نقدية وفق معايير دقيقة عن طريق النظام الآلي، وتم تأسيس مركز التواصل والموقع الإليكتروني وتطبيق اكتساب للأجهزة الذكية لخدمة عملاء اكتساب وتفعيل البطاقات وإدارة عمليات التواصل مع العملاء. </div>
+                            <div class="smore-text">
+                            {{ 'Iktissab save more message text home'|trans }}
+                            </div>
 
 
                         </div>
@@ -219,8 +249,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('iktissab','iktissab')" onmouseout="changeImageOver('iktissab','iktissab')">
-                                    <div><img alt="iktissab-img" id="iktissab" src="img/iktissab.svg"></div>
-                                    <div class="sq-title">عن اكتساب</div>
+                                    <div><img alt="iktissab-img" id="iktissab" src="{{ asset('img/iktissab.svg')}}"></div>
+                                    <div class="sq-title">{{ 'About us'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -229,8 +259,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
                             <a href="#">
                                 <div class="sq-icon"  onmouseover="changeImage('asdaar','asdaar')" onmouseout="changeImageOver('asdaar','asdaar')">
-                                    <div><img id="asdaar" alt="asdaar-img" src="img/asdaar.svg"></div>
-                                    <div class="sq-title">صرف الأرصدة</div>
+                                    <div><img id="asdaar" alt="asdaar-img" src="{{ asset('img/asdaar.svg')}}"></div>
+                                    <div class="sq-title">{{ 'Used Balance'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -240,8 +270,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('musharika','musharika')" onmouseout="changeImageOver('musharika','musharika')">
-                                    <div><img alt="musharika-img" id="musharika" src="img/musharika.svg"></div>
-                                    <div class="sq-title">المتاجر المشاركة</div>
+                                    <div><img alt="musharika-img" id="musharika" src="{{ asset('img/musharika.svg')}}"></div>
+                                    <div class="sq-title">{{ 'Participation stores'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -251,8 +281,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('shariayah','shariayah')" onmouseout="changeImageOver('shariayah','shariayah')">
-                                    <div><img alt="shariayah-img" id="shariayah" src="img/shariayah.svg"></div>
-                                    <div class="sq-title">متوافق مع الشريعة</div>
+                                    <div><img alt="shariayah-img" id="shariayah" src="{{ asset('img/shariayah.svg')}}"></div>
+                                    <div class="sq-title">{{ 'sharia complient'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -262,8 +292,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('khdmat','khdmat-maj')" onmouseout="changeImageOver('khdmat','khdmat-maj')">
-                                    <div><img alt="khdmat-img" id="khdmat" src="img/khdmat-maj.svg"></div>
-                                    <div class="sq-title">خدمة المجتمع</div>
+                                    <div><img alt="khdmat-img" id="khdmat" src="{{ asset('img/khdmat-maj.svg')}}"></div>
+                                    <div class="sq-title">{{ 'Community Services'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -273,8 +303,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('faqs','faqs')" onmouseout="changeImageOver('faqs','faqs')" >
-                                    <div><img  id="faqs" alt="faqs-img" src="img/faqs.svg"></div>
-                                    <div class="sq-title">الأسئلة المتكررة</div>
+                                    <div><img  id="faqs" alt="faqs-img" src="{{ asset('img/faqs.svg')}}"></div>
+                                    <div class="sq-title">{{ 'Faqs'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -291,7 +321,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="main-wrapper-products">
-                    <div class="ikt-offer home-title">شركــــاء اكتسـاب</div>
+                    <div class="ikt-offer home-title">{{ 'Iktissab Partners'|trans }}</div>
                     <div class="slick-item-brand slider slick-products">
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
@@ -337,6 +367,8 @@
         </div>
 
     </section> <!-- /.slick Section -->
+
+
 
 
 {% endblock %}

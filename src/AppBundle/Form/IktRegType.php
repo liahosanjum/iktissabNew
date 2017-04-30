@@ -34,6 +34,7 @@ class IktRegType extends AbstractType
 
         $lookupData = $options['additional'];
         $builder->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
+
             'attr' =>array('maxlength'=>8),
             'constraints' => array(
 
@@ -46,7 +47,8 @@ class IktRegType extends AbstractType
                 )
             )
         ))
-            ->add('fullName', TextType::class, array('label' => 'Full name',
+            ->add('fullName', TextType::class, array('label' => 'First name',
+
                     'attr' =>array('maxlength' => 50),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -54,13 +56,56 @@ class IktRegType extends AbstractType
                     )
                 )
             )
+
+            ->add('secondName', TextType::class, array('label' => 'Second name',
+                    'mapped' => false,
+                    'attr' =>array('maxlength' => 50),
+                    'constraints' => array(
+                        new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array( 'max'=>50,  'maxMessage' => "Length is too big"))
+                    )
+                )
+            )
+
+            ->add('thirdName', TextType::class, array('label' => 'Third name',
+                    'mapped' => false,
+                    'attr'   =>array('maxlength' => 50),
+                    'constraints' => array(
+                        new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array('max'=>50,  'maxMessage' => "Length is too big"))
+                    )
+                )
+            )
+
+            ->add('familyName', TextType::class, array('label' => 'Family name',
+                    'mapped' => false,
+                    'attr'   => array('maxlength' => 50),
+                    'constraints' => array(
+                        new Assert\NotBlank(array('message' => 'This field is required')),
+                        new Assert\Length(array('max'=>50,  'maxMessage' => "Length is too big"))
+                    ),
+
+                )
+            )
+
+
+
+
+
+
+
+
             ->add('email', EmailType::class, array('label' => 'Email', 'disabled' => true,
+                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
+                    'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                     )
                 )
             )
             ->add('password', RepeatedType::class, array(
+                    'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match',
                     'required' => true,
@@ -96,6 +141,7 @@ class IktRegType extends AbstractType
 //                'widget' => 'single_text',
                 'years' => range(date('Y') - 5, date('Y') - 77),
                 'label' => 'Birthdate',
+                'label_attr' => ['class' => 'formLayout   form_labels'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),

@@ -1,375 +1,83 @@
-{% extends '::base.html.twig' %}
-
 {% block headerhome %}
     {{ parent() }}
-    <script type="text/javascript">
-        function changeImage(id , name)
-        {
-            var name = name + 'over';
-
-            document.getElementById(id).src = "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
-        }
-
-        function changeImageOver(id , name)
-        {
-            document.getElementById(id).src =  "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
-        }
-    </script>
-
-{% endblock %}
-
-{% block top_menu %}
-    {{ parent() }}
-
-{% endblock %}
-
-{% block main_menu %}
-    {{ parent() }}
-{% endblock %}
-
-{% block body %}
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
-                <div class="message-promo">
-                    <div class="row">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow"><img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" /></div></div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8">
-                            <div class="mid-arrow-content">
-                                <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
-                                <span class="home-text-green">اكتساب Iktissab</span>
-                                <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
-                                <ul id="webTicker-en">
-                                    <li class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</li>
-                                    <li class="home-text-green">اكتساب Iktissab</li>
-                                    <li class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow"><img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" /></div></div>
-                        <div class="claerfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3  col-sm-12  col-xs-12 ">
-                <div class="row">
-                    <div class="promo-sec-wrapper">
-                        <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6">
-                            <a href="#">
-                                <div class="promotion-section"  onmouseover="changeImage('1','promo1');" onmouseout="changeImageOver('1','promo1');">
-                                    <div class="promo-ico"><img alt="promotion" id="1" class="promo-img" src="{{ asset('img/promo1.svg')}}"></div>
-                                    <div class="promo-title">{{ 'Activate Cards'|trans }}</div>
-                                    <div class="promo-detail">{{ 'Get free iktissab card and start collecting money'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6" >
-                            <a href="#">
-                                <div class="promotion-section_down"  onmouseover="changeImage('2','cart');" onmouseout="changeImageOver('2','cart');">
-                                    <div class="promo-ico"><img alt="promtions" id="2" class="promo-img" src="{{ asset('img/cart.svg')}}"></div>
-                                    <div class="promo-title">{{ 'Weekly Promotions'|trans  }}</div>
-                                    <div class="promo-detail">{{ 'Exclusive offers only for Ikitssab card holders'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="claerfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-9 col-md-9  col-sm-12  col-xs-12">
-                <div class="main-slider-wrapper">
-                    <div class="slickitem slider">
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg') }}" />
-                                </div>
-                            </a>
-                        </div>
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
-                                </div>
-                            </a>
-                        </div>
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
-                                </div>
-                            </a>
-                        </div>
-
-                    </div> <!-- /.Item -->
-                </div>
-            </div>
-            <div class="claerfix"></div>
-            <div>
-            </div>
-        </div>
-    </div>
-
-    <section class="container se-iktitem">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="main-wrapper-products">
-                    <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
-                    <div class="slick-item slider slick-products">
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/0/20325.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">LIPTON TEA BAGS 200'S</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/2/221340.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/r/a/rainow.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/9/2/928325.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/6/9/699165_1.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/7/7/770015.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/4/242615_1.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-
-                    </div> <!-- /.Item -->
-                    <div class="claerfix"></div>
-                </div>
-            </div>
-        </div>
-
-    </section> <!-- /.slick Section -->
-
-    <section class="container ikt-savemore">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                <div class="ikt-save-more-contents">
-                    <div class="row">
-
-                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ikt-save-more-contents-inner-wrapper">
-                            <div class="ikt-save-more-contents-inner">
-                                <div class="ikt-save-more-title">
-                                    <span class="title-big-green">{{ 'Iktissab'|trans }} </span>
-                                    <span class="title-normal-green">{{ 'Save More'|trans }}</span>
-                                </div>
-                                <div class="ikt-save-more-subtitle">
-                                    {{ 'One of the Biggest Loyalty Program in KSA'|trans  }}
-                                </div>
-
-                                <div class="claerfix"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="ikt-save-img"><img alt="save-more" width="170" height="100" src="{{ asset('img/smore.svg')}}" /></div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 smore-wrapper">
-                            <div class="smore-text">
-                            {{ 'Iktissab save more message text home'|trans }}
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-                <div class="square-wrapper">
-                    <div class="row">
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
-                                <div class="sq-icon" onmouseover="changeImage('iktissab','iktissab')" onmouseout="changeImageOver('iktissab','iktissab')">
-                                    <div><img alt="iktissab-img" id="iktissab" src="{{ asset('img/iktissab.svg')}}"></div>
-                                    <div class="sq-title">{{ 'About us'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
-                                <div class="sq-icon"  onmouseover="changeImage('asdaar','asdaar')" onmouseout="changeImageOver('asdaar','asdaar')">
-                                    <div><img id="asdaar" alt="asdaar-img" src="{{ asset('img/asdaar.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Used Balance'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
-                                <div class="sq-icon" onmouseover="changeImage('musharika','musharika')" onmouseout="changeImageOver('musharika','musharika')">
-                                    <div><img alt="musharika-img" id="musharika" src="{{ asset('img/musharika.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Participation stores'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="#">
-                                <div class="sq-icon" onmouseover="changeImage('shariayah','shariayah')" onmouseout="changeImageOver('shariayah','shariayah')">
-                                    <div><img alt="shariayah-img" id="shariayah" src="{{ asset('img/shariayah.svg')}}"></div>
-                                    <div class="sq-title">{{ 'sharia complient'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
-                                <div class="sq-icon" onmouseover="changeImage('khdmat','khdmat-maj')" onmouseout="changeImageOver('khdmat','khdmat-maj')">
-                                    <div><img alt="khdmat-img" id="khdmat" src="{{ asset('img/khdmat-maj.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Community Services'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="#">
-                                <div class="sq-icon" onmouseover="changeImage('faqs','faqs')" onmouseout="changeImageOver('faqs','faqs')" >
-                                    <div><img  id="faqs" alt="faqs-img" src="{{ asset('img/faqs.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Faqs'|trans }}</div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="claerfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="container se-iktitem-brand">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="main-wrapper-products">
-                    <div class="ikt-offer home-title">{{ 'Iktissab Partners'|trans }}</div>
-                    <div class="slick-item-brand slider slick-products">
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product1" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/0/20325.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product2" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/2/221340.jpg" /></div>
-                            </a>
-                        </div>
-
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product3" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/r/a/rainow.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product4" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/9/2/928325.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product5" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/6/9/699165_1.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product6" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/7/7/770015.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product7" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/4/242615_1.jpg" /></div>
-                            </a>
-                        </div>
-
-                    </div> <!-- /.Item -->
-                    <div class="claerfix"></div>
-                </div>
-            </div>
-        </div>
-
-    </section> <!-- /.slick Section -->
-
-
 
 
 {% endblock %}
 
+<table class="table table-bordered">
+
+
+    <tr>
+        <td colspan="3" class="col-lg-12 eservice-content-company-title"> Information</td>
+    </tr>
+    <tr>
+        <td class="col-lg-4">
+            <div class="ikt-info-wrapper">
+                <div class="img-ikt-info">sdsd<img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
+                <div class="ikt-info-price">
+                    <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
+                    <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used'] }}</div>
+                    <div class="ikt-info-price-currency">SAR</div>
+                </div>
+
+            </div>
+        </td>
+        <td class="col-lg-4 ">
+            <div class="ikt-info-wrapper">
+                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
+                <div class="ikt-info-price">
+                    <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
+                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used'] }}</div>
+                    <div class="ikt-info-price-currency">SAR</div>
+                </div>
+
+            </div>
+        </td>
+        <td class="col-lg-4 ">
+            <div class="ikt-info-wrapper">
+                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/33.svg')}}"></div>
+                <div class="ikt-info-price">
+                    <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
+                    <div class="ikti-info-price-details light-red-color">{{ iktData['balance'] }}</div>
+                    <div class="ikt-info-price-currency">SAR</div>
+                </div>
+
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+
+        <td colspan="3"  class="col-lg-12 user-details">
+            <table class="table table-bordered user-details" >
+                <tr>
+                    <td style="border-top:none !important;" class="user-details-date">
+                        <div class="ikt-date-info">
+                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                            <div class="ikt-date-title">Activation Date</div>
+                            <div class="ikt-date-date">26/09/2011</div>
+                            <div class="claerfix"></div>
+                        </div>
+                    </td>
+                    <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
+                        <div class="ikt-date-info">
+                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                            <div class="ikt-date-title">Last Used</div>
+                            <div class="ikt-date-date">26/09/2011</div>
+                            <div class="claerfix"></div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+
+    </tr>
+    <tr>
+
+    </tr>
+
+</table>
+<div style="  float: right; width: 100%;" class=" ">
+    <div id="placeholder" class="col-lg-12 col-xs-12"></div>
+</div>

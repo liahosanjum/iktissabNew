@@ -69,6 +69,7 @@ class AdminController extends Controller
             $cmsPage->setAdesc($form->get('adesc')->getData());
             $cmsPage->setEdesc($form->get('edesc')->getData());
             $cmsPage->setStatus($form->get('status')->getData());
+            $cmsPage->setType('cms');
             $em = $this->getDoctrine()->getManager();
             $em->persist($cmsPage);
             $em->flush();

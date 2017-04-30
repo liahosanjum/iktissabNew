@@ -1,0 +1,52 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+    {% if app.request.get('_locale') == "" %}
+        {%  set locale = 'ar'  %}
+    {% else %}
+         {%  set locale = app.request.get('_locale')  %}
+    {% endif %}
+
+    {% if app.request.get('lang') != "" %}
+        {%  set locale = app.request.get('lang')  %}
+    {% elseif app.request.cookies.get('c_locale') != ""  %}
+        {%  set locale = app.request.cookies.get('c_locale')  %}
+    {% else %}
+        {%  set locale = 'ar'  %}
+    {% endif %}
+
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if title is defined %} {{ title }} {% else %} {{ 'Iktissab'|trans }}  {% endif %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet"  href="{{ asset('css/slick/slick_'~app.request.get('_locale')~'.css') }}"  />
+        <link rel="stylesheet" href="{{ asset('css/slick/slick-theme_'~app.request.get('_locale')~'.css') }}" />
+
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/normalize.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/helper.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/front/default_'~locale~'.css') }}" rel="stylesheet" />
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon"/>
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('css/slick/slick.min.js') }}"></script>
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ asset('js/html5shiv.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/respond.min.js') }}"></script>
+    <![endif]-->
+
+</head>
+

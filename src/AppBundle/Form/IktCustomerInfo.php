@@ -15,14 +15,19 @@ class IktCustomerInfo extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
+        $builder->add('email', EmailType::class, array('label' => 'Email Id',
+            'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+            'constraints' => array(
             new Assert\NotBlank(array('message' => 'Email is required')),
             new Assert\Email(array('message' => 'Invalid email'))
 
         )
         ))
-            ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID', 'disabled' => true,
-                'attr' =>array('maxlength'=>8),
+            ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID',
+                
+                'attr' => array('class' => 'col-lg-8 form-control formLayout',  'readonly' => 'readonly','maxlength'=>8 ),
+
+
                 'constraints' => array(
 
                     new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
@@ -32,18 +37,21 @@ class IktCustomerInfo extends AbstractType
                 )
             ))
             ->add('password', RepeatedType::class, array(
+                    'label' => 'Email Id',
+
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match',
                     'required' => true,
-                    'first_options' => array('label' => 'Password'),
-                    'second_options' => array('label' => 'Repeat password'),
+                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
+                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
                     )
                 )
             )
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class,array(
+                'attr' => array('class' => 'btn btn-primary')));
     }
 
     public function configureOptions(OptionsResolver $resolver)

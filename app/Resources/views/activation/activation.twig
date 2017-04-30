@@ -1,20 +1,264 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-lg-12 text-center ">
-            Activatoin step One
-        </div>
-        {% if(error.success == false) %}
-            <div class="col-lg-12 text-center alert alert-danger">
-                {{ error.message }}
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'right'  %}
+    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'left'  %}
+    {% endif %}
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a  class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a  class="last-breadcrumb" >{{ 'Card Activation'|trans }}</a>
             </div>
-        {% endif %}
-        <div class="col-lg-12 text-center ">
-
-            {{ form_start(form) }}
-
-            {{ form_end(form) }}
         </div>
-    </div>
+    </section>
+
+    <section class="container cardactivation-wrapper">
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="title-contents">{{ 'Iktissab Card Activation'|trans }}  |  {{ 'Create an account for an activated card'|trans }} </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="sub-title-contents grey-color">{{ 'Our Dear Customer'|trans }}</div>
+                <div class="activation-contents grey-color">{{ 'Iktissab card activaiton step benefits'|trans }}</div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="row">
+
+            {% if(error.success == false) %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center alert alert-danger">
+                    {{ error.message }}
+                </div>
+            {% endif %}
+            <div class="col-lg-12 text-center ">
+
+
+            </div>
+        </div>
+    </section>
+
+    <section class="container cardactivation-form-wrapper">
+        <div class="row">
+            <div class="cardactivation-form-inner   col-lg-12   col-md-12 col-sm-12 col-xs-12 ">
+                <div class="activation-contents grey-color" >
+                    <div class="row">
+                        <div class="activation-form-wrapper  col-lg-10   col-md-12 col-sm-12   col-xs-12" >
+                            <div class="form-activation-list" >
+                                <div class="row">
+                                    <div class="reg-steps">
+                                        <div class="steps-wrapper  col-lg-3 col-md-3 col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">{{ 'Card Information'|trans }}</div>
+                                            <div class="steps-circle">
+                                                <div class="badge active">1</div> <div class="badge-border  ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                            {{ 'Customer Information'|trans }}
+                                            </div>
+                                            <div class="steps-circle green-color">
+                                                <div class="badge ">2</div> <div class="badge-border ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Card Activation'|trans }}
+
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge">3</div> <div class="badge-border   ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                            {{ 'Verification'|trans }}
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge">4</div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {{ form_start(form) }}
+
+                                        <div class="form-cardactivation-wrapper     col-lg-10 col-md-10  col-sm-10 col-xs-10">
+                                            <div class="title-cardactivation-form">
+                                                {{ form_label(form.iktCardNo) }}
+                                            </div>
+                                            <div class="cardactivationForm">
+
+
+                                                {{ form_widget(form.iktCardNo) }}
+
+                                            </div>
+                                            <div class="title-cardactivation-form">
+                                                {{ form_errors(form.iktCardNo) }}
+                                            </div>
+
+                                            <div class="title-cardactivation-form">
+                                                {{ form_label(form.email) }}  </div>
+                                            <div class="cardactivationForm">
+
+
+                                                {{ form_widget(form.email) }}
+                                            </div>
+                                            <div class="title-cardactivation-form">
+                                                {{ form_errors(form.email) }}
+                                            </div>
+
+                                            <div class="title-cardactivation-form">
+                                                {{ form_label(form.captchaCode) }}
+                                            </div>
+
+                                            <div class="cardactivationForm">
+                                                {{ form_widget(form.captchaCode) }}
+                                            </div>
+
+                                            <div class="title-cardactivation-form-captcha">
+                                                {{ form_errors(form.captchaCode) }}
+                                            </div>
+
+
+
+
+
+
+                                            <div class="claerfix"></div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="activation-description-wrapper col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="activation-description">
+                                            <div class="desc-list">
+                                                <div class="sno"> - 1</div>
+                                                <div class="desc">{{ 'To better serve you, you are kindly required to redeem your acquired cash in a period not exceeding 36 months from the date of the transaction'|trans }}</div>
+                                            </div>
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 2</div>
+                                                <div class="desc">{{ 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card'|trans }}</div>
+                                            </div>
+                                            <div class="desc-list">
+                                                <div class="sno"> - 3</div>
+                                                <div class="desc">
+                                                    {{ 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card'|trans }}
+                                                </div>
+                                            </div>
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 4</div>
+                                                <div class="desc">{{
+                                                        'With every purchase with 100 riyals you will get 2 riyals in your card balance. Except for the promotion products'|trans
+                                                    }}
+                                                </div>
+                                            </div>
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 5</div>
+                                                <div class="desc">{{ 'Discounted items and electronic devices are excluded from the discount percentage granted to the owner of the card'|trans }}</div>
+                                            </div>
+
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 6</div>
+                                                <div class="desc">
+                                                   {{ 'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer'|trans }}
+                                                </div>
+                                            </div>
+
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 7</div>
+                                                <div class="desc">
+                                                    {{ 'Your use of the card will express your agreement to the terms and conditions, and Iktissab reserve the right to change the terms and conditions without prior notice to the customer'|trans }}
+                                                </div>
+                                            </div>
+
+                                            <div class="desc-list">
+                                                <div class="sno"> - 8</div>
+                                                <div class="desc">
+                                                    {{ 'The customer is not allowed to use more than 1 card, or any card that is not connected to data'|trans }}
+                                                </div>
+                                            </div>
+
+
+                                            <div class="claerfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="chk-wrapper col-lg-pull-1 col-md-pull-1 col-sm-pull-1 col-xs-pull-1 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="chk-agree">
+                                            <div class="cardactivationForm">
+                                                {{ form_widget(form.status) }}
+                                            </div>
+                                        </div>
+                                        <div class="chk-agree-desc">{{ "Accept terms and conditions"|trans }}</div>
+                                        <div class="title-cardactivation-form-captcha" id="status_id">
+                                            <label id="captchaCode-error" class="error" for="captchaCode">{{ 'This field is required'|trans }}</label>
+                                        </div>
+                                        <div class="claerfix"></div>
+                                    </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="chk-wrapper-submit col-lg-pull-4 col-md-pull-4 col-sm-pull-4 col-xs-pull-3 col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                        <div class="cardActivationSubmit">
+                                            {{ form_end(form) }}
+                                        </div>
+
+                                    </div>
+                                    <div class="claerfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#status_id").hide();
+        {{ form_jquery_validation(form) }}
+    });
+
+    $('#activate_cardone_submit').click(function (event) {
+
+        if($("#activate_cardone_status").is(':checked')){
+                $("#status_id").hide();
+            }
+            else{
+
+               $("#status_id").show();
+
+            }
+    });
+    </script>
 {% endblock %}

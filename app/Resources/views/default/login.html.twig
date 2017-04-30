@@ -1,20 +1,190 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% block body %}
-{% if error %}
 
-    <div> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    <section class="container memeberloginwrapper">
+        {% if app.request.cookies.get('c_locale') == "en" %}
+            {%  set side = 'right'  %}
+        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+            {%  set side = 'left'  %}
+        {% else %}
+            {%  set side = 'left'  %}
+        {% endif %}
+        <div class="breadcrum-wrapper">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a  class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                    <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                    <a href="#" class="last-breadcrumb">{{ 'Login'|trans}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div><h1>{{ 'Login'|trans }}</h1></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                <div class="login-inner-contents">
+                    <div class="login-title"><h2>{{ 'Signin for Iktissab Card Gain'|trans }}</h2></div>
+                    <div class="login-sub-title"><h3>{{ 'In order to view your membership account information it requires that you enter your username and password'|trans }}</h3></div>
+                    {% if error %}
 
-{% endif %}
+                        <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable "> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
 
-<form action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
-    <label for="username">Username: </label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
+                    {% endif %}
+                    <div class="contents-cms">{{ 'Please enter your username and password and click the Sign in button'|trans }}</div>
+                </div>
+                <div>
 
 
-    <button type="submit">Login</button>
-</form>
+                    <form id="login_form" name="login_form" action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
+
+                        <div class="form-group">
+                            <input  type="text" class="form-control user-member" id="_username" name="_username"     placeholder="{{ 'User Name'|trans }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="_password" name="_password" type="text" class="form-control user-password"  placeholder="{{ 'Password'|trans }}">
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <div class="row member-login-submit">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                    <button class="btn btn-block">{{ 'Login'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 memberlogin-divider">
+                <div class="memberlogin-emailarea">
+                    <h4>{{ 'Did you forgot your password'|trans }}</h4>
+                    <h3>{{ 'if you have forgotten your password, you can reset a new password by sending some instructions to our registered email'|trans }}</h3>
+                    <div id="contents-fp">{% if message  %} {{ message }} {% endif %}</div>
+                    <div id="preLoaders">
+                    </div>
+
+                    <div class="contents-cms">{{ 'Please enter your e-mail and click the Reset Password button'|trans }}</div>
+                    <form id="forgotpassword_form" name="forgotpassword_form" action="{{ path('forgotpassword',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
+
+                        <div class="form-group">
+
+
+                                <input type="email" class="form-control" id="email" name="email" placeholder="someone@email.com">
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-block">{{ 'Reset Password'|trans }}</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
 {% endblock %}
+
+
+{% block javascripts %}
+
+
+    <script type="text/javascript" src="{{ asset("js/jquery.validate.js") }}"></script>
+    <script type="text/javascript">
+        // Wait for the DOM to be ready
+        $(function() {
+            // Initialize form validation on the registration form.
+            // It has the name attribute "registration"
+            $("form[name='login_form']").validate({
+                // Specify validation rules
+                rules: {
+                    // The key name on the left side is the name attribute
+                    // of an input field. Validation rules are defined
+                    // on the right side
+                    _username: "required",
+                    _password: "required",
+
+
+                },
+                // Specify validation error messages
+                messages: {
+                    _username: "{{ 'Please enter your user name'|trans }}",
+                    _password: "{{ 'Please enter your password'|trans }}"
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+
+            $("form[name='forgotpassword_form']").validate({
+                // Specify validation rules
+                rules: {
+                    // The key name on the left side is the name attribute
+                    // of an input field. Validation rules are defined
+                    // on the right side
+                    email: {
+                        required: true,
+                        // Specify that email should be validated
+                        // by the built-in "email" rule
+                        email: true
+                    }
+
+
+
+                },
+                // Specify validation error messages
+
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+
+            jQuery.extend(jQuery.validator.messages, {
+                required: "{{ 'This field is required'|trans }}",
+                email: "{{ 'Please enter valid email address'|trans }}",
+                /*remote: "Please fix this field.",
+                 email: "Please enter a valid email address123.",
+                 url: "Please enter a valid URL.",
+                 date: "Please enter a valid date.",
+                 dateISO: "Please enter a valid date (ISO).",
+                 number: "Please enter a valid number.",
+                 digits: "Please enter only digits.",
+                 creditcard: "Please enter a valid credit card number.",
+                 equalTo: "Please enter the same value again.",
+                 accept: "Please enter a value with a valid extension.",
+                 maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+                 minlength: jQuery.validator.format("Please enter at least {0} characters."),
+                 rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+                 range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+                 max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+                 min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")*/
+            });
+        });
+
+
+
+
+
+
+    </script>
+
+{% endblock %}
+
+
+

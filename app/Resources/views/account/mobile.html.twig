@@ -1,38 +1,118 @@
-{% extends 'base.html.twig' %}
 
-{% block body %}
-sdfsd
-    <div class="container">
+
         <div class="row">
-            <div class="col-lg-12 text-center">
-                <div>
+            <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
+                <div  class="eservice-content-personal-title title-form-wrapper">
                     {{ 'Update your mobile'|trans}}
                 </div>
-                <div>
+
+                <div class="titleForm_main iqama-id-wrapper">
+                    {{ 'Dear customer'|trans}}
+                </div>
+
+                <div class="titleForm_sub iqama-id-wrapper">
+                    {{ 'You can update your mobile with the new one through the following form'|trans }}
+                </div>
+                {% if message != '' %}
+                <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable messsage-wrapper">
                     {{ message }}
                 </div>
-                {{ form_start(form) }}
-                    {{ form_row(form.iqamaid_mobile) }}
-                {{ form_row(form.ext) }}
-                    {{ form_row(form.mobile) }}
-                    {{ form_row(form.comment_mobile) }}
-                {{ form_end(form) }}
+                {% endif %}
+                <div id="preLoaders">
+                </div>
+                <div class="claerfix"></div>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+
+                    {{ form_start(form) }}
+
+            <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12">
+                        {{ form_row(form.iqamaid_mobile) }}
+            </div>
+            <div class="col-lg-5  col-md-5 col-sm-12 col-xs-12 mobile-number-wrapper">
+                <div class="mobile-ext-wraper  ">
+                    {{ form_row(form.ext) }}
+                </div>
+                <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 mobile-number-wraper" style="">
+                    {{ form_row(form.mobile) }}
+                </div>
+                <div class="claerfix"></div>
+            </div>
+
+            <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 iqama-id-wrapper-form">
+                {{ form_row(form.comment_mobile) }}
+           </div>
+
+            <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 submit-wrapper iqama-id-wrapper-form">
+                {{ form_end(form) }}
+            </div>
+            <div class="claerfix"></div>
+        </div>
 
 
 
 
-{% endblock %}
+
+
+
+
+
+
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
-        });
+
+
+            $('form[name="mobile"]').on('submit', function (event) {
+                if($( "#mobile_mobile" ).hasClass( "valid" )) {
+                    if($( "#mobile_comment_mobile" ).hasClass( "valid" )) {
+                        event.preventDefault();
+                        $.ajax({
+                            type: $(this).attr('method'),
+                            url: "{{ path('front_account_mobile', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                            data: new FormData(this),
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                $('#preLoaders').html('<div id="loader"></div>');
+                            },
+                            complete: function(){
+                                $('#preLoaders').html('');
+                            },
+                            success: function (response) {
+                                $('#contents-7').html(response);
+                            }
+                        })
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            });
+
+    });
+
+
+
+
+
+
+
+
     </script>
+
 
 {% endblock %}
 

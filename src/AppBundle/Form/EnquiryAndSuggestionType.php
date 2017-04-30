@@ -30,13 +30,27 @@ class EnquiryAndSuggestionType extends AbstractType
     {
         $country = $options['extras']['country'];
 
-        $builder ->add('name', TextType::class, array('label' => 'Full name'))
-            ->add('job', TextType::class, array('label' => 'Job'))
 
-            ->add('mobile', TextType::class, array(
+
+        $builder ->add('name', TextType::class, array('label' => 'Full name',
+            'label_attr' => ['class' => 'required formLayout form_labels'],
+        'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+            'constraints' => array(
+                new NotBlank(array('message' =>  'This field is required'))
+
+            )
+        ))
+
+        ->add('job', TextType::class, array('label' => 'Job' ,
+            'label_attr' => ['class' => 'required formLayout form_labels'],
+        'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+
+        ))
+
+        ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-
-                'attr' => array('maxlength'=> ($country == 'sa') ? 10 : 14   )  ,
+            'label_attr' => ['class' => 'required formLayout form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout','maxlength'=> ($country == 'sa') ? 10 : 14   )  ,
                 'constraints' => array(
 
                     new NotBlank(array('message' => 'This field is required')),
@@ -47,13 +61,18 @@ class EnquiryAndSuggestionType extends AbstractType
                             'message' => "Mobile Number Must be ".($country == 'sa' ? '10' : '14' )." digits")
                     ),)))
 
+            
+
             ->add('email', EmailType::class, array('label' => 'Email' ,
+                'label_attr' => ['class' => 'required formLayout form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                     'constraints' => array(
                         new NotBlank(array('message' => 'Email is required')),
                         new Email(array('message' => 'Invalid email'))
                     )))
             ->add('reason', ChoiceType::class, array('label'=>"Reason",
-
+                'label_attr' => ['class' => 'required formLayout form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
 
                 "choices"=>array(
                         "Complaint" => EnquiryAndSuggestion::COMPLAINT,
@@ -62,15 +81,18 @@ class EnquiryAndSuggestionType extends AbstractType
                         "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
             )))
             ->add('comments', TextareaType::class, array('label'=>"Comments",
+                'label_attr' => ['class' => 'required formLayout form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
                 )
 
             ))
-            //->add('country', TextType::class, array('label'=>"Country"))
-            ->add('captchaCode', CaptchaType::class, array(
 
+            ->add('captchaCode', CaptchaType::class, array(
+                'label_attr' => ['class' => 'required formLayout form_labels'],
                 'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
                     new NotBlank(array('message' => 'Email is required'))),
                 ))
@@ -82,7 +104,7 @@ class EnquiryAndSuggestionType extends AbstractType
 
 
 
-            ->add('submit', SubmitType::class, array('label'=>"Submit"));
+            ->add('submit', SubmitType::class, array('label'=>"Submit" , 'attr' => array('class' => 'btn btn-primary')));
     }
     
     /**

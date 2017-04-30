@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+
+{% block headerhome %}
+    {% include(':front:header_home.html.twig') %}
+{% endblock %}
+
+
+
+
+<body>
+<div class="main-wrapper">
+    {% block top_menu %}
+        {% include(':front:top_menu.html.twig') %}
+    {% endblock %}
+    {% block main_menu %}
+        {% include(':front:main_menu.html.twig') %}
     {% endblock %}
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    {#<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>#}
-</head>
-<body>
-{% block topmenu %}
-    {% if app.user %}
-        <a href="{{ path('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
-            Logout </a> |
-        <a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"> Dashboard</a>
-
-    {% else %}
-         <a href="{{ path('login', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
-            Login </a> |
-        <a href="{{ path('front_card_activation', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
-            Card Activation </a>
-    {% endif %}
-    | <a href="{{ path('forgot_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">
-        Forgot Email </a>
 
 
-{% endblock %}
 {% block messages %}
     {% for flashMessage in app.session.flashbag.get('error') %}
         <div class="col-lg-12 text-center alert alert-danger">
@@ -43,27 +31,24 @@
         <div class="col-lg-12 text-center alert alert-success">
             {{ flashMessage }}
         </div>
-
-
     {% endfor %}
 {% endblock %}
-{% block body %}{% endblock %}
-{% block javascripts %}
 
-{% endblock %}
-<br />
-<br />
-<br />
-<br />
-<br />
+{% block body %}{% endblock %}
+
+{% block javascripts %}{% endblock %}
+
 {#base.html country = {{ app.request.get('_country') }}#}
 {#{{ render(controller('AppBundle:Default:subscription',{'country':app.request.get('_country')})) }}#}
-{{ render(url('subscription', {'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})) }}
-<br />
-<br />
-<br />
-<br />
-<br />
 
+
+
+{% block homefooter %}
+    {% include(':front:footer_home.html.twig') %}
+{% endblock %}
+
+
+
+</div>
 </body>
 </html>

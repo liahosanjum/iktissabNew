@@ -1,449 +1,537 @@
 {% extends 'base.html.twig' %}
 
+{% set title = 'My Account'|trans %}
+
+{% block headerhome %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/bootstrap-tabcollapse.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.flot.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.flot.time.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/vendor/modernizr-2.6.2.min.js') }}"></script>
+
+{% endblock %}
+
+{% block top_menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main_menu %}
+    {{ parent() }}
+{% endblock %}
 {% block body %}
-    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}"/>
-    <script src="{{ asset('js/datatables.js') }}"></script>
-    <div class="container">
 
-    </div>
+
+{% if app.request.cookies.get('c_locale') == "en" %}
+    {%  set side = 'right'  %}
+{% elseif app.request.cookies.get('c_locale') == "ar"  %}
+    {%  set side = 'left'  %}
+{% else %}
+    {%  set side = 'left'  %}
+{% endif %}
+
+
+
+
     {% if(iktData) %}
-        <div class="main">
+        <section class="container breadcrum-wrapper">
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+                <div class="breadcrumb">
+                    <a title="Home" class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                    <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                    <a href="#" class="last-breadcrumb">{{ 'My Account'|trans }}</a>
                 </div>
-
+            </div>
+        </section>
+        <section class="container cardactivation-wrapper">
+            <div class="row">
+                <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                     <div class="title-contents">{{ 'My Account'|trans }}</div>
+                </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 text-center">
-                    <div id="chart4" class="line-chart"></div>
-                    Balance {{ iktData['balance'] }}
+                <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="sub-title-contents grey-color">{{ 'Membership No'|trans }}<span class="orange-color">  {{ iktData['C_id'] }}</span> </div>
+                    <div class="activation-contents grey-color"> {{ iktData['cname'] }}</div>
+                    <div class="claerfix"></div>
                 </div>
-                <div class="col-lg-4 text-center">
-                    <div id="chart5" class="donut"></div>
-                    <div class="donut-label">24</div>
-                    Branches most visited
-                </div>
-                <div class="col-lg-4 text-center">
-                    <div id="chart6" class="donut"></div>
-                    <div class="donut-label">75</div>
-                    Monthly card usage
-                </div>
-                <div class="col-lg-12 text-center">
-                    <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
-                </div>
+            </div>
 
-                <div class="col-lg-12 profile-tabs">
-                    <div>
+        </section>
 
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#personal" aria-controls="home" role="tab"
-                                                                      data-toggle="tab">Personal Details</a></li>
-                            <li role="presentation"><a href="#statement" aria-controls="profile" role="tab"
-                                                       data-toggle="tab" id="trans-tab">Customer Transactions</a></li>
-                        </ul>
+        <section class="container eservices-wrapper">
+            <!-- Demo content -->
 
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade active in" id="personal">
+            <div class="row eservice-contents">
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 eservice-list">
+                    <ul id="myTab" class="nav nav-tabs" >
+                        <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
+</span>
+                            Information
+                        </li>
+
+
+                        <li><a href="#1" data-id="1"  data-path='{{ path('front_account_info', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}' data-toggle="tab">
+                                <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i></span>
+
+                                {{ 'Card Information'|trans }}
+                            </a></li>
+
+                        <li><a href="#2" data-id="2" data-path='{{ path('front_account_personalinfo', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}'   data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                {{ 'Personal Information'|trans }}
+                            </a></li>
+
+
+
+
+
+
+
+
+                        <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
+</span>
+                             {{ 'Personal Information'|trans }}
+                        </li>
+                        <li ><a href="#5" data-id="5"  data-path="{{ path('front_account_missingcard', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab">
+                                <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                 {{ 'Update Missing Card'|trans }}
+                            </a></li>
+
+                        <li ><a href="#6" data-id="6"
+                                data-path="{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab">
+                            <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i></span>
+                                  {{ 'Update Personal Information'|trans }} </a></li>
+
+                        <li ><a href="#7" data-id="7"  data-path="{{ path('front_account_mobile', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                {{ 'Update your mobile'|trans }}
+                            </a></li>
+                        <li ><a href="#8" data-id="8"  data-path="{{ path('front_account_fullname', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                {{ 'Update Your Name'|trans }}
+                            </a></li>
+                        <li ><a href="#9" data-id="9"   data-path="{{ path('front_account_iqamassn', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"  data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                 {{ 'Update your Iqama Id/ SSN'|trans }}
+                            </a></li>
+                        <li ><a href="#10" data-id="10"   data-path="{{ path('front_account_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"  data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                                {{ 'Update your email'|trans}}
+                            </a></li>
+                        <li class="slide-section-end"><a href="#11" data-id="11"  data-path='{{ path('front_account_updatepassword', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}' data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
+
+
+</span>
+                               {{ 'Update Password'|trans}}
+                            </a></li>
+
+
+
+
+
+                    </ul>
+
+
+
+
+
+                    </ul>
+
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                    <div id="myTabContent" class="tab-content eservice-list-contents" >
+
+                        <div class="tab-pane fade in active" id="1">
+                            <div class="eservice-content-company-description" id="contents-1">
+                                <table class="table table-bordered">
+
+
+                                    <tr>
+                                        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Personal Information'|trans }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-lg-4">
+                                            <div class="ikt-info-wrapper">
+                                                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
+                                                <div class="ikt-info-price">
+                                                    <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
+                                                    <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used'] }}</div>
+                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td class="col-lg-4 ">
+                                            <div class="ikt-info-wrapper">
+                                                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
+                                                <div class="ikt-info-price">
+                                                    <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
+                                                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used'] }}</div>
+                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td class="col-lg-4 ">
+                                            <div class="ikt-info-wrapper">
+                                                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/33.svg')}}"></div>
+                                                <div class="ikt-info-price">
+                                                    <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
+                                                    <div class="ikti-info-price-details light-red-color">{{ iktData['balance'] }}</div>
+                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td colspan="3"  class="col-lg-12 user-details">
+                                            <table class="table table-bordered user-details" >
+                                                <tr>
+                                                    <td style="border-top:none !important;" class="user-details-date">
+                                                        <div class="ikt-date-info">
+                                                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                                                            <div class="ikt-date-title">Activation Date</div>
+                                                            <div class="ikt-date-date">26/09/2011</div>
+                                                            <div class="claerfix"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
+                                                        <div class="ikt-date-info">
+                                                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                                                            <div class="ikt-date-title">Last Used</div>
+                                                            <div class="ikt-date-date">26/09/2011</div>
+                                                            <div class="claerfix"></div>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+
+                                    </tr>
+
+                                </table>
+                                <div style="  float: right; width: 100%;" class=" ">
+                                    <div id="placeholder" class="col-lg-12 col-xs-12"></div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="tab-pane fade  " id="2">
+                            <div class="eservice-content-iqama-description" id="contents-2">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="tab-pane fade  " id="3">
+
+                            <div class="complient-wshariah-wrapper" id="contents-3">
+
                                 <div class="row">
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Customer Name'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['cname'] }}
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="eservice-content-personal-title">
+                                            استراتيجية المؤسسة
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Customer Status'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['customer_status_'~app.request.get('_locale')] }}
-                                        </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        asdf
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        adsf
+                                    </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Iktissab Card No'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['C_id'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Area'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['area'] }}
-                                        </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'House Number'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['houseno'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'PO Box'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['pobox'] }}
-                                        </div>
+                                    <div class="clearfix"></div>
+                                </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Zip Code'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['zip'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'City'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['city_'~app.request.get('_locale')] }}
-                                        </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Telephone (Home)'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['tel_home'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Telephone (Office)'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['tel_office'] }}
-                                        </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Mobile'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['mobile'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Email'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['email'] }}
-                                        </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="tab-pane fade  " id="4">
+                            <div class="eservice-content-company-title">
+                                الرؤية والرسالة
+                            </div>
+                            <div class="eservice-content-company-description">
+                                مؤسسة خيرية تأ سست عام 1429 هـ ، ومسجلة بوازرة الشؤون الاجتماعية برقم 64، تقدم منح مالية للجهات الخيرية ، بهدف مساعدتها على تقديم خدماتها التنموية للفئات الأشد إحتياجاً ، والعمل على بناء شراكات مع القطاع العام والخاص ، من أجل المساهمة في التنمية المستدامة.
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="tab-pane fade  " id="5">
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Nationality'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['country_'~app.request.get('_locale')] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Marital Status'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['marital_status_'~app.request.get('_locale')] }}
-                                        </div>
+                            <div class="eservice-content-iqama-description" id="contents-5">
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Birthdate'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['birthdate'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Job Title'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['job_'~app.request.get('_locale')] }}
-                                        </div>
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+                            </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Balance'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ iktData['balance'] }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Language'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ ('lang-'~'E')|trans }}
-                                        </div>
 
-                                    </div>
-                                    <!-- end of row -->
-                                    <!--row-->
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Gender:'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ ('gender-'~iktData['gender'])|trans }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            {{ 'Shoppers'|trans }}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ ('pur_group-'~iktData['pur_grp'])|trans }}
-                                        </div>
+                        </div>
+                        <div class="tab-pane fade  " id="6">
+                            <div class="eservice-content-personal-title">
+                                {{ 'Personal Information'|trans }}
+                            </div>
+                            <div class="eservice-content-iqama-description" id="contents-6">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
 
-                                    </div>
-                                    <!-- end of row -->
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade  " id="7">
+
+                            <div class="eservice-content-iqama-description" id="contents-7">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
                                 </div>
 
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="statement">...
-                                <table id="tbl_transactions" class="display" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>Branch</th>
-                                        <th>Invoice No.</th>
-                                        <th>Trans. Amount</th>
-                                        <th>Date</th>
-                                        <th>Credit</th>
-                                        <th>Gifts</th>
-                                        <th>Expired</th>
-                                    </tr>
-                                    </thead>
 
-                                </table>
-                                <div id="div_transactions_page">
 
-                            </div>
-                            </div>
                         </div>
 
+                        <div class="tab-pane fade  " id="8">
+                            <div class="eservice-content-iqama-description" id="contents-8">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade  " id="9">
+
+                            <div class="eservice-content-iqama-description" id="contents-9">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade  " id="10">
+
+                            <div class="eservice-content-iqama-description" id="contents-10">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="tab-pane fade  " id="11">
+
+                            <div class="eservice-content-iqama-description" id="contents-11">
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+                                    <div id="loader"></div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <script type="text/javascript">
-            $.getScript('{{ asset('js/gp/jquery.flot.min.js') }}', function () {
-                $.getScript('{{ asset('js/gp/jquery.flot.pie.min.js') }}', function () {
-                    $.getScript('{{ asset('js/gp/jquery.flot.resize.min.js') }}', function () {
+        </section>
 
-
-                        // static charts
-                        var d1 = [];
-                        for (var i = 0; i < 14; i += 0.2) {
-                            d1.push([i, Math.sin(i)]);
-                        }
-                        var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-                        var d3 = [[0, 15], [7, 10], [8, 1], [12, 15]];
-
-                        // line
-                        $.plot("#chart2", [d1], {yaxis: {show: false}, grid: {borderColor: '#ccc'}});
-                        $.plot("#chart3", [d2, d3], {
-                            yaxis: {show: false},
-                            grid: {borderColor: '#ccc'},
-                            series: {color: '#ff4444', lines: {show: true}, points: {show: true}}
-                        });
-                        $.plot("#chart4", [d3], {
-                            yaxis: {show: false},
-                            grid: {borderColor: '#ccc'},
-                            series: {color: '#4444ff'}
-                        });
-
-                        // pie
-                        $.plot("#chart5", [{data: 70, color: '#5566ff'}, {
-                            data: 20,
-                            color: '#ddd'
-                        }], {series: {pie: {show: true, innerRadius: 0.6}}});
-                        $.plot("#chart6", [{data: 10, color: '#5566ff'}, {
-                            data: 30,
-                            color: '#ddd'
-                        }], {series: {pie: {show: true, innerRadius: 0.6}}});
-
-                        // real-time chart
-                        // we use an inline data source in the example, usually data would
-                        // be fetched from a server
-                        var data = [], totalPoints = 200;
-
-                        function getRandomData() {
-
-                            if (data.length > 0)
-                                data = data.slice(1);
-
-                            // do a random walk
-                            while (data.length < totalPoints) {
-                                var prev = data.length > 0 ? data[data.length - 1] : 50;
-                                var y = prev + Math.random() * 10 - 5;
-                                if (y < 0)
-                                    y = 0;
-                                if (y > 100)
-                                    y = 100;
-                                data.push(y);
-                            }
-
-                            // zip the generated y values with the x values
-                            var res = [];
-                            for (var i = 0; i < data.length; ++i)
-                                res.push([i, data[i]])
-                            return res;
-                        }
-
-                        // setup control widget
-                        var updateInterval = 500;
-                        $("#updateInterval").val(updateInterval).change(function () {
-                            var v = $(this).val();
-                            if (v && !isNaN(+v)) {
-                                updateInterval = +v;
-                                if (updateInterval < 1)
-                                    updateInterval = 1;
-                                if (updateInterval > 2000)
-                                    updateInterval = 2000;
-                                $(this).val("" + updateInterval);
-                            }
-                        });
-
-                        // setup plots
-                        var options = {
-                            grid: {borderColor: '#ccc'},
-                            series: {shadowSize: 0, color: "#33ff33"},
-                            yaxis: {min: 0, max: 100},
-                            xaxis: {show: true}
-                        };
-
-                        var plot = $.plot($("#chart1"), [getRandomData()], options);
-
-                        function update() {
-                            plot.setData([getRandomData()]);
-                            plot.draw();
-                            setTimeout(update, updateInterval);
-                        }
-
-                        update();
-
-                    });// end getScript (resize)
-                });// end getScript (pie)
-            });// end getScript
-
-            // for tabs
-//            $('#myTabs a').click(function (e) {
-//                e.preventDefault()
-//                alert("The tab name is");
-//                $(this).tab('show')
-//            })
-
-//            $('#trans-tab').click(function (e){
-//                alert('show me trans');
-//            })
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab
-                if(target == '#statement'){
-                    {#$.ajax({#}
-                        {#url: "{{ path('ikt_transactions',{ '_country': app.request.get('_country'), '_locale':app.request.get('_locale'), 'page':1 }) }}"#}
-                    {#}).done(function(result){#}
-                        {#$('#div_transactions').empty().append(result)#}
-                    {#})#}
-                    $('#tbl_transactions').DataTable( {
-                        "processing": true,
-                        "serverSide": true,
-                        'searching': false,
-                        'ordering': false,
-                        'lengthChange': false,
-                        "ajax": {
-                            "url": '{{ path('ikt_transactions',{ '_country': app.request.get('_country'), '_locale':app.request.get('_locale'), 'page':1 }) }}',
-                            "dataType": "json"
-                        }
-                    } );
-                }
-            });
-        </script>
-        <style>
-            /* CSS used here will be applied after bootstrap.css */
-
-            .big-chart {
-                width: 100%;
-                height: 220px;
-            }
-
-            .line-chart {
-                width: 100%;
-                height: 100px;
-            }
-
-            .donut {
-                width: 100%;
-                height: 150px;
-                min-width: 150px;
-            }
-
-            .donut-label {
-                position: absolute;
-                left: 0%;
-                font-size: 22pt;
-                color: #ddd;
-                width: 100%;
-                top: 38%;
-            }
-
-            .profile-tabs {
-                min-height: 400px;
-            }
-        </style>
     {% else %}
+      <section class="container ">
         <div class="row">
             <div class="col-lg-12 text-center">
                 No user data found<br />
                 <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
             </div>
         </div>
-
+      </section>
     {% endif %}
+
+
+<script type="text/javascript">
+        var d1 = [[1262304000000, 3], [1264982400000, 13], [1267401600000, 15], [1270080000000, 18], [1272672000000, 23], [1275350400000, 27], [1277942400000, 30], [1280620800000, 30], [1283299200000, 27], [1285891200000, 22], [1288569600000, 16], [1291161600000, 13]];
+        var data1 = [{data: d1, points: { symbol: "circle", fillColor: "#0F935D" }, color: '#0F935D'}];
+
+        if(window.screen.width < 767) {
+            // some code..
+            var monthsData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+            var monthsData_ar = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        } else {
+            var monthsData = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthsData_ar = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+        }
+        $(document).ready(function () {
+            $.plot($("#placeholder"), data1, {
+                xaxis: {
+                    min: (new Date(2009, 11, 18)).getTime(),
+                    max: (new Date(2010, 11, 15)).getTime(),
+                    mode: "time",
+                    tickSize: [1, "month"],
+                    monthNames: monthsData_ar,
+                    tickLength: 0,
+                    axisLabel: 'Month',
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                    axisLabelPadding: 5
+                },
+                yaxis: {
+
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                    axisLabelPadding: 5
+                },
+                series: {
+                    lines: { show: true },
+                    points: {
+                        radius: 3,
+                        show: true,
+                        fill: true
+                    },
+                },
+                grid: {
+                    hoverable: true,
+                    borderWidth: 1
+                },
+                legend: {
+                    labelBoxBorderColor: "none",
+                    position: "right"
+                }
+            });
+
+            function showTooltip(x, y, contents, z) {
+                $('<div id="flot-tooltip">' + contents + '</div>').css({
+                    top: y - 30,
+                    left: x - 135,
+                    'border-color': z,
+                }).appendTo("body").fadeIn(200);
+            }
+
+            function getMonthName(numericMonth) {
+                var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var alphaMonth = monthArray[numericMonth];
+
+                return alphaMonth;
+            }
+
+            function convertToDate(timestamp) {
+                var newDate = new Date(timestamp);
+                var dateString = newDate.getMonth();
+                var monthName = getMonthName(dateString);
+
+                return monthName;
+            }
+
+            var previousPoint = null;
+
+            $("#placeholder").bind("plothover", function (event, pos, item) {
+                if (item) {
+                    if ((previousPoint != item.dataIndex) || (previousLabel != item.series.label)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+
+                        $("#flot-tooltip").remove();
+
+                        var x = convertToDate(item.datapoint[0]),
+                                y = item.datapoint[1];
+                        z = item.series.color;
+
+                        showTooltip(item.pageX, item.pageY,
+                                "<b>" + item.series.label + "</b><br /> " + x + " = " + y + "mm",
+                                z);
+                    }
+                } else {
+                    $("#flot-tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+
+            $('#myTab a').on('click', function (event) {
+
+                if($(this).data('id') != '13') { // 13 is for logout
+                    event.preventDefault();
+                    var path = $(this).data('path');
+                    //alert(path);
+                    var id = $(this).data('id');
+                    // alert(id);
+                    //if (path == undefined || path == null || path == '') return;
+                    $.ajax({
+                        url:path,
+                        beforeSend: function () {
+
+                        },
+                        complete: function () {
+
+                        },
+                        success: function (response) {
+                            $("#contents-"+id).html(response);
+                        }
+                    });
+
+                }
+            });
+
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        #placeholder { width: 100%; height: 400px; }
+    </style>
+
+
+
+
+
 {% endblock %}
 
