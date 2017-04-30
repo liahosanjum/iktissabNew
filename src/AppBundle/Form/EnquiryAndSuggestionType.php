@@ -6,6 +6,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\EnquiryAndSuggestion;
 use AppBundle\Entity\FormSettings;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -23,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class EnquiryAndSuggestionType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
@@ -87,6 +89,7 @@ class EnquiryAndSuggestionType extends AbstractType
                     new NotBlank(array('message' => 'This field is required')),
                 )
 
+
             ))
 
             ->add('captchaCode', CaptchaType::class, array(
@@ -95,9 +98,24 @@ class EnquiryAndSuggestionType extends AbstractType
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
                     new NotBlank(array('message' => 'Email is required'))),
-                ))
+                
 
-            ->add('source', HiddenType::class, array('label' => 'Source' ,
+            ));
+            //->add('country', TextType::class, array('label'=>"Country"))
+            if(!isset($options["extras"]['mobile'])) {
+                $builder->add('captchaCode', CaptchaType::class, array(
+
+                    'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
+                    'constraints' => array(
+                        new NotBlank(array('message' => 'This field is required')),
+                        new ValidCaptcha(array("message"=>"Invalid captcha code"))
+                    ),
+
+
+                ));
+            }
+
+            $builder->add('source', HiddenType::class, array('label' => 'Source' ,
                     'attr' =>array('value' => 'W'),))
 
 
@@ -114,9 +132,10 @@ class EnquiryAndSuggestionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion',
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
         ));
         $resolver->setRequired('extras');
+
     }
 
     /**

@@ -1,8 +1,12 @@
 <?php
 namespace AppBundle\Form;
 
+
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\BrowserKit\Request;
+
+//use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -21,15 +25,16 @@ class ActivateCardoneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+
         $country_id =  $options['extras']['country'];
-        $builder->add('email', EmailType::class, array('label' => 'Email', 'constraints' => array(
+        $builder->add('email', EmailType::class, array('label' => 'Email','attr' => array('maxlength' => 50), 'constraints' => array(
 
             new Assert\NotBlank(array('message' => 'This field is required')),
             new Assert\Email(array('message' => 'Invalid email'))
 
         )
         ))
-            ->add('iktCardNo', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array('label' => 'Iktissab ID',
+            ->add('iktCardNo',TextType::class, array('label' => 'Iktissab ID',
                 'attr' =>array( 'maxlength' => 8),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),

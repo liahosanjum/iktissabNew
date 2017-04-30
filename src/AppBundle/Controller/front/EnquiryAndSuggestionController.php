@@ -86,6 +86,7 @@ class EnquiryAndSuggestionController extends Controller
                     $data = $this->getEmailList($request, 'Inquiries And Suggestion', $form->get('reason')->getData());
                     if ($data['success'])
                     {
+
                         $enquiryAndSuggestion->setCountry($request->get('_country'));
                         /*
                         if($request->get('_country') == 'sa'){
@@ -96,6 +97,9 @@ class EnquiryAndSuggestionController extends Controller
                         }
                         $enquiryAndSuggestion->setMobile($ext.$form->get('mobile')->getData());
                         */
+
+
+                        $enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
 
                         $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
                         if ($rest) {

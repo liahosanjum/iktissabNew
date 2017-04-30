@@ -35,7 +35,7 @@
                             {#{{ dump(user) }}#}
                             <tr>
                                 <td>{{ user.u_iktCardNo }}</td>
-                                <td>{{ user.u_regDate|date('Y-m-d') }}</td>
+                                <td>{{ user.u_regDate|date(constant('AppBundle\\AppConstant::DATE_FORMAT')) }}</td>
                                 <td>{{ user.u_email }}</td>
                                 <td>
                                     {#{{ path('admin_news_edit', { id: post.id }) }}#}

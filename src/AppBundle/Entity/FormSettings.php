@@ -14,6 +14,12 @@ class FormSettings
 {
     const Inquiries_And_Suggestion = "Inquiries And Suggestion";
     const Faqs_Form = "Faqs Form";
+
+    const SUBMISSION_EVERY_HOUR = 1;
+    const SUBMISSION_EVERY_DAY = 24;
+    const SUBMISSION_EVERY_WEEK = 168;
+    const SUBMISSION_EVERY_MONTH = 720;
+
     /**
      * @var int
      *
