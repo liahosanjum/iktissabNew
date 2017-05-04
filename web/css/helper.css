@@ -1,0 +1,87 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Cairo:200,300,400,600,700,900&subset=arabic,latin-ext');
+
+
+body {
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: normal;
+
+}
+
+@font-face {
+    font-family: DroidKufiBold;
+    src: url('../fonts/DroidKufi-Bold.eot');
+    src: url('../fonts/DroidKufi-Bold.ttf') format('truetype');
+    src: url('../fonts/DroidKufi-Bold.eot?#iefix') format('embedded-opentype');
+    src: url('../fonts/DroidKufi-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: DroidKufiRegular;
+    src: url('../fonts/DroidKufi-Regular.eot');
+    src: url('../fonts/DroidKufi-Regular.ttf') format('truetype'),
+         url('../fonts/DroidKufi-Regular.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/DroidKufi-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: DroidNashkBold;
+
+    src: url('../fonts/DroidNaskh-Bold_0.ttf')format('truetype');
+}
+
+@font-face {
+    font-family: DroidNashkRegular;
+    src: url('../fonts/DroidNaskh-Regular_1.ttf')format('truetype');
+}
+
+
+
+
+.h2, h2{
+    font-size:28px;
+}
+::-moz-selection {
+    color: #ffffff;
+    background: #0f935d;
+}
+
+::selection {
+    color: #ffffff;
+    background: #0f935d;
+}
+
+*:focus {outline:none;}
+.nomargin {margin:0;}
+.nopadding {padding: 0;}
+.nomargin-right{margin-right: 0;}
+.nomargin-left{margin-left: 0;}
+.nomargin-bottom{margin-bottom: 0;}
+.nomargin-top{margin-top: 0;}
+.nopadding-right{padding-right: 0;}
+.nopadding-left{padding-left: 0;}
+.nopadding-bottom{padding-bottom: 0;}
+.nopadding-top{padding-top: 0;}
+.noborder{border:0;}
+.noborder-right{border-right:0;}
+.noborder-left{border-left:0;}
+.noborder-top{border-top:0;}
+.noborder-bottom{border-bottom:0;}
+.redspan{color:#BBC337;}
+.inline-true {display:inline}
+.block-true {display:block}
+.noBorderRadius{border-radius:0;}
+a:hover { cursor: hand;}
+
+.unselectableText {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+    cursor:default;
+}
+
+
+.breadcrumb { background-color: #FFFFFF;}
+.breadcrumb li a { color: #343434;  text-decoration: none; font-weight: 600; font-size: 14px; }
+.breadcrumb > li + li::before { color: #343434;  }
+.breadcrumb > .active a{ color: #347f5b; }

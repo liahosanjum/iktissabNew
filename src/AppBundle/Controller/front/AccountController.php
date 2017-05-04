@@ -53,9 +53,9 @@ class AccountController extends Controller
     public function myAccountAction(Request $request)
     {
         $response  = new Response();
-        $commFunct = new FunctionsController();
+
         /****************/
-         $response  = new Response();
+
          $commFunct = new FunctionsController();
          if($commFunct->checkSessionCookies($request) == false){
              return $this->redirect($this->generateUrl('landingpage'));
@@ -73,7 +73,7 @@ class AccountController extends Controller
                  $locale = $request->getLocale();
              } else {
                  if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                     return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                     return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                  }
              }
          }
@@ -91,7 +91,7 @@ class AccountController extends Controller
                  $country = $request->get('_country');}
              else {
                  if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
-                     return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                     return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                  }
              }
          }
@@ -119,18 +119,13 @@ class AccountController extends Controller
 
 
 
-
+        // todo:
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            echo $commFunct->checkSessionCookies($request) ;
-            exit;
+            $commFunct->checkSessionCookies($request) ;
             if ($commFunct->checkSessionCookies($request) == false) {
-                //return $this->redirect($this->generateUrl('landingpage'));
+                return $this->redirect($this->generateUrl('landingpage'));
             }
-            else
-            {
 
-                //return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-            }
         }else {
 
 
@@ -152,9 +147,49 @@ class AccountController extends Controller
 
 
             $iktUserData = $this->get('session')->get('iktUserData');
-            //var_dump($iktUserData);
-            return $this->render('/account/home.html.twig',
-                array('iktData' => $iktUserData)
+            $url_trans_count = $request->getLocale() . '/api/'.$this->getUser()->getIktCardNo() .'/customer_transaction_count.json';
+            $data_trans_count = $restClient->restGet(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
+            if($data_trans_count['transaction_count'] < 10){
+                $count_transaction = 1;
+            }
+            else
+            {
+                $count_transaction = $data_trans_count['transaction_count'] / 10;
+                $count_transaction = round($count_transaction);
+            }
+            $url_trans = $request->getLocale() . '/api/'.$this->getUser()->getIktCardNo().'/customer_trans_bypage/'.$count_transaction.'.json';
+            // echo AppConstant::WEBAPI_URL.$url;
+
+            $data_transaction = $restClient->restGet(AppConstant::WEBAPI_URL . $url_trans, array('Country-Id' => strtoupper($request->get('_country'))));
+            // var_dump($data_transaction);
+            $i = 0;
+
+            foreach ($data_transaction['data'] as $data_transactions) {
+                $i++;
+                // print_r($data_transactions);
+                $data_transactions['trans_date'];
+
+                $data_array[$i]['inv_amt'] = $data_transactions['inv_amt'];
+                $date_of_submission = explode(' ', $data_transactions['trans_date']);
+                $data_array[$i]['trans_date'] = $date_of_submission[0];
+                $date_of_submission_m = explode('-', $data_array[$i]['trans_date']);
+                $data_array[$i]['year'] = $date_of_submission_m[0];
+                $data_array[$i]['month'] = $date_of_submission_m[1];
+                $data_array[$i]['day'] = $date_of_submission_m[2];
+                $date_of_submission[1];
+                $date_of_submission_days_array = explode('-', $date_of_submission[0]);
+                $date_of_sub_hours_array = explode(':', $date_of_submission[1]);
+                $data_array[$i]['trans_date_time'] =  mktime($date_of_sub_hours_array[0],
+                    $date_of_sub_hours_array[1], $date_of_sub_hours_array[2],
+                    $date_of_submission_days_array[1], $date_of_submission_days_array[2], $date_of_submission_days_array[0]);
+                $data_array[$i]['trans_date_time'] = $data_array[$i]['trans_date_time'] * 1000;
+
+
+            }
+
+             // var_dump($data_transaction);
+             // var_dump($data_array);
+            return $this->render('/account/home.html.twig', array('iktData' => $iktUserData , 'iktTransData' => $data_array  )
             );
         }
     }
@@ -595,6 +630,7 @@ class AccountController extends Controller
 
         try
         {
+
             $activityLog = $this->get('app.activity_log');
             // check user
             // var_dump($this->get('session'));
@@ -716,7 +752,7 @@ class AccountController extends Controller
         catch (\Exception $e)
         {
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
-            $message = $this->get('translator')->trans('An invalid exception occurred22'.$e->getMessage());
+            $message = $this->get('translator')->trans('An invalid exception occurred');
             // echo $e->getMessage();
             return $this->render('account/mobile.html.twig',
                 array('form' => $form->createView(),'country' => $country_id,'message' => $message)
@@ -1217,7 +1253,7 @@ class AccountController extends Controller
             ));
             $data = $request->request->all();
             $url  = $request->getLocale() . '/api/update_lost_card.json';
-            //print_r($data);exit;
+            // print_r($data);exit;
             if(!empty($data))
             {
                     /************************/
@@ -1233,7 +1269,7 @@ class AccountController extends Controller
                     $postData = json_encode($form_data);
                     $request->get('_country');
                     $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                    // print_r($data); // return data fromt the webservice
+                    // print_r($data); exit;// return data fromt the webservice
                     if ($data['success'] == true)
                     {
                         // posted array is emty to clear the form after successful transction
@@ -1301,8 +1337,50 @@ class AccountController extends Controller
             'address' => 'office colony ',
             'houseno' => ''
         );
-        echo $this->createJson($data);
+        $restClient = $this->get('app.rest_client');
+        $url = "http://www.othaimmarkets.com/webservices/api/v2";
+
+        $postData = "{\"service\":\"IktissabPromotions\"} ";
+        $data = $restClient->restPostForm($url,
+            $postData, array('input-content-type' => "text/json" , 'output-content-type' => "text/json" ,
+                'language' => 'en'
+            ));
+        //var_dump($data);
+        $products = json_decode($data);
+        //var_dump(json_decode($data));
+        //echo "<br>";
+        //var_dump($products->products[0]);
+
+        $pro = $products->products;
+
+        // var_dump($pro);
+        $i = 0;
+        foreach ($products->products as $data)
+        {
+            $listing[$i]['ID'] = $data->ID;
+            $listing[$i]['Price'] = $data->Price;
+            $listing[$i]['SpecialPrice'] = $data->SpecialPrice;
+            $listing[$i]['Name'] = $data->Name;
+            $listing[$i]['SKU'] = $data->SKU;
+            $listing[$i]['URL'] = $data->URL;
+            $listing[$i]['SmallImage'] = $data->SmallImage;
+            $i++;
+        }
+        var_dump($listing);
+
+
+        
+
+
+
+
+
+
+        //echo $this->createJson($data);
         return new Response();
+
+
+
     }
 
     private function createJson($data)

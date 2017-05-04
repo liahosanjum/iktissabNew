@@ -34,8 +34,10 @@
         <div class="row">
 
             {% if(error.success == false) %}
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center alert alert-danger">
-                    {{ error.message }}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="text-center alert alert-danger">
+                        {{ error.message }}
+                    </div>
                 </div>
             {% endif %}
             <div class="col-lg-12 text-center ">
@@ -90,6 +92,7 @@
 
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     {{ form_start(form) }}
 
@@ -236,7 +239,7 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
+
     </section>
 
 {% endblock %}
@@ -244,11 +247,12 @@
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
 <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#status_id").hide();
         {{ form_jquery_validation(form) }}
-    });
+
 
     $('#activate_cardone_submit').click(function (event) {
 
@@ -261,20 +265,10 @@
 
             }
     });
-=======
-    </div>
 
-    <script type="text/javascript"
-            src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
-    <script type="text/javascript">
 
-        jQuery(document).ready(function () {
-            {{ form_jquery_validation(form) }}
-        });
+    });
+</script>
 
->>>>>>> 5f6f1f7e3151828f17d3f6b2e0dfbfcbda994cff
-    </script>
+
 {% endblock %}

@@ -1,1 +1,3 @@
-welcome there testing sms.php
+<?php
+phpinfo();
+?>

@@ -24,14 +24,14 @@ class CmsPages
     /**
      * @var string
      *
-     * @ORM\Column(name="adesc", type="string", length=255, nullable=true)
+     * @ORM\Column(name="adesc", type="text",  nullable=true)
      */
     private $adesc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="edesc", type="string", length=255, nullable=true)
+     * @ORM\Column(name="edesc", type="text",  nullable=true)
      */
     private $edesc;
 

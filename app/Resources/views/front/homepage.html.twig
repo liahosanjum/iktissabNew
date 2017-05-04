@@ -41,10 +41,16 @@
                                 <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
                                 <span class="home-text-green">اكتساب Iktissab</span>
                                 <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
-                                <ul id="webTicker-en">
-                                    <li class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</li>
+                                <ul id="webTicker-{{ app.request.get('_locale') }}">
+
+                                    <li class="home-text-grey">
+                                       {{   '10% discount at all Kiaabi branches only for cardholders'|trans }}
+                                    </li>
+
                                     <li class="home-text-green">اكتساب Iktissab</li>
-                                    <li class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25</li>
+
+                                    <li class="home-text-grey1">{{ 'Abdullah Al Othaim Markets offers huge discounts for holders of up to 25 purchase cards'|trans }}</li>
+
                                 </ul>
                             </div>
                         </div>

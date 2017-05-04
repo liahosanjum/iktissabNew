@@ -128,7 +128,7 @@ class ActivationController extends Controller
         // check referal
         // to do: uncomment below
         if (!$this->isReferalValid('card_activation')) {
-          return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+          // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
@@ -297,12 +297,14 @@ class ActivationController extends Controller
         $reference_year = array('gyear'=>2017, 'hyear'=>1438);
         $current_year = date('Y');
         $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
+        $iktCardNo = $this->get('session')->get('iktCardNo');
         return $this->render('/activation/customer_information.twig',
             array('form' => $form->createView(),
                 'error' => $error,
                 'areas' => $areas,
-                'islamicyear' => $islamicYear)
-        );
+                'islamicyear' => $islamicYear,
+                'iktCardNo' => $iktCardNo
+        ));
 
 
     }
@@ -398,7 +400,7 @@ class ActivationController extends Controller
                             $this->get('mailer')->send($message);
                             $request->getSession()
                                 ->getFlashBag()
-                                ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account '));
+                                ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account'));
                             $activityLog->logEvent(AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS, $newCustomer['C_id'], array('message' => $message, 'session' => $newCustomer));
                             return $this->redirectToRoute('activation_thanks', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
 
@@ -411,10 +413,17 @@ class ActivationController extends Controller
                     break;
             }
         }
+        // added by sohail
+        $ikt_card_no    = $this->get('session')->get('iktCardNo');//$this->get('session')->get('iktCardNo');
+        $ikt_reg_mobile = substr($this->get('session')->get('mobile'),4,9);//$this->get('session')->get('mobile');
+
+
         return $this->render('/activation/enter_otp.twig',
             array(
                 'error' => $error,
-                'form' => $form->createView()
+                'form'  => $form->createView(),
+                'ikt_card_no' => $ikt_card_no,
+                'ikt_reg_mobile' => $ikt_reg_mobile
             )
         );
     }
@@ -490,10 +499,14 @@ class ActivationController extends Controller
     function activationThanksAction(Request $request)
     {
         $success = $request->getSession()->getFlashBag()->get('ikt_success');
+        // code added by sohail
+        $ikt_card_no    = $this->get('session')->get('iktCardNo');
         $session = $request->getSession();
         $session->invalidate();
+        // code added by sohail
         return $this->render('/activation/thanks.twig', [
-            'success' => $success
+            'success' => $success,
+            'ikt_card_no' => $ikt_card_no,
         ]);
     }
 

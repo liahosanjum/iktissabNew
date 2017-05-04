@@ -1,4 +1,32 @@
-﻿
+﻿#ikt_reg_dob { float: left; width: 75%;  }
+#ikt_reg_dob_year{ float: left; width: 32%; }
+#ikt_reg_dob_month{ float: left; width: 32%; margin-left: 2px; margin-right: 2px; }
+#ikt_reg_dob_h_day{ float: left; width: 23%; }
+
+#ikt_reg_dob_h_year{ float: left; width: 23%; }
+#ikt_reg_dob_h_month{ float: left; width: 23%; margin-left: 2px; margin-right: 2px; }
+#ikt_reg_h_dob { float: left; width: 75%;  }
+
+#ikt_reg_dob_day { float: left; width: 32%; }
+
+.extension-mob{ float: left; width: 25%;  }
+.mob { float: left; width:75%; }
+
+.cust_info_dates  { margin-top:10px; }
+
+
+
+
+
+
+
+#ikt_reg_dob { float: left; width: 75%;  }
+#ikt_reg_dob_year{ float: left; width: 32%; }
+#ikt_reg_dob_month{ float: left; width: 32%; margin-left: 2px; margin-right: 2px; }
+
+#ikt_reg_dob_day { float: left; width: 32%; }
+
+
 .mobile-number-wrapper{ float: right; width:100%; }
 
 
@@ -46,12 +74,29 @@ body {
 
 }
 
+#ikt_reg_dob_h_year-error { width: 100%; float: left;
+    margin-top: 58px;
+    position: absolute;
+    text-align: left;
+    display: block;
+}
+
+.mob-ex{ padding-right:10px; padding-top:2px; text-align: right; }
+
+#ikt_reg_dob_year-error { width: 100%; float: left;
+    margin-top: 31px;
+    position: absolute;
+    text-align: left;
+    display: block;
+}
+
+
 .form_labels{ width: 100%; }
 
 
 #captchaCode{ background-color: #fff;
     background-image: none;
-    border: 1px solid #969696;
+    border: 1px solid #dddddd;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
     color: #555;
@@ -59,7 +104,7 @@ body {
     font-size: 14px;
     height: 34px;
     line-height: 1.42857;
-    padding: 6px 12px;
+    padding-left: 5px;
     border-radius:0px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%; }
@@ -483,11 +528,26 @@ select#ikt_update_maritial_status  {
     border-radius: 2px;
     border: 2px solid #008b40;
     height: 33px;
-    width:160px;
+    width:87px; /*160*/
     font-family: DroidKufiBold;
 }
 #btn_dob_h:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
+.cust_info_dates .btn_dob_h_wrappper { float: right; width: auto; padding-left: 0px; margin-top:0px; }
+
 .btn_dob_h_wrappper { float: right; width: auto; padding-left: 43px; margin-top:10px; }
+.btn_dob_wrappper_step2 #btn_dob {
+    background-color: #008b40;
+    border: 2px solid #008b40;
+    border-radius: 2px;
+    color: #fff;
+    font-family: DroidKufiBold;
+    font-size: 17px;
+    font-weight: 500;
+    height: 32px;
+    width: 84px;
+}
+
+.ext-code{ margin-top:35px; }
 
 .btn_dob_wrappper { float: right; width: auto; padding-left: 40px; margin-top:10px; }
 #ikt_update_submit {
@@ -535,7 +595,7 @@ select#ikt_update_maritial_status  {
 .submit-wrapper{ margin-top:10px;  }
 .password-margins{ margin-left:15px; margin-right:15px; }
 .eservice-content-inner-wrapper{    float: left; width: 100%; padding-right:15px ;padding-left:15px; }
-.formLayout{ margin-bottom:5px; font-weight: 600; font-size: 16px; }
+.formLayout{ margin-bottom:5px; font-weight: 500; font-size: 14px; }
 
 /** email **/
 .email-wrapper{ padding-left:15px; }
@@ -1003,8 +1063,8 @@ body{
 .copyright-text { float: left; width: 100%; color: #FFFFFF; text-align: left; font-family: Verdana; font-size: 11px;   }
 .copyright-content-wrapper{ float: left; padding-top: 10px; font-family: DroidKufiRegular; font-size: 12px; width: 100%;}
 .copyright-links a { color: #FFFFFF;}
-.footer-links {float: left; width: 57%; font-size: 11px;  padding-right: 10px; }
-.col-offset-1 {float: left; width: 27%; font-size: 11px;  padding-left:10px;}
+.footer-links {float: left; width: 45%; font-size: 11px;  padding-right: 10px; }
+.col-offset-1 {float: left; width: 40%; font-size: 11px;  padding-left:10px;}
 
 .navbar-nav > li > .dropdown-menu { margin-left: 28px; }
 
@@ -1346,19 +1406,24 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .badge-border-active {  background: #F29100 none repeat scroll 0 0;  float: right;  height: 6px;  left: 53%;  position: relative;  top: -21px;  width: 92%;  z-index: 1;}
 .form-cardactivation-wrapper {  margin-top: 30px; margin-left: 8.33333%; }
 .form-cardactivation-wrapper-step-2 {  margin-top: 30px; margin-left: 8.33333%; }
-.form-cardactivation-wrapper-step2 {  margin-top: 4px; }
+.form-cardactivation-wrapper-step2 {  margin-top: 4px; margin-left: 8.3333%; }
 .reg-steps{ width: 100%; float: left; margin-bottom: 15px; }
 .steps-wrapper{ float: left;  }
 .steps-title{ text-align: center; font-size: 15px; font-family: Verdana; margin-bottom: 15px; }
-.card-activation-phone-message { direction:rtl;font-size: 14px;  margin-top: 34px; font-family: Verdana; padding-left: 10px; float: left; width: 100%; }
+.card-activation-phone-message { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
+    padding-left: 10px; float: left; width: 100%; }
+.card-activation-phone-title { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
+    padding-left: 10px; float: left; width: 100%; margin-left:20%; }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
-.card-activation-phone-code { margin-top: 10px; }
+.card-activation-phone-code { margin-top: 10px; margin-left: 40%; margin-right:40%; }
 .red-color { color: #FF0000; padding-left: 10px;  }
 .card-activation-phone-note { margin-top: 40px; float: left; font-size: 14px; font-weight: 600;  }
 .user-member { background: rgba(0, 0, 0, 0) url("../../img/login-user.svg") no-repeat scroll 1% 50%;
     padding-left: 30px;
 
 }
+.mobile-num { float: left; }
+.mob-msg { float: left; }
 
 .user-password { background: rgba(0, 0, 0, 0) url("../../img/login-pass.svg") no-repeat scroll 1% 50%;
     padding-left: 30px;
@@ -1378,22 +1443,29 @@ a.last-breadcrumb:hover{ text-decoration: none; }
     text-align: left;
 
 }
+.thanks-padder { margin-bottom:70px; padding-top:50px;  }
 
 .cardactivationForm select {
-    /*-moz-appearance: none;*/
+    -moz-appearance: none;
     -webkit-appearance: none;
-    background: rgba(0, 0, 0, 0) url("../../img/dd-arrow.jpg") no-repeat scroll 3% 33%;
+    background: rgba(0, 0, 0, 0) url("../../img/dd-arrow.jpg") no-repeat scroll 94% 33%;
     border: none;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     height: 32px;
+    font-size: 12px;
     line-height: 15px;
-    padding-left: 15px;
+    padding-left: 2px;
+    border: 1px solid #dddddd;
     text-align: left;
-    width: 128%;
+    width: 100%;
+    padding-top:1px;
+    padding-bottom: 1px;
 }
+
+
 .contactUsForm {
     width: 95%;
     border: 1px solid #969696;
@@ -1453,24 +1525,28 @@ a.last-breadcrumb:hover{ text-decoration: none; }
     height: 32px;
     width: 118%;
 }
+.alert-danger{ margin-top:10px; margin-bottom: 10px; }
 
 .cardactivationForm input, #cardactivationForm select.select {
     border: 1px solid #e0e0e0;
     border-radius: 0 !important;
     height: 32px;
+    padding-left: 5px;
     width: 100%;
 }
 .activation-description{ margin-top:50px;border: 2px solid #dddddd; background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px; }
 .activation-description .sno { padding-right: 5px;direction: rtl; float: left; width: 6%; min-height: 38px;  }
 .activation-description .desc-list { float: left; text-align: right; font-size: 15px; font-weight: 600; width: 100%;}
-.iktissab-activation-step2{ font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
+.iktissab-activation-step2{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
 .ikt-activation-title{ float: left; text-align: right; width: 57%; padding-left: 3px;}
 .ikt-activation-number {float: left;  text-align: left; width: 42%; padding-left: 3px;}
 .form-cardactivation-inner{margin-top: 8px; float: left; width: 100%; }
 
 .aboutus-wrapper {  margin-bottom: 50px; direction: ltr;  }
 
-
+.iktissab-activation-step3{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
+.card-activation-thanks-message { direction:ltr;font-size: 16px;  margin-top: 34px; font-family: Verdana;
+    padding-left: 10px; float: left; width: 100%; font-weight: bold;   }
 
 
 .aboutus-wrapper .col-lg-12{  padding-left: 0px;}
@@ -1763,12 +1839,12 @@ table.user-details { margin-bottom: 0px !important; }
     .header-contact-wrap {  padding-top: 20px; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .user-details { padding:0px !important; }
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 0px; }
     .activation-form-wrapper{ margin-right: 0%; }
-    .iktissab-activation-step2 { margin-right: 0%;  }
-    .activation-form-wrapper-step3{ margin-left: 0%;  }
+    .iktissab-activation-step2 { margin-right: 0%;margin-left: 0%;  }
+    .activation-form-wrapper-step3{ margin-left: 0%; margin-right: 0%;  }
     .steps-title{ font-size: 12px; min-height: 30px; }
     .mobile-ext-wraper{ width: 147px; }
     .formControl-ext{ padding-left:0px; }
@@ -1802,7 +1878,7 @@ table.user-details { margin-bottom: 0px !important; }
     .logo-wrapper img { float: right;}
     .header-contact-wrap {  padding-top: 20px; }
     .user-details { padding:0px !important; }
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 0px; }
     .activation-form-wrapper{ margin-right: 0%; }
@@ -1856,7 +1932,7 @@ table.user-details { margin-bottom: 0px !important; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .user-details { padding:0px !important; }
     .menu-wrapper .navbar-nav > li > a{ font-size: 14px; }
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 0px; }
     .activation-form-wrapper{ margin-right: 0%; }
@@ -1880,7 +1956,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_h_year{width: 33%;float: right;}
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:3px;  padding-left:0px; }
     .btn_dob_h_wrappper{ float: left; padding-left:0px;  }
-
+    .ikt-activation-title { width:50% ; }
 }
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
@@ -1910,7 +1986,7 @@ table.user-details { margin-bottom: 0px !important; }
     .user-details { padding:0px !important; }
 
     .eservices-wrapper .personal-details-wrapper{ margin-left: 0px; }
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 100%; margin-right: 0px; }
     .activation-form-wrapper{ margin-left: 0%; }
@@ -1933,6 +2009,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_h_year{width: 32%;}
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:20px; padding-left:0px;float: left; }
     .btn_dob_h_wrappper{ float: left; padding-left:0px;  }
+    .ikt-activation-title { width:50% ; }
 }
 
 @media screen and (max-width: 480px) {
@@ -1949,7 +2026,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_h_month{width:32%;float: right;}
     select#ikt_update_dob_h_year{width: 33%;float: right;}
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:3px;padding-left:0px; float: left; }
-
+    .ikt-activation-title { width:50% ; }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -2000,7 +2077,7 @@ table.user-details { margin-bottom: 0px !important; }
 
 
     .eservices-wrapper .personal-details-wrapper{ margin-left: 0px; }
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 100%; margin-right: 0px; }
     .activation-form-wrapper{ margin-left: 0.0%; }
@@ -2032,6 +2109,16 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_h_year{width: 33%;float: right;}
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:3px;padding-left:0px; float: left; }
     .btn_dob_h_wrappper{ float: left; padding-left:0px;  }
+    .ikt-activation-title { width:50% ; }
+    .activation-description .sno { width: 11%; }
+    .desc { width: 89%; }
+    #ikt_reg_dob_h_day{ float: left; width: 33%; }
+
+    #ikt_reg_dob_h_year{ float: left; width: 32%; }
+    #ikt_reg_dob_h_month{ float: left; width: 32%; margin-left: 2px; margin-right: 2px; }
+    #ikt_reg_dob { width:100%; }
+    .btn_dob_wrappper_step2 #btn_dob { margin-top:5px; }
+    #btn_dob_h { margin-top:5px; }
 
 }
 
