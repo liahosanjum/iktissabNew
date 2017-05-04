@@ -1,23 +1,171 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-lg-12 text-center ">
-            Activatoin step Three Enter sms
-        </div>
-        {{ dump(error) }}
-        {% if(error.success == false) %}
-            <div class="col-lg-12 text-center alert alert-danger">
-                {{ error.message }}
+
+
+
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'right'  %}
+    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'left'  %}
+    {% endif %}
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a  class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a  class="last-breadcrumb" >{{ 'Card Activation'|trans }}</a>
             </div>
-        {% endif %}
-        <div class="col-lg-12 text-center ">
+        </div>
+    </section>
 
-           {{ "Please enter the code you recieved via SMS"|trans }}
-
-            {{ form_start(form) }}
-            {{ form_end(form) }}
+    <section class="container cardactivation-wrapper">
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="title-contents">{{ 'Iktissab Card Activation'|trans }}  |  {{ 'Create an account for an activated card'|trans }} </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="sub-title-contents grey-color">{{ 'Our Dear Customer'|trans }}</div>
+                <div class="activation-contents grey-color">{{ 'Iktissab card activaiton step benefits'|trans }}</div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                {% if(error.success == false) %}
+                    <div class="col-lg-12 text-center alert alert-danger">
+                        {{ error.message }}
+                    </div>
+                {% endif %}
+            </div>
 
         </div>
-    </div>
+    </section>
+    <section class="container cardactivation-form-wrapper">
+        <div class="row">
+            <div class="cardactivation-form-inner   col-lg-12   col-md-12 col-sm-12 col-xs-12 ">
+                <div class="activation-contents grey-color" >
+                    <div class="row">
+                        <div class="activation-form-wrapper  col-lg-10   col-md-12 col-sm-12   col-xs-12" >
+                            <div class="form-activation-list" >
+                                <div class="row">
+                                    <div class="reg-steps">
+                                        <div class="steps-wrapper  col-lg-3 col-md-3 col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">{{ 'Card Information'|trans }}</div>
+                                            <div class="steps-circle">
+                                                <div class="badge active">1</div> <div class="badge-border-active ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Customer Information'|trans }}
+                                            </div>
+                                            <div class="steps-circle green-color">
+                                                <div class="badge active">2</div> <div class="badge-border-active ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Card Activation'|trans }}
+
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge active">3</div> <div class="badge-border   ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Verification'|trans }}
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge">4</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-8   col-md-12 col-sm-12 col-xs-12">
+                                        <div class="iktissab-activation-step3">
+
+                                            <div class="ikt-activation-title grey-color">  {{ 'Iktissab Card Id Activation'|trans }} </div>
+                                            <div class="ikt-activation-number green-color"> {{ ikt_card_no }} </div>
+                                            <div class="claerfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-cardactivation-inner">
+                                    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="card-activation-phone-title">
+                                            <div class="mob-msg">
+                                                {{ "Please enter 6 digits code you received on your mobile"|trans }}
+                                            </div>
+                                            <div class="mobile-num">
+                                                <span class="red-color">
+                                                    ********{{ ikt_reg_mobile }}
+                                                </span>
+                                            </div>
+
+                                            <div class="claerfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-cardactivation-inner">
+                                    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="card-activation-phone-message"> {{ 'Please enter activation code'|trans }}   <span class="required">*</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-cardactivation-inner">
+                                    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="card-activation-phone-code">
+                                                {{ form_start(form) }}
+
+                                                {{ form_widget(form.otp) }}
+
+                                                {{ form_errors(form.otp) }}
+
+                                                {{ form_end(form) }}
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="row form-cardactivation-inner">
+                                    <div class="col-lg-pull-5  col-md-pull-4  col-sm-pull-4 col-xs-pull-2    col-lg-2 col-md-4 col-sm-4 col-xs-8">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                {{ form_jquery_validation(form) }}
+
+
+
+
+            });
+
+        </script>
 {% endblock %}

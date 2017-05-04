@@ -44,7 +44,7 @@ class SecurityController extends Controller
             else
             {
                 if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                 }
             }
         }
@@ -63,7 +63,7 @@ class SecurityController extends Controller
                 $country = $request->get('_country');}
             else {
                 if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
-                    return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                 }
             }
         }

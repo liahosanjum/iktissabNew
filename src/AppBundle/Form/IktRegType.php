@@ -24,6 +24,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class IktRegType extends AbstractType
 {
@@ -33,10 +34,10 @@ class IktRegType extends AbstractType
     {
 
         $lookupData = $options['additional'];
-
-        $builder->add('iktCardNo', TextType::class, array('label' => 'Iktissab ID', 'disabled' => true,
-
-            'attr' =>array('maxlength'=>8),
+        // change made by sohail from TextType to hiddenType for iktCardNo
+        $builder->add('iktCardNo', HiddenType::class, array('label' => 'Iktissab Card Id Activation', 'disabled' => true,
+            'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            'attr' =>array('maxlength'=>8 , 'class' => 'col-lg-8 form-control formLayout',),
             'constraints' => array(
 
                 new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
@@ -50,7 +51,8 @@ class IktRegType extends AbstractType
         ))
 
             ->add('fullName', TextType::class, array('label' => 'Full name',
-                    'attr' =>array('maxlength' => 100),
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
+                    'attr' =>array('maxlength' => 100,'class' => 'col-lg-8 form-control formLayout'),
 
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -59,62 +61,42 @@ class IktRegType extends AbstractType
                 )
             )
 
-            ->add('secondName', TextType::class, array('label' => 'Second name',
-                    'mapped' => false,
-                    'attr' =>array('maxlength' => 50),
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array( 'max'=>50,  'maxMessage' => "Length is too big"))
-                    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            ->add('email', RepeatedType::class, [
+                'type' => TextType::class,
+                'invalid_message' => 'New email and confirm email fields must match',
+                'required' => true,
+                'first_options' => array('attr' =>array('class' => 'form-control formLayout form_labels'),
+                    'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout   form_labels' ]),
+                'second_options' => array('attr' =>array('class' => 'form-control formLayout form_labels'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout   form_labels']),
+                'options' => array('attr' => array('class' => 'form-control')),
+                'constraints' => array (
+                    new NotBlank(array('message' =>  'This field is required')),
                 )
-            )
-
-            ->add('thirdName', TextType::class, array('label' => 'Third name',
-                    'mapped' => false,
-                    'attr'   =>array('maxlength' => 50),
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array('max'=>50,  'maxMessage' => "Length is too big"))
-                    )
-                )
-            )
-
-            ->add('familyName', TextType::class, array('label' => 'Family name',
-                    'mapped' => false,
-                    'attr'   => array('maxlength' => 50),
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array('max'=>50,  'maxMessage' => "Length is too big"))
-                    ),
-
-                )
-            )
-
-
-
-
-
-
-
-
-            ->add('email', EmailType::class, array('label' => 'Email', 'disabled' => true,
-
-                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
-                    'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required')),
-                    )
-                )
-            )
+            ])
             ->add('password', RepeatedType::class, array(
-                    'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
+                    'label_attr' => ['class' => 'formLayout col-lg-6 col-md-6 col-sm-6 col-xs-12   form_labels required'],
+                    'attr' =>array('class' => 'form-control formLayout'),
+
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match',
                     'required' => true,
-                    'first_options' => array('label' => 'Password'),
-                    'second_options' => array('label' => 'Repeat password'),
+                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout    form_labels'], 'attr' =>array('class' => 'form-control   formLayout form_labels')),
+                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required formLayout    form_labels'],'attr' => array('class' => 'form-control  formLayout form_labels')),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
@@ -123,6 +105,8 @@ class IktRegType extends AbstractType
             )
             ->add('gender', ChoiceType::class, array(
                     'label' => 'Gender',
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
+                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
                     'choices' => array('Gender' => '', 'Male' => 'M', 'Female' => 'F'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -133,7 +117,8 @@ class IktRegType extends AbstractType
             ->add('nationality', EntityType::class, array(
                     'class' => 'AppBundle\Entity\Nationality',
                     'choice_label' => ($lookupData['locale'] == 'en') ? 'adesc' : 'edesc',
-                    'label' => 'Nationality',
+                    'label' => 'Nationality','attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
                     'empty_data' => null,
                     'placeholder' => 'Select Nationality',
                     'constraints' => array(
@@ -143,9 +128,10 @@ class IktRegType extends AbstractType
             )
             ->add('dob', DateType::class, array(
 //                'widget' => 'single_text',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label'],
                 'years' => range(date('Y') - 5, date('Y') - 77),
                 'label' => 'Birthdate',
-                'label_attr' => ['class' => 'formLayout   form_labels'],
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label required'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
@@ -158,6 +144,8 @@ class IktRegType extends AbstractType
                 'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),
                 'widget' => 'choice',
                 'label' => 'Birthdate',
+
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
@@ -168,6 +156,8 @@ class IktRegType extends AbstractType
             ))
             ->add('maritial_status', ChoiceType::class, array(
                 'label' => 'Marital Status',
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels '],
+
                 'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -175,6 +165,7 @@ class IktRegType extends AbstractType
             ))
             ->add('iqama', TextType::class, array(
                 'label' => 'Iqama/SSN Number',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'attr' =>array('maxlength' => ($lookupData['country'] == 'sa') ? 10 : 15),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -192,6 +183,7 @@ class IktRegType extends AbstractType
             ->add('job_no', ChoiceType::class, array(
                 'choices' => $lookupData['jobs'],
                 'label' => 'Job',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -199,6 +191,7 @@ class IktRegType extends AbstractType
             ->add('city_no', ChoiceType::class, array(
                 'choices' => $lookupData['cities'],
                 'label' => 'City',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'placeholder' => 'Select City',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -207,6 +200,7 @@ class IktRegType extends AbstractType
             ->add('area_no', ChoiceType::class, array(
                 'choices' => $lookupData['areas'],
                 'label' => 'Area',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'placeholder' => 'Select Area',
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -214,6 +208,7 @@ class IktRegType extends AbstractType
             ))
             ->add('area_text', TextType::class, array(
                 'label' => 'Area',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'attr' =>array('maxlength'=>50),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -221,6 +216,7 @@ class IktRegType extends AbstractType
             ))
             ->add('language', ChoiceType::class, array(
                     'label' => 'Preffered Language',
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
                     'choices' => array('Select Language' => '', 'Arabic' => 'A', 'English' => 'E'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -229,6 +225,7 @@ class IktRegType extends AbstractType
             )
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -243,13 +240,14 @@ class IktRegType extends AbstractType
             ))
             ->add('pur_group', ChoiceType::class, array(
                 'label' => 'Shoppers',
+                'label_attr' => ['class' => 'formLayout    form_labels'],
                 'placeholder' => 'Select Shopper',
                 'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
             ))
-            ->add('submit', SubmitType::class, array(
+            ->add('submit', SubmitType::class, array( 'attr' => array('class' => 'btn btn-primary'),
                 'label' => 'Next step'
             ))
             ->add('date_type', HiddenType::class, array(

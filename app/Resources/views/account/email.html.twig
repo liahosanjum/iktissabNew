@@ -52,48 +52,44 @@
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
-        });
 
-
-       $('form[name="update_email"]').on('submit', function (event) {
-           if($( "#update_email_newemail_first" ).hasClass( "valid" )) {
-                if($( "#update_email_newemail_second" ).hasClass( "valid" )) {
-                event.preventDefault();
-                    $.ajax({
-                        type: $(this).attr('method'),
-                        url: "{{ path('front_account_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function() {
-                            $('#preLoaders').html('<div id="loader"></div>');
-                        },
-                        complete: function(){
-                            $('#preLoaders').html('');
-                        },
-                        success: function (response) {
-                            $('#contents-10').html(response);
+                $('form[name="update_email"]').on('submit', function (event) {
+                   if($( "#update_email_newemail_first" ).hasClass( "valid" )) {
+                        if($( "#update_email_newemail_second" ).hasClass( "valid" )) {
+                        event.preventDefault();
+                            $.ajax({
+                                type: $(this).attr('method'),
+                                url: "{{ path('front_account_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                                data: new FormData(this),
+                                processData: false,
+                                contentType: false,
+                                beforeSend: function() {
+                                    $('#preLoaders').html('<div id="loader"></div>');
+                                },
+                                complete: function(){
+                                    $('#preLoaders').html('');
+                                },
+                                success: function (response) {
+                                    $('#contents-10').html(response);
+                                }
+                            });
                         }
-                    });
-                }
-               else
-               {
-                   return false;
-               }
-           }
-           else
-           {
-               return false;
-           }
-         });
-
-
-
+                       else
+                       {
+                           return false;
+                       }
+                   }
+                   else
+                   {
+                       return false;
+                   }
+                });
+        });
     </script>
 
 {% endblock %}

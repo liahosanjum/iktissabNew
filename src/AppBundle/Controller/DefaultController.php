@@ -1017,7 +1017,12 @@ class DefaultController extends Controller
             $url = 'homepage';
         }
         //return $this->redirect($this->generateUrl($url, array('_country'=>$cookieCountry , '_locale'=>$userLang,)));
-        return $this->redirect($this->generateUrl($url, array('_country'=>$cookieCountry , '_locale'=>$userLang,'id' => $id)));
+        if($id == "" || $id == null){
+            return $this->redirect($this->generateUrl($url, array('_country'=>$cookieCountry , '_locale'=>$userLang)));
+        } else {
+            return $this->redirect($this->generateUrl($url, array('_country' => $cookieCountry, '_locale' => $userLang, 'id' => $id)));
+        }
+
     }
 
     /**
@@ -1034,10 +1039,12 @@ class DefaultController extends Controller
         $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $commFunct->changeCountry($request, $userCountry);
         if($this->get('session')->get('iktUserData')) {
+            //return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
             return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+
         }
         else{
-            return $this->redirect($this->generateUrl('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+            return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }
 

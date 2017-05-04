@@ -33,22 +33,28 @@ class MissingCardType extends AbstractType
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
                         'message' => 'Invalid Iqama/SSN Number')),)))
+
             ->add('new_iktissab_id', RepeatedType::class, [
                 'type' => TextType::class,
-                'invalid_message' => 'Invalid Iktissab Card Number',
+                'invalid_message' => 'Your new Iktissab id and cofirm iktissab id must be same',
                 'required' => true,
                 'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'New Iktissab ID',  'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'second_options' => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'Confirm Iktissab ID', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' => '/^[9,5]([0-9]){7}$/',
+                            'pattern' => ($country_id == 'sa') ? '/^[9]([0-9]){7}$/' : '/^[5]([0-9]){7}$/',
                             'match' => true,
-                            'message' => 'Invalid Iktissab Card Number'))
+                            'message' =>  ($country_id == 'sa') ? "Please enter valid iktissab id starting with 9" : "Please enter valid iktissab id starting with 5")
+                    ),
                 )
             ])
+
+
+
+
             ->add('comment_missingcard', TextareaType::class, array('label' => 'Comments' , 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12 form_labels'],
                 'attr' =>array('maxlength' => 455, 'class' => 'form-control formLayout'),
                 'constraints' => array(

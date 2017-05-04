@@ -1,9 +1,39 @@
-﻿#ikt_reg_dob { float: left; width: 100%;  }
-#ikt_reg_dob_year{ float: right; width: 23%; }
-#ikt_reg_dob_month{ float: right; width: 23%; }
-#ikt_reg_dob
-#ikt_reg_dob_day { float: right; width: 23%; }
+﻿#ikt_reg_dob { float: right; width: 75%;  }
+#ikt_reg_dob_year{ float: right; width: 32%; }
+#ikt_reg_dob_month{ float: right; width: 32%; margin-left: 2px; margin-right: 2px; }
+.thanks-padder { margin-bottom:70px; padding-top:50px;  }
+#ikt_reg_dob_day { float: right; width: 32%; }
+#ikt_reg_dob_h_day{ float: right; width: 33%; }
+#ikt_reg_h_dob { float: right; width: 75%;  }
+#ikt_reg_dob_h_year{ float: right; width: 32%; }
+#ikt_reg_dob_h_month{ float: right; width: 33%; margin-left: 2px; margin-right: 2px; }
+#ikt_reg_dob_h {float: right; width: 74%;  }
 
+
+.card-activation-thanks-message { font-size: 18px; font-weight: 700; margin-top: 34px; }
+
+.mob-ex{ padding-right:10px; padding-top:2px; }
+.extension-mob{ float: left; width: 25%;  }
+.mob { float: left; width:75%; }
+
+#ikt_reg_dob_h_year-error { width: 100%; float: right;
+    margin-top: 31px;
+    position: absolute;
+    text-align: right;
+    display: block;
+}
+.alert-danger{ margin-top:10px; margin-bottom: 10px; }
+#ikt_reg_dob_year-error { width: 100%; float: right;
+    margin-top: 31px;
+    position: absolute;
+    text-align: right;
+    display: block;
+}
+
+.ext-code{ margin-top:47px; }
+.dob_label{ padding-top:8px; padding-bottom:8px; }
+.ikt-activation-title .form_labels { text-align: left;   }
+.cust_info_dates .btn_dob_h_wrappper { float: right; width: auto; padding-left: 0px; margin-top:0px; padding-right: 5px;}
 
 
 
@@ -286,7 +316,7 @@ label.error{
     border-radius: 2px;
     border: 2px solid #008b40;
     height: 33px;
-    width:160px;
+    width:84px;
     font-family: DroidKufiBold;
 }
 
@@ -304,7 +334,7 @@ label.error{
 }
 
 
-#div_dh{  float: left; width: 100%; }
+#div_dh{  float: right; width: 100%; }
 
 #btn_dob:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
 #btn_dob_h:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
@@ -1194,7 +1224,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .cardactivation-form-inner .activation-contents { width: 100%; margin-top: 56px;}
 .chk-wrapper input[type="checkbox"],.chk-wrapper input[type="radio"] { margin: 0 ; border: 0px !important;}
 .form-rounded-list {  float: right; width: 100%; text-align: center; padding-top: 30px; padding-bottom: 30px; }
-.form-activation-list {  float: right; width: 100%; text-align: center; padding-top: 30px; padding-bottom: 26px;border: 2px solid #dddddd; }
+.form-activation-list {  direction:rtl; float: right; width: 100%; text-align: center; padding-top: 30px; padding-bottom: 26px;border: 2px solid #dddddd; }
 .badge{ padding: 8px 13px; border-radius: 19px; font-size: 21px; background-color: #008b40; font-weight: 400; }
 .badge.active{  background: #F29100 none repeat scroll 0 0;  color: #FFFFFF; }
 .badge-border {
@@ -1207,14 +1237,17 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .steps-wrapper{ float: right;  }
 .steps-title{ text-align: center; font-size: 14px; font-weight: 900; margin-bottom: 15px; }
 .card-activation-phone-message { font-size: 14px; font-weight: 700; margin-top: 34px; }
+.card-activation-phone-title{ font-size: 14px; font-weight: 700; margin-top: 34px; margin-right: 20%;  }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
-.card-activation-phone-code { margin-top: 10px; }
+.card-activation-phone-code { margin-top: 10px; margin-right: 40%; margin-left: 40%; }
 .red-color { color: #FF0000; padding-right: 10px;  }
 .card-activation-phone-note { margin-top: 40px; float: right; font-size: 14px; font-weight: 600;  }
 .user-member { background: rgba(0, 0, 0, 0) url("../../img/login-user.svg") no-repeat scroll 99% 50%;
     padding-right: 30px;
 
 }
+.mobile-num { float: right; }
+.mob-msg { float: right; }
 
 .activation-phone-wrapper{  margin-right:8.33333%;  }
 .activation-description-wrapper{  margin-right:8.33333%;  }
@@ -1420,7 +1453,11 @@ select#ikt_update_maritial_status  {
     padding-right: 12px;
     text-align: right;
     border: 1px solid #dddddd;
-
+    width: 100%;
+    font-family: DroidKufiRegular;
+    font-size: 12px;
+    padding-top:1px;
+    padding-bottom: 1px;
 }
 
 .cardactivationForm_date { float: right; width: 100%; }
@@ -1470,7 +1507,7 @@ select#ikt_update_maritial_status  {
 .date-birth-step2 .last-date { padding-left: 10px; !important;}
 .date-birth-step2 .title-cardactivation-form { padding-right: 18px !important; min-height: 35px; width: 100%; }
 
-.title-cardactivation-form{ float: right; padding-bottom: 8px; padding-top: 10px; font-weight: 700; font-size: 14px; }
+.title-cardactivation-form{ float: right; padding-bottom: 8px; padding-top: 10px; font-weight: 700; font-size: 14px; direction: rtl; }
 .chk-agree { float: right; width: 20px; padding-right: 0px;}
 .chk-agree-desc { float: right; padding-right: 5px; line-height: 29px; padding-right: 10px; font-weight: 700; font-size: 14px;}
 .chk-wrapper { float: right; padding-top: 10px; padding-bottom: 25px;}
@@ -1505,13 +1542,16 @@ select#ikt_update_maritial_status  {
     border: 1px solid #e0e0e0;
     border-radius: 0 !important;
     height: 32px;
+    padding-right:5px;
     width: 100%;
 }
 .activation-description{ margin-top:50px;border: 2px solid #dddddd; background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px; }
-.activation-description .sno { padding-right: 5px; float: right; width: 28px; height: 38px;  }
+.activation-description .sno { padding-right: 5px; float: right; width: 28px; height: 38px; direction: ltr;  }
 .activation-description .desc-list { float: right; text-align: right; font-size: 14px; font-weight: 600; width: 100%;}
-.iktissab-activation-step2{ float: right; width: 100%; font-size: 16px; font-weight: 900; direction: rtl; padding-top: 10px; margin-right: 24.999999%}
-.ikt-activation-title{ float: right; text-align: left; width: 60%; padding-left: 3px;}
+.iktissab-activation-step2{ float: right; width: 100%; font-size: 16px; font-weight: 900; direction: rtl; padding-top: 10px; margin-right: 29%}
+.iktissab-activation-step3{ float: right; width: 100%; font-size: 16px; font-weight: 900; direction: rtl; padding-top: 10px; margin-right: 35%}
+
+.ikt-activation-title{ float: right; text-align: left; width: 50%; padding-left: 3px;}
 .ikt-activation-number {float: right;  text-align: right; width: 40%; padding-right: 3px;}
 .form-cardactivation-inner{margin-top: 8px; }
 
@@ -1579,8 +1619,8 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper .eservice-content-personal-title{ padding-bottom:20px;color: #347F5B; font-size: 17px; border-bottom: 1px solid #dddddd; font-weight: 900;margin-bottom: 22px; line-height: 17px; padding-right: 20px; padding-top: 20px;  }
 .eservices-wrapper .eservice-content-personal-description{   padding-bottom:20px ;line-height: 25px; font-size: 14px; font-weight: 700; padding-right: 66px; word-wrap: break-word; }
 
-.eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px; margin-right: 20px;
-    font-size: 14px; font-weight: 700; padding-right: 20px; word-wrap: break-word; }
+.eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px;
+    font-size: 14px; font-weight: 700;  word-wrap: break-word; }
 .eservices-wrapper .eservice-content-iqama-description{   line-height: 25px; margin-bottom: 20px;
     font-size: 14px; font-weight: 700;  word-wrap: break-word; float: right; width: 100%; }
 .eservices-wrapper .eservice-content-iqama-description  .eservice-headings { float: right; font-weight: 600; font-size: 14px; color: #343434; margin-right: 1px; margin-top:5px; margin-bottom: 5px; }
@@ -1837,7 +1877,7 @@ table.user-details { margin-bottom: 0px !important; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .user-details { padding:0px !important; }
 
-    .cardactivationForm select{ width:111%;}
+    .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 16px; }
     .activation-form-wrapper{ margin-right: 0%; }
@@ -1854,6 +1894,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_month{width:30%;}
     select#ikt_update_dob_year{width: 30%;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
+    .card-activation-phone-code { margin-left: 20%; margin-right: 20%; }
 }
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
@@ -1882,7 +1923,7 @@ table.user-details { margin-bottom: 0px !important; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .user-details { padding:0px !important; }
 
-    .cardactivationForm select{ width:111%; padding-right: 30px;}
+    .cardactivationForm select{ width:100%; padding-right: 30px;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 0px; }
     .activation-form-wrapper{ margin-right: 0%; }
@@ -1899,6 +1940,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_month{width:30%;}
     select#ikt_update_dob_year{width: 30%;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
+    .card-activation-phone-code { margin-left: 20%; margin-right: 20%; }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -1938,7 +1980,7 @@ table.user-details { margin-bottom: 0px !important; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .eservices-wrapper #myTabContent{ border: none !important; }
 
-    .cardactivationForm select{ width:111%; padding-right: 15px;}
+    .cardactivationForm select{ width:100%; padding-right: 15px;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 0px; }
     .activation-form-wrapper{ margin-right: 0%; }
@@ -1957,5 +1999,16 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_month{width:30%;}
     select#ikt_update_dob_year{width: 30%;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
+    .card-activation-phone-code { margin-left: 20%; margin-right: 20%; }
+    .formLayout{ font-size: 11px; }
+    .iktissab-activation-step3 {  margin-right: 0; }
+    .card-activation-phone-title{ margin-right: 0px; }
+
+    #ikt_reg_dob_h_year{ float: right; width: 32%; }
+    #ikt_reg_dob_h_month{ float: right; width: 32%; margin-left: 2px; margin-right: 2px; }
+    #ikt_reg_dob { width:100%; }
+    #ikt_reg_dob_h{ width:100%; }
+    .btn_dob_wrappper_step2 #btn_dob { margin-top:5px; }
+    #btn_dob_h { margin-top:5px; }
 }
 

@@ -28,7 +28,7 @@ class IqamassnType extends AbstractType
         $builder->add('iqamassn_registered', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN',
             'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-            'attr' =>array('value' => $iktID_no  , 'maxlength' => ($country_id == 'sa') ? 10 : 14  ,'class' => 'form-control formLayout' ),
+            'attr' =>array('readonly' => 'readonly' , 'value' => $iktID_no  , 'maxlength' => ($country_id == 'sa') ? 10 : 14  ,'class' => 'form-control formLayout' ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
