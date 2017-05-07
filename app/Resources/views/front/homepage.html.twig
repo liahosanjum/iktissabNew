@@ -1,5 +1,6 @@
 {% extends '::base.html.twig' %}
 {% set title = 'Home'|trans %}
+
 {% block headerhome %}
     {{ parent() }}
     <script type="text/javascript">
@@ -12,7 +13,7 @@
 
         function changeImageOver(id , name)
         {
-            document.getElementById(id).src =  "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
+            document.getElementById(id).src =  "{{ app.request.schemeAndHttpHost }}{{ asset('/img/') }}"+name+".svg";
         }
     </script>
 
@@ -29,8 +30,8 @@
 
 {% block body %}
 
-
     <div class="container">
+
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
                 <div class="message-promo">
@@ -131,16 +132,7 @@
                 <div class="main-wrapper-products">
                     <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/0/20325.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">LIPTON TEA BAGS 200'S</div>
-                            </a>
-                        </div>
+
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
                                 <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/2/221340.jpg" /></div>
