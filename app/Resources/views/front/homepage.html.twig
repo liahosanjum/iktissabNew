@@ -8,7 +8,7 @@
         {
             var name = name + 'over';
 
-            document.getElementById(id).src = "{{ app.request.schemeAndHttpHost }}/iktissabNew/web/img/"+name+".svg";
+            document.getElementById(id).src = "{{ app.request.schemeAndHttpHost }}{{ asset('/img/') }}"+name+".svg";
         }
 
         function changeImageOver(id , name)
@@ -29,8 +29,7 @@
 {% endblock %}
 
 {% block body %}
-
-    <div class="container">
+<div class="container">
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
@@ -132,6 +131,7 @@
                 <div class="main-wrapper-products">
                     <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
+                        
 
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
