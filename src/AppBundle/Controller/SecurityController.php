@@ -44,7 +44,9 @@ class SecurityController extends Controller
             else
             {
                 if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    return $this->redirect($this->generateUrl('account_home',
+                        array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
+                            '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                 }
             }
         }
@@ -100,9 +102,10 @@ class SecurityController extends Controller
 
         $lastUsername = $authenticationUtils->getLastUsername();
         $message = "";
+        $errorcl = 'alert-danger';
         return $this->render(':default:login.html.twig', array(
            'last_username' => $lastUsername, 'message' => $message,
-            'error' => $error
+            'error' => $error , 'errorcl' => $errorcl
         ));
     }
 

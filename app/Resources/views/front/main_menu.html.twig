@@ -37,12 +37,12 @@
                                 </a>
                             <ul class="dropdown-menu right">
                                 <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/17/">{{ 'about us'|trans }}</a></li>
-                                <li><a href="#">{{ 'sharia complient'|trans }}</a></li>
+                                <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
                                 <li><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'inquiry and suggestion'|trans }}</a></li>
                                 <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/16/">{{ 'Customer Service'|trans }}</a></li>
                             </ul>
                         </li>
-                        <li><a href="">{{ 'Promotions'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/19/">{{ 'Credit Cash'|trans }}</a></li>
                         <li><a href="#">{{ 'participation store'|trans }}</a></li>
                         <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/20/">{{ 'community services'|trans }}</a></li>
                         <li><a href="{{ path('front_faqlist', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'faqs'|trans }}</a></li>

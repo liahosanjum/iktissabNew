@@ -18,9 +18,9 @@
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                 <div class="top-contact-wrapper">
                     <ul class="nav navbar-nav navbar-right nomargin">
-                        <li style="border-left:none; "><a style="border-left:none; "  href="#"> {{ 'inquiry and suggestion'|trans }} </a></li>
+                        <li style="border-left:none; "><a style="border-left:none; "  href="{{ path('front_enquiry_and_suggestion_add', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"> {{ 'Inquiry and suggestion'|trans }} </a></li>
                         <li><a href="{{ path('front_faqlist', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'faqs'|trans }}</a></li>
-                        <li><a href="#">{{ 'Contact Us'|trans }}</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -34,17 +34,17 @@
                               {{ 'logout'|trans }}</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'My Account'|trans }}    &nbsp;&nbsp;</a>
                                 <ul class="dropdown-menu right">
-                                    <li><a href="#">{{ 'Personal Information'|trans }}</a></li>
-                                    <li><a href="#">{{ 'Update Mobile'|trans }}</a></li>
-                                    <li><a href="#">{{ 'Update-Iqama-SSN'|trans }}</a></li>
-                                    <li><a href="#">{{ 'Update Name'|trans }} </a></li>
-                                    <li><a href="#">{{ 'update lost card'|trans }} </a></li>
-                                    <li><a href="#">{{ 'Update Email'|trans }}</a></li>
-                                    <li><a href="#">{{ 'Your Balance'|trans }}</a></li>
-                                    <li><a href="#">{{ 'Update Password'|trans }}  </a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Personal Information'|trans }}</a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Mobile'|trans }}</a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update-Iqama-SSN'|trans }}</a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Name'|trans }} </a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'update lost card'|trans }} </a></li>
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Email'|trans }}</a></li>
+
+                                    <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Password'|trans }}  </a></li>
                                     <li><a href="#">{{ 'Send Iktissab Password'|trans }}</a></li>
                                 </ul>
                             </li>

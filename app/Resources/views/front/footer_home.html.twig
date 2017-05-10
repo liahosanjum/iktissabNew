@@ -6,10 +6,10 @@
                 <div class="footer-title">{{ 'Contact Information'|trans }}</div>
                 <div class="footer-murasilat">
                     <ul>
-                        <li>{{ 'Newsletter'|trans }}</li>
+
                         <li>{{ 'News letter subscription'|trans }}</li>
                         <li>{{ 'Messages to receive the latest offers'|trans }}</li>
-                        <li>{{ 'Complaints & Suggestions emailing'|trans }}</li>
+
 
 
 
@@ -24,12 +24,11 @@
                 <div class="footer-title">{{ 'about iktissab'|trans }}</div>
                 <div class="footer-about-iktissab">
                     <ul>
-                        <li><a href="">{{ 'about us'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/17/">{{ 'about us'|trans }}</a></li>
                         <li><a href="">{{ 'Messaging Service'|trans }}</a></li>
-                        <li><a href="">{{ 'Promotions'|trans }}</a></li>
-                        <li><a href="">{{ 'Messaging Service'|trans }}</a></li>
-                        <li><a href="">{{ 'sharia complient'|trans }}</a></li>
-                        <li><a href="">{{ 'community services'|trans }}</a></li>
+
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/20/">{{ 'community services'|trans }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,13 +37,13 @@
                 <div class="footer-title">{{ 'Iktissab Card'|trans }}</div>
                 <div class="footer-bataqat">
                     <ul>
-                        <li><a href="#">{{ 'my account'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'my account'|trans }}</a></li>
                         <li><a href="{{ path('forgotpassword',{'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }} ">{{ 'Forgot Password'|trans }}</a></li>
-                        <li><a href="#">{{ 'Forgot Email'|trans }}</a></li>
+                        <li><a href="{{ path('forgot_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Forgot Email'|trans }}</a></li>
                         <li><a href="#">{{ 'Card Activation'|trans }}</a></li>
-                        <li><a href="#">{{ 'Update Details'|trans }}</a></li>
-                        <li><a href="#">{{ 'Update lost card'|trans }}</a></li>
-                        <li><a href="#">{{ 'Your Balance'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Details'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update lost card'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Your Balance'|trans }}</a>
                     </ul>
                 </div>
             </div>
@@ -55,7 +54,7 @@
                     <ul>
                         <li><a href="#">{{ 'Contact Us'|trans }}</a></li>
                         <li><a href="#">{{ 'faqs'|trans }}</a></li>
-                        <li><a href="#">{{ 'inquiry and suggestion'|trans }}</a></li>
+                        <li><a href="#">{{ 'Inquiry and suggestion'|trans }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -125,9 +124,9 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="copyright-links">
-                                    <div class="col-offset-1"><a href="#" >{{ 'inquiry and suggestions'|trans }}</a></div>
+                                    <div class="col-offset-1"><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" >{{ 'inquiry and suggestions'|trans }}</a></div>
                                     <div class="footer-links-separator"> | </div>
-                                    <div class="footer-links"><a href="#" >{{ 'Terms and Conditions'|trans }}</a></div>
+                                    <div class="footer-links"><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/16/" >{{ 'Terms and Conditions'|trans }}</a></div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>

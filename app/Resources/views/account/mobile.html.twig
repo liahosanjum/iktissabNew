@@ -14,7 +14,7 @@
                     {{ 'You can update your mobile with the new one through the following form'|trans }}
                 </div>
                 {% if message != '' %}
-                <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable messsage-wrapper">
+                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
                     {{ message }}
                 </div>
                 {% endif %}
@@ -23,33 +23,43 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-
-        <div class="row">
-
-                    {{ form_start(form) }}
-
-            <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12">
-                        {{ form_row(form.iqamaid_mobile) }}
-            </div>
-            <div class="col-lg-5  col-md-5 col-sm-12 col-xs-12 mobile-number-wrapper">
-                <div class="mobile-ext-wraper  ">
-                    {{ form_row(form.ext) }}
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="row mobile-form-mags">
+                       {{ form_row(form.iqamaid_mobile) }}
+                     </div>
                 </div>
-                <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 mobile-number-wraper" style="">
-                    {{ form_row(form.mobile) }}
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 mobile-form-mags">
+                    <div class="mobile-ext-wraper ">
+                        {{ form_row(form.ext) }}
+                    </div>
+
+
+                     <div class="col-lg-10  col-md-10 col-sm-10 col-xs-8 mobile-number-wraper nopadding" style="">
+                            {{ form_row(form.mobile) }}
+                     </div>
+                        <div class="claerfix"></div>
+                    </div>
+             </div>
+
+            <div class="row">
+                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 " >
+                    <div class="row mobile-form-mags" >
+                        {{ form_row(form.comment_mobile) }}
+                    </div>
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 iqama-id-wrapper-form">
+                    {{ form_end(form) }}
                 </div>
-                <div class="claerfix"></div>
             </div>
 
-            <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 iqama-id-wrapper-form">
-                {{ form_row(form.comment_mobile) }}
-           </div>
 
-            <div class="col-lg-8  col-md-8 col-sm-8 col-xs-8 submit-wrapper iqama-id-wrapper-form">
-                {{ form_end(form) }}
-            </div>
-            <div class="claerfix"></div>
-        </div>
 
 
 

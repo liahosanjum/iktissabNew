@@ -13,6 +13,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,11 +24,13 @@ class ForgotEmailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $lookupData = $options['additional'];
-        $builder->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID',
-            'attr' => array('maxlength' => 8),
+        $builder->add('iktCardNo', TextType::class, array('label' => 'Iktissab ID',
+
+            'label_attr' => ['class' => 'form_labels col-lg-8 col-md-8 col-sm-11 col-xs-11 nopadding'],
+            'attr' => array('maxlength' => 8 , 'class' => 'form-control-modified col-lg-8 col-md-8 col-sm-11 col-xs-11 formLayout'),
             'constraints' => array(
 
-                new Assert\NotBlank(array('message' => 'Iktissab id  is required')),
+                new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
                     array(
                         'pattern' => '/^[9,5]([0-9]){7}$/',
@@ -36,8 +39,11 @@ class ForgotEmailType extends AbstractType
                 )
             )
         ))
-            ->add('iqama', IntegerType::class, array(
+            ->add('iqama', TextType::class, array(
                 'label' => 'Iqama/SSN Number',
+                'attr' => array( 'class' => 'form-control-modified col-lg-8 col-md-8 col-sm-11 col-xs-11 formLayout',
+                'maxlength' => ($lookupData['country'] == 'sa') ? 10 : 14 ),
+                'label_attr' => ['class' => ' col-lg-8 col-md-8 col-sm-8 col-xs-8    form_labels nopadding'],
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -52,9 +58,10 @@ class ForgotEmailType extends AbstractType
                 )
             ))
             ->add('submit', SubmitType::class, array(
+
+                'attr' => array('class' => 'btn btn-primary mobile-form-mags'),
                 'label' => 'Submit'
-            ))
-        ;
+            ));
 
     }
 

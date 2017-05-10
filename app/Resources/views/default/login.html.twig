@@ -33,7 +33,7 @@
                     <div class="login-sub-title"><h3>{{ 'In order to view your membership account information it requires that you enter your username and password'|trans }}</h3></div>
                     {% if error %}
 
-                        <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable "> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable "> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
 
                     {% endif %}
                     <div class="contents-cms">{{ 'Please enter your username and password and click the Sign in button'|trans }}</div>
@@ -67,7 +67,7 @@
                 <div class="memberlogin-emailarea">
                     <h4>{{ 'Did you forgot your password'|trans }}</h4>
                     <h3>{{ 'if you have forgotten your password, you can reset a new password by sending some instructions to our registered email'|trans }}</h3>
-                    <div id="contents-fp">{% if message  %} {{ message }} {% endif %}</div>
+                    {% if message  %} <div id="contents-fp" class="alert-success {{ errorcl }} alert  ">{{ message }} </div> {% endif %}
                     <div id="preLoaders">
                     </div>
 
@@ -158,22 +158,7 @@
             jQuery.extend(jQuery.validator.messages, {
                 required: "{{ 'This field is required'|trans }}",
                 email: "{{ 'Please enter valid email address'|trans }}",
-                /*remote: "Please fix this field.",
-                 email: "Please enter a valid email address123.",
-                 url: "Please enter a valid URL.",
-                 date: "Please enter a valid date.",
-                 dateISO: "Please enter a valid date (ISO).",
-                 number: "Please enter a valid number.",
-                 digits: "Please enter only digits.",
-                 creditcard: "Please enter a valid credit card number.",
-                 equalTo: "Please enter the same value again.",
-                 accept: "Please enter a value with a valid extension.",
-                 maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
-                 minlength: jQuery.validator.format("Please enter at least {0} characters."),
-                 rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-                 range: jQuery.validator.format("Please enter a value between {0} and {1}."),
-                 max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
-                 min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")*/
+
             });
         });
 

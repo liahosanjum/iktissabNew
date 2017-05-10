@@ -131,70 +131,21 @@
                 <div class="main-wrapper-products">
                     <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
-                        
+                        {% set i = 0 %}
+                        {% for items in DataPromo %}
 
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/2/221340.jpg" /></div>
+                        <div class="Product-wrapper" id="{{ DataPromo[i].ID }}">
+                            <a target="_blank" href="#" class="Product-Details" >
+                                <div class="Product-img"><img  alt="promotional-images" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" /></div>
                                 <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
+                                    <span class="price-beforedesc">{{ 'SAR'|trans }}{{ DataPromo[i].Price|round(2, 'floor') }} </span>
+                                    <span class="price-afterdesc">{{ 'SAR'|trans }}{{ DataPromo[i].SpecialPrice|round(2, 'floor') }} </span>
                                 </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
+                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
                             </a>
                         </div>
-
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/r/a/rainow.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/9/2/928325.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/6/9/699165_1.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/7/7/770015.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="promotional-images" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/4/242615_1.jpg" /></div>
-                                <div class="Product-price">
-                                    <span class="price-afterdesc">SR 10.95</span>
-                                    <span class="price-beforedesc">SR 22.25</span>
-                                </div>
-                                <div class="Product-name">زيت نور دوار الشمس 2×1.8لتر</div>
-                            </a>
-                        </div>
-
+                            {% set i = i + 1 %}
+                        {%  endfor %}
                     </div> <!-- /.Item -->
                     <div class="claerfix"></div>
                 </div>
@@ -323,40 +274,95 @@
                     <div class="slick-item-brand slider slick-products">
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product1" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/0/20325.jpg" /></div>
-                            </a>
-                        </div>
-                        <div class="Product-wrapper">
-                            <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product2" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/2/221340.jpg" /></div>
+                                <div class="Product-img"><img alt="abu_fahad" class="img-responsive" src="{{ asset('/pl/') }}abu_fahad_c.png" /></div>
                             </a>
                         </div>
 
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product3" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/r/a/rainow.jpg" /></div>
+                                <div class="Product-img"><img alt="bady_froof" class="img-responsive" src="{{ asset('/pl/') }}bady_froof_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="bonita" class="img-responsive" src="{{ asset('/pl/') }}bonita_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="fecto" class="img-responsive" src="{{ asset('/pl/') }}fecto_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="froof" class="img-responsive" src="{{ asset('/pl/') }}froof_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="haley" class="img-responsive" src="{{ asset('/pl/') }}haley_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="jodan" class="img-responsive" src="{{ asset('/pl/') }}jodan_c.jpg" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="jold" class="img-responsive" src="{{ asset('/pl/') }}jold_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="latina" class="img-responsive" src="{{ asset('/pl/') }}latina_c.png" /></div>
+                            </a>
+                        </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}haley_c.png" /></div>
                             </a>
                         </div>
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product4" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/9/2/928325.jpg" /></div>
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}palace_gate_c.png" /></div>
                             </a>
                         </div>
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product5" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/6/9/699165_1.jpg" /></div>
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}rex_c.png" /></div>
                             </a>
                         </div>
+
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product6" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/7/7/770015.jpg" /></div>
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}saffori_c.png" /></div>
                             </a>
                         </div>
+
                         <div class="Product-wrapper">
                             <a href="#" class="Product-Details">
-                                <div class="Product-img"><img alt="product7" class="img-responsive" src="http://www.othaimmarkets.com/media/catalog/product/cache/4/small_image/150x145/9df78eab33525d08d6e5fb8d27136e95/2/4/242615_1.jpg" /></div>
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}share_c.png" /></div>
                             </a>
                         </div>
+
+                        <div class="Product-wrapper">
+                            <a href="#" class="Product-Details">
+                                <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}zad_c.png" /></div>
+                            </a>
+                        </div>
+
+
+
+
 
                     </div> <!-- /.Item -->
                     <div class="claerfix"></div>

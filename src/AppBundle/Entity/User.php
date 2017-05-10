@@ -56,6 +56,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="country", type="string", length=255, nullable=true)
+     */
+    private $country;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="data", type="string", length=800, nullable=true)
      */
     private $data;
@@ -202,6 +209,31 @@ class User
 
         return $this;
     }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return string
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
 
     /**
      * Get data

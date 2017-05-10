@@ -225,7 +225,57 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('front/homepage.html.twig');
+        /********/
+        $restClient = $this->get('app.rest_client');
+        $url = AppConstant::OTHAIM_WEBSERVICE_URL;
+
+
+
+
+        $postData = "{\"service\":\"IktissabPromotions\"} ";
+        $data = $restClient->restPostForm($url,
+            $postData, array('input-content-type' => "text/json" , 'output-content-type' => "text/json" ,
+                'language' => $locale
+            ));
+
+        if(($data)) {
+
+
+            $products = json_decode($data);
+            //var_dump(json_decode($data));
+            //echo "<br>";
+            //var_dump($products->products[0]);
+            //var_dump($products->success);
+            if ($products->success == true) {
+
+
+                $pro = $products->products;
+
+                // var_dump($pro);
+                $i = 0;
+                foreach ($products->products as $data) {
+                    $listing[$i]['ID'] = $data->ID;
+                    $listing[$i]['Price'] = $data->Price;
+                    $listing[$i]['SpecialPrice'] = $data->SpecialPrice;
+                    $listing[$i]['Name'] = $data->Name;
+                    $listing[$i]['SKU'] = $data->SKU;
+                    $listing[$i]['URL'] = $data->URL;
+                    $listing[$i]['SmallImage'] = $data->SmallImage;
+                    $i++;
+                }
+                // var_dump($listing);
+                return $this->render('front/homepage.html.twig', array('DataPromo' => $listing));
+            } else {
+                return $this->render('front/homepage.html.twig', array('DataPromo' => ""));
+            }
+        }
+        else
+        {
+            return $this->render('front/homepage.html.twig', array('DataPromo' => ""));
+        }
+        /********/
+
+        // return $this->render('front/homepage.html.twig');
     }
 
 
@@ -385,10 +435,10 @@ class DefaultController extends Controller
 
             $country_id = $this->getCountryCode($request);
             $locale = $this->getCountryLocal($request);
-
-            $stm = $conn->prepare('SELECT * FROM user WHERE country = ? AND email = ?   ');
-            $stm->bindValue(1, $country_id);
-            $stm->bindValue(2, $email);
+            $stm = $conn->prepare('SELECT * FROM user WHERE  email = ?   ');
+            // $stm = $conn->prepare('SELECT * FROM user WHERE country = ? AND email = ?   ');
+            $stm->bindValue(1, $email);
+            // $stm->bindValue(2, $country_id);
             // here checking the others equal to 1.
             $stm->execute();
             $result = $stm->fetchAll();
@@ -405,13 +455,25 @@ class DefaultController extends Controller
                 $data = serialize(array('time' => $time, 'token' => $token));
                 $data_values = array(
                     $data,
+
+                    $user_id,
+                );
+
+                $stm = $conn->executeUpdate('UPDATE user  SET  
+                                                    data    = ?
+                                                    WHERE ikt_card_no = ? ', $data_values);
+
+                /*$data_values = array(
+                    $data,
                     $country_id,
                     $user_id,
                 );
-                //print_r($data_values);
+
                 $stm = $conn->executeUpdate('UPDATE user  SET  
                                                     data    = ?
-                                                    WHERE country = ?  AND ikt_card_no = ? ', $data_values);
+                                                    WHERE country = ?  AND ikt_card_no = ? ', $data_values);*/
+
+
                 if ($stm == 1) {
                     $message = \Swift_Message::newInstance();
                     $request = new Request();
@@ -430,16 +492,17 @@ class DefaultController extends Controller
                     if ($this->container->get('mailer')->send($message)) {
                         $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
                         $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => serialize($result)));
-
+                        $errorcl = 'alert-success';
                         return $this->render('default/login.html.twig', array(
-                             'message' => $message,'error' => $error
+                             'message' => $message,'error' => $error, 'errorcl' => $errorcl
                         ));
                     } else {
                         $message = $this->get('translator')->trans('Email has not been sent');
                         $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => $result));
-
+                        $errorcl = 'alert-danger';
                         return $this->render('default/login.html.twig', array(
-                             'message' => $message,'error' => $error
+                             'message' => $message,'error' => $error, 'errorcl' => $errorcl
+
                         ));
                     }
 
@@ -447,15 +510,16 @@ class DefaultController extends Controller
             } else {
                 $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans(' is not recognized as a user name or an e-mail address');
                 $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
-
+                $errorcl = 'alert-danger';
                 return $this->render('default/login.html.twig', array(
-                     'message' => $message, 'error' => $error
+                     'message' => $message, 'error' => $error , 'errorcl' => $errorcl
                 ));
             }
         }
         $message = "";
+        $errorcl = "";
         return $this->render('default/login.html.twig', array(
-            'message' => $message, 'error' => $error
+            'message' => $message, 'error' => $error , 'errorcl' => $errorcl
         ));
     }
 
@@ -643,6 +707,7 @@ class DefaultController extends Controller
     public function resetPasswordAction(Request $request, $time, $token, $id)
     {
         $commFunct = new FunctionsController();
+        //
         $activityLog = $this->get('app.activity_log');
         $em = $this->getDoctrine()->getManager();
         $time = (integer)$time;
@@ -657,7 +722,12 @@ class DefaultController extends Controller
         }
 
         $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate')))
-            ->add('email', EmailType::class, array('label' => 'E-mail address', 'disabled' => true,
+            ->add('email', EmailType::class,
+                array(
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
+                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
+
+                    'label' => 'E-mail address', 'disabled' => true,
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
                 )))
@@ -668,11 +738,17 @@ class DefaultController extends Controller
                     new Length(array('minMessage' => 'Password must be at least 8 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 8, 'max' => 40))
                 ),
                 'invalid_message' => 'Password and confirm password must match',
-                'first_options' => array('label' => 'Enter New Password'),
-                'second_options' => array('label' => "Confirm Password"),
-                'second_name' => 'confirmPassword'
+                'first_options' => array('label' => 'Enter New Password',
+                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
+                    'label_attr' => ['class' => 'formLayout  form_labels'],
+                   ),
+                'second_options' => array('label' => "Confirm Password" ,
+                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
+                   ),
+
             ))
-            ->add('submit', SubmitType::class, array('label' => 'Reset Password'))
+            ->add('submit', SubmitType::class, array('label' => 'Reset Password','attr' => array('class' => 'btn btn-primary') ))
             ->getForm();
         $form->get('email')->setData($user_email);
         // echo $data['time'] ;
@@ -1041,7 +1117,6 @@ class DefaultController extends Controller
         if($this->get('session')->get('iktUserData')) {
             //return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
             return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
-
         }
         else{
             return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));

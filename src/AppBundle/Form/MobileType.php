@@ -27,8 +27,8 @@ class MobileType extends AbstractType
         if($country_id == 'sa'){ $ext = '966';}else{$ext = '0020'; }
 
         $builder->add('iqamaid_mobile', TextType::class, array(
-            'label' => 'Registered Iqama ID/SSN','label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-            'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout' ,  'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
+            'label' => 'Registered Iqama ID/SSN','label_attr' => ['class' => 'formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            'attr' =>array('class' => 'form-control col-lg-9  col-md-10  col-sm-10 formLayout' ,  'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
@@ -38,12 +38,12 @@ class MobileType extends AbstractType
                         'message' => 'Invalid Iqama/SSN Number')),)))
             ->add('ext', TextType::class, array(
                 'label' => 'Country-Code:','label_attr' => ['class' => ' formControl-ext formLayout col-lg-6 col-md-6 col-sm-6 col-xs-2   form_labels'],
-                'attr' => array('class' => 'mobile_ext form-control-modified formLayout col-lg-3 col-md-3 col-sm-3 col-xs-3   ' , 'value'=> $ext , 'readonly' => 'readonly'),
+                'attr' => array('class' => 'mobile_ext form-control-modified formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   ' , 'value'=> $ext , 'readonly' => 'readonly'),
 
             ))
             ->add('mobile', TextType::class, array(
-                'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' => array('class' => 'formControl-mobile form-control-modified formLayout  col-lg-10 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 10),
+                'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'attr' => array('class' => 'formControl form-control formLayout  col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 10),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -55,13 +55,14 @@ class MobileType extends AbstractType
 
                 )
             ))
-            ->add('comment_mobile', TextareaType::class, array('label' => 'Comments','label_attr' => ['class' => 'formControl-ext formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+            ->add('comment_mobile', TextareaType::class, array('label' => 'Comments',
+                'label_attr' => ['class' => 'formControl  form_labels'],
 
-                'attr' =>array('class' => 'form-control col-lg-6 formLayout form_labels' , 'maxlength' => 255),
+                'attr' =>array('class' => 'formControl col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')))))
             ->add( 'Update', SubmitType::class ,array(
-                'attr' => array('class' => 'btn btn-primary'),));
+                'attr' => array('class' => 'col-lg-3 btn btn-primary'),));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -385,7 +385,20 @@
         </div>
       </section>
     {% endif %}
+
+
     {%  set a = iktTransData|length %}
+
+    {% if a > 0  %}
+        {%  set min_year = iktTransData[a]['year'] %}
+        {%  set max_year = iktTransData[1]['year'] %}
+        {%  set max_day = iktTransData[1]['day'] %}
+    {% else %}
+        {%  set min_year = 0 %}
+        {%  set max_year = 0 %}
+        {%  set max_day = 1 %}
+    {% endif %}
+
 
 <script type="text/javascript">
 
@@ -435,8 +448,8 @@
                 $.plot($("#placeholder"), data1, {
 
                     xaxis: {
-                        min: (new Date({{iktTransData[a]['year']}}, 01, 01)).getTime(),
-                        max: (new Date({{iktTransData[1]['year']}},12,{{ iktTransData[1]['day'] }})).getTime(),
+                        min: (new Date({{ min_year }}, 01, 01)).getTime(),
+                        max: (new Date({{ max_year }},12,{{ max_day }})).getTime(),
                         mode: "time",
                         tickSize: [1, "month"],
                         monthNames: {{app.request.get('_locale')}},

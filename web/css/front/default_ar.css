@@ -1,4 +1,9 @@
-﻿#ikt_reg_dob { float: right; width: 75%;  }
+﻿#smsverify { margin-top:30px;margin-bottom:30px; }
+.verify-code { padding:15px !important; margin-top:20px;  }
+.forgot-email-account { margin-top:50px; margin-bottom:50px; }
+.message-forgot-email { margin-top:30px;}
+
+#ikt_reg_dob { float: right; width: 75%;  }
 #ikt_reg_dob_year{ float: right; width: 32%; }
 #ikt_reg_dob_month{ float: right; width: 32%; margin-left: 2px; margin-right: 2px; }
 .thanks-padder { margin-bottom:70px; padding-top:50px;  }
@@ -9,13 +14,14 @@
 #ikt_reg_dob_h_month{ float: right; width: 33%; margin-left: 2px; margin-right: 2px; }
 #ikt_reg_dob_h {float: right; width: 74%;  }
 
-
+.mobile-iqama-wrapper { margin-right:15px }
+.mobile-form-mags { margin-left:15px !important; margin-right:15px !important;}
 .card-activation-thanks-message { font-size: 18px; font-weight: 700; margin-top: 34px; }
 
 .mob-ex{ padding-right:10px; padding-top:2px; }
 .extension-mob{ float: left; width: 25%;  }
 .mob { float: left; width:75%; }
-
+.reset_password_wrapper{ float: left; width: 100%;  }
 #ikt_reg_dob_h_year-error { width: 100%; float: right;
     margin-top: 31px;
     position: absolute;
@@ -41,7 +47,7 @@
 .mobile-extension-wrapper { float: right; width:100%; }
 .mobile-number-wrapper{ float: right;  }
 .mobile-extension-inner{ float: left; width: 100px; }
-.contact-us-main-wrapper { margin-bottom: 30px; }
+.contact-us-main-wrapper { margin-bottom: 30px; direction: rtl; }
 .captcha-code{ padding-top:20px; float: right; width: 100%; }
 .title-cardactivation-form-captcha {  float: right; width:100%; text-align: right; }
 #FormCaptcha_CaptchaImageDiv{ float: right; text-align: right; }
@@ -395,9 +401,12 @@ label.error{
 
 #mobile_ext {
     padding-right: 30px;
-    width: 84px  }
-.mobile_ext_eg { background: rgba(0, 0, 0, 0) url("../../img/eg.jpg") no-repeat scroll 15% 50%;
-      }
+    width: 84px
+}
+#forgot_email_submit{ float: right;   }
+.mobile_ext_eg {
+    background: rgba(0, 0, 0, 0) url("../../img/eg.jpg") no-repeat scroll 15% 50%;
+}
 
 .form-control-modified{
     background-color: #fff;
@@ -414,8 +423,9 @@ label.error{
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 
 }
-.mobile-ext-wraper{ padding-right: 0px; width: 115px;  float: left;   }
+.mobile-ext-wraper{ padding-right: 0px; width: 115px;  float: left; margin-top:10px;   }
 .mobile-ext-wraper-mobile{ margin-top:10px; padding-left: 15px;    }
+.mobile-number-wraper{ margin-top:10px;      float: right;   }
 .iqama-id-wrapper { padding-right:15px !important; }
 .alert-success-forms{ font-size: 16px; font-weight: normal; }
 #mobile_mobile-error{ width: 100%; }
@@ -748,13 +758,16 @@ label.error{
 .se-iktitem-brand .ikt-offer { margin-right: 15px;float: right; border-right: 4px solid #008B40; padding:3px 7px 5px 0px;  }
 .home-title { font-size: 16px; font-family: DroidKufiBold;  }
 .slick-products { float: right; width: 100%; }
-.Product-wrapper{ float: right; text-align: center; }
-.se-iktitem-brand .Product-wrapper{ float: right; text-align: center; }
+.Product-wrapper{ float: right; text-align: center; height: 320px; }
+.se-iktitem-brand .Product-wrapper{ float: right; text-align: center;   height: 130px;   }
 .se-iktitem-brand .Product-Details .Product-img img {
-    margin: 0 auto; padding: 10px 30px;
+    margin: 0 auto;
 }
-
-
+.se-iktitem-brand .Product-img
+{
+    height: 106px;
+    padding-top:12px;
+}
 .se-iktitem .Product-Details .Product-img img {
     margin: 0 auto;
 }
@@ -765,13 +778,13 @@ label.error{
     padding: 15px;
     transition: all 0.3s ease 0s;
 }
-.se-iktitem-brand  .main-wrapper-products { width:100%; float: right; margin-top: 18px; }
+.se-iktitem-brand  .main-wrapper-products { width:100%; float: right; margin-top: 15px; }
 
 .se-iktitem-brand .Product-wrapper .Product-Details {
 
     display: block;
     height: 100%;
-    padding: 14px 15px 15px 15px;
+    padding: 10px 15px 15px 15px;
     transition: all 0.3s ease 0s;
 }
 
@@ -781,7 +794,7 @@ label.error{
 }
 
 .se-iktitem .Product-Details .Product-img {
-    height:180px;
+    height:210px;
 }
 .se-iktitem .Product-Details .Product-price {
     padding-bottom: 5px;
@@ -847,7 +860,7 @@ label.error{
 .ikt-save-more-contents-inner-wrapper{ text-align: center; }
 .menu-wrapper .fa-bars { color: #FFFFFF; }
 .se-iktitem-footer{ float: right; background-color: #333333; width: 100%; margin-top: 20px;
-    text-align: right;font-family: DroidKufiRegular; font-size: 14px; color: #FFFFFF; padding-top: 30px; padding-bottom: 30px;   }
+    text-align: right;font-family: DroidKufiRegular; font-size: 14px; color: #FFFFFF; padding-top: 26px; padding-bottom: 30px;   }
 .footer-bataqat{ float: right; border-left: 1px solid #777; min-height: 215px;width: 100%; }
 .footer-emp-services{ float: right; border-left: 1px solid #777; min-height:215px ;width: 100%;}
 .footer-about-iktissab{ float: right; border-left: 1px solid #777;min-height: 215px; width: 100%;}
@@ -873,8 +886,8 @@ label.error{
 .footer-murasilat { color: #FFFFFF;  }
 .se-iktitem-footer .footer-title { margin-bottom:26px; font-size: 16px ; font-family: DroidKufiBold; }
 .se-iktitem-footer li { padding-top:4px; padding-bottom:4px; }
-.subscription-title { float: right; padding-bottom:4px; width:100%; }
-.subscription-title-mobile { float: right; padding-bottom:4px; padding-top: 4px; width: 100%; }
+.subscription-title { float: right; padding-bottom:6px; width:100%; margin-top:17px; }
+.subscription-title-mobile { float: right; padding-bottom:6px; padding-top: 6px; width: 100%; }
 
 #subs_mob #form_email {
     -moz-border-bottom-colors: none;
@@ -911,6 +924,7 @@ label.error{
     border-top:0px;
     padding-top:3px;
     font-size: 13px;
+    font-family: Cairo;
     margin-top:0px;
     padding-left: 0px;
     border-top:3px;
@@ -920,8 +934,8 @@ label.error{
 
 
 
-
-.footer-murasilat .btn-default {
+/*
+.footer-murasilat  .btn-default {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -942,6 +956,7 @@ label.error{
     height: 30px;
     width: 65px;
 }
+*/
 
 #subs_email .required { display: none; }
 #subs_email #subs_mob_mobile {
@@ -1000,6 +1015,7 @@ label.error{
     margin-top:0px;
     padding-left: 0px;
     border-top:3px;
+    font-family: Cairo;
     height: 30px;
     width: 65px;
 }
@@ -1022,6 +1038,7 @@ label.error{
     margin-top:0px;
     padding-left: 0px;
     border-top:3px;
+    font-family: Cairo;
     height: 30px;
     width: 65px;
 }
@@ -1106,7 +1123,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .login-inner-contents .contents-cms { padding-top: 48px; margin-bottom: 7px; font-weight: 600; }
 .memberlogin-emailarea .contents-cms { padding-top: 30px; margin-bottom: 10px; line-height: 20px; font-weight: 600;}
 .contactus-inner-contents{ float:right;  }
-.login-inner-contents{ float:right;  }
+.login-inner-contents{ float:right; width: 100%;  }
 .title-contactus-form{ float: right; padding-bottom: 10px; padding-top: 10px; font-weight: 700; font-size: 14px; }
 .contactForm input {
     float: right;
@@ -1676,7 +1693,7 @@ table.user-details { margin-bottom: 0px !important; }
 .ikt-date-icon{ float: right; padding-left: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
 .ikt-date-date{ float: right; padding-left: 1px; padding-right: 7px; color: #0F935D;}
 .ikt-date-title{ float: right; color: #575757;  }
-
+.memeberemailwrapper{direction: rtl;}
 .memeberloginwrapper{min-height:500px; direction: rtl;}
 .memeberloginwrapper h1 { color: #347F5B; font-size: 22px; font-weight: 900;  }
 .memeberloginwrapper h2 { color: #343434; font-size: 17px; font-weight: 700; margin-top: 16px;  margin-bottom: 6px; }
@@ -1849,7 +1866,7 @@ table.user-details { margin-bottom: 0px !important; }
     .navbar-nav > li > a { font-size: 12px; }
     .menu-wrapper .navbar-nav > li > a > .fa-home { font-size: 33px; }
     .ikt-save-more-contents { text-align: center; }
-    .menu-wrapper li.dropdown > ul > li {  text-align: right; color: #FFFFFF; padding-right: 10px; }
+    .menu-wrapper li.dropdown > ul > li {  text-align: right; color: #FFFFFF;  }
     .menu-wrapper li.dropdown > ul > li > a { color: #343434;}
     .footer-murasilat{ border: none; }
     .footer-bataqat{ border: none; }
@@ -1876,7 +1893,7 @@ table.user-details { margin-bottom: 0px !important; }
     .eservices-wrapper .eservice-content-personal-description { padding-right: 0px; }
     .contactUsForm select { margin-left:8px; width: 98%; }
     .user-details { padding:0px !important; }
-
+    label.error{ font-size: 12px; }
     .cardactivationForm select{ width:100%;}
     .dayWrapper select { width: 100%; }
     .dayWrapper { width: 85%; margin-right: 16px; }
@@ -1941,6 +1958,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_year{width: 30%;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
     .card-activation-phone-code { margin-left: 20%; margin-right: 20%; }
+    .Product-img img { height: 95%; }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -2010,5 +2028,7 @@ table.user-details { margin-bottom: 0px !important; }
     #ikt_reg_dob_h{ width:100%; }
     .btn_dob_wrappper_step2 #btn_dob { margin-top:5px; }
     #btn_dob_h { margin-top:5px; }
+    .Product-img img { height: 95%; }
+
 }
 
