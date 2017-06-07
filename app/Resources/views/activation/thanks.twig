@@ -14,7 +14,8 @@
     <section class="container breadcrum-wrapper">
         <div class="row">
             <div class="breadcrumb">
-                <a  class="in-active-link" href="#">{{ 'Home'|trans }}</a>
+                <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
+
                 <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
                 <a  class="last-breadcrumb" >{{ 'Card Activation'|trans }}</a>
             </div>

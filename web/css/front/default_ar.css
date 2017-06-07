@@ -1,6 +1,13 @@
 ﻿#smsverify { margin-top:30px;margin-bottom:30px; }
 .verify-code { padding:15px !important; margin-top:20px;  }
-.forgot-email-account { margin-top:50px; margin-bottom:50px; }
+#forgot_email_submit{ float: right;   margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important;}
+
+#send_pwd_submit{ float: right;  margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important; }
+.memebersendpwdwrapper { direction: rtl; }
+.form-separator { margin-top:20px; }
+.offset-layout{ margin-left: 16.66%; margin-right: 16.66%; }
+
+.forgot-email-account { margin-top:50px; margin-bottom:50px; float:right; width:67%; }
 .message-forgot-email { margin-top:30px;}
 
 #ikt_reg_dob { float: right; width: 75%;  }
@@ -13,13 +20,13 @@
 #ikt_reg_dob_h_year{ float: right; width: 32%; }
 #ikt_reg_dob_h_month{ float: right; width: 33%; margin-left: 2px; margin-right: 2px; }
 #ikt_reg_dob_h {float: right; width: 74%;  }
-
+.eservice-list-icons{ margin-left: 5px; margin-right: 3px; }
 .mobile-iqama-wrapper { margin-right:15px }
 .mobile-form-mags { margin-left:15px !important; margin-right:15px !important;}
 .card-activation-thanks-message { font-size: 18px; font-weight: 700; margin-top: 34px; }
 
-.mob-ex{ padding-right:10px; padding-top:2px; }
-.extension-mob{ float: left; width: 25%;  }
+.mob-ex { padding-right:10px ; padding-top:2px ; }
+.extension-mob { float: left; width: 25%;  }
 .mob { float: left; width:75%; }
 .reset_password_wrapper{ float: left; width: 100%;  }
 #ikt_reg_dob_h_year-error { width: 100%; float: right;
@@ -1075,7 +1082,7 @@ label.error{
 .ph-svg{ height: 50px;width: 48px; }
 .header-contact-number{ font-weight: bold; color: #008b40; font-size: 23px; line-height: 24px; }
 
-.breadcrumb { background-color: #FFFFFF; float: right; padding-top: 24px;  text-align: right; margin-bottom:29px;  }
+.breadcrumb { background-color: #FFFFFF; float: right; padding-top: 20px;  text-align: right; margin-bottom:29px;  }
 .breadcrumb-separator { margin-right: 5px; margin-left: 5px; font-size: 17px; }
 
 a.last-breadcrumb{ text-decoration: none; color: #343434; font-size: 14px; }
@@ -1230,10 +1237,10 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 
 .contactus-list-title-wrapper { float: right;  }
-.cardactivation-list-title-wrapper .title-contents { color: #008b40; font-size: 22px;  text-align: right; font-weight: 900; margin-bottom: 15px; padding-top: 5px; }
-.cardactivation-list-title-wrapper .sub-title-contents { font-size: 17px;
+.cardactivation-list-title-wrapper .title-contents { color: #008b40; font-size: 22px;  text-align: right; font-weight: 900; margin-bottom: 15px; padding-top: 20px; }
+.cardactivation-list-title-wrapper .sub-title-contents { font-size: 17px; margin-top:3px;
     text-align: right; font-weight: 900; margin-bottom: 6px;  }
-.cardactivation-list-title-wrapper .activation-contents { float: right; font-size: 14px; font-weight: 700; padding-top:5px; text-align: right;   }
+.cardactivation-list-title-wrapper .activation-contents { float: right; font-size: 14px; font-weight: 700; padding-top:0px; text-align: right;   }
 .green-color { color:#008b40;  }
 .grey-color  { color:#343434;  }
 .cardactivation-form-wrapper { margin-bottom: 85px;   }
@@ -1611,7 +1618,7 @@ select#ikt_update_maritial_status  {
 .eservices-wrapper .nav-tabs > li > a { margin-right: 0px; }
 .eservices-wrapper li.myTab-listitem-last {  border-bottom: 2px solid #C6B868; padding-bottom: 100px; }
 .eservices-wrapper .nav > li > a:hover { background-color:#FFFFFF;border: none;  }
-.eservices-wrapper .nav > li > a { padding:6px 16px 6px 0px; color: #343434; font-size: 14px; font-weight:600; border-left: none;}
+.eservices-wrapper .nav > li > a { padding:6px 8px 6px 0px; color: #343434; font-size: 14px; font-weight:600; border-left: none;}
 .eservice-list { float: right; }
 .eservices-wrapper .eservice-list-contents { margin-bottom: 20px; min-height: 410px;  }
 .eservices-wrapper  .fa-angle-double-left { color: #343434 ; font-size: 16px;  }
@@ -1620,6 +1627,7 @@ select#ikt_update_maritial_status  {
 .user-details{ border-top:none !important;  border-right: none;  }
 #myTabContent .user-details { padding: 0px; border-left: 0px !important; }
 #myTabContent .user-details-date {  border-right: 0px !important; }
+#myTabContent .user-details-istikhdam { border-right: 0px !important; }
 table.user-details { margin-bottom: 0px !important; }
 
 
@@ -1654,7 +1662,7 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper .eservice-details { float: right; font-weight: 600; font-size: 14px; color: #969696; }
 .eservices-wrapper .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border:none; }
 .eservices-wrapper .nav-tabs > li > a, .nav-tabs > li > a:focus, .nav-tabs > li > a:hover { border:none; }
-.eservices-wrapper .eservice-contents .fa-caret-left { padding-left:10px; font-size: 14px; font-weight: 600; }
+.eservices-wrapper .eservice-contents .fa-caret-left { padding-left:5px; font-size: 14px; font-weight: 600; }
 .eservices-wrapper .eservice-contents .fa-minus-square { padding-left:6px; }
 .eservices-wrapper .panel-heading { border-top-left-radius: 0px; border-top-right-radius: 0px; }
 .eservices-wrapper   .nav-tabs > li { margin-bottom: 0px; color: #FFFFFF; padding-right: 5px; font-size: 14px; font-weight:700; }
@@ -1690,7 +1698,8 @@ table.user-details { margin-bottom: 0px !important; }
 .ikt-info-price-currency { float: right; font-size: 15px; padding-top: 10px; }
 
 .ikt-date-info{ margin: 0 auto; width: 50%; }
-.ikt-date-icon{ float: right; padding-left: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
+.ikt-date-icon-o{ float: right; padding-left: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
+.ikt-date-icon-r{ float: right; padding-left: 7px; font-size: 12px; color: #FF0000; font-weight: bold; padding-top: 3px; }
 .ikt-date-date{ float: right; padding-left: 1px; padding-right: 7px; color: #0F935D;}
 .ikt-date-title{ float: right; color: #575757;  }
 .memeberemailwrapper{direction: rtl;}
@@ -1800,7 +1809,7 @@ table.user-details { margin-bottom: 0px !important; }
     .promotion-section { text-align: center; }
     .promotion-section_down { text-align: center; margin-bottom: 20px; }
     .square-wrapper{ margin-top:30px; }
-    .top-lang-wrapper .navbar-nav > li > a { border-left: none; border-bottom: 0px solid #e3e3e3;  }
+    .top-lang-wrapper .navbar-nav > li > a {  border-bottom: 0px solid #e3e3e3;  }
     .navbar-nav > li > a { border-left: none; border-bottom: 1px solid #e3e3e3;  }
     .footer-murasilat{ border: none; }
     .footer-bataqat{ border: none; }
@@ -1851,6 +1860,7 @@ table.user-details { margin-bottom: 0px !important; }
     .title-form-wrapper{ padding-right: 0px !important;}
     .iqama-id-wrapper{ padding-right:0px !important;}
     .eservice-content-inner-wrapper { padding-right:0px !important; padding-left:0px !important;}
+    .eservices-wrapper #myTabContent{ border: none !important;  width: 150%; }
 }
 
 
@@ -1959,6 +1969,7 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
     .card-activation-phone-code { margin-left: 20%; margin-right: 20%; }
     .Product-img img { height: 95%; }
+    .eservices-wrapper #myTabContent{ border: none !important;  width: 150%; }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -2029,6 +2040,11 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper_step2 #btn_dob { margin-top:5px; }
     #btn_dob_h { margin-top:5px; }
     .Product-img img { height: 95%; }
+    .flot-x-axis .tickLabel { width: 25px !important; }
+    .eservices-wrapper #myTabContent{ border: none !important;  width: 150% !important; }
+    .flot-text{ font-size:7px !important; }
+    .eservices-wrapper .eservice-content-company-description{ word-wrap: normal !important; }
+    .topMenu .navbar-nav > li > a{ padding-left:5px; padding-right: 5px; }
 
 }
 

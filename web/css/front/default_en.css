@@ -1,4 +1,9 @@
 ﻿#smsverify { margin-top:30px;margin-bottom:30px; }
+.offset-layout{ margin-left: 16.66%; margin-right: 16.66%; }
+
+#forgot_email_submit{ float: left;   margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important;}
+#send_pwd_submit{ float: left;  margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important; }
+.form-separator { margin-top:20px; }
 .verify-code { padding:15px; margin-top:20px;  }
 .forgot-email-account { margin-top:50px; margin-bottom:50px; }
 .message-forgot-email { margin-top:30px;}
@@ -337,7 +342,7 @@ label.error{
 #preLoaders {left: 40%;  z-index: 1;  position: absolute;  border-radius: 12px;  top: 40%;  }
 .formControl-mobile { width: 200px; }
 #mobile_ext{ /*width: 100px;*/ padding-left:5px !important; }
-#forgot_email_submit{ float: left;   }
+
 
 .alert-success-forms{ font-size: 16px; font-weight: normal; }
 #mobile_mobile-error{ width: 100%; }
@@ -1232,7 +1237,7 @@ body{
 .ph-svg{ height: 50px;width: 48px; }
 .header-contact-number{ font-weight: bold; color: #008b40; font-size: 20px; line-height: 15px; }
 
-.breadcrumb { background-color: #FFFFFF; float: left; padding-top: 24px;  text-align: left;  }
+.breadcrumb { background-color: #FFFFFF; float: left; padding-top: 20px;  text-align: left;  }
 .breadcrumb-separator { margin-right: 5px; margin-left: 5px; }
 
 a.last-breadcrumb{ text-decoration: none; color: #343434; font-size: 14px;  }
@@ -1400,7 +1405,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 
 .contactus-list-title-wrapper { float: right;  }
-.cardactivation-list-title-wrapper .title-contents { color: #008b40; font-size: 22px; font-family: 'Cairo', sans-serif ;  text-align: left; font-weight: 600; margin-bottom: 15px; padding-top: 5px; }
+.cardactivation-list-title-wrapper .title-contents { color: #008b40; font-size: 22px; font-family: 'Cairo', sans-serif ;  text-align: left; font-weight: 600; margin-bottom: 15px; padding-top: 20px; }
 
 .cardactivation-list-title-wrapper .sub-title-contents { font-size: 20px;
     text-align: left; font-weight: 500; margin-bottom: 6px; font-family:  'Cairo', sans-serif ;  }
@@ -1614,7 +1619,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 .user-details{ border-top:none !important;  border-right: none;  }
 #myTabContent .user-details { padding: 0px; border-left: 0px !important; }
-#myTabContent .user-details-date {  border-right: 0px !important; }
+#myTabContent .user-details-date { border-left:0px !important; }
+#myTabContent .user-details-istikhdam { border-right: 0px !important; }
 table.user-details { margin-bottom: 0px !important; }
 
 
@@ -1632,8 +1638,8 @@ table.user-details { margin-bottom: 0px !important; }
     text-align: left; line-height: 17px; padding-left: 15px; padding-top: 20px; font-family: Verdana;  }
 .eservices-wrapper .eservice-content-personal-description{   padding-bottom:20px ;line-height: 25px; font-size: 14px; font-weight: 700; padding-left: 66px; float: left; }
 
-.eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px; margin-right: 20px;
-    font-size: 14px; font-weight: 700; padding-right: 20px; word-wrap: break-word; }
+.eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px;
+    font-size: 14px; font-weight: 700;  word-wrap: break-word; }
 .eservices-wrapper .eservice-content-iqama-description{   line-height: 25px; margin-bottom: 20px;
     font-size: 14px; font-weight: 700;  word-wrap: break-word; float: right; width: 100%; }
 .eservices-wrapper .eservice-content-iqama-description  .eservice-headings { float: left; font-weight: 600; font-size: 16px; color: #343434; margin-right: 1px; margin-top:5px; margin-bottom: 5px; }
@@ -1689,10 +1695,12 @@ table.user-details { margin-bottom: 0px !important; }
 .ikt-info-price-currency { float: left; font-size: 15px; padding-top: 10px; }
 
 .ikt-date-info{ margin: 0 auto; width: 50%; }
-.ikt-date-icon{ float:  left; padding-right: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
+.ikt-date-icon-o{ float:  left; padding-right: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
+.ikt-date-icon-r{ float:  left; padding-right: 7px; font-size: 12px; color: #FF0000; font-weight: bold; padding-top: 3px; }
 .ikt-date-date{ float:  left; padding-right: 1px; padding-left: 7px; color: #0F935D;}
 .ikt-date-title{ float: left; color: #575757;  }
-.memeberemailwrapper{ direction: ltr;}
+.memeberemailwrapper  { direction: ltr;}
+.memebersendpwdwrapper{ direction: ltr;}
 .memeberloginwrapper{min-height:500px; direction: ltr;}
 .memeberloginwrapper h1 { color: #347F5B; font-size: 22px; font-weight: 900; font-family: Verdana;  }
 .memeberloginwrapper h2 { color: #343434; font-size: 17px; font-weight: 700; margin-top: 16px;  margin-bottom: 6px; font-family: Verdana; }
@@ -1937,7 +1945,8 @@ table.user-details { margin-bottom: 0px !important; }
     .playstore-wrapper .gplay img { float: right; }
     .top-lang-wrapper .navbar-nav > li { text-align: right;  }
     .eservices-wrapper .eservice-content-company-description { padding-right: 0px; }
-    .eservices-wrapper #myTabContent { padding: 10px; }
+
+    .eservices-wrapper #myTabContent { padding:10px; border: none !important;  }
     .eservices-wrapper .nav > li > a{  padding: 6px 10px 6px 0;}
     .eservices-wrapper .eservice-contents .fa-plus-square{ padding-left: 3px; }
     .eservices-wrapper .slide-section .fa-plus-square { padding-right: 5px; }
@@ -1975,7 +1984,10 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:3px;  padding-left:0px; }
     .btn_dob_h_wrappper{ float: left; padding-left:0px;  }
     .ikt-activation-title { width:50% ; }
+    .eservices-wrapper #myTabContent{ border: none !important;   }
 }
+
+
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
 
@@ -2028,6 +2040,11 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:20px; padding-left:0px;float: left; }
     .btn_dob_h_wrappper{ float: left; padding-left:0px;  }
     .ikt-activation-title { width:50% ; }
+
+
+}
+@media screen and (min-width: 600px) and (max-width: 767px) {
+    .eservices-wrapper #myTabContent{ border: none !important;  width: 150%; }
 }
 
 @media screen and (max-width: 480px) {
@@ -2046,6 +2063,7 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper_h{ padding-right: 0px; padding-top:3px;padding-left:0px; float: left; }
     .ikt-activation-title { width:50% ; }
     .Product-img img { height: 95%; }
+    .eservices-wrapper #myTabContent{ border: none !important;  }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -2085,7 +2103,7 @@ table.user-details { margin-bottom: 0px !important; }
     .eservices-wrapper .eservice-content-personal-description { padding-left: 0px; }
     .account-info-detail-wrapper{ width: 50%; }
     .contactUsForm select { margin-left:8px; width: 98%; }
-    .eservices-wrapper #myTabContent{ border: none !important; }
+
     .title-normal-green{ padding-left: 10px; padding-top: 10px; }
     .se-iktitem-footer .footer-title{ font-size: 15px; margin-bottom: 10px; }
     .se-iktitem-footer a { font-size: 12px;  }
@@ -2139,5 +2157,14 @@ table.user-details { margin-bottom: 0px !important; }
     .btn_dob_wrappper_step2 #btn_dob { margin-top:5px; }
     #btn_dob_h { margin-top:5px; }
     .Product-img img { height: 95%; }
+    .flot-text{ font-size:9px !important; }
+    .dropdown-toggle::after{ margin-left: 1px !important; }
+    .eservices-wrapper #myTabContent{ border: none !important;  width: 150%; }
+    audio,
+    canvas,
+    video {
+        display: inline-block;
+        width: 100% !important;
+    }
 }
 

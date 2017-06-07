@@ -6,9 +6,13 @@
                     <div class="eservice-content-personal-title">
                         {{ 'Update your email'|trans}}
                     </div>
-                    <div>
-                        {{ message}}
-                    </div>
+
+
+                    {% if message != '' %}
+                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
+                            {{ message }}
+                        </div>
+                    {% endif %}
                     <div class="claerfix"></div>
 
                 </div>

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-tabcollapse.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.flot.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.flot.time.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.flot.categories.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vendor/modernizr-2.6.2.min.js') }}"></script>
 
 
@@ -27,13 +28,13 @@
 {% block body %}
 
 
-{% if app.request.cookies.get('c_locale') == "en" %}
-    {%  set side = 'right'  %}
-{% elseif app.request.cookies.get('c_locale') == "ar"  %}
-    {%  set side = 'left'  %}
-{% else %}
-    {%  set side = 'left'  %}
-{% endif %}
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'right'  %}
+    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'left'  %}
+    {% endif %}
 
 
 
@@ -52,7 +53,7 @@
         <section class="container cardactivation-wrapper">
             <div class="row">
                 <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                     <div class="title-contents">{{ 'My Account'|trans }}</div>
+                    <div class="title-contents">{{ 'My Account'|trans }}</div>
                 </div>
             </div>
             <div class="row">
@@ -99,19 +100,19 @@
 
                         <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
 </span>
-                             {{ 'Personal Information'|trans }}
+                            {{ 'Personal Information'|trans }}
                         </li>
                         <li ><a href="#5" data-id="5"  data-path="{{ path('front_account_missingcard', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab">
                                 <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
 
 </span>
-                                 {{ 'Update Missing Card'|trans }}
+                                {{ 'Update Missing Card'|trans }}
                             </a></li>
 
                         <li ><a href="#6" data-id="6"
                                 data-path="{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab">
-                            <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i></span>
-                                  {{ 'Update Personal Information'|trans }} </a></li>
+                                <span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i></span>
+                                {{ 'Update Personal Information'|trans }} </a></li>
 
                         <li ><a href="#7" data-id="7"  data-path="{{ path('front_account_mobile', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
 
@@ -129,7 +130,7 @@
 
 
 </span>
-                                 {{ 'Update your Iqama Id/ SSN'|trans }}
+                                {{ 'Update your Iqama Id/ SSN'|trans }}
                             </a></li>
                         <li ><a href="#10" data-id="10"   data-path="{{ path('front_account_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"  data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-{{ side }}" aria-hidden="true"></i>
 
@@ -141,7 +142,7 @@
 
 
 </span>
-                               {{ 'Update Password'|trans}}
+                                {{ 'Update Password'|trans}}
                             </a></li>
 
                     </ul>
@@ -171,7 +172,7 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
                                                     <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                                                 </div>
 
                                             </div>
@@ -182,7 +183,7 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
                                                     <div class="ikti-info-price-details orange-color">{{ iktData['balance_used']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                                                 </div>
 
                                             </div>
@@ -193,7 +194,7 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
                                                     <div class="ikti-info-price-details light-red-color">{{ iktData['balance']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">SAR</div>
+                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                                                 </div>
 
                                             </div>
@@ -207,17 +208,27 @@
                                                 <tr>
                                                     <td style="border-top:none !important;" class="user-details-date">
                                                         <div class="ikt-date-info">
-                                                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                                                            <div class="ikt-date-title">Activation Date</div>
-                                                            <div class="ikt-date-date">26/09/2011</div>
+                                                            <div class="ikt-date-icon-r"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                                                            <div class="ikt-date-title">{{ 'Activation Date'|trans }}</div>
+                                                            <div class="ikt-date-date">
+
+                                                                {%   set act_date = iktData['activation_date']|split(' ') %}
+                                                                {{ act_date[0] }}
+
+
+
+                                                            </div>
                                                             <div class="claerfix"></div>
                                                         </div>
                                                     </td>
                                                     <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
                                                         <div class="ikt-date-info">
-                                                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                                                            <div class="ikt-date-title">Last Used</div>
-                                                            <div class="ikt-date-date">26/09/2011</div>
+                                                            <div class="ikt-date-icon-o"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                                                            <div class="ikt-date-title">{{ 'Last Used'|trans }}</div>
+                                                            <div class="ikt-date-date">
+                                                                {%   set last_used_date = iktData['last_used_date']|split(' ') %}
+                                                                {{ last_used_date[0] }}
+                                                            </div>
                                                             <div class="claerfix"></div>
                                                         </div>
                                                     </td>
@@ -232,7 +243,7 @@
                                     </tr>
 
                                 </table>
-                                <div style="  float: right; width: 95%; margin-left:30px !important;" class="">
+                                <div style="  float: right; width: 100%; margin-left:30px !important;" class="">
                                     <div id="placeholder" class="col-lg-12 col-xs-12" style="height: 400px; width: 100%;">
                                     </div>
                                 </div>
@@ -376,41 +387,31 @@
         </section>
 
     {% else %}
-      <section class="container ">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                No user data found<br />
-                <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
+        <section class="container ">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    No user data found<br />
+                    <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
+                </div>
             </div>
-        </div>
-      </section>
+        </section>
     {% endif %}
 
 
-    {%  set a = iktTransData|length %}
-
-    {% if a > 0  %}
-        {%  set min_year = iktTransData[a]['year'] %}
-        {%  set max_year = iktTransData[1]['year'] %}
-        {%  set max_day = iktTransData[1]['day'] %}
-    {% else %}
-        {%  set min_year = 0 %}
-        {%  set max_year = 0 %}
-        {%  set max_day = 1 %}
-    {% endif %}
 
 
-<script type="text/javascript">
+
+    <script type="text/javascript">
 
 
 
 
 
-            var d1 = [
-                {% for item , value in iktTransData %}
-                [{{ value.trans_date_time }}, {{ value.inv_amt }}],
-                {% endfor %}
-            ];
+        var d1 = [
+            {% for item , value in iktTransData %}
+                ["{{ value.Mnth }}", {{ value.Sales }}],
+            {% endfor %}
+        ];
 
 
 
@@ -422,69 +423,33 @@
 
 
 
-            var data1 = [{data: d1, points: { symbol: "circle", fillColor: "#0F935D" }, color: '#0F935D'}];
-
-            if(window.screen.width < 767) {
-                // some code..
-                var monthsData    = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-                var monthsData_ar = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-            } else {
-
-
-                        var en = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-
-
-                        var ar = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
-
-
-                }
-            $(document).ready(function () {
 
 
 
 
+        $(document).ready(function () {
+            var data = [ ["January", 110], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
 
-                $.plot($("#placeholder"), data1, {
 
-                    xaxis: {
-                        min: (new Date({{ min_year }}, 01, 01)).getTime(),
-                        max: (new Date({{ max_year }},12,{{ max_day }})).getTime(),
-                        mode: "time",
-                        tickSize: [1, "month"],
-                        monthNames: {{app.request.get('_locale')}},
-                        yearName:"",
-                        tickLength: 0,
-                        abelAngle: 45,
-                        axisLabelUseCanvas: true,
-                        axisLabelFontSizePixels: 9,
-                        axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                        axisLabelPadding: 5
-                    },
-                    yaxis: {
 
-                        axisLabelUseCanvas: true,
-                        axisLabelFontSizePixels: 12,
-                        axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                        axisLabelPadding: 5
-                    },
-                    series: {
-                        lines: { show: true },
-                        points: {
-                            radius: 3,
-                            show: true,
-                            fill: true
-                        },
-                    },
-                    grid: {
-                        hoverable: true,
-                        borderWidth: 1
-                    },
-                    legend: {
-                        labelBoxBorderColor: "none",
-                        position: "right"
+            $.plot("#placeholder", [ d1 ], {
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.6,
+                        align: "center"
                     }
-                });
+                },
+                xaxis: {
+                    axisLabel: "World Cities",
+                    mode: "categories",
+                    tickLength: 0
+                }
+            });
+
+            // Add the Flot version string to the footer
+
+            $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 
 
 
@@ -494,10 +459,20 @@
                 if($(this).data('id') != '13') { // 13 is for logout
                     event.preventDefault();
                     var path = $(this).data('path');
-                    //alert(path);
+                    // alert(path);
                     var id = $(this).data('id');
-                    // alert(id);
-                    //if (path == undefined || path == null || path == '') return;
+                    // alert('{{ app.request.cookies.get("c_locale") }}');
+
+                    //  url: "{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}";
+
+                        // if('{{ app.request.cookies.get("c_locale") }}' ==  'en' && '{{ app.request.cookies.get("c_country") }}' == "sa" ){
+                        // window.location = url;
+                        // return;
+                    //}
+
+
+                    // if (path == undefined || path == null || path == '') return;
+
                     $.ajax({
                         url:path,
                         beforeSend: function () {

@@ -251,7 +251,7 @@ Shoppers: 'المتسوق'
 "Participation stores": "المتاجر المشاركة"
 "Community Services": "خدمة المجتمع"
 "Iktissab Partners": "شركــــاء اكتسـاب"
-"Contact Information": "قائمة المراسلا"
+"Contact Information": "قائمة المراسلات"
 "Membership No": "عضوية رقم"
 "Current Balance": "الرصيد الحالـي"
 "Total Balance": "الرصيد الإجمالي"
@@ -325,6 +325,23 @@ Shoppers: 'المتسوق'
 "Inquiry and suggestions": "الشكاوى والمقترحات"
 "Retrieve account email": "استعادة البريد الإلكتروني للحساب"
 "Credit Cash": "المبالغ المكتسبة"
+"Unable to update record": "Unable to update record ar"
+"Full name must be of atleast two parts": "Full name must be of atleast two parts ar"
+'An invalid exception occurred': 'An invalid exception occurred ar'
+'Please enter valid Iktissab id and iqama/SSN': 'Please enter valid Iktissab id and iqama/SSN ar'
+'Information': "معلوماتي"
+'Iktissab password Recovery': 'استعادة كلمة المرور الخاصة برصيد اكتساب'
+'Enter Iktissab ID': 'أدخل رقم بطاقة إكتساب'
+'Please enter valid Iqama ID/SSN': 'Please enter valid Iqama ID/SSN'
+'Please enter valid Iktissab card number': 'Please enter valid Iktissab card number'
+'Mission and Vission': 'الرؤية والرسالـة'
+'Participating Stores': 'المتاجر المشاركـة'
+'Iktissab password Recovery': 'استعادة كلمة المرور الخاصة برصيد اكتساب'
+'Activation Date': 'تاريخ التفعيل'
+'Last Used': 'أخر استخدام'
+'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** ar'
+'SAR': 'ريال'
+
 
 
 

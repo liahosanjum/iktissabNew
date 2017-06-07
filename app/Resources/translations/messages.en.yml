@@ -174,7 +174,7 @@ Shoppers: Shoppers
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same"
 "Your email address is not updated.Please try again": "Your email address is not updated.Please try again"
 "Your email is not updated.Please try again": "Your email is not updated.Please try again"
-"about iktissab": "About Iktisab"
+"about iktissab": "About Iktissab"
 "about us": "About Us"
 "sharia complient": "Complient with Sharia"
 "inquiry and suggestion": "Inquiry"
@@ -303,6 +303,22 @@ Shoppers: Shoppers
 "inquiry and suggestions": "Inquiry & Suggestions"
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
+'Unable to update record': 'Unable to update record'
+'Full name must be of atleast two parts': 'Full name must be of atleast two parts'
+'An invalid exception occurred': 'An invalid exception occurred'
+'Please enter valid Iktissab id and iqama/SSN': 'Please enter valid Iktissab id and iqama/SSN'
+'Information': 'Information'
+'Iktissab password Recovery': 'Iktissab password Recovery'
+'Enter Iktissab ID': 'Enter Iktissab ID'
+'Please enter correct Iqama ID/SSN': 'Please enter correct Iqama ID/SSN'
+'Please enter valid Iktissab card number': 'Please enter valid Iktissab card number'
+'Mission and Vission': 'Mission and Vission'
+'Participating Stores': 'Participating Stores'
+'Iktissab password Recovery': 'Iktissab password Recovery'
+'Activation Date': 'Activation Date'
+'Last Used': 'Last Used'
+'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** '
+'SAR': 'SAR'
 
 
 

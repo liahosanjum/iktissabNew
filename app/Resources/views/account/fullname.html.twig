@@ -14,11 +14,13 @@
                     <div class="titleForm_sub_missingcard">
                         {{ 'You can update your full name through the following form'|trans }}
                     </div>
+
                     {% if message != '' %}
                     <div class="alert-success-forms formMessage {{ errorcl }} alert fade in alert-dismissable">
                             {{ message }}
                     </div>
                     {% endif %}
+
                     <div id="preLoaders">
                     </div>
 
@@ -33,7 +35,7 @@
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -41,6 +43,7 @@
 
 
                     $('form[name="update_fullname"]').on('submit', function (event) {
+
                         if($( "#update_fullname_fullname" ).hasClass( "valid" )) {
                             if($( "#update_fullname_comment_fullname" ).hasClass( "valid" )) {
 

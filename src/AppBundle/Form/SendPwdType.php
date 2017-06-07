@@ -10,40 +10,38 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class ForgotEmailType extends AbstractType
+class SendPwdType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $lookupData = $options['additional'];
-        $builder->add('iktCardNo', TextType::class, array('label' => 'Iktissab ID',
-
-            'label_attr' => ['class' => 'form_labels col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding'],
+        $builder->add('iktCardNo', TextType::class, array('label' => 'Enter Iktissab ID',
+            'label_attr' => ['class' => ' form_labels col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding'],
             'attr' => array('maxlength' => 8 , 'class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'),
-            'constraints' => array(
+            'constraints' => array (
 
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
                     array(
                         'pattern' => '/^[9,5]([0-9]){7}$/',
                         'match' => true,
-                        'message' => 'Invalid Iktissab Card Number')
+                        'message' => 'Invalid Iktissab Card Number'
+                    )
                 )
             )
         ))
             ->add('iqama', TextType::class, array(
-                'label' => 'Registered Iqama ID/SSN',
-                'attr' => array( 'class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout',
-                'maxlength' => ($lookupData['country'] == 'sa') ? 10 : 14 ),
-                'label_attr' => ['class' => 'form-separator col-lg-12 col-md-12 col-sm-12 col-xs-12    form_labels nopadding'],
+                'label'       => 'Registered Iqama ID/SSN',
+                'attr'        => array( 'class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout',
+                'maxlength'   => ($lookupData['country'] == 'sa') ? 10 : 14 ),
+                'label_attr'  => ['class' => 'form-separator col-lg-12 col-md-12 col-sm-12 col-xs-12    form_labels nopadding'],
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -57,9 +55,8 @@ class ForgotEmailType extends AbstractType
 //                    ])
                 )
             ))
-            ->add('submit', SubmitType::class, array(
-
-                'attr' => array('class' => 'btn btn-primary mobile-form-mags'),
+            ->add('submit', SubmitType::class, array (
+                'attr'  =>  array('class' => 'offset-layout col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-primary mobile-form-mags'),
                 'label' => 'Submit'
             ));
 
@@ -70,10 +67,8 @@ class ForgotEmailType extends AbstractType
      */
     public function validateIqama($iqama, ExecutionContextInterface $context)
     {
-
-
         $evenSum = 0;
-        $oddSum = 0;
+        $oddSum  = 0;
         $entireSum = 0;
         for ($i = 0; $i < strlen($iqama); $i++) {
             $temp = '';

@@ -4,7 +4,8 @@
     <section class="container breadcrum-wrapper">
         <div class="row">
             <div class="breadcrumb">
-                <a title="Home" class="in-active-link" href="#">Home</a>
+                <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
+
                 <span class="breadcrumb-separator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                 <a title="My account" class="last-breadcrumb">My account</a>
             </div>

@@ -37,12 +37,17 @@
                                 <a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'My Account'|trans }}    &nbsp;&nbsp;</a>
                                 <ul class="dropdown-menu right">
+
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Personal Information'|trans }}</a></li>
+                                    <!--
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Mobile'|trans }}</a></li>
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update-Iqama-SSN'|trans }}</a></li>
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Name'|trans }} </a></li>
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'update lost card'|trans }} </a></li>
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Email'|trans }}</a></li>
+                                    -->
+
+                                    <li><a href="{{ path('send_password', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Iktissab password Recovery'|trans }}</a></li>
 
                                     <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Password'|trans }}  </a></li>
                                     <li><a href="#">{{ 'Send Iktissab Password'|trans }}</a></li>

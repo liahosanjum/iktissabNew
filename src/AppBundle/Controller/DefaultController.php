@@ -237,10 +237,9 @@ class DefaultController extends Controller
             $postData, array('input-content-type' => "text/json" , 'output-content-type' => "text/json" ,
                 'language' => $locale
             ));
-
-        if(($data)) {
-
-
+            // print_r($data);
+            // exit;
+            if($data['success'] == true) {
             $products = json_decode($data);
             //var_dump(json_decode($data));
             //echo "<br>";
@@ -449,6 +448,7 @@ class DefaultController extends Controller
                 //--> print_r($result);
                 $user_id = $result[0]['ikt_card_no'];
                 $user_id_en = $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
+
                 $time = time();
                 $token = uniqid() . md5($email . time() . rand(111111, 999999));
                 $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
@@ -610,9 +610,9 @@ class DefaultController extends Controller
                 //--> print_r($result);
                 $user_id = $result[0]['ikt_card_no'];
                 $user_id_en = $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
-                $time = time();
+                $time  = time();
                 $token = uniqid() . md5($email . time() . rand(111111, 999999));
-                echo $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
+                $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
                 $data = serialize(array('time' => $time, 'token' => $token));
                 $data_values = array(
                     $data,
@@ -626,7 +626,7 @@ class DefaultController extends Controller
                 if ($stm == 1) {
                     $message = \Swift_Message::newInstance();
                     $request = new Request();
-                    //--> $email   = 'sa.aspire@gmail.com';
+                    // --> $email   = 'sa.aspire@gmail.com';
                     $message->addTo($email);
                     $message->addFrom($this->container->getParameter('mailer_user'))
                         ->setSubject(AppConstant::EMAIL_SUBJECT)
@@ -664,7 +664,7 @@ class DefaultController extends Controller
                 ));
             }
         }
-        $message = "sdsdf";
+        $message = "";
         return $this->render('front/forgotpassword.html.twig', array(
             'form' => $form->createView(), 'message' => $message,
         ));
@@ -1122,6 +1122,7 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }
+
 
 
 
