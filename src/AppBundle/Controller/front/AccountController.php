@@ -129,7 +129,7 @@ class AccountController extends Controller
                 } else {
 
 
-                    $restClient = $this->get('app.rest_client');
+                    $restClient = $this->get('app.rest_client')->IsAuthorized(true);
                     if (!$this->get('session')->get('iktUserData')) {
                         $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                         // echo AppConstant::WEBAPI_URL.$url;
