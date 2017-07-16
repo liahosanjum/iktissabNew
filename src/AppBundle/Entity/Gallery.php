@@ -25,14 +25,14 @@ class Gallery
     /**
      * @var string
      *
-     * @ORM\Column(name="adesc", type="text",  nullable=true)
+     * @ORM\Column(name="adesc", type="string",  length=255,  nullable=true)
      */
     private $adesc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="edesc", type="text",  nullable=true)
+     * @ORM\Column(name="edesc", type="string", length=255,  nullable=true)
      */
     private $edesc;
 
