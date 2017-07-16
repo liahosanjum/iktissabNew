@@ -49,13 +49,13 @@ class ActivityLogService
         $this->em->flush();
     }
 
-    public function logLogoutEvent($ikt_card_no)
+    public function logLogoutEvent($ikt_card_no, $type = null)
     {
         $activityLog = new ActivityLog();
         $activityLog->setIktCardNo($ikt_card_no);
         $activityLog->setActionData('');
         $activityLog->setActionDate(time());
-        $activityLog->setActionType(AppConstant::ACTIVITY_LOGOUT);
+        $activityLog->setActionType(AppConstant::ACTIVITY_LOGOUT.$type);
         $this->em->persist($activityLog);
         $this->em->flush();
     }

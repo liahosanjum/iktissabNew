@@ -35,7 +35,7 @@ class IqamassnType extends AbstractType
                     array(
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
-                        'message' => 'Invalid Iqama/SSN Number')),
+                        'message' => 'Invalid Iqama Id/SSN Number')),
                     new  Assert\Callback( array($iktID_no, 'validateIqama') )
 
                 )))
@@ -53,7 +53,7 @@ class IqamassnType extends AbstractType
                     array (
                             'pattern'   => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match'     => true,
-                            'message'   => 'Invalid Iqama/SSN Number')),)])
+                            'message'   => 'Invalid Iqama Id/SSN Number')),)])
             ->add('comment_iqamassn', TextareaType::class, array('label' => 'Comments',  'label_attr' => ['class' => 'formLayout required col-lg-12 col-md-12 col-sm-12 col-xs-12 form_labels'],
                 'attr'          =>array('maxlength' => 255 , 'class' => 'form-control formLayout'),
                 'constraints'   => array(

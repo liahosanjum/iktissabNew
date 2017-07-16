@@ -81,8 +81,8 @@ class IktRegType extends AbstractType
                 'invalid_message' => 'New email and confirm email fields must match',
                 'required' => true,
                 'first_options' => array('attr' =>array('class' => 'form-control formLayout form_labels'),
-                    'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout   form_labels' ]),
-                'second_options' => array('attr' =>array('class' => 'form-control formLayout form_labels'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout   form_labels']),
+                    'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout    form_labels' ]),
+                'second_options' => array('attr' =>array('class' => 'form-control   formLayout form_labels'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout email-repeat  form_labels']),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array (
                     new NotBlank(array('message' =>  'This field is required')),
@@ -95,8 +95,8 @@ class IktRegType extends AbstractType
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match',
                     'required' => true,
-                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout    form_labels'], 'attr' =>array('class' => 'form-control   formLayout form_labels')),
-                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required formLayout    form_labels'],'attr' => array('class' => 'form-control  formLayout form_labels')),
+                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout     form_labels'], 'attr' =>array('class' => 'form-control   formLayout form_labels')),
+                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required formLayout pass-repeat    form_labels'],'attr' => array('class' => 'form-control  formLayout form_labels')),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
@@ -173,7 +173,7 @@ class IktRegType extends AbstractType
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => 'Invalid Iqama/SSN Number')
+                            'message' => 'Invalid Iqama Id/SSN Number')
                     ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']
@@ -306,7 +306,7 @@ class IktRegType extends AbstractType
         if (($entireSum % 10) == 0) {
             // valid
         } else {
-            $context->buildViolation('Iqama Number is invalid')
+            $context->buildViolation('Iqama Id / SNN is not valid')
                 ->atPath('iqama')
                 ->addViolation();
         }

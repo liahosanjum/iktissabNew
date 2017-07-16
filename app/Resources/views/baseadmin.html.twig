@@ -19,13 +19,15 @@
 <body>
     <div class="main-container" id="main-container" >
         <div class="container-fluid">
-             <div class="container header-top-section" style="border:1px solid;">
+             <div class="container header-top-section" style="border:5px solid #008b40; background-color: #fcfcfc">
                  <div class="row">
                         <div class="col-lg-9 col-md-9 col-sm-9">
                             <div class="Header-area">Iktissab Admin Panel</div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="login-area"> login area</div>
+                            <div class="login-area">
+                                <a href="{{ path('admin_logout', {'_country': 'sa', '_locale':'en' }) }}">logout</a>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                  </div>
@@ -37,15 +39,18 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 left-sidebar">
-                        <div class="links"><a href="{{path('cmslistall')}}">Create Pages</a></div>
+                        <div class="links"><a href="{{path('cmslistall')}}">Manage Content Pages</a></div>
                         <div class="links"><a href="{{ app.request.getBaseURL()  }}/admin/settingslist">Manage Email Settings</a></div>
                         <div class="links"><a href="{{path('admin_formdisplaysettings')}}">Form Settings</a></div>
                         <div class="links"><a href="{{path('admin_users')}}">Manage Users</a></div>
+                        <div class="links"><a href="{{path('newslistall')}}">Manage News</a></div>
                         <div class="links"><a href="{{path('admin_activitylogs')}}">User Activity Log</a></div>
+
                         <div class="clearfix"></div>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 middle-contents">
                         {% block body %}{% endblock %}
+                        <div class="clearfix"></div>
                     </div>
                     <div class="clearfix"></div>
                  </div>
@@ -53,11 +58,19 @@
             </div>
         </div>
         <div class="container-fluid"  >
-            <div class="container header-footer-section">
-               <div class="footer"> All Rights Reserved to Abdullah AlOthaim Markets Company @ 2017</div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="container header-footer-section" style="margin-top:30px;">
+                       <div class="footer">
+
+                           All Rights Reserved to Abdullah AlOthaim Markets Company @ 2017
+                       </div>
+                </div>
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
+        <div class="claerfix"></div>
     </div>
 </body>
 </html>

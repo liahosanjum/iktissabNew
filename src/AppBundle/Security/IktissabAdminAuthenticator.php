@@ -51,7 +51,7 @@ class IktissabAdminAuthenticator implements SimpleFormAuthenticatorInterface
         }
         else
         {
-            throw new CustomUserMessageAuthenticationException('Invalid Username or Password----');
+            throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
         }
     }
 

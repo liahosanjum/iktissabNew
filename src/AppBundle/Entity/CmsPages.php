@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * CmsPages
  *
@@ -69,6 +69,14 @@ class CmsPages
      * @ORM\Column(name="country", type="string", nullable=false)
      */
     private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="brochure", type="string", nullable=true)
+     * @Assert\Image(mimeTypes={ "image/png","image/jpg","image/jpeg" })
+     */
+    private $brochure;
 
 
     /**
@@ -247,6 +255,32 @@ class CmsPages
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Get brochure
+     *
+     * @return string
+     */
+
+
+    public function getBrochure()
+    {
+        return $this->brochure;
+    }
+
+    /**
+     * Set brochure
+     *
+     * @param string $brochure
+     *
+     * @return CmsPages
+     */
+    public function setBrochure($brochure)
+    {
+        $this->brochure = $brochure;
+
+        return $this;
     }
 
 

@@ -48,7 +48,7 @@ class SendPwdType extends AbstractType
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => 'Invalid Iqama/SSN Number')
+                            'message' => 'Invalid Iqama Id/SSN Number')
                     ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']

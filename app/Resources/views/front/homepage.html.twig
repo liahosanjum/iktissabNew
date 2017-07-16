@@ -42,14 +42,12 @@
                                 <span class="home-text-green">اكتساب Iktissab</span>
                                 <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
                                 <ul id="webTicker-{{ app.request.get('_locale') }}">
+                                    {% for item_news in data_news %}
 
-                                    <li class="home-text-grey">
-                                       {{   '10% discount at all Kiaabi branches only for cardholders'|trans }}
-                                    </li>
+                                        {{ item_news.details|raw }}
+                                    {%  endfor %}
 
-                                    <li class="home-text-green">اكتساب Iktissab</li>
 
-                                    <li class="home-text-grey1">{{ 'Abdullah Al Othaim Markets offers huge discounts for holders of up to 25 purchase cards'|trans }}</li>
 
                                 </ul>
                             </div>
@@ -68,7 +66,7 @@
                 <div class="row">
                     <div class="promo-sec-wrapper">
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6">
-                            <a href="#">
+                            <a href="{{ path('front_card_activation', {'_country': local_country_url, '_locale':local_language_url }) }}">
                                 <div class="promotion-section"  onmouseover="changeImage('1','promo1');" onmouseout="changeImageOver('1','promo1');">
                                     <div class="promo-ico"><img alt="promotion" id="1" class="promo-img" src="{{ asset('img/promo1.svg')}}"></div>
                                     <div class="promo-title">{{ 'Activate Cards'|trans }}</div>
@@ -78,7 +76,7 @@
                             </a>
                         </div>
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6" >
-                            <a href="#">
+                            <a href="http://www.othaimmarkets.com//othaim-promotions?pid=1" target="_blank">
                                 <div class="promotion-section_down"  onmouseover="changeImage('2','cart');" onmouseout="changeImageOver('2','cart');">
                                     <div class="promo-ico"><img alt="promtions" id="2" class="promo-img" src="{{ asset('img/cart.svg')}}"></div>
                                     <div class="promo-title">{{ 'Weekly Promotions'|trans  }}</div>
@@ -199,7 +197,7 @@
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('iktissab','iktissab')" onmouseout="changeImageOver('iktissab','iktissab')">
                                     <div><img alt="iktissab-img" id="iktissab" src="{{ asset('img/iktissab.svg')}}"></div>
-                                    <div class="sq-title">{{ 'About us'|trans }}</div>
+                                    <div class="sq-title">{{ 'about us'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
@@ -253,7 +251,7 @@
                             <a href="#">
                                 <div class="sq-icon" onmouseover="changeImage('faqs','faqs')" onmouseout="changeImageOver('faqs','faqs')" >
                                     <div><img  id="faqs" alt="faqs-img" src="{{ asset('img/faqs.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Faqs'|trans }}</div>
+                                    <div class="sq-title">{{ 'faqs'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>

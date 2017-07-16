@@ -6,10 +6,9 @@
                 <div class="footer-title">{{ 'Contact Information'|trans }}</div>
                 <div class="footer-murasilat">
                     <ul>
-
                         <li>{{ 'News letter subscription'|trans }}</li>
                         <li>{{ 'Messages to receive the latest offers'|trans }}</li>
-                        {{ render(url('subscription', {'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})) }}
+                        {{ render(url('subscription', {'_country':local_country_url, '_locale':local_language_url })) }}
                     </ul>
                 </div>
             </div>
@@ -18,14 +17,14 @@
                 <div class="footer-title">{{ 'about iktissab'|trans }}</div>
                 <div class="footer-about-iktissab">
                     <ul>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/17/">{{ 'about us'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/20/">{{ 'Mission and Vission'|trans }}</a></li>
-                        <li><a href="">{{ 'Promotions'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/17/">{{ 'about us'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'Mission and Vission'|trans }}</a></li>
+                        <li><a href="http://www.othaimmarkets.com//othaim-promotions?pid=1">{{ 'Promotions'|trans }}</a></li>
 
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/20/">{{ 'Participating Stores'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'Participating Stores'|trans }}</a></li>
 
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/20/">{{ 'community services'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'community services'|trans }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -34,13 +33,13 @@
                 <div class="footer-title">{{ 'Iktissab Card'|trans }}</div>
                 <div class="footer-bataqat">
                     <ul>
-                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'my account'|trans }}</a></li>
-                        <li><a href="{{ path('forgotpassword',{'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }} ">{{ 'Forgot Password'|trans }}</a></li>
-                        <li><a href="{{ path('forgot_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Forgot Email'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'my account'|trans }}</a></li>
+                        <li><a href="{{ path('forgotpassword',{'_country': local_country_url, '_locale':local_language_url }) }} ">{{ 'Forgot Password'|trans }}</a></li>
+                        <li><a href="{{ path('forgot_email', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Forgot Email'|trans }}</a></li>
                         <li><a href="#">{{ 'Card Activation'|trans }}</a></li>
-                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update Details'|trans }}</a></li>
-                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Update lost card'|trans }}</a></li>
-                        <li><a href="{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Your Balance'|trans }}</a>
+                        <li><a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Update Details'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Update lost card'|trans }}</a></li>
+                        <li><a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Your Balance'|trans }}</a>
                     </ul>
                 </div>
             </div>
@@ -50,9 +49,9 @@
                 <div class="footer-emp-services">
                     <ul>
                         <!--<li><a href="#">{{ 'Contact Us'|trans }}</a></li>-->
-                        <li><a href="{{ path('front_faqlist', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'faqs'|trans }}</a></li>
-                        <li><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Inquiry and suggestions'|trans }}</a></li>
-                        <li><a href="{{ path('forgot_email', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Retrieve account email'|trans }}</a></li>
+                        <li><a href="{{ path('front_faqlist', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'faqs'|trans }}</a></li>
+                        <li><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Inquiry and suggestions'|trans }}</a></li>
+                        <li><a href="{{ path('forgot_email', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Retrieve account email'|trans }}</a></li>
 
                     </ul>
                 </div>
@@ -94,8 +93,7 @@
                         <div class="icon-list">&nbsp;&nbsp;&nbsp;</div>
                         <div class="title-list-social">
                             <ul class="social-icons-footer">
-                                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-                                <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a target="_blank" href="https://plus.google.com/+OthaimMarkets"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                 <li><a target="_blank" href="https://twitter.com/OthaimMarkets"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                 <li><a target="_blank" href="https://www.facebook.com/Othaim.Market"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                                 <li><a target="_blank" href="https://www.instagram.com/othaimmarkets/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
@@ -111,41 +109,6 @@
     </div>
 </section>
 
-<section class="container-fluid se-ikt-item-copyright-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="se-ikt-item-copyright">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <div class="copyright-content-wrapper">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12 nopadding-left">
-                                <div class="copyright-text">{{ 'Copy rights'|trans }}</div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="copyright-links">
-                                    <div class="col-offset-1"><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}" >{{ 'inquiry and suggestions'|trans }}</a></div>
-                                    <div class="footer-links-separator"> | </div>
-                                    <div class="footer-links"><a href="{{ app.request.getBaseURL() }}/{{ app.request.get('_country') }}/{{ app.request.get('_locale') }}/list/16/" >{{ 'Terms and Conditions'|trans }}</a></div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding-left">
-                    <div class="playstore-wrapper">
-                        <div class="gplay"><a href="#" target="_blank"><img alt="google-play" class="img-responsive" src="{{ asset('img/gplay.svg') }}" /></a></div>
-                        <div class="appstore"><a href="#"  target="_blank"><img alt="appstore" class="img-responsive" src="{{ asset('img/appstore.svg') }}" /></a></div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 <!-- /.nav -->
 <!-- JS jquery, bootstrap ,migrate, etc ... -->
 <script src="{{ asset('js/webticker.js') }} "></script>

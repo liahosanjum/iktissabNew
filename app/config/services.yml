@@ -29,6 +29,9 @@ services:
     app.iktadmin_success_handler:
             class: AppBundle\Security\IktissabAdminSuccessHandler
             arguments: ["@router", "@service_container"]
+    app.logoutadmin_handler:
+            class: AppBundle\Security\LogoutAdminHandler
+            arguments: ["@router", "@service_container","@session"]
     app.logout_handler:
         class: AppBundle\Security\LogoutHandler
         arguments: ["@router", "@service_container","@session"]

@@ -54,6 +54,15 @@ class AppConstant
     const  ACTIVITY_EMAIL_UPDATE_SMS_SUCCESS = 'UpdateEmailSMSSuccessfull';
     const  ACTIVITY_EMAIL_UPDATE_SMS_ERROR   = 'UpdateEmailSMSError';
 
+    const ACTIVITY_ADD_INQUIRY_FORM = 'InquiryFormSubmittedSuccessfully';
+    const ACTIVITY_ADD_INQUIRY_FORM_ERROR = 'InquiryFormSubmittedError';
+
+    const ACTIVITY_ACCOUNT_HOME = 'ActivityAccountHome';
+    const ACTIVITY_ACCOUNT_HOME_ERROR = 'ActivityAccountHomeError';
+    const ACOUNR_PERSONAL_INFO_ERROR = 'AccountPersonalInfoError';
+
+
+
 
     //   related to cookies
     const  COOKIE_EXPIRY   = 2592000; //'86400*30';
@@ -61,13 +70,17 @@ class AppConstant
     const  COOKIE_COUNTRY  = 'c_country';
 
     //webservice main url
-    const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
+
+    // const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
+    const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/';
+
     const OTHAIM_WEBSERVICE_URL = "http://www.othaimmarkets.com/webservices/api/v2";
 
 
-    const IKTISSAB_API_URL    = 'http://ma.othaimmarkets.com:8080/iktissabv2s/web/%s/api/%s.json';
-    const IKTISSAB_API_USER   = "anounymouse@email.com";
-    const IKTISSAB_API_SECRET = 'anounymouse';
+    const IKTISSAB_API_URL    = 'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/%s/api/%s.json';
+    const IKTISSAB_API_USER   = '1eaf95a1-4e8c-11e7-9833-842b2b4da8dd';
+
+    const IKTISSAB_API_SECRET = 'da28cd9e2ae7bb9d157f091240015a8b';
     //ikt user languages
     const IKT_USER_LANG_EN_EN = 'English';
     const IKT_USER_LANG_EN_AR = 'Arabic';

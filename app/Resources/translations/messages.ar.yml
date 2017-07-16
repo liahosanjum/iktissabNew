@@ -1,33 +1,33 @@
-lang-E: انجليزي
-lang-A: arabic
-Language: 'اللغة المفضلة'
-pur_group-1: الـــزوج
-pur_group-2: الـــزوجـــة
-pur_group-3: الأبـنـاء
-pur_group-4: أحدالأقرباء
-pur_group-5: 'مقدم الطلب'
-pur_group-6: 'الخادم/السائق'
-gender-M: ذكر
-gender-f: أنثى
-Name: __Name
+'lang-E': 'انجليزي'
+'lang-A': 'arabic'
+'Language': 'اللغة المفضلة'
+'pur_group-1': 'الـــزوج'
+'pur_group-2': 'الـــزوجـــة'
+'pur_group-3': 'الأبـنـاء'
+'pur_group-4': 'أحدالأقرباء'
+'pur_group-5': 'مقدم الطلب'
+'pur_group-6': 'الخادم/السائق'
+'gender-M': 'ذكر'
+'gender-f': 'أنثى'
+'Name': 'الإسم'
 'Customer Status': 'حالة العميل'
 'Iktissab Card No': 'رقم بطاقة اكتساب'
-Area: 'الحي/المنطقة'
+'Area': 'الحي/المنطقة'
 'House Number': 'رقم المنزل'
 'PO Box': 'رقم صندوق البريد'
 'Zip Code': 'الرمز البريدي'
-City: 'المدينة'
+'City': 'المدينة'
 'Telephone (Home)': 'رقم الهاتف (المنزل)'
 'Telephone (Office)': 'رقم الهاتف (المكتب)'
-Mobile: 'رقم الجوال'
-Email: 'البريد الإلكتروني'
-Nationality: الجنسية
+'Mobile': 'رقم الجوال'
+'Email': 'البريد الإلكتروني'
+'Nationality': الجنسية
 'Marital Status': 'الحالة الإجتماعية'
 'Birthdate': 'تاريخ الميلاد'
 'Job Title': 'المسمى الوظيفي'
-Balance: 'رصيد العميل'
+'Balance': 'رصيد العميل'
 'Gender:': الجنس/النوع
-Shoppers: 'المتسوق'
+'Shoppers': 'المتسوق'
 'Customer Name': 'اسم العميل'
 'Iktissab ID': 'رقم بطاقة إكتساب'
 'Full name': 'الإسم'
@@ -50,9 +50,9 @@ Shoppers: 'المتسوق'
 'Married': 'متزوج'
 'Widow': 'أرملة'
 'Divorce': 'مطلق/مطلقة'
-'Husband': '	الـــزوج '
-'Wife': '	الـــزوجـــة	'
-'Children': '	الأبـنـاء	'
+'Husband': 'الـــزوج '
+'Wife': 'الـــزوجـــة'
+'Children': 'الأبـنـاء'
 'Relative': 'أحدالأقرباء'
 'Applicant': 'مقدم الطلب'
 'Servent': 'الخادم/السائق'
@@ -72,7 +72,7 @@ Shoppers: 'المتسوق'
 'Verification code:': ' Verification code: '
 'Changing account email': ' Changing account email'
 'The new email is already registered before , please enter a valid email': 'The new email is already registered before , please enter a valid email'
-'Please enter valid email address': 'Please enter valid email address'
+'Invalid email address': 'بريد الكتروني غير صحيح'
 'New Email and Confirm new email must be same': 'New Email and Confirm new email must be same'
 'New email and current email must not be the same': 'New email and current email must not be the same'
 'Your record is not updated': 'Your record is not updated'
@@ -82,7 +82,7 @@ Shoppers: 'المتسوق'
 'Registered SSN/Iqama': 'رقم الهوية / الإقامة المسجلة لدينا'
 'Comments': 'التعليق'
 'Update your mobile': 'تحديث رقم جوالك'
-'UpdateMobileSuccessfullUpdateMobileError': 'UpdateMobileSuccessfullUpdateMobileError'
+'UpdateMobileSuccessfull': 'UpdateMobileSuccessfull'
 'UpdateMobileError': 'UpdateMobileError'
 'UpdateIqamaSuccessfull': 'UpdateIqamaSuccessfull'
 'UpdateIqamaError': 'UpdateIqamaError'
@@ -109,7 +109,7 @@ Shoppers: 'المتسوق'
 'Invalid token detected.Please submit again': 'Invalid token detected.Please submit the form again ar'
 'You can update your full name through the following form': 'يمكنك تحديث معلوماتك عن طريق النموذج التالي'
 'This field is required': 'نرجو تعبئة هذه الخانة'
-'Password fields must match': 'Password fields must match ar'
+'Password fields must match': 'كلمة المرور غير مطابقة'
 'Update Password': 'تغيير كلمة المرور'
 'Enter Current Password': ' ادخل كلمة المرور الحالية'
 'New Password': 'كلمة المرور الجديدة'
@@ -119,6 +119,7 @@ Shoppers: 'المتسوق'
 "Select Job": "أختر المهنة"
 "Select Area": "أخترالحي"
 "Update Personal Information": "تحديث البيانات الشخصيه"
+"Jan": "Jan"
 "Result": "Result ar"
 "Convert to": "Convert to ar"
 "Result ( yyyy-MM-dd)": "Result ( yyyy-MM-dd) ar"
@@ -135,7 +136,7 @@ Shoppers: 'المتسوق'
 "Technical Support": " Technical support ar"
 "Ask your Question": "اسأل سؤالك"
 "Sorry , ": "عفوا، لم يتم التعرف على"
-" is not recognized as a user name or an e-mail address": "كاسم مستخدم أو عنوان بريد إلكتروني."
+"is not recognized as a user name or an e-mail address": "كاسم مستخدم أو عنوان بريد إلكتروني."
 "Forgot Password": "نسيت كلمة السر"
 "Dear Iktissab Customer": "عزيزي عميل اكتساب ،"
 "To change your password click here": "لقد طلبت إعادة ضبط كلمة المرور الخاصة بك على موقع اكتساب ، لإعادة ضبط كلمة المرور أنقر هنا"
@@ -145,6 +146,7 @@ Shoppers: 'المتسوق'
 "forgot password template 5": "نشكركم على زيارتكم لموقعنا"
 "forgot password template 6": "مع تحيات شركة اسواق العثيم"
 "Further instructions have been sent to your e-mail address": " تم إرسال توجيهات إضافية إلى بريدك الإلكتروني."
+"Email has not been sent": "Email has not been sent ar"
 "New Password and old password must not be the same": "New Password and old password must not be the same ar"
 "Your password has been reset successfully": "Your password has been reset successfully ar"
 "Reset your password here": "Reset your password here ar"
@@ -175,7 +177,7 @@ Shoppers: 'المتسوق'
 "Hijri": "هجري"
 "year_arabic": " سنة "
 "Year": " سنة "
-"Thankyou": 'thankyou arabic'
+"Thankyou": "thankyou arabic"
 "This Promotion Start From %s% To %e%": "هذا العرض يبدا من %s% وينتهى في  %e%"
 "Our Dear Customer": "عزيزى العميل"
 "We are pleased to be one of Alothaim Markets customers": "يسعدنا أن تكون أحد عملاء أسواق العثيم كما يسعدنا تلقي ملاحظاتكم واقتراحاتكم."
@@ -189,11 +191,10 @@ Shoppers: 'المتسوق'
 "Confirm Iktissab ID": "تأكيد رقم بطاقة اكتساب"
 "You have already make a change request .Hence cannot make a new request.": "عفواً لقد انهت الجلسة الخاصة بكم برجاء المحاولة مرة أخرى"
 "Iqama/SSN fields must match": "Iqama/SSN fields must match ar"
-"Your new and old password must not be the same": "Your new and old password must not be the same ar"
-"Password updated successfully": "Password updated successfully"
+"Your new and old password must not be the same": "Your new and old password must not be the same"
+"Your password is updated successfully": "Your password is updated successfully ar"
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same ar"
 "Your email address is not updated.Please try again": "Your email address is not updated.Please try again ar"
-"Your email is not updated.Please try again": "Your email is not updated.Please try again ar"
 "about iktissab": "عن اكتساب"
 "about us": "لماذا نحن"
 "sharia complient": "متوافق مع الشريعة"
@@ -259,7 +260,7 @@ Shoppers: 'المتسوق'
 "Country": "الجنسية"
 "Card Status": "Card Status"
 "You can update your mobile with the new one through the following form": "You can update your mobile with the new one through the following form"
-"Update Information": "Update Information"
+"Update Information": "تحديث البيانات"
 "Home": "الرئيسية"
 "Profile has been updated": "Profile has been updated ar"
 "Jan": "يناير"
@@ -328,7 +329,7 @@ Shoppers: 'المتسوق'
 "Unable to update record": "Unable to update record ar"
 "Full name must be of atleast two parts": "Full name must be of atleast two parts ar"
 'An invalid exception occurred': 'An invalid exception occurred ar'
-'Please enter valid Iktissab id and iqama/SSN': 'Please enter valid Iktissab id and iqama/SSN ar'
+'Please enter valid Iktissab id and Iqama Id/SSN': 'Please enter valid Iktissab id and Iqama Id/SSN ar'
 'Information': "معلوماتي"
 'Iktissab password Recovery': 'استعادة كلمة المرور الخاصة برصيد اكتساب'
 'Enter Iktissab ID': 'أدخل رقم بطاقة إكتساب'
@@ -341,8 +342,54 @@ Shoppers: 'المتسوق'
 'Last Used': 'أخر استخدام'
 'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** ar'
 'SAR': 'ريال'
-
-
+'Sorry! The page your requesting is not available': 'Sorry! The page you are requesting is not available ar'
+'SMS sent successfully': 'SMS sent successfully'
+'SMS not sent.Please try again': 'SMS not sent.Please try again'
+'The given email is not a registered email': 'The given email is not a registered email'
+'Invalid Iqama Id / SSN. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN. Please enter correct Iqama Id/SSN'
+'Invalid Iqama Id/SSN Number': 'Invalid Iqama Id/SSN Number ar'
+'Error While processing your request': 'Error While processing your request ar'
+'Please enter valid Iqama Id/SSN': 'Please enter valid Iqama Id/SSN ar'
+'Please enter correct Iqama Id/SSN': 'Please enter correct Iqama Id/SSN'
+'Your account registration email is %s': 'Your account registration email is %s'
+'Card is not registered on website': 'Card is not registered on website ar'
+'Unable to update record.Please submit the form again': 'Unable to update record.Please submit the form again'
+'Unable to update name': 'Unable to update name ar'
+'Please provide valid Iktissab Id': 'Please provide valid Iktissab Id'
+'Iktissab Id must start with 5 for Egypt': 'Iktissab Id must start with 5 for Egypt'
+'Iktissab Id must start with 9 for Saudi Arabia': 'Iktissab Id must start with 9 for Saudi Arabia'
+'No record found': 'No record found ar'
+'Dear Customer, you have already make submission for this form.': 'Dear Customer, you have already make submission for this form.'
+'Information': 'Information'
+'Please reset your iktissab account password': 'Please reset your iktissab account password'
+'Users Activity Logs': 'Users Activity Logs'
+'Action Date': 'Action Date'
+'Action': 'Action'
+'View Details': 'View Details'
+'Invalid Iktissab Card Number': 'رقم بطاقة اكتساب غير صحيح'
+'Invalid captcha code': 'لكلمة التحقق غير صحيحة'
+'Please enter 9 digits mobile number starting with 5': 'Please enter 9 digits mobile number starting with 5 ar'
+'Please enter 10 digits mobile number starting with 1': 'Please enter 10 digits mobile number starting with 1 ar'
+'Invalid Credentials': 'معلومات الدخول خاطئة'
+'birthdate': 'birthdate'
+'Please enter the sms code': 'Please enter the sms code'
+'Gregorian': 'Gregorian'
+'Iktissab Id': 'Iktissab Id'
+'Details': 'Details'
+'Manage Users': 'Manage Users'
+'Creation Date': 'Creation Date'
+'Dear': 'Dear'
+'Your account has been created at iktissab you can login using the details below': 'Your account has been created at iktissab you can login using the details below'
+'Username': 'Username'
+'Abdullah Al Othaim Markets Company, Riyadh': 'Abdullah Al Othaim Markets Company, Riyadh'
+'Question': 'Question'
+'link': 'link'
+'PO BOX': 'PO BOX'
+'update lost card': 'update lost card'
+'Unable to process your request.Please try later': 'Unable to process your request.Please try later ar'
+'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number ar **** %s'
+'Signup': 'تسجيل'
+'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now ar'
 
 
 

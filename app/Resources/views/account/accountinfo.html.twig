@@ -1,19 +1,17 @@
 {% block headerhome %}
     {{ parent() }}
-
-
 {% endblock %}
 
 <table class="table table-bordered">
 
 
     <tr>
-        <td colspan="3" class="col-lg-12 eservice-content-company-title"> Information</td>
+        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Information'|trans }} </td>
     </tr>
     <tr>
         <td class="col-lg-4">
             <div class="ikt-info-wrapper">
-                <div class="img-ikt-info">sdsd<img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
+                <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
                     <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used'] }}</div>

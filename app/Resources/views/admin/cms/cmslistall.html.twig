@@ -5,15 +5,12 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 ">
            <div class="addNew">
-               <a href="{{ path('admin_home')}}">ADD Pages</a></div>
-                <div class="header-title-wrapper_settings">
-                     {{ message }}
-                </div>
+               <a href="{{ path('admin_home')}}">ADD Pages</a>
+           </div>
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12">
             <table class="table">
-
                 <thead>
                 <tr>
                     <th>S.no</th>
@@ -26,7 +23,7 @@
             {% set i = 1 %}
             {% for item in data %}
                 <tr>
-                    <td>{{  i }}</td>
+                    <td>{{ i }}</td>
                     <td>{{  item.Atitle }}</td>
 
                     <td>{{  item.Status }}</td>

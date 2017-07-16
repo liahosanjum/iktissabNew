@@ -1,21 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block headerhome %}
+    {{ parent() }}
+{% endblock %}
 
 
 
-    <section class="container">
-        app/Resources/TwigBundle/views/Exception/error404.html.twig<br />
-        app/Resources/TwigBundle/views/Exception/error.html.twig
+  {% block top_menu %}
+      {{ parent() }}
+  {% endblock %}
+    {% block main_menu %}
+        {{ parent() }}
+    {% endblock %}
 
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 se-error">
-                <img src="{{ asset("front/images/404.png") }}" />
-                <h2 class="text-center">عذراً لقد حدث خطأ ما ..!!</h2>
-                <h3 class="text-center ">يمكنك التوجه إلى</h3>
-                <ul class="list-inline nopadding nomargin">
-                    {#<li><a href="{{ path('homepage') }}">الصفحة الرئيسية</a></li>#}
-                    {#<li><a href="{{ path('sitemap') }}">خريطة الموقع</a></li>#}
-                </ul>
+    {% block body %}
+        <div class="container err404">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 errorPage">
+                    <div class="text-center err-img"><img src="{{ asset("error/404.png") }}" /></div>
+                    <h2 class="text-center">
+                        {{ 'Sorry! The page your requesting is not available'|trans }}404
+                    </h2>
+
+
+                    <ul class="list-inline nopadding nomargin">
+                        {#<li><a href="{{ path('homepage') }}">الصفحة الرئيسية</a></li>#}
+                        {#<li><a href="{{ path('sitemap') }}">خريطة الموقع</a></li>#}
+                    </ul>
+                </div>
             </div>
         </div>
+    {% endblock %}
 
-    </section>
+{% block copyrightfooter %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

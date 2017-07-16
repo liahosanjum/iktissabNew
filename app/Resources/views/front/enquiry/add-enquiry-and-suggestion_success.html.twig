@@ -1,13 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if app.request.cookies.get('c_locale') == "en" %}
-        {%  set side = 'right'  %}
-    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
-        {%  set side = 'left'  %}
-    {% else %}
-        {%  set side = 'left'  %}
-    {% endif %}
     <section class="container breadcrum-wrapper">
         <div class="row">
             <div class="breadcrumb">

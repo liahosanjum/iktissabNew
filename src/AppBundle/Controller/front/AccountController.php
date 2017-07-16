@@ -23,9 +23,11 @@ use AppBundle\Form\UpdateFullnameType;
 use AppBundle\Form\UpdatePasswordType;
 use AppBundle\Form\MissingCardType;
 use AppBundle\HijriGregorianConvert;
+use Circle\RestClientBundle\Exceptions\CurlException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -53,167 +55,203 @@ class AccountController extends Controller
 
     public function myAccountAction(Request $request)
     {
-        $response  = new Response();
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-        }
 
-
-        /****************/
-
-         $commFunct = new FunctionsController();
-         if($commFunct->checkSessionCookies($request) == false){
-             return $this->redirect($this->generateUrl('landingpage'));
-         }
-
-         $userLang = '';
-         $locale = $request->getLocale();
-
-         if ($request->query->get('lang')) {
-             $userLang = trim($request->query->get('lang'));
-         }
-         if ($userLang != '' && $userLang != null) {
-             if($userLang == $locale) {
-                 $commFunct->changeLanguage($request, $userLang);
-                 $locale = $request->getLocale();
-             } else {
-                 if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                     return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
-                 }
-             }
-         }
-
-
-
-         $userCountry = '';
-         if($request->query->get('ccid')) {
-             $userCountry = $request->query->get('ccid');
-         }
-         $country = $request->get('_country');
-         if ($userCountry != '' && $userCountry != null) {
-             if($userCountry == $country) {
-                 $commFunct->changeCountry($request, $userCountry);
-                 $country = $request->get('_country');}
-             else {
-                 if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
-                     return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
-                 }
-             }
-         }
-
-         if($request->cookies->get(AppConstant::COOKIE_LOCALE))
-         {
-             $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-             $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-
-             if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
-                 return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-             }
-             if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
-                 return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-             }
-         }
-
-
-        /****************/
-
-        // todo:
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $commFunct->checkSessionCookies($request) ;
-            if ($commFunct->checkSessionCookies($request) == false) {
-                return $this->redirect($this->generateUrl('landingpage'));
-            }
-
-        }else {
-
-
-            $restClient = $this->get('app.rest_client');
-            if (!$this->get('session')->get('iktUserData')) {
-                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
-                // echo AppConstant::WEBAPI_URL.$url;
-                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                if ($data['success'] == "true") {
-                    $this->get('session')->set('iktUserData', $data['user']);
+        try {
+                $activityLog      = $this->get('app.activity_log');
+                $response = new Response();
+                if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
                 }
-            }
+                // when everything is fine message is empty
+                $message = '';
+                /****************/
+                $commFunct = new FunctionsController();
+                if ($commFunct->checkSessionCookies($request) == false) {
+                    return $this->redirect($this->generateUrl('landingpage'));
+                }
 
-            // $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                $userLang = '';
+                $locale = $request->getLocale();
 
-            // echo AppConstant::WEBAPI_URL.$url;
+                if ($request->query->get('lang')) {
+                    $userLang = trim($request->query->get('lang'));
+                }
+                if ($userLang != '' && $userLang != null) {
+                    if ($userLang == $locale) {
+                        $commFunct->changeLanguage($request, $userLang);
+                        $locale = $request->getLocale();
+                    } else {
+                        if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                            return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                        }
+                    }
+                }
 
-            // $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
 
-            // print_r($data);
+                $userCountry = '';
+                if ($request->query->get('ccid')) {
+                    $userCountry = $request->query->get('ccid');
+                }
+                $country = $request->get('_country');
+                if ($userCountry != '' && $userCountry != null) {
+                    if ($userCountry == $country) {
+                        $commFunct->changeCountry($request, $userCountry);
+                        $country = $request->get('_country');
+                    } else {
+                        if ($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                            return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                        }
+                    }
+                }
 
-            
-            
-            $data_array = '';
+                if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                    $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                    $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
 
-            $iktUserData      = $this->get('session')->get('iktUserData');
-            $url_trans_count  = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
-            $data_trans_count = $restClient->restGet(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
-            // print_r($data_trans_count);
-            
-            if($data_trans_count != "" && $data_trans_count != null)
-            {
-                if ($data_trans_count['success'] == true && $data_trans_count['status'] == 1) {
-                    // echo AppConstant::WEBAPI_URL.$url;
-                    $url_trans_count  = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customermonthtlysales.json';
-                    $data_transaction = $restClient->restGet(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
-                    var_dump($data_transaction);
-                    $i = 0;
-                    $year  = date('Y');
-                    $month = date('m');
-                    $year_later = mktime(0, 0, 0, $month, 30, $year-1);
-                    // $year_later = mktime(0, 0, 0, $month, 30, $year);-1
-                    if($data_transaction != "" && $data_transaction != null) {
-                        foreach ($data_transaction['data_user'] as $data_transactions)
-                        {
-                            $i++;
-                            print_r($data_transactions);
-                            // $data_transactions['trans_date'];
-                            $date_current = mktime(0, 0, 0, $data_transactions['Mnth'], 30, $data_transactions['YR']);
-                            if($date_current > $year_later) {
-                                $data_array[$i]['c_id']   = $data_transactions['c_id'];
-                                $data_array[$i]['YR']     = $data_transactions['YR'];
-                                //$data_array[$i]['Mnth'] = $data_transactions['Mnth'];
-                                $data_array[$i]['Mnth']   = $this->getMonth($data_transactions['Mnth'],$data_transactions['YR'],$request->cookies->get(AppConstant::COOKIE_LOCALE));
-                                $data_array[$i]['Sales']  = $data_transactions['Sales'];
+                    if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                    }
+                    if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                    }
+                }
+
+
+                /****************/
+
+                // todo:
+                if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $commFunct->checkSessionCookies($request);
+                    if ($commFunct->checkSessionCookies($request) == false) {
+                        return $this->redirect($this->generateUrl('landingpage'));
+                    }
+
+                } else {
+
+
+                    $restClient = $this->get('app.rest_client');
+                    if (!$this->get('session')->get('iktUserData')) {
+                        $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                        // echo AppConstant::WEBAPI_URL.$url;
+                        $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                        // print_r($data);
+                        if($data['status'] == 1) {
+                            // response is ok from services
+                            if ($data['success'] == "true") {
+                                // data is also present from services
+                                $this->get('session')->set('iktUserData', $data['user']);
                             }
+                            else{
+                                // no data is presenet on the services
+                                $message = $data['message'];
+                            }
+                        }
+                        else{
+                            // exception occrured from the services side
+                            $data = '';
+                            $message = $this->get('translator')->trans('An invalid exception occurred');
+                        }
+                    }
+
+
+                    // print_r($data);
+
+
+                    $data_array = '';
+
+                    $iktUserData = $this->get('session')->get('iktUserData');
+
+                    $url_trans_count = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
+                    $data_trans_count = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
+                    print_r($data_trans_count);
+                    if($data_trans_count['status'] == 1) {
+                        if ($data_trans_count != "" && $data_trans_count != null) {
+                            if ($data_trans_count['success'] == true && $data_trans_count['status'] == 1) {
+                                // echo AppConstant::WEBAPI_URL.$url;
+                                $url_trans_count = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customermonthtlysales.json';
+                                $data_transaction = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
+                                //var_dump($data_transaction);
+                                if ($data_transaction['status'] == 1) {
+                                    if ($data_transaction['success'] == true) {
+                                        $i = 0;
+                                        $year = date('Y');
+                                        $month = date('m');
+                                        $year_later = mktime(0, 0, 0, $month, 30, $year - 1);
+                                        // $year_later = mktime(0, 0, 0, $month, 30, $year);-1
+                                        if ($data_transaction != "" && $data_transaction != null) {
+                                            foreach ($data_transaction['data_user'] as $data_transactions) {
+                                                $i++;
+                                                //print_r($data_transactions);
+                                                // $data_transactions['trans_date'];
+                                                $date_current = mktime(0, 0, 0, $data_transactions['Mnth'], 30, $data_transactions['YR']);
+                                                if ($date_current > $year_later) {
+                                                    $data_array[$i]['c_id'] = $data_transactions['c_id'];
+                                                    $data_array[$i]['YR'] = $data_transactions['YR'];
+                                                    //$data_array[$i]['Mnth'] = $data_transactions['Mnth'];
+                                                    $data_array[$i]['Mnth'] = $this->getMonth($data_transactions['Mnth'], $data_transactions['YR'], $request->cookies->get(AppConstant::COOKIE_LOCALE));
+                                                    $data_array[$i]['Sales'] = $data_transactions['Sales'];
+                                                }
+                                            }
+                                        } else {
+                                            $data_array = "";
+                                            $message = $this->get('translator')->trans('An invalid exception occurred');
+                                        }
+                                    } else {
+                                        $data_array = "";
+                                        $message = $data_transaction['message'];
+                                    }
+
+
+                                } else {
+                                    $data_array = "";
+                                    $message = $this->get('translator')->trans('An invalid exception occurred');
+
+                                }
+
+                            } else {
+                                $data_array = "";
+                                $message = $data_trans_count['message'];
+                            }
+                        } else {
+                            $data_array = "";
+                            $message = $this->get('translator')->trans('An invalid exception occurred');
                         }
                     }
                     else
                     {
                         $data_array = "";
+                        $message = $data_trans_count['message'];
                     }
+                        // var_dump($data_transaction);
+                    // var_dump($data_array);
+                    // array_multisort($data_array,SORT_DESC,SORT_NUMERIC);
+
+                    // YarMuhammad@1951
+                    // Sohail_anjum198
+                    //$this->sksort($data_array, "YR");
+                    //$this->sksort($data_array, "Mnth");
+
+
+                    return $this->render('/account/home.html.twig', array('iktData' => $iktUserData, 'iktTransData' => $data_array,
+                    'message' => $message
+
+                    ));
                 }
-                else
-                {
-                    $data_array = "";
-                }
-            } else {
-                $data_array = "";
-            }
-             // var_dump($data_transaction);
-             // var_dump($data_array);
-             // array_multisort($data_array,SORT_DESC,SORT_NUMERIC);
-
-
-            //$this->sksort($data_array, "YR");
-            //$this->sksort($data_array, "Mnth");
-
-
-
-
-
-
-            return $this->render('/account/home.html.twig', array('iktData' => $iktUserData , 'iktTransData' => $data_array  )
-            );
-
-
-
+        }
+        catch(Exception $e){
+            
+            $activityLog->logEvent(AppConstant::ACTIVITY_ACCOUNT_HOME_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
+            $message = $this->get('translator')->trans('An invalid exception has occurred');
+            return $this->render('/account/home.html.twig', array('iktData' => '', 'iktTransData' => '', 'message' => $message ));
+        }
+        catch(AccessDeniedException $ed){
+            $message =  $this->get('translator')->trans($ed->getMessage());
+            $activityLog->logEvent(AppConstant::ACTIVITY_ACCOUNT_HOME_ERROR, '' , array('iktissab_card_no' => '', 'message' => $ed->getMessage(), 'session' => '' ));
+            return $this->render('/account/home.html.twig', array('iktData' => '', 'iktTransData' => '', 'message' => $message ));
         }
     }
+
+
 
     public function getMonth($m,$y,$lang){
         $request = new Request();
@@ -294,7 +332,7 @@ class AccountController extends Controller
             }
         }
         $iktUserData = $this->get('session')->get('iktUserData');
-        return $this->render('/account/accountinfo.html.twig',
+        return $this->render('/account/home.html.twig',
             array('iktData' => $iktUserData)
         );
     }
@@ -306,23 +344,70 @@ class AccountController extends Controller
 
     public function personalInfoAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-        }
-        $restClient = $this->get('app.rest_client');
-        if(!$this->get('session')->get('iktUserData'))
+        $activityLog = $this->get('app.activity_log');
+
+        try
         {
-            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
-            // echo AppConstant::WEBAPI_URL.$url;
-            $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
-            if($data['success'] == "true") {
-                $this->get('session')->set('iktUserData', $data['user']);
+
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
             }
+            $restClient = $this->get('app.rest_client');
+            if (!$this->get('session')->get('iktUserData')) {
+                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if($data['status'] == 1) {
+                    if($data['success'] == "true") {
+                        $this->get('session')->set('iktUserData', $data['user']);
+                    }
+                }
+                else
+                {
+                    if($data['status'] == 0)
+                    {
+                        // we will not show data to user due to exception error
+                        $iktUserData = '';
+                        $message = $this->get('translator')->trans($data['message']);
+                        $errorcl = 'alert-danger';
+                        return $this->render('/account/personalinfo.html.twig',
+                            array('iktData' => $iktUserData , 'message' => $message ,
+                                'errorcl' => $errorcl));
+                    }
+                    else
+                    {
+                        $iktUserData =  '' ;
+                        $message = $this->get('translator')->trans('An invalid exception occurred');
+                        $message = $message;
+                        $errorcl = 'alert-danger';
+                        return $this->render('/account/personalinfo.html.twig', array('iktData' => $iktUserData , 'message' => $message ,
+                            'errorcl' => $errorcl
+                        ));
+                    }
+                }
+
+            }
+            $iktUserData = $this->get('session')->get('iktUserData');
+            return $this->render('/account/personalinfo.html.twig',
+                array('iktData' => $iktUserData)
+            );
         }
-        $iktUserData = $this->get('session')->get('iktUserData');
-        return $this->render('/account/personalinfo.html.twig',
-            array('iktData' => $iktUserData)
-        );
+        catch(Exception $e)
+        {
+            $iktUserData =  $this->get('session')->get('iktUserData');
+            $activityLog->logEvent(AppConstant::ACOUNR_PERSONAL_INFO_ERROR, 'personalinfo', array('iktissab_card_no' => '', 'message' => $e->getMessage(), 'session' => $iktUserData));
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $errorcl = 'alert-danger';
+            return $this->render('/account/personalinfo.html.twig', array('iktData' => $iktUserData , 'message' => $message ,
+                'errorcl' => $errorcl
+                ));
+        }
+        catch(AccessDeniedException $ed){
+            $message =  $this->get('translator')->trans($ed->getMessage());
+            $activityLog->logEvent(AppConstant::ACOUNR_PERSONAL_INFO_ERROR, '' , array('iktissab_card_no' => '', 'message' => $ed->getMessage(), 'session' => '' ));
+            return $this->render('/account/home.html.twig', array('iktData' => '', 'iktTransData' => '', 'message' => $message ));
+        }
+
     }
 
 
@@ -393,7 +478,7 @@ class AccountController extends Controller
                     'field'     =>   'email',
                     'new_value' =>   $data['update_email']['newemail']['first'],
                     'old_value' =>   $currentEmail,
-                    'comments'  =>    $this->get('translator')->trans('Update user account email')
+                    'comments'  =>   'Update user account email'
                 );
                 // print_r($form_data[0]);exit;
                 $this->get('session')->set('new_value', $data['update_email']['newemail']['first']);
@@ -407,6 +492,7 @@ class AccountController extends Controller
                 /****/
                 //check email exist
                 /****/
+
 
                 if(!empty($email_val)) {
                     if ($email_val['success']) {
@@ -453,7 +539,7 @@ class AccountController extends Controller
                             // sending sms
                             $otp = rand(111111, 999999);
                             $this->get('session')->set('smscode', $otp);
-                            $message = "Please enter the verification code you received on your mobile number ******" . substr($mobile, 6, 10) . $otp;
+                            $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10) . $otp;
                             $smsmessage = $this->get('translator')->trans("Verification code:") . $otp . $this->get('translator')->trans("Changing account email");
                             $smsService = $this->get('app.sms_service');
                             $MsgID = rand(1, 99999);
@@ -482,7 +568,7 @@ class AccountController extends Controller
                     }
                 }else{
 
-                    $message =$this->get('translator')->trans('An invalid exception occurred');
+                    $message =$this->get('translator')->trans('The given email is not a registered email');
                     $errorcl = 'alert-danger';
                     $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                     return $this->render('account/email.html.twig',
@@ -504,8 +590,9 @@ class AccountController extends Controller
         {
             $errorcl = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' =>$e->getMessage(), 'session' => $iktUserData));
+
             return $this->render('account/email.html.twig',
-                array('form' => $form->createView(),  'message' => $this->get('translator')->trans('An invalid exception occurred1212') , 'errorcl' => $errorcl )
+                array('form' => $form->createView(),  'message' => $e->getMessage() , 'errorcl' => $errorcl )
             );
         }
 
@@ -551,7 +638,7 @@ class AccountController extends Controller
                 //echo '<br>';
 
                 $data = array();
-                $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
                 // echo $data['update_fields'];
                 // var_dump($data);
                 // exit;
@@ -565,7 +652,7 @@ class AccountController extends Controller
                             if ($request->getLocale() == 'ar') {
                                 $first = 'تم تحديث بريدكم الإلكتروني. نأمل استخدام البريد';
                                 $last  = 'عند الدخول إلى الموقع مرة أخرى';
-                                $message = $last . '( ' . $this->get('session')->get("new_value") . ' )' . $first;
+                                $message = $first . '( ' . $this->get('session')->get("new_value") . ' )' . $last;
                                 // todo:enable it
                                 // $message = $this->get('translator')->trans('Your email is updated. Next time, please use the ( ' . $this->get('session')->get("new_value") . ') address for signing to the website  ');
                             } else {
@@ -593,7 +680,7 @@ class AccountController extends Controller
                         }
                         else
                         {
-                            $message = $this->get('translator')->trans('An invalid exception occurred');
+                            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                             $errorcl = 'alert-danger';
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                             return $this->render('account/sendsmssuccess.html.twig',
@@ -639,7 +726,7 @@ class AccountController extends Controller
                     }
                     else
                     {
-                        $message = $this->get('translator')->trans('An invalid exception occurred');
+                        $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                         $errorcl = 'alert-danger';
                         return $this->render('account/sendsmssuccess.html.twig',
                             array('message' => $message , 'errorcl' => $errorcl )
@@ -656,7 +743,7 @@ class AccountController extends Controller
                     );
                 }
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $message = $e->getMessage();
             $errorcl = 'alert-danger';
@@ -666,14 +753,25 @@ class AccountController extends Controller
                     )
             );
         }
+        catch (AccessDeniedException $ed)
+        {
+            $message =  $ed->getMessage();
+            $errorcl =  'alert-danger';
+            return $this->render('account/sendsmssuccess.html.twig',
+                array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message,
+                    'errorcl' => $errorcl
+                )
+            );
+        }
     }
 
     private function checkEmail($email,$Country_id)
     {
-        //  $em = $this->getDoctrine()->getManager("default2");
         try
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            // $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
+
             $conn = $em->getConnection();
             $queryBuilder = $conn->createQueryBuilder();
             $country_id   = strtolower($Country_id);
@@ -702,7 +800,8 @@ class AccountController extends Controller
     {
         try
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            // $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $conn = $em->getConnection();
             $email = $email;
             $Country_id = $Country_id;
@@ -746,14 +845,12 @@ class AccountController extends Controller
      */
     public function userMobileAction(Request $request)
     {
-
         try
         {
 
             $activityLog = $this->get('app.activity_log');
             // check user
             // var_dump($this->get('session'));
-
             $country_id = $request->get('_country');
             $language   = $request->getLocale();
             // echo '===='.$this->get('session')->get('userSelectedCountry');
@@ -761,7 +858,6 @@ class AccountController extends Controller
             $iktUserData = $this->get('session')->get('iktUserData');
             // print_r($iktUserData);exit;
             $data = $request->request->all();
-
             if($country_id == 'eg') {
                 $country_id = 'eg';
             }
@@ -795,7 +891,7 @@ class AccountController extends Controller
                     $extension = '0';
                     if($iktID_no != $iqamaid_mobile)
                     {
-                        $message = $this->get('translator')->trans('Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN');
+                        $message = $this->get('translator')->trans('Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSN');
                         $errorcl = 'alert-danger';
                         return $this->render('account/mobile.html.twig',
                             array('form' => $form->createView(), 'country' => $country_id,   'message' => $message , 'errorcl' => $errorcl));
@@ -830,44 +926,53 @@ class AccountController extends Controller
                 );
                 $postData = json_encode($form_data);
                 $request->get('_country');
-                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                // print_r($data);exit;
-                if(!empty($data))
-                {
-                    if ($data['success'] == true) {
-                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
-                        $message = $this->get('translator')->trans($data['message']);
-                        $errorcl = 'alert-success';
-                        return $this->render('account/mobile.html.twig',
-                            array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
-                        );
-                    }
-                    if ($data['success'] == false) {
-                        if ($data['status'] == 1) {
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
+                try {
+
+
+                    $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                    // print_r($data); exit;
+                    if (!empty($data)) {
+                        if ($data['success'] == true) {
+                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
                             $message = $this->get('translator')->trans($data['message']);
-                            $errorcl = 'alert-danger';
-                            return $this->render('account/mobile.html.twig',
-                                array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
-                            );
-                        } else {
-                            // INVALID_DATA SECTION
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
-                            $message = $this->get('translator')->trans($data['message']);
-                            $errorcl = 'alert-danger';
+                            $errorcl = 'alert-success';
                             return $this->render('account/mobile.html.twig',
                                 array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
                             );
                         }
+                        if ($data['success'] == false) {
+                            if ($data['status'] == 1) {
+                                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
+                                $message = $this->get('translator')->trans($data['message']);
+                                $errorcl = 'alert-danger';
+                                return $this->render('account/mobile.html.twig',
+                                    array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
+                                );
+                            } else {
+                                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
+                                $message = $this->get('translator')->trans($data['message']);
+                                $errorcl = 'alert-danger';
+                                return $this->render('account/mobile.html.twig',
+                                    array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
+                                );
+                            }
+                        }
+                    } else {
+                        $message = $this->get('translator')->trans('Unable to update record');
+                        //$activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                        $errorcl = 'alert-danger';
+                        return $this->render('account/mobile.html.twig',
+                            array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
+                        );
                     }
                 }
-                else
+                catch (Exception $e)
                 {
-                    $message = $this->get('translator')->trans('Unable to update record');
-                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
+                    $message = $this->get('translator')->trans('An invalid exception occurred');
                     $errorcl = 'alert-danger';
                     return $this->render('account/mobile.html.twig',
-                        array('form' => $form->createView(), 'country' => $country_id, 'message' => $message, 'errorcl' => $errorcl)
+                        array('form' => $form->createView(),'country' => $country_id,'message' => $message,'errorcl' => $errorcl)
                     );
                 }
             }
@@ -882,11 +987,19 @@ class AccountController extends Controller
                 );
             }
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
             $message = $this->get('translator')->trans('An invalid exception occurred');
-            // echo $e->getMessage();
+            $errorcl = 'alert-danger';
+            return $this->render('account/mobile.html.twig',
+                array('form' => $form->createView(),'country' => $country_id,'message' => $message,'errorcl' => $errorcl)
+            );
+        }
+        catch (AccessDeniedException $ed)
+        {
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, '' , array('iktissab_card_no' => '', 'message' => $ed->getMessage(), 'session' => ''));
+            $message = $this->get('translator')->trans($ed->getMessage());
             $errorcl = 'alert-danger';
             return $this->render('account/mobile.html.twig',
                 array('form' => $form->createView(),'country' => $country_id,'message' => $message,'errorcl' => $errorcl)
@@ -993,13 +1106,24 @@ class AccountController extends Controller
                 );
             }
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
              $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
-             $message = $e->getMessage(); //$this->get('translator')->trans('An invalid exception has occurred');
+             // removed custom messages
+             // $message = $this->get('translator')->trans('Unable to update name');
+             $message = $this->get('translator')->trans($e->getMessage());
              $errorcl = 'alert-danger';
              return $this->render('account/fullname.html.twig',
                 array( 'form' => $form->createView() ,  'message' => $message , 'errorcl' => $errorcl ));
+        }
+        catch (AccessDeniedException $ed)
+        {
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $ed->getMessage(), 'session' => $iktUserData));
+            $message = $this->get('translator')->trans($ed->getMessage());
+            $errorcl = 'alert-danger';
+            return $this->render('account/fullname.html.twig',
+                array('form' => $form->createView(),'message' => $message,'errorcl' => $errorcl)
+            );
         }
     }
 
@@ -1050,8 +1174,9 @@ class AccountController extends Controller
                     }
 
                     $validateIqama = $this->validateIqama($iqamassn_new);
+
                     if($validateIqama == false){
-                        $message = $this->get('translator')->trans('Invalid Iqama/SSN Number');
+                        $message = $this->get('translator')->trans('Invalid Iqama Id/SSN Number');
                         $errorcl = 'alert-danger';
                         return $this->render('account/iqamassn.html.twig',
                             array('form' => $form->createView(),'message' => $message,'errorcl' => $errorcl));
@@ -1102,16 +1227,13 @@ class AccountController extends Controller
                     }
                 else
                 {
-                    $message = $this->get('translator')->trans('Unable to update name');
+                    $message = $this->get('translator')->trans('Unable to update your information');
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-
                     $errorcl = 'alert-danger';
                     return $this->render('account/iqamassn.html.twig',
                         array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                     );
                 }
-
-
             }
             else
             {
@@ -1122,10 +1244,19 @@ class AccountController extends Controller
                 );
             }
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
             $message =  $this->get('translator')->trans('An invalid exception occurred');
+            $errorcl = 'alert-danger';
+            return $this->render('account/iqamassn.html.twig',
+                array('form' => $form->createView(), 'iktData' => $iktUserData,   'message' => $message, 'errorcl' => $errorcl)
+            );
+        }
+        catch (AccessDeniedException $ed)
+        {
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $ed->getMessage(), 'session' => $iktUserData));
+            $message = $this->get('translator')->trans($ed->getMessage());
             $errorcl = 'alert-danger';
             return $this->render('account/iqamassn.html.twig',
                 array('form' => $form->createView(), 'iktData' => $iktUserData,   'message' => $message, 'errorcl' => $errorcl)
@@ -1194,16 +1325,16 @@ class AccountController extends Controller
                     $em->persist($userInfoLoggedIn);
                     $em->flush();
                     $tokenStorage->getToken()->getUser()->setPassword(md5($form->get('new_password')->getData()));
-                    $messageLog = $this->get('translator')->trans('Password updated successfully');
+                    $messageLog = $this->get('translator')->trans('Your password is updated successfully');
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
-                    $message = $this->get('translator')->trans('Password updated successfully');
+                    $message = $this->get('translator')->trans('Your password is updated successfully');
                     $errorcl = 'alert-success';
                     return $this->render('account/updatepassword.html.twig',
                         array('form1' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl));
                 }
                 else
                 {
-                    $message = $this->get('translator')->trans('Invalid token detected.Please submit again');
+                    $message = $this->get('translator')->trans('Unable to update your information');
                     $errorcl = 'alert-danger';
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                     return $this->render('account/updatepassword.html.twig',
@@ -1218,15 +1349,15 @@ class AccountController extends Controller
                     array('form1' => $form->createView(), 'message' => $message , 'errorcl' => $errorcl));
             }
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
-            $e->getMessage();
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
             $errorcl = 'alert-danger';
-
+            $message = $this->get('translator')->trans('An invalid exception occurred');
             return $this->render('account/updatepassword.html.twig',
-                array('form1' => $form->createView(), 'message' => $this->get('translator')->trans('An invalid exception occurred') , 'errorcl' => $errorcl));
+                array('form1' => $form->createView(), 'message' => $message , 'errorcl' => $errorcl));
         }
+
 
     }
 
@@ -1238,131 +1369,168 @@ class AccountController extends Controller
      */
     public function updateProfileAction(Request $request)
     {
-        $user = $this->get('session')->get('iktUserData');
-        $restClient = $this->get('app.rest_client');
-        $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
-        $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        $cities = $cities_jobs_area['cities'];
-        $citiesArranged = array();
-        foreach ($cities as $key => $value) {
-            $citiesArranged[$value['name']] = $value['city_no'];
-        }
-        $jobs = $cities_jobs_area['jobs'];
-        $jobsArranged = array();
-        foreach ($jobs as $key => $value) {
-            $jobsArranged[$value['name']] = $value['job_no'];
-        }
-        $areas = $cities_jobs_area['areas'];
-        $areasArranged = array();
-        foreach ($areas as $key => $value) {
-            if (!isset($value['name'])) {
-                continue;
+        try
+        {
+            $user = $this->get('session')->get('iktUserData');
+            $restClient = $this->get('app.rest_client');
+            $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+            $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            $cities = $cities_jobs_area['cities'];
+            $citiesArranged = array();
+            foreach ($cities as $key => $value) {
+                $citiesArranged[$value['name']] = $value['city_no'];
             }
-            $areasArranged[$value['name']] = $value['name'];
-        }
-        $areasArranged['-1'] = '-1';
-        $areas = $this->json($cities_jobs_area['areas']);
-        $birthdate = explode('/', $user['birthdate']);
-        if ($birthdate[2] > 1850) {
-            $dateType = 'g';
-            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
-            $dob = $date->format(AppConstant::DATE_FORMAT);
-            $dob_h = '';
-        } else {
-            $dateType = 'h';
-            $dob = '';
-            $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
-            $dob_h = $date->format(AppConstant::DATE_FORMAT);
-        }
-        $dataArr = array(
-            'date_type' => $dateType,
-            'job_no' => $user['job_no'],
-            'maritial_status' => $user['marital_status_en'][0],
-            'language' => $user['lang'],
-            'city_no' => $user['city_no'],
-            'pur_group' => $user['pur_grp'],
-            'dob' => new \DateTime($dob),
-            'dob_h' => new \DateTime($dob_h),
-        );
-
-        $form = $this->createForm(IktUpdateType::class, $dataArr, array(
-                'additional' => array(
-                    'locale' => $request->getLocale(),
-                    'country' => $request->get('_country'),
-                    'cities' => $citiesArranged,
-                    'jobs' => $jobsArranged,
-                    'areas' => $areasArranged,
-                )
-            )
-        );
-        $reference_year = array('gyear' => 2017, 'hyear' => 1438);
-        $current_year = date('Y');
-        $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
-        $form->handleRequest($request);
-        $pData = $form->getData();
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($pData['date_type'] == 'g') {
-                $dateBirth = $pData['dob']->format('Y-m-d');
-            } else {
-                $dateBirth = $pData['dob_h']->format('Y-m-d');
+            $jobs = $cities_jobs_area['jobs'];
+            $jobsArranged = array();
+            foreach ($jobs as $key => $value) {
+                $jobsArranged[$value['name']] = $value['job_no'];
             }
-            $profileFields = array(
-                "birthdate" => array('old_value' => $user['birthdate'], 'new_value' => $dateBirth),
-                "Marital_status" => array('old_value' => $user['marital_status_en'][0], 'new_value' => $pData['maritial_status']),
-                "job_no" => array('old_value' => $user['job_no'], 'new_value' => $pData['job_no']),
-                "city_no" => array('old_value' => $user['city_no'], 'new_value' => $pData['city_no']),
-                "area" => array('old_value' => $user['area'], 'new_value' => ($pData['area_no'] == '-1') ? $pData['area_text'] : $pData['area_no']),
-                "lang" => array('old_value' => $user['lang'], 'new_value' => ($pData['language'])),
-                "pur_grp" => array('old_value' => $user['pur_grp'], 'new_value' => ($pData['pur_group'])),
-            );
-            // now pass only those fields which are changed and are not empty
-            $count = 0;
-            foreach ($profileFields as $key => $val) {
-                if ($val['new_value'] != '' && ($val['new_value'] != $val['old_value'])) {
-                    $form_data[$count] = array(
-                        'C_id' => $user['C_id'],
-                        'field' => $key,
-                        'new_value' => $val['new_value'],
-                        'old_value' => $val['old_value'],
-                        'comments' => 'Update registered user details for field ' . $key
-                    );
+            $areas = $cities_jobs_area['areas'];
+            $areasArranged = array();
+            foreach ($areas as $key => $value) {
+                if (!isset($value['name'])) {
+                    continue;
                 }
-                $count++;
+                $areasArranged[$value['name']] = $value['name'];
             }
-            try {
-                $activityLog = $this->get('app.activity_log');
-                $postData = json_encode($form_data);
-                $url = $request->getLocale() . '/api/update_user_detail.json';
-                $data = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $user['C_id'], $form_data);
-                $message = $this->get('translator')->trans('Profile has been updated');
-                return $this->render('/account/update.html.twig',
-                    array(
-                        'form' => $form->createView(),
-                        'areas' => $areas,
-                        'islamicyear' => $islamicYear,
-                        'message' => $message,
-                    )
-                );
-            } catch (Exception $e) {
-                //die('in catch');
-                $request->getSession()
-                    ->getFlashBag()
-                    ->add('error', 'Error While processing your request');
-                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_ERROR, $user['C_id'], $form_data);
+            $areasArranged['-1'] = '-1';
+            $areas = $this->json($cities_jobs_area['areas']);
+            $birthdate = explode('/', $user['birthdate']);
+            if ($birthdate[2] > 1850) {
+                $dateType = 'g';
+                $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+                $dob = $date->format(AppConstant::DATE_FORMAT);
+                $dob_h = '';
+            } else {
+                $dateType = 'h';
+                $dob = '';
+                $date = \DateTime::createFromFormat("d/m/Y", $user['birthdate']);
+                $dob_h = $date->format(AppConstant::DATE_FORMAT);
+            }
+            $dataArr = array(
+                'date_type' => $dateType,
+                'job_no' => $user['job_no'],
+                'maritial_status' => $user['marital_status_en'][0],
+                'language' => $user['lang'],
+                'city_no' => $user['city_no'],
+                'pur_group' => $user['pur_grp'],
+                'dob' => new \DateTime($dob),
+                'dob_h' => new \DateTime($dob_h),
+            );
 
+            $form = $this->createForm(IktUpdateType::class, $dataArr, array(
+                    'additional' => array(
+                        'locale' => $request->getLocale(),
+                        'country' => $request->get('_country'),
+                        'cities' => $citiesArranged,
+                        'jobs' => $jobsArranged,
+                        'areas' => $areasArranged,
+                    )
+                )
+            );
+            $reference_year = array('gyear' => 2017, 'hyear' => 1438);
+            $current_year = date('Y');
+            $islamicYear = ($current_year - $reference_year['gyear']) + $reference_year['hyear'];
+            $form->handleRequest($request);
+            $pData = $form->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($pData['date_type'] == 'g') {
+                    $dateBirth = $pData['dob']->format('Y-m-d');
+                } else {
+                    $dateBirth = $pData['dob_h']->format('Y-m-d');
+                }
+                $profileFields = array(
+                    "birthdate" => array('old_value' => $user['birthdate'], 'new_value' => $dateBirth),
+                    "Marital_status" => array('old_value' => $user['marital_status_en'][0], 'new_value' => $pData['maritial_status']),
+                    "job_no" => array('old_value' => $user['job_no'], 'new_value' => $pData['job_no']),
+                    "city_no" => array('old_value' => $user['city_no'], 'new_value' => $pData['city_no']),
+                    "area" => array('old_value' => $user['area'], 'new_value' => ($pData['area_no'] == '-1') ? $pData['area_text'] : $pData['area_no']),
+                    "lang" => array('old_value' => $user['lang'], 'new_value' => ($pData['language'])),
+                    "pur_grp" => array('old_value' => $user['pur_grp'], 'new_value' => ($pData['pur_group'])),
+                );
+                // now pass only those fields which are changed and are not empty
+                $count = 0;
+                foreach ($profileFields as $key => $val) {
+                    if ($val['new_value'] != '' && ($val['new_value'] != $val['old_value'])) {
+                        $form_data[$count] = array(
+                            'C_id' => $user['C_id'],
+                            'field' => $key,
+                            'new_value' => $val['new_value'],
+                            'old_value' => $val['old_value'],
+                            'comments' => 'Update registered user details for field ' . $key
+                        );
+                    }
+                    $count++;
+                }
+
+                    $activityLog = $this->get('app.activity_log');
+                    $postData = json_encode($form_data);
+                    $url = $request->getLocale() . '/api/update_user_detail.json';
+                    $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
+                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $user['C_id'], $form_data);
+                    $message = $this->get('translator')->trans('Profile has been updated');
+                    $errorcl = 'alert-success';
+                    return $this->render('/account/update.html.twig',
+                        array(
+                            'form' => $form->createView(),
+                            'areas' => $areas,
+                            'errorcl' => $errorcl,
+                            'islamicyear' => $islamicYear,
+                            'message' => $message,
+                        )
+                    );
+
+                return $this->redirectToRoute('account_update', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
             }
-            return $this->redirectToRoute('account_update', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+            else {
+                    $message = $this->get('translator')->trans('');
+                    return $this->render('/account/update.html.twig',
+                        array
+                        (
+                            'form'        => $form->createView(),
+                            'areas'       => $areas,
+                            'errorcl'     => 'alert-danger',
+                            'islamicyear' => $islamicYear,
+                            'message'     => $message,
+                        )
+                    );
+            }
         }
-        $message = $this->get('translator')->trans('');
-        return $this->render('/account/update.html.twig',
-            array(
-                'form' => $form->createView(),
-                'areas' => $areas,
-                'islamicyear' => $islamicYear,
-                'message' => $message,
-            )
-        );
+        catch(Exception $e)
+        {
+            $message =  $e->getMessage();
+
+            return $this->render('/account/update.html.twig',
+                array
+                (
+                    'form' => $form->createView(),
+                    'areas' => $areas,
+                    'errorcl' => 'alert-danger',
+                    'islamicyear' => $islamicYear,
+                    'message' => $message,
+                )
+            );
+
+        }
+        catch(AccessDeniedException $ed)
+        {
+            $message = $this->get('translator')->trans($ed->getMessage());
+            $errorcl = 'alert-danger';
+            return $this->render('account/update.html.twig',
+                array
+                (
+                    'form' => $form->createView(),
+                    'areas' => $areas,
+                    'errorcl' => $errorcl,
+                    'islamicyear' => $islamicYear,
+                    'message' => $message,
+                )
+            );
+
+        }
+
+
+
     }
 
 
@@ -1497,14 +1665,22 @@ class AccountController extends Controller
                 );
             }
         }
-        catch (\Exception $e)
+        catch(Exception $e)
         {
-
-            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
-            $message = $e->getMessage();
-            $error = '';
+            $message = $this->get('translator')->trans('An invalid exception occurred') ;
+            $error = 'alert-danger';
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, '' , array('iktissab_card_no' => '', 'message' => $e->getMessage(), 'session' => '' ));
             return $this->render('account/missingcard.html.twig',
-                array('form' => $form->createView(), 'message' => $message, 'errorcl' => $error)
+                array('form' => $form->createView(),  'message' => $message, 'errorcl' => $error)
+            );
+        }
+        catch(AccessDeniedException $ed)
+        {
+            $message =  $this->get('translator')->trans($ed->getMessage());
+            $errorcl = 'alert-danger';
+            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, '' , array('iktissab_card_no' => '', 'message' => $ed->getMessage(), 'session' => '' ));
+            return $this->render('account/missingcard.html.twig',
+                array('form' => $form->createView(),  'message' => $message, 'errorcl' => $errorcl)
             );
         }
     }
@@ -1624,51 +1800,57 @@ class AccountController extends Controller
      */
     public function transactionsAction(Request $request, $page)
     {
-        if ($request->query->get('draw')) {
-            $page = $request->query->get('draw');
-        }
-        $restClient = $this->get('app.rest_client');
-        // fetch trans count and save in session for future
-        if (!$this->get('session')->get('trans_count')) {
-            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
-            $countData = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-            if ($countData['success'] == true) {
-                $this->get('session')->set('trans_count', $countData['transaction_count']);
+        try {
+
+
+            if ($request->query->get('draw')) {
+                $page = $request->query->get('draw');
             }
-        }
-        $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_trans_bypage/' . $page . '.json';
-        // echo AppConstant::WEBAPI_URL.$url;
-        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        if(!empty($data)) {
-            if ($data['success'] == true) {
-                // format data before displaying in datatables
-                $count = 0;
-                foreach ($data['data'] as $key => $value) {
-                    $trans[$count] = array(
-                        ($request->getLocale() == 'en') ? $value['bran_en'] : $value['bran_ar'],
-                        $value['inv_no'],
-                        number_format($value['inv_amt'], 2),
-                        $value['trans_date'],
-                        number_format($value['credit'], 2),
-                        number_format($value['debt'], 2),
-                        number_format($value['expired'], 2),
-                    );
-                    $count++;
+            $restClient = $this->get('app.rest_client');
+            // fetch trans count and save in session for future
+            if (!$this->get('session')->get('trans_count')) {
+                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
+                $countData = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($countData['success'] == true) {
+                    $this->get('session')->set('trans_count', $countData['transaction_count']);
                 }
-                $resp['draw'] = $page;
-                $resp['recordsTotal'] = $this->get('session')->get('trans_count');;
-                $resp['recordsFiltered'] = $this->get('session')->get('trans_count');;
-                $resp['data'] = $trans;
+            }
+            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_trans_bypage/' . $page . '.json';
+            // echo AppConstant::WEBAPI_URL.$url;
+            $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            if (!empty($data)) {
+                if ($data['success'] == true) {
+                    // format data before displaying in datatables
+                    $count = 0;
+                    foreach ($data['data'] as $key => $value) {
+                        $trans[$count] = array(
+                            ($request->getLocale() == 'en') ? $value['bran_en'] : $value['bran_ar'],
+                            $value['inv_no'],
+                            number_format($value['inv_amt'], 2),
+                            $value['trans_date'],
+                            number_format($value['credit'], 2),
+                            number_format($value['debt'], 2),
+                            number_format($value['expired'], 2),
+                        );
+                        $count++;
+                    }
+                    $resp['draw'] = $page;
+                    $resp['recordsTotal'] = $this->get('session')->get('trans_count');;
+                    $resp['recordsFiltered'] = $this->get('session')->get('trans_count');;
+                    $resp['data'] = $trans;
+                    return new Response(json_encode($resp));
+                }
+            } else {
+                $resp = '';
                 return new Response(json_encode($resp));
             }
-        }
-        else
-        {
             $resp = '';
             return new Response(json_encode($resp));
         }
-        $resp = '';
-        return new Response(json_encode($resp));
+        catch(Exception $e){
+            $resp = '';
+            return new Response(json_encode($resp));
+        }
     }
 
 
@@ -1678,64 +1860,64 @@ class AccountController extends Controller
      */
     public function sendPwdAction(Request $request)
     {
-        $error = array('success' => true, 'message' =>'');
-        $restClient = $this->get('app.rest_client');
-        $smsService = $this->get('app.sms_service');
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-        }
-        $form = $this->createForm(SendPwdType::class, array(), array(
-                'additional'  => array(
-                'locale'      => $request->getLocale(),
-                'country'     => $request->get('_country'),
-        )));
-        $form->handleRequest($request);
-        $pData  = $form->getData();
-        $data   = $request->request->all();
 
-        if ($form->isSubmitted() && $form->isValid())
+        try
         {
-            try
-            {
-                $validate_Iqama = $this->validateIqama($data['send_pwd']['iqama']);
-                if($validate_Iqama == false){
-                    $message = "";
-                    $error['success'] = false;
-                    $error['message'] = $this->get('translator')->trans('Invalid Iqama/SSN Number');
-                    return $this->render('default/send_pwd.twig',
-                        array(
-                            'form'    => $form->createView(),
-                            'error'   => $error,
-                            'message' => $message
-                        )
-                    );
-                }
+            $error = array('success' => true, 'message' => '');
+            $restClient = $this->get('app.rest_client');
+            $smsService = $this->get('app.sms_service');
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
+            }
+            $form = $this->createForm(SendPwdType::class, array(), array(
+                'additional' => array(
+                    'locale' => $request->getLocale(),
+                    'country' => $request->get('_country'),
+                )));
+            $form->handleRequest($request);
+            $pData = $form->getData();
+            $data = $request->request->all();
+            $logged_user_data = $this->get('session')->get('iktUserData');
 
-                $accountEmail = $this->iktExist($pData['iktCardNo']);
-                $logged_user_data = $this->get('session')->get('iktUserData');
-                // print_r($logged_user_data);
-                $logged_user_data['C_id'];
-                $logged_user_data['ID_no'];
-                $pData['iqama'];
-                if($pData['iqama'] != $logged_user_data['ID_no'])
+            if ($form->isSubmitted() && $form->isValid()) {
+                try
                 {
-                    $error['success'] = false;
-                    $error['message'] = $this->get('translator')->trans('Please enter valid Iqama ID/SSN');
-                }
-                elseif( $pData['iktCardNo']!= $logged_user_data['C_id'] )
-                {
-                    $error['success'] = false;
-                    $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab card number');
-                }
-                else {
+                    $validate_Iqama = $this->validateIqama($data['send_pwd']['iqama']);
+                    if ($validate_Iqama == false) {
+                        $message = "";
+                        $error['success'] = false;
+                        $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number');
+                        return $this->render('default/send_pwd.twig',
+                            array(
+                                'form' => $form->createView(),
+                                'error' => $error,
+                                'message' => $message
+                            )
+                        );
+                    }
+
+                    $accountEmail = $this->iktExist($pData['iktCardNo']);
+                    $logged_user_data = $this->get('session')->get('iktUserData');
+                    // print_r($logged_user_data);
+                    $logged_user_data['C_id'];
+                    $logged_user_data['ID_no'];
+                    $pData['iqama'];
+                    if ($pData['iqama'] != $logged_user_data['ID_no']) {
+                        $error['success'] = false;
+                        $error['message'] = $this->get('translator')->trans('Please enter valid Iqama Id/SSN');
+                    } elseif ($pData['iktCardNo'] != $logged_user_data['C_id']) {
+                        $error['success'] = false;
+                        $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab card number');
+                    } else {
                         $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
                         // echo AppConstant::WEBAPI_URL.$url;
                         $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
                         if (!empty($data_user)) {
                             if ($data_user['success'] == true) {
                                 $message = $data_user['message'];
                                 $acrivityLog = $this->get('app.activity_log');
-                                $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $logged_user_data));
+                                $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $message, 'session' => $logged_user_data));
                                 $error['success'] = true;
                                 $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', ["%s" => substr($logged_user_data['mobile'], 8, 12)]);
 
@@ -1745,25 +1927,55 @@ class AccountController extends Controller
                             }
                         } else {
                             $error['success'] = false;
-                            $error['message'] = $this->get('translator')->trans('Unable to update record');
+                            $error['message'] = $this->get('translator')->trans('SMS not sent.Please try again');
                         }
+                    }
+
+                } catch (Exception $e) {
+                    $error['success'] = false;
+                    $acrivityLog = $this->get('app.activity_log');
+                    $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage() , 'session' => $logged_user_data));
+                    $error['message'] = $this->get('translator')->trans('SMS not sent.Please try again'); //$e->getMessage();
                 }
-
-            } catch (Exception $e) {
-                $error['success'] = false;
-                $error['message'] = $e->getMessage();
             }
-        }
 
-
-            $message = "";
+            $message = '';
             return $this->render('/default/send_pwd.twig',
                 array(
                     'form' => $form->createView(),
                     'error' => $error,
-                    'message' => $message
+                    'message' => $message,
                 )
             );
+
+        }
+        catch(Exception $e){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $error['success'] = false;
+            $error['message'] = $message;
+            return $this->render('/default/send_pwd.twig',
+                array(
+                    'form' => $form->createView(),
+                    'error' => $error,
+                )
+            );
+        }
+        catch (AccessDeniedException $ed)
+        {
+            $message = $ed->getMessage();
+            $error['success'] = false;
+            $error['message'] = $this->get('translator')->trans($ed->getMessage());
+            return $this->render('/default/send_pwd.twig',
+                array(
+                    'form'    => $form->createView(),
+                    'error'   => $error
+                )
+            );
+        }
+
+
+
+
 
     }
 
@@ -1775,84 +1987,112 @@ class AccountController extends Controller
      */
     public function forgotEmailAction(Request $request)
     {
-        $error = array('success' => true, 'message' =>'');
-        $restClient = $this->get('app.rest_client');
-        $smsService = $this->get('app.sms_service');
-        $form = $this->createForm(ForgotEmailType::class, array(), array(
-                'additional'  => array(
-                    'locale'  => $request->getLocale(),
-                    'country' => $request->get('_country'),
-                )
-            )
-        );
-        $form->handleRequest($request);
-        $pData = $form->getData();
-        $data   = $request->request->all();
-
-
-        if ($form->isSubmitted() && $form->isValid())
+        try
         {
-            try {
-                $validate_Iqama = $this->validateIqama($data['forgot_email']['iqama']);
-
-                if($validate_Iqama == false){
-                    $message = "";
-                    $error['success'] = false;
-                    $error['message'] = $this->get('translator')->trans('Invalid Iqama/SSN Number');
-                    return $this->render('/account/forgot_email.twig',
-                        array(
-                            'form'  => $form->createView(),
-                            'error' => $error,
-                            'message' => $message
-                        )
-                    );
-                }
-
-                $accountEmail = $this->iktExist($pData['iktCardNo']);
-                $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
-                // echo AppConstant::WEBAPI_URL.$url;
-                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                // print_r($data); exit;
-                if(!empty($data)) {
+            $error = array('success' => true, 'message' => '');
+            $restClient = $this->get('app.rest_client');
+            $smsService = $this->get('app.sms_service');
+            $form = $this->createForm(ForgotEmailType::class, array(), array(
+                    'additional' => array(
+                        'locale' => $request->getLocale(),
+                        'country' => $request->get('_country'),
+                    )
+                )
+            );
+            $form->handleRequest($request);
+            $pData = $form->getData();
+            $data = $request->request->all();
 
 
-                    if ($data['success'] == true) {
-                        // match the iqama numbers ( from form and other from the local data)
-                        if ($pData['iqama'] != $data['user']['ID_no']) {
-                            $error['success'] = false;
-                            $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama number')));
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $validate_Iqama = $this->validateIqama($data['forgot_email']['iqama']);
+
+                    if ($validate_Iqama == false) {
+                        $message = "";
+                        $error['success'] = false;
+                        $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number');
+                        return $this->render('/account/forgot_email.twig',
+                            array(
+                                'form' => $form->createView(),
+                                'error' => $error,
+                                'message' => $message
+                            )
+                        );
+                    }
+
+                    $accountEmail = $this->iktExist($pData['iktCardNo']);
+                    $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/userinfo.json';
+                    // echo AppConstant::WEBAPI_URL.$url;
+                    $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                    // print_r($data); exit;
+                    if (!empty($data)) {
+                        if ($data['success'] == true) {
+                            // match the iqama numbers ( from form and other from the local data)
+                            if ($pData['iqama'] != $data['user']['ID_no']) {
+                                $error['success'] = false;
+                                $form->get('iqama')->addError(new FormError($this->get('translator')->trans('Please enter correct Iqama Id/SSN')));
+                            } else {
+                                $message = $this->get('translator')->trans("Your account registration email is %s", ["%s" => $accountEmail]);
+                                $acrivityLog = $this->get('app.activity_log');
+                                // send sms code
+                                $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+                                $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
+                                $error['success'] = true;
+                                $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', ["%s" => substr($data['user']['mobile'], 8, 12)]);
+                            }
                         } else {
-                            $message = $this->get('translator')->trans("Your account registration email is %s", ["%s" => $accountEmail]);
-                            $acrivityLog = $this->get('app.activity_log');
-                            // send sms code
-                            $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
-                            $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
-                            $error['success'] = true;
-                            $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number **** %s', ["%s" => substr($data['user']['mobile'], 8, 12)]);
+                            $error['success'] = false;
+                            $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab id and iqama/SSN');
                         }
                     } else {
                         $error['success'] = false;
-                        $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab id and iqama/SSN');
+                        $error['message'] = $this->get('translator')->trans('Unable to update record');
                     }
-                }
-                else{
-                    $error['success'] = false;
-                    $error['message'] = $this->get('translator')->trans('Unable to update record');
-                }
 
-            } catch (Exception $e) {
-                $error['success'] = false;
-                $error['message'] = $e->getMessage();
+                } catch (Exception $e) {
+                    $error['success'] = false;
+                    $error['message'] = $e->getMessage();
+                }
             }
+            $message = "";
+            return $this->render('/account/forgot_email.twig',
+                array(
+                    'form' => $form->createView(),
+                    'error' => $error,
+                    'message' => $message
+                )
+            );
         }
-        $message = "";
-        return $this->render('/account/forgot_email.twig',
-            array(
-                'form'  => $form->createView(),
-                'error' => $error,
-                'message' => $message
-            )
-        );
+        catch(Exception $e)
+        {
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $error['success'] = false;
+            $error['message'] = $message;
+            return $this->render('/account/forgot_email.twig',
+                array(
+                    'form' => $form->createView(),
+                    'error' => $error,
+                    'message' => $message
+                )
+            );
+        }
+
+        catch (AccessDeniedException $ed)
+        {
+
+            $message = $this->get('translator')->trans($ed->getMessage());
+            $error['success'] = false;
+            $error['message'] = $message;
+
+            return $this->render('/account/forgot_email.twig',
+                array(
+                    'form' => $form->createView(),
+                    'error' => $error,
+                    'message' => $message
+                )
+            );
+        }
     }
 
 
@@ -1896,7 +2136,8 @@ class AccountController extends Controller
 
     function iktExist($ikt)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        // todo: getEntityManager() is deprecated
+        $em = $this->getDoctrine()->getManager();
         $checkIktCard = $em->getRepository('AppBundle:User')->find($ikt);
         if (is_null($checkIktCard)) {
             Throw new Exception($this->get('translator')->trans('Card is not registered on website'), 1);

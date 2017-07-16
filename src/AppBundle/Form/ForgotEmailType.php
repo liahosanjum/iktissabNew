@@ -50,7 +50,7 @@ class ForgotEmailType extends AbstractType
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => 'Invalid Iqama/SSN Number')
+                            'message' => 'Invalid Iqama Id/SSN Number')
                     ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']
@@ -96,7 +96,7 @@ class ForgotEmailType extends AbstractType
         if (($entireSum % 10) == 0) {
             // valid
         } else {
-            $context->buildViolation('Iqama Number is invalid')
+            $context->buildViolation('Iqama Id/SSN is not valid')
                 ->atPath('iqama')
                 ->addViolation();
         }

@@ -167,7 +167,7 @@ class IktUpdateType extends AbstractType
         if (($entireSum % 10) == 0) {
             // valid
         } else {
-            $context->buildViolation('Iqama Number is invalid')
+            $context->buildViolation('Iqama Id/SSN is not valid')
                 ->atPath('iqama')
                 ->addViolation();
         }

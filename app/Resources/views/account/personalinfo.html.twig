@@ -235,12 +235,13 @@
 
 
 {% else %}
-    <section class="container ">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                No user data found<br />
-                <a href="{{ url('account_logout', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">Logout</a>
-            </div>
+    <div class="row" style="margin-left: 10px; margin-right: 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" >
+            {% if message != '' %}
+                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable">
+                    {{ message }}
+                </div>
+            {% endif %}
         </div>
-    </section>
+    </div>
 {% endif %}

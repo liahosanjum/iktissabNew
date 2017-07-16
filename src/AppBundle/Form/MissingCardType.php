@@ -32,11 +32,11 @@ class MissingCardType extends AbstractType
                     array(
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
-                        'message' => 'Invalid Iqama/SSN Number')),)))
+                        'message' => 'Invalid Iqama Id/SSN Number')),)))
 
             ->add('new_iktissab_id', RepeatedType::class, [
                 'type' => TextType::class,
-                'invalid_message' => 'Your new Iktissab id and cofirm iktissab id must be same',
+                'invalid_message' => 'New Iktissab id and comfirm iktissab id must be same',
                 'required' => true,
                 'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'New Iktissab ID',  'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'second_options' => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'Confirm Iktissab ID', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),

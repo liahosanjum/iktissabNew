@@ -25,16 +25,18 @@ class UpdateEmailType extends AbstractType
             'label_attr' => ['class' => 'formLayout col-lg-8 col-md-8 col-sm-8 col-xs-13   form_labels'],
             'attr' =>array('value' => $email_current , 'readonly' => 'readonly', 'class' => 'form-control  col-lg-8 col-md-8 col-sm-8 col-xs-13 required'),
             'constraints' => array(
-                new Assert\NotBlank(array('message' => 'This field is required')),)))
+                new Assert\NotBlank(array('message' => 'This field is required')),
+                new Assert\Email(array('message' => 'Invalid email address')),
+                )))
             ->add('newemail', RepeatedType::class, [
                 'type' => TextType::class,
                 'invalid_message' => 'New email and confirm email fields must match',
                 'required' => true,
                 'first_options' => array('attr' =>array('class' => 'form-control formLayout'), 'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels' ]),
                 'second_options' => array('attr' =>array('class' => 'form-control formLayout'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
-                'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array (
-                    new NotBlank(array('message' =>  'This field is required')),
+                    new Assert\NotBlank(array('message' =>  'This field is required')),
+                    new Assert\Email(array('message' => 'Invalid email address'))
                 )
             ])
 

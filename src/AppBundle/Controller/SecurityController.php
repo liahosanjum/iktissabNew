@@ -112,7 +112,7 @@ class SecurityController extends Controller
     /**
      * @Route("/admin/admin")
      */
-    public function adminAciton(Request $request)
+    public function adminAction(Request $request)
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('homepage');
@@ -132,12 +132,21 @@ class SecurityController extends Controller
     }
 
 
+    /**
+     * @Route("/admin/logout", name="admin_logout")
+     */
+    public function adminLogout(Request $request)
+    {
+    }
+
 
     /**
      * @Route("{_country}/{_locale}/account/logout", name="account_logout")
      */
     public function accountLogout(Request $request)
     {
-//       die('account logout');
+        // die('account logout');
     }
+
+
 }

@@ -69,8 +69,8 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label_attr' => ['class' => 'required formLayout form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                     'constraints' => array(
-                        new NotBlank(array('message' => 'Email is required')),
-                        new Email(array('message' => 'Invalid email'))
+                        new NotBlank(array('message' => 'This field is required')),
+                        new Email(array('message' => 'Invalid email address'))
                     )))
             ->add('reason', ChoiceType::class, array('label'=>"Reason",
                 'label_attr' => ['class' => 'required formLayout form_labels'],
@@ -97,7 +97,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'Email is required'))),
+                    new NotBlank(array('message' => 'This field is required'))),
                 
 
             ));

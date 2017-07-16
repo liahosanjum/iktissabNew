@@ -40,14 +40,42 @@ class DefaultController extends Controller
     {
         $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        if(isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieCountry <> ''){
-            return $this->redirect($this->generateUrl('homepage', array('_country'=>$cookieCountry,'_locale'=>$cookieLocale)));
+        if(isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieCountry <> '')
+        {
+             return $this->redirect($this->generateUrl('homepage', array('_country'=>$cookieCountry,'_locale'=>$cookieLocale)));
         }
+        /*
+        else
+        {
+            // here get cookie from othaimmarkets.com website for country
+            $cookie_country_from  = 'sa';
+            // here get cookie from othaimmarkets.com website for language
+            $cookie_language_from = 'ar';
+            $response = new Response();
+            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+            $locale  = $request->getLocale();
+            $country = $request->get('_country');
+
+            $locale  = $cookie_language_from;
+            $country = $cookie_country_from;
+            if((!isset($cookieLocale)) && ($cookieLocale == '') && (!isset($cookieCountry)) && ($cookieCountry == '')){
+                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                $response->sendHeaders();
+                return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
+            }
+        }
+        */
+
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath(
                     $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
         ]);
+
     }
+
+
 
 
     /**
@@ -65,9 +93,32 @@ class DefaultController extends Controller
             $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
             $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
             $response->sendHeaders();
-            return $this->redirect($this->generateUrl('homepage', array('_country'=>$country,'_locale'=>$locale)));
+            return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
         }
     }
+
+    /*
+    public function setCookiFromOthaimMarkets(Request $request, $cookie_country_from , $cookie_language_from)
+    {
+        $response = new Response();
+        echo $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+        echo $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+        $locale  = $request->getLocale();
+        $country = $request->get('_country');
+
+        echo $locale  = $cookie_language_from;
+        echo $country = $cookie_country_from;
+        exit;
+        if((!isset($cookieLocale)) && ($cookieLocale == '') && (!isset($cookieCountry)) && ($cookieCountry == '')){
+            $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+            $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+            $response->sendHeaders();
+            return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
+        }
+    }
+    */
+
+
 
 
 
@@ -103,8 +154,8 @@ class DefaultController extends Controller
                 // if the lang param and the url param is not the same then donot change the language
 
                 if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    echo $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-                    echo  $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                     $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                      $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
                     return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
                 }
             }
@@ -169,6 +220,7 @@ class DefaultController extends Controller
     {
 
         $response = new Response();
+
         $commFunct = new FunctionsController();
         if($commFunct->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
@@ -226,6 +278,43 @@ class DefaultController extends Controller
         }
 
         /********/
+        // get all news from db
+        if($request->cookies->get(AppConstant::COOKIE_COUNTRY))
+        {
+            $news_country = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+        }
+        else
+        {
+            $news_country = 'sa';
+        }
+        $em = $this->getDoctrine()->getManager();
+        $homePageNews = $em->getRepository('AppBundle:CmsPages')
+            ->findBy(array( 'status' => '1' , 'type' => 'news' , 'country' => $news_country  ));
+        //print_r($homePageNews);
+
+        $data_news = array();
+        $i = 0;
+        foreach($homePageNews as $homePageNew)
+        {
+            $data_news[$i]['id'] = $homePageNew->getId();
+            // echo '<br>';
+            if($request->cookies->get(AppConstant::COOKIE_LOCALE) == 'ar')
+            {
+                $data_news[$i]['details'] =  $homePageNew->getAdesc();
+            }
+            else
+            {
+                $data_news[$i]['details'] =  $homePageNew->getEdesc();
+            }
+            $i++;
+        }
+
+
+
+
+
+        /********/
+
         $restClient = $this->get('app.rest_client');
         $url = AppConstant::OTHAIM_WEBSERVICE_URL;
 
@@ -237,14 +326,15 @@ class DefaultController extends Controller
             $postData, array('input-content-type' => "text/json" , 'output-content-type' => "text/json" ,
                 'language' => $locale
             ));
-            // print_r($data);
-            // exit;
-            if($data['success'] == true) {
+
+            $data_dec = json_decode($data , true);
+            $data_dec['success'];
+            if($data_dec['success'] == true) {
             $products = json_decode($data);
-            //var_dump(json_decode($data));
-            //echo "<br>";
-            //var_dump($products->products[0]);
-            //var_dump($products->success);
+            // var_dump(json_decode($data));
+            // echo "<br>";
+            // var_dump($products->products[0]);
+            // var_dump($products->success);
             if ($products->success == true) {
 
 
@@ -263,14 +353,14 @@ class DefaultController extends Controller
                     $i++;
                 }
                 // var_dump($listing);
-                return $this->render('front/homepage.html.twig', array('DataPromo' => $listing));
+                return $this->render('front/homepage.html.twig', array('DataPromo' => $listing , 'data_news' => $data_news ));
             } else {
-                return $this->render('front/homepage.html.twig', array('DataPromo' => ""));
+                return $this->render('front/homepage.html.twig', array('DataPromo' => "" , 'data_news' => $data_news));
             }
         }
         else
         {
-            return $this->render('front/homepage.html.twig', array('DataPromo' => ""));
+            return $this->render('front/homepage.html.twig', array('DataPromo' => "" , 'data_news' => $data_news ));
         }
         /********/
 
@@ -447,8 +537,9 @@ class DefaultController extends Controller
                 //--> $email = $result[0]['email'];
                 //--> print_r($result);
                 $user_id = $result[0]['ikt_card_no'];
-                $user_id_en = $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
-
+                $user_id_en =  $user_id; // $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
+                //$user_id_en = base64_encode($user_id . AppConstant::SECRET_KEY_FP);
+                $user_id_en = $this->base64url_encode($user_id . AppConstant::SECRET_KEY_FP);
                 $time = time();
                 $token = uniqid() . md5($email . time() . rand(111111, 999999));
                 $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
@@ -508,7 +599,7 @@ class DefaultController extends Controller
 
                 }
             } else {
-                $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans(' is not recognized as a user name or an e-mail address');
+                $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
                 $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
                 $errorcl = 'alert-danger';
                 return $this->render('default/login.html.twig', array(
@@ -592,7 +683,7 @@ class DefaultController extends Controller
             // 1 get user password according to the email provided
             $em = $this->getDoctrine()->getManager();
             $conn = $em->getConnection();
-            echo "====> " . $email = $form->get('email')->getData();
+            $email = $form->get('email')->getData();
 
             $country_id = $this->getCountryCode($request);
             $locale = $this->getCountryLocal($request);
@@ -609,9 +700,13 @@ class DefaultController extends Controller
                 //--> $email = $result[0]['email'];
                 //--> print_r($result);
                 $user_id = $result[0]['ikt_card_no'];
-                $user_id_en = $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
+                //todo: bk
+                $user_id_en = $user_id  ;//$this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
+                $user_id_en = base64_encode($user_id . AppConstant::SECRET_KEY_FP);
+
                 $time  = time();
                 $token = uniqid() . md5($email . time() . rand(111111, 999999));
+
                 $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
                 $data = serialize(array('time' => $time, 'token' => $token));
                 $data_values = array(
@@ -712,7 +807,12 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $time = (integer)$time;
         $dataValue = serialize(array('time' => $time, 'token' => $token));
-        $id    = $this->decrypt($id, AppConstant::SECRET_KEY_FP);
+        //todo:
+        $id    = $id;//$this->decrypt($id, AppConstant::SECRET_KEY_FP);
+        // $id = base64_decode($id . AppConstant::SECRET_KEY_FP);
+        $id = $this->base64url_decode($id . AppConstant::SECRET_KEY_FP);
+
+
         $user  = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
         // print_r($user);
         if(isset($user) && $user != null) {
@@ -905,8 +1005,8 @@ class DefaultController extends Controller
         $formEmail = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']])
             ->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
 
-                    new Assert\NotBlank(array('message' => 'Email is required')),
-                    new Assert\Email(array('message' => 'Invalid email'))
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Email(array('message' => 'Invalid email address'))
 
                 ))
             )
@@ -1083,12 +1183,12 @@ class DefaultController extends Controller
         $id  =  trim($request->query->get('id'));
         //$extra_param = '/sa/en/16/cms';
         //print_r($extra_param);
-
-        //exit;
         $url  =  trim($request->query->get('url'));
         $commFunct = new FunctionsController();
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
         $commFunct->changeLanguage($request, $userLang);
+
+
         if($url == "" || $url == null ){
             $url = 'homepage';
         }
@@ -1121,6 +1221,14 @@ class DefaultController extends Controller
         else{
             return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
+    }
+
+    function base64url_encode($s) {
+        return str_replace(array('+', '/'), array('-', '_'), base64_encode($s));
+    }
+
+    function base64url_decode($s) {
+        return base64_decode(str_replace(array('-', '_'), array('+', '/'), $s));
     }
 
 

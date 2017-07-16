@@ -1,18 +1,28 @@
 {% extends 'baseadminlogin.html.twig' %}
 
 {% block body %}
-    {% if error %}
 
-        <div> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
-
-    {% endif %}
 <div class="admin-login">
-    <form action="{{ path('admin_admin')}}" method="post">
-        <label  for="username">Username: </label>
-        <input  type="text" id="username" name="_username" value="{{ last_username }}" />
-        <label  for="password">Password:</label>
-        <input  type="password" id="password" name="_password" />
-        <button type="submit">Login</button>
-    </form>
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-10">
+            <div class="header-title-admin">ADMIN LOGIN</div>
+            {% if error %}
+
+                <div class="alert-danger"> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+            {% endif %}
+            <div class="login-admin-conts">
+            <form action="{{ path('admin_admin')}}" method="post">
+                <label class="input-admin"  for="username">Username: </label>
+                <input class="form-control"  type="text" id="username" name="_username" value="{{ last_username }}" />
+                <label class="input-admin" for="password">Password:</label>
+                <input class="form-control" type="password" id="password" name="_password" />
+
+                <button class="login-admin-btn" type="submit">Login</button>
+
+            </form>
+            </div>
+            </div>
+        </div>
 </div>
 {% endblock %}

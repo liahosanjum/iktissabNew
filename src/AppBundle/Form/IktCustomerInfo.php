@@ -19,7 +19,7 @@ class IktCustomerInfo extends AbstractType
             'attr' => array('class' => 'col-lg-8 form-control formLayout'),
             'constraints' => array(
             new Assert\NotBlank(array('message' => 'Email is required')),
-            new Assert\Email(array('message' => 'Invalid email'))
+            new Assert\Email(array('message' => 'Invalid email address'))
 
         )
         ))

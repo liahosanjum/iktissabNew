@@ -53,17 +53,20 @@ security:
               path: account_logout
               success_handler: app.logout_handler
         iktadmin_area:
-              context: iktadmin_area
-              anonymous: ~
-              pattern: ^/admin
-              simple_form:
-                success_handler: app.iktadmin_success_handler
-  #             default_target_path: homepage
-                always_use_default_target_path: true
-                login_path: /admin/admin
-                check_path: /admin/admin
-                authenticator: app.iktissabadmin_authenticator
-                provider: iktadmin_provider
+            context: iktadmin_area
+            anonymous: ~
+            pattern: ^/admin
+            simple_form:
+              success_handler: app.iktadmin_success_handler
+#             default_target_path: homepage
+              always_use_default_target_path: true
+              login_path: /admin/admin
+              check_path: /admin/admin
+              authenticator: app.iktissabadmin_authenticator
+              provider: iktadmin_provider
+            logout:
+              path: admin_logout
+              success_handler: app.logoutadmin_handler
 
     access_control:
        - { path: ^/(%app_countries%)/(%app_locales%)/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -40,7 +40,8 @@ class FunctionsController
             //$response->sendHeaders();
         }
         $request->setLocale($langauge);
-
+        //sohail: todo
+        //$request->getSession()->set('_locale', $langauge);
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
         $response->sendHeaders();
         return $request->cookies->get(AppConstant::COOKIE_LOCALE);

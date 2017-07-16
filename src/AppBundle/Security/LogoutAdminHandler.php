@@ -39,14 +39,11 @@ class LogoutAdminHandler implements LogoutSuccessHandlerInterface
      */
     public function onLogoutSuccess(Request $request)
     {
-        $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getIktCardNo();
+        $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getId();
         $acrivityLog = $this->containerInterface->get('app.activity_log');
-        if($this->session->get('IktUserData')) {
-            $this->session->remove('iktUserData');
-        }
-        $acrivityLog->logLogoutEvent($user);
-        $response = new RedirectResponse($this->router->generate('account_home',array('_locale'=>$request->getLocale(), '_country'=>$request->get('_country'))));
+        $acrivityLog->logLogoutEvent($user,'admin');
+        $this->containerInterface->get('security.token_storage')->setToken(null);
+        $response = new RedirectResponse($this->router->generate('admin_admin'));
         return $response;
-        // TODO: Implement onLogoutSuccess() method.
     }
 }

@@ -1,0 +1,43 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
+           <div class="addNew">
+               <a href="{{ path('admin_news')}}">ADD News</a>
+           </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th colspan="2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+            {% set i = 1 %}
+            {% for item in data %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{  item.Atitle }}</td>
+
+                    <td>{{  item.Status }}</td>
+                    <td colspan="2">
+                        <a href="{{ app.request.getBaseURL()  }}/admin/newslistdelete/{{ item.id }}" onclick="return delRecord({{ item.id }})">Delete</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ app.request.getBaseURL()  }}/admin/newslistupdate/{{item.id}}">Update</a>
+                    </td>
+                 </tr>
+                {% set i = i + 1 %}
+                {% endfor %}
+
+                </tbody>
+           </table>
+    </div>
+
+{% endblock %}
+

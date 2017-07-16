@@ -36,11 +36,11 @@ class IktissabAdminSuccessHandler implements AuthenticationSuccessHandlerInterfa
         $response = '';
         if ($this->containerInterface->get('security.authorization_checker')->isGranted('ROLE_IKTADMIN'))
         {
-//            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-            $user = $token->getUser()->getIktCardNo();
+            // $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+            $user = $token->getUser()->getId();
             $acrivityLog = $this->containerInterface->get('app.activity_log');
             $acrivityLog->logLoginEvent($user);
-            $response = new RedirectResponse($this->router->generate('admin_home'));
+            $response = new RedirectResponse($this->router->generate('cmslistall'));
         }
         return $response;
     }

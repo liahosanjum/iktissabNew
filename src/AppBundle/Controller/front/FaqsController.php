@@ -25,6 +25,7 @@ class FaqsController extends Controller
     {
         try
         {
+            $activityLog  = $this->get('app.activity_log');
             $commFunction = new FunctionsController();
             $locale_cookie = $request->getLocale();
             $country_cookie = $request->get('_country');
@@ -70,6 +71,7 @@ class FaqsController extends Controller
                                 $faqs->setCreated(new \DateTime('now'));
                                 $faqs->setCountry($country);
                                 // saving user ip
+                                $user_ip_address = $commFunction->getIP();
                                 $faqs->setUser_ip($commFunction->getIP());
                                 $em = $this->getDoctrine()->getManager();
                                 $em->persist($faqs);
@@ -88,6 +90,9 @@ class FaqsController extends Controller
                                         ->setBody($this->container->get('templating')->render(':email-templates/faqs:faqs.html.twig', ['email' => $faqs->getEmail() , 'mobile' => $faqs->getMobile(), 'question' => $faqs->getQuestion()]), 'text/html');
                                     $this->container->get('mailer')->send($message);
                                 }
+                                $message_log = $this->get('translator')->trans('Your request has been submitted');
+                                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_FAQ_FORM, $user_ip_address, array('user_ip' => $user_ip_address, 'message' => $message_log, 'Data' => $postData));
+
                                 return $this->render('front/faqs.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('Your request has been submitted'),'show_form' => $show_form));
                             }
                         } catch (\Exception $e) {
@@ -106,6 +111,9 @@ class FaqsController extends Controller
         }
         catch (\Exception $e)
         {
+            $message_log = $e->getMessage();
+            $activityLog->logEvent(AppConstant::ACTIVITY_ADD_FAQ_FORM_ERROR, $commFunction->getIP(), array('user_ip' => $commFunction->getIP(), 'message' => $message_log, 'Data' => ''));
+
             return $this->render('front/faqs.html.twig', array('message' => $e->getMessage(),'show_form' => $show_form));
         }
     }
@@ -310,12 +318,12 @@ class FaqsController extends Controller
         if($country_id == 'eg')
         {
             if (!preg_match(self::IKTCARD_EG_PATTERN, $iktissab_id)) {
-                $data_validate = array( 'success' => false, 'message' =>$this->get('translator')->trans('Please provide valid Iktissab card number'));
+                $data_validate = array( 'success' => false, 'message' =>$this->get('translator')->trans('Please provide valid Iktissab Id'));
                 return $data_validate;
             } else {
                 $first_ch = substr($iktissab_id, 0, 1);
                 if($first_ch != 5) {
-                    $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Iktissab card number must start with 5 for Egypt'));
+                    $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Iktissab Id must start with 5 for Egypt'));
                     return $data_validate;
                 }
             }
@@ -324,13 +332,13 @@ class FaqsController extends Controller
         {
             if (!preg_match(self::IKTCARD_SA_PATTERN, $iktissab_id))
             {
-                return $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Please provide valid Iktissab card number'));
+                return $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Please provide valid Iktissab Id'));
             }
             else
             {
                 $first_ch = substr($iktissab_id, 0, 1);
                 if($first_ch != 9) {
-                    return $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Iktissab card number must start with 9 for Saudi Arabia'));
+                    return $data_validate = array( 'success' => false , 'message' =>$this->get('translator')->trans('Iktissab Id must start with 9 for Saudi Arabia'));
                 }
             }
         }

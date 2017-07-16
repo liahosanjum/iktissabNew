@@ -32,7 +32,7 @@ class ActivateCardoneType extends AbstractType
         $builder->add('email', EmailType::class, array('label' => 'Email','attr' => array('maxlength' => 50), 'constraints' => array(
 
             new Assert\NotBlank(array('message' => 'This field is required')),
-            new Assert\Email(array('message' => 'Invalid email'))
+            new Assert\Email(array('message' => 'Invalid email address'))
 
         )
         ))

@@ -22,10 +22,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+
 // use Symfony\Component\Validator\Constraints\NotBlank;
 // use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -35,29 +38,51 @@ class CmsPagesType extends AbstractType
     {
 
         $builder
-            ->add('atitle' , TextType::class, array('label' => 'Title Arabic',
+            ->add('atitle' , TextType::class, array('label' => 'Title Arabic','required' => true,
                 'attr' => array(
                     'class' => 'form-control'
-                ),))
+                ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),)
+
+            ))
             ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true,'attr' => array(
                 'class' => 'form-control'
-            ),))
-            ->add('adesc'  , TextareaType::class, array('label' => 'Description Arabic','attr' => array(
+            ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),)
+
+                ))
+            ->add('adesc'  , TextareaType::class, array('label' => 'Description Arabic','required' => true,'attr' => array(
                 'class' => 'form-control'
-            ),))
-            ->add('edesc'  , TextareaType::class, array('label' => 'Description English','attr' => array(
+            ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+                ))
+            ->add('edesc'  , TextareaType::class, array('label' => 'Description English',
+                'required' => true,
+                'attr' => array(
                 'class' => 'form-control'
-            ),))
+            ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),)
+                ))
+
+            ->add('brochure', FileType::class, array('label' => 'Image' ,'data_class' => null))
+
+
             ->add('country', ChoiceType::class, array(
-                'label' => 'Country',
-                'choices' => array('Country' => '', 'Saudi Arabia' => 'sa', 'Egypt' => 'eg'),
+                'label' => 'Select Country:',
+                'choices' => array('Select Country ' => '', 'Saudi Arabia' => 'sa', 'Egypt ' => 'eg'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
             ))
+
             ->add('status', CheckboxType::class, array(
                 'label'    => 'Status',
-                'mapped' => false,
+                'mapped'   => false,
                 'required' => false,
             ))
             
@@ -74,8 +99,8 @@ class CmsPagesType extends AbstractType
                 'var' => null
             ),
         ));
-        //$resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
-        //$resolver->setAllowedTypes('additional', 'array');  // Validates the type(s) of option(s) passed.
+        // $resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
+        // $resolver->setAllowedTypes('additional', 'array');  // Validates the type(s) of option(s) passed.
     }
 
     public function setDefaultOptions(OptionsResolver $resolver)

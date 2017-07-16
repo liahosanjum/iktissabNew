@@ -1,33 +1,33 @@
-lang-E: English
-lang-A: العربي
-Language: Language
-pur_group-1: Husband
-pur_group-2: Wife
-pur_group-3: Children
-pur_group-4: Relative
-pur_group-5: Applicant
-pur_group-6: Servent
-gender-M: Male
-gender-f: Female
-Name: Name
+'lang-E': 'English'
+'lang-A': 'العربي'
+'Language': 'Language'
+'pur_group-1': 'Husband'
+'pur_group-2': 'Wife'
+'pur_group-3': 'Children'
+'pur_group-4': 'Relative'
+'pur_group-5': 'Applicant'
+'pur_group-6': 'Servent'
+'gender-M': 'Male'
+'gender-f': 'Female'
+'Name': 'Name'
 'Customer Status': 'Customer Status'
 'Iktissab Card No': 'Iktissab Card No'
-Area: Area
+'Area': 'Area'
 'House Number': 'House Number'
 'PO Box': 'PO Box'
 'Zip Code': 'Zip Code'
-City: City
+'City': 'City'
 'Telephone (Home)': 'Telephone (Home)'
 'Telephone (Office)': 'Telephone (Office)'
-Mobile: Mobile
-Email: Email
-Nationality: Nationality
+'Mobile': 'Mobile'
+'Email': 'Email'
+'Nationality': 'Nationality'
 'Marital Status': 'Marital Status'
 "Birthdate": "Birthdate"
 'Job Title': 'Job Title'
-Balance: Balance
+'Balance': 'Balance'
 'Gender:': 'Gender:'
-Shoppers: Shoppers
+'Shoppers': 'Shoppers'
 'Customer Name': 'Customer Name'
 'Iktissab ID': 'Iktissab ID'
 'Full name': 'Full name'
@@ -72,17 +72,17 @@ Shoppers: Shoppers
 'Verification code:': ' Verification code: '
 'Changing account email': ' Changing account email'
 'The new email is already registered before , please enter a valid email': 'The new email is already registered before , please enter a valid email'
-'Please enter valid email address': 'Please enter valid email address'
+'Invalid email address': 'Invalid email address'
 'New Email and Confirm new email must be same': 'New Email and Confirm new email must be same'
 'New email and current email must not be the same': 'New email and current email must not be the same'
-'Your record is not updated': 'Your record is not updated'
+'Your record is not updated': 'Your information is not updated'
 'SMS not sent': 'SMS not sent'
 'Please enter correct verification code': 'Please enter correct verification code'
 'Invalid user': 'Invalid user'
-'Registered SSN/Iqama': 'Registered SSN/Iqama'
+'Registered SSN/Iqama': 'Registered Iqama Id/SSN'
 'Comments': 'Comments'
 'Update your mobile': 'Update your mobile'
-'UpdateMobileSuccessfullUpdateMobileError': 'UpdateMobileSuccessfullUpdateMobileError'
+'UpdateMobileSuccessfull': 'UpdateMobileSuccessfull'
 'UpdateMobileError': 'UpdateMobileError'
 'UpdateIqamaSuccessfull': 'UpdateIqamaSuccessfull'
 'UpdateIqamaError': 'UpdateIqamaError'
@@ -96,7 +96,7 @@ Shoppers: Shoppers
 'Please enter comments': 'Please enter comments'
 'Please enter valid 14 digits Iqama Id/SSN': 'Please enter valid 14 digits Iqama Id/SSN'
 'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number'
-'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN'
+'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSN'
 'Update Your Name': 'Update Your Name'
 'Full Name': 'Full Name'
 'Name must be in two parts': 'Name must be in two parts'
@@ -109,13 +109,15 @@ Shoppers: Shoppers
 'Invalid token detected.Please submit again': 'Invalid token detected.Please submit the form again'
 'You can update your full name through the following form': 'You can update your full name through the following form'
 'This field is required': 'This field is required'
+'Password fields must match': 'Password fields must match ar'
 'Update Password': 'Update Password'
-'Enter Current Password': 'Enter Currrent Password'
+'Enter Current Password': 'Enter Current Password'
 'New Password': 'New Password'
 'Confirm New Password': 'Confirm New Password'
 'Please enter correct old password': 'Please enter correct old password'
 "Select City": "Select City"
 "Select Job": "Select Job"
+"Select Area": "Select Area"
 "Update Personal Information": "Update Personal Information"
 "Jan": "Jan"
 "Result": "Result"
@@ -134,7 +136,7 @@ Shoppers: Shoppers
 "Technical Support": " Technical support"
 "Ask your Question": "Ask your Question"
 "Sorry , ": "Sorry , "
-" is not recognized as a user name or an e-mail address": " is not recognized as a user name or an e-mail address"
+"is not recognized as a user name or an e-mail address": " is not recognized as a user name or an e-mail address"
 "Forgot Password": "Forgot Password"
 "Dear Iktissab Customer": "Dear Iktissab Customer"
 "To change your password click here": "لقد طلبت إعادة ضبط كلمة المرور الخاصة بك على موقع اكتساب ، لإعادة ضبط كلمة المرور أنقر هنا"
@@ -143,7 +145,9 @@ Shoppers: Shoppers
 "forgot password template 4": "مع ملاحظة أنه هذا الرابط صالح للاستخدام مرة واحد فقط وتنتهي صلاحيته بعد يوم واحد فقط"
 "forgot password template 5": "نشكركم على زيارتكم لموقعنا"
 "forgot password template 6": "مع تحيات شركة اسواق العثيم"
+
 "Further instructions have been sent to your e-mail address": "Further instructions have been sent to your e-mail address."
+"Email has not been sent": "Email has not been sent"
 "New Password and old password must not be the same": "New Password and old password must not be the same"
 "Your password has been reset successfully": "Your password has been reset successfully"
 "Reset your password here": "Reset your password here"
@@ -157,6 +161,25 @@ Shoppers: Shoppers
 "Your link to reset password has been expired": "Your link to reset password has been expired"
 "Please reset your password": "Please reset your password"
 "Mobile number i.e 584444099": "Mobile number i.e 584444099"
+"Captcha Code": "Captcha Code ar"
+"Reset Password": "Reset Password"
+"Muharram": "Muharram"
+"Safar": "Safar"
+"Rabi ul Awwal": "Rabi ul Awwal"
+"Rabi ul Akhir": "Rabi ul Akhir"
+"Jumadal Awwal": "Jumadal Awwal"
+"Jumadal Akhira": "Jumadal Akhira"
+"Rajab": "Rajab"
+"Shaban": "Shaban"
+"Ramadan": "Ramadan"
+"Shawwal": "Shawwal"
+"Dhul Qaada": "Dhul Qaada"
+"Dhul Hijja": "Dhul Hijjaة"
+"Hijri": "Hijri"
+"year_arabic": " year_arabic "
+"Year": " Year "
+"Thankyou": "thankyou"
+"This Promotion Start From %s% To %e%": "This Promotion Start From %s% To %e%"
 "Our Dear Customer": "Our Dear Customer"
 "We are pleased to be one of Alothaim Markets customers": "We are pleased to be one of Alothaim Markets customers"
 "We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply.": "We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply."
@@ -169,11 +192,10 @@ Shoppers: Shoppers
 "Confirm Iktissab ID": "Confirm Iktissab ID"
 "You have already make a change request .Hence cannot make a new request.": "You have already make a change request .Hence cannot make a new request"
 "Iqama/SSN fields must match": "Iqama/SSN fields must match"
-"Your new and old password must not be the same": "Your new and old password must not be the same ar"
-"Password updated successfully": "Password updated successfully ar"
+"Your new and old password must not be the same": "Your new and old password must not be the same"
+"Your password is updated successfully": "Your password is updated successfully"
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same"
 "Your email address is not updated.Please try again": "Your email address is not updated.Please try again"
-"Your email is not updated.Please try again": "Your email is not updated.Please try again"
 "about iktissab": "About Iktissab"
 "about us": "About Us"
 "sharia complient": "Complient with Sharia"
@@ -255,13 +277,13 @@ Shoppers: Shoppers
 "December": "December"
 "User Name": "User Name"
 "Login": "Login"
-"Please enter your username and password and click the Sign in button": "Please enter your username and password and click the Sign in button"
-"Signin for Iktissab Card Gain": "Signin for Iktissab Card Gain"
+"Please enter your username and password and click the Sign in button": "Please enter your username and password and click the login button"
+"Signin for Iktissab Card Gain": "Signin for Iktissab Card"
 "In order to view your membership account information it requires that you enter your username and password": "In order to view your membership account information it requires that you enter your username and password"
 "Login": "Login"
 "Did you forgot your password": "Did you forgot your password"
 "Reset Password": "Reset Password"
-"if you have forgotten your password, you can reset a new password by sending some instructions to our registered email": "if you have forgotten your password, you can reset a new password by sending some instructions to our registered email"
+"if you have forgotten your password, you can reset a new password by sending some instructions to our registered email": "if you have forgotten your password, you can reset a new password by sending some instructions to your registered email"
 "Please enter your e-mail and click the Reset Password button": "Please enter your e-mail and click the Reset Password button"
 "Please enter your user name": "Please enter your user name"
 "Please enter your password": "Please enter your password"
@@ -277,7 +299,7 @@ Shoppers: Shoppers
 "Step One": "Step One"
 "Iktissab Card Activation": "Iktissab Card Activation"
 "Create an account for an activated card": "Create an account for an activated card"
-"Iktissab card activaiton step benefits": "To activate your card and get your secret number, and to take advantage of the opportunity to add cash and enjoy the benefits of acquisition Please enter here to enter your data and activate the card"
+"Iktissab card activaiton step benefits": "To activate your card and get your secret number, and to take advantage of the opportunity to add cash and enjoy the benefits of acquisition Please enter here your data and activate the card"
 "Customer Information": "Customer Information"
 "Verification": "Verification"
 "Accept terms and conditions": "Accept Terms and Conditions"
@@ -300,13 +322,12 @@ Shoppers: Shoppers
 "Please enter 6 digits code you received on your mobile": "Please enter 6 digits code you received on your mobile"
 "Thank you. Your activation request has been received successfully": "Thank you. Your activation request has been received successfully"
 "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account"
-"inquiry and suggestions": "Inquiry & Suggestions"
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Unable to update record'
 'Full name must be of atleast two parts': 'Full name must be of atleast two parts'
 'An invalid exception occurred': 'An invalid exception occurred'
-'Please enter valid Iktissab id and iqama/SSN': 'Please enter valid Iktissab id and iqama/SSN'
+'Please enter valid Iktissab id and Iqama Id/SSN': 'Please enter valid Iktissab id and Iqama Id/SSN'
 'Information': 'Information'
 'Iktissab password Recovery': 'Iktissab password Recovery'
 'Enter Iktissab ID': 'Enter Iktissab ID'
@@ -319,9 +340,54 @@ Shoppers: Shoppers
 'Last Used': 'Last Used'
 'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** '
 'SAR': 'SAR'
-
-
-
+'Sorry! The page your requesting is not available': 'Sorry! The page your requesting is not available'
+'SMS sent successfully': 'SMS sent successfully'
+'SMS not sent.Please try again': 'Sorry , SMS not sent.Please try again'
+'The given email is not a registered email': 'The given email is not a registered email'
+'Invalid Iqama Id / SSN. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id/SSN. Please enter correct Iqama Id/SSN'
+'Invalid Iqama Id/SSN Number': 'Invalid Iqama Id/SSN Number'
+'Error While processing your request': 'Error While processing your request'
+'Please enter valid Iqama Id/SSN': 'Please enter valid Iqama Id/SSN'
+'Please enter correct Iqama Id/SSN': 'Please enter correct Iqama Id/SSN'
+'Your account registration email is %s': 'Your account registration email is %s'
+'Card is not registered on website': 'Card is not registered on website'
+'Unable to update record.Please submit the form again': 'Unable to update record.Please submit the form again'
+'Unable to update name': 'Unable to update name'
+'Please provide valid Iktissab Id': 'Please provide valid Iktissab Id'
+'Iktissab Id must start with 5 for Egypt': 'Iktissab Id must start with 5 for Egypt'
+'Iktissab Id must start with 9 for Saudi Arabia': 'Iktissab Id must start with 9 for Saudi Arabia'
+'No record found': 'No record found'
+'Dear Customer, you have already make submission for this form.': 'Dear Customer, you have already make submission for this form.'
+'Information': 'Information'
+'Please reset your iktissab account password': 'Please reset your iktissab account password'
+'Users Activity Logs': 'Users Activity Logs'
+'Action Date': 'Action Date'
+'Action': 'Action'
+'View Details': 'View Details'
+'Invalid Iktissab Card Number': 'Invalid Iktissab Card Number'
+'Invalid captcha code': 'Invalid captcha code'
+'Please enter 9 digits mobile number starting with 5': 'Please enter 9 digits mobile number starting with 5'
+'Please enter 10 digits mobile number starting with 1': 'Please enter 10 digits mobile number starting with 1'
+'Invalid Credentials': 'Invalid Credentials'
+'birthdate': 'birthdate'
+'Please enter the sms code': 'Please enter the sms code'
+'Gregorian': 'Gregorian'
+'Iktissab Id': 'Iktissab Id'
+'Details': 'Details'
+'Manage Users': 'Manage Users'
+'Creation Date': 'Creation Date'
+'Dear': 'Dear'
+'Your account has been created at iktissab you can login using the details below': 'Your account has been created at iktissab you can login using the details below'
+'Username': 'Username'
+'Abdullah Al Othaim Markets Company, Riyadh': 'Abdullah Al Othaim Markets Company, Riyadh'
+'Question': 'Question'
+'link': 'link'
+'PO BOX': 'PO BOX'
+'update lost card': 'update lost card'
+'Unable to process your request.Please try later': 'Unable to process your request.Please try later en'
+'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number en **** %s'
+'Signup': 'Signup'
+'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now en'
 
 
 

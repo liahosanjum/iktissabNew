@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html>
+{# FOR URL SETTING TO WORK LOCALE #}
+{% if app.request.get('_locale') != "" %}
+    {%  set local_language_url = app.request.get('_locale')  %}
+{% elseif app.request.cookies.get('c_locale') == "" %}
+    {%  set local_language_url = "ar"  %}
+{% else %}
+    {%  set local_language_url = app.request.cookies.get('c_locale')  %}
+{% endif %}
 
+{# FOR URL SETTING TO WORK COUNTRY #}
+{% if app.request.get('_country') != "" %}
+    {%  set local_country_url = app.request.get('_country')  %}
+{% elseif app.request.cookies.get('c_country') == "" %}
+    {%  set local_country_url = "sa"  %}
+{% else %}
+    {%  set local_country_url = app.request.cookies.get('c_country')  %}
+{% endif %}
 {% block headerhome %}
     {% include(':front:header_home.html.twig') %}
 {% endblock %}
 
 
-
+{% if app.request.cookies.get('c_locale') == "en" %}
+    {%  set side = 'right'  %}
+{% elseif app.request.cookies.get('c_locale') == "ar"  %}
+    {%  set side = 'left'  %}
+{% else %}
+    {%  set side = 'left'  %}
+{% endif %}
 
 <body>
 <div class="main-wrapper">
@@ -45,6 +67,10 @@
 
 {% block homefooter %}
     {% include(':front:footer_home.html.twig') %}
+{% endblock %}
+
+{% block copyrightfooter %}
+   {% include(':front:footer_copyright.html.twig') %}
 {% endblock %}
 
 

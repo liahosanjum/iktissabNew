@@ -1,613 +1,574 @@
-﻿{% extends 'base.html.twig' %}
-{% block body %}
-
-    <section class="container breadcrum-wrapper">
-        <div class="row">
-            <div class="breadcrumb">
-                <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
-
-                <span class="breadcrumb-separator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                <a title="My account" class="last-breadcrumb">My account</a>
+{% extends 'base.html.twig' %} 
+{% block body %}  
+    <section class="container breadcrum-wrapper"> 
+        <div class="row"> 
+            <div class="breadcrumb">  <a class="in-active-link"
+                                         href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>  
+                <span class="breadcrumb-separator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>  <a
+                        title="My account" class="last-breadcrumb">My account</a> 
             </div>
+             
         </div>
-    </section>
-    <section class="container cardactivation-wrapper">
-        <div class="row">
-            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+         
+    </section> 
+    <section class="container cardactivation-wrapper"> 
+        <div class="row"> 
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 "> 
                 <div class="title-contents">My Account</div>
+                 
             </div>
+             
         </div>
-        <div class="row">
-            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                <div class="sub-title-contents grey-color">Azwiya Number  <span class="orange-color"> 92000000</span> </div>
-                <div class="activation-contents grey-color">Khaled Abdul Maqsood</div>
-                <div class="claerfix"></div>
-            </div>
-        </div>
-
-    </section>
-    <section class="container eservices-wrapper">
-        <div class="row eservice-contents">
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 eservice-list">
-
-
-
-                <ul id="myTab" class="nav nav-tabs" >
-                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
-</span>
-                        Information
-                    </li>
-                    <li  class="active"><a href="#1" data-id="1"  data-path='http://www.google.com' data-toggle="tab">
-                        <span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i></span>
-                        Card Information
-                    </a></li>
-                    <li><a href="#2" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                        Personal Information
-                    </a></li>
-
-                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
-</span>
-                        المشروعات
-                    </li>
-                    <li ><a href="#3" data-id="3"  data-path=''  data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                        Shariah Complient
-                    </a></li>
-                    <li ><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                        القائمة المفضلة
-                    </a></li>
-
-
-
-
-                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square" aria-hidden="true"></i>
-</span>
-                     Update Information
-                    </li>
-                    <li ><a href="#5" data-id="5"  data-path='' data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                       Update card
-                    </a></li>
-                    <li ><a href="#6" data-id="6"  data-path='' data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                        Update Personal Information
-                    </a></li>
-
-                    <li ><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                       Update Mobile Information
-                    </a></li>
-                    <li ><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                      Update Name
-                    </a></li>
-                    <li ><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                     Update Iqama / SSN
-                    </a></li>
-                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                        Update Email
-                    </a></li>
-                    <li class="slide-section-end"><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i>
-
-
-</span>
-                       Update Account Password
-                    </a></li>
-
-
-
-
-
-                </ul>
-
-
-
-
-
-                </ul>
-
-            </div>
-            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
-                <div id="myTabContent" class="tab-content eservice-list-contents" >
-                    <div id="ajax-preloader-wrapper">
-                        <div id="loader"></div>
-                    </div>
-                    <div class="tab-pane fade in active" id="contents-1">
-
-                        <table class="table table-bordered">
-
-
-                            <tr>
-                                <td colspan="3" class="col-lg-12 eservice-content-company-title"> Information</td>
-                            </tr>
-                            <tr>
-                                <td class="col-lg-4">
-                                    <div class="ikt-info-wrapper">
-                                        <div class="img-ikt-info"><img alt="total-balance" src="img/11.svg"></div>
-                                        <div class="ikt-info-price">
-                                            <div class="ikt-info-price-title">Total Balance</div>
-                                            <div class="ikti-info-price-details color-blue">368.35</div>
-                                            <div class="ikt-info-price-currency">SAR</div>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="col-lg-4 ">
-                                    <div class="ikt-info-wrapper">
-                                        <div class="img-ikt-info"><img alt="total-balance" src="img/22.svg"></div>
-                                        <div class="ikt-info-price">
-                                            <div class="ikt-info-price-title">Used Balance</div>
-                                            <div class="ikti-info-price-details orange-color">368.35</div>
-                                            <div class="ikt-info-price-currency">SAR</div>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="col-lg-4 ">
-                                    <div class="ikt-info-wrapper">
-                                        <div class="img-ikt-info"><img alt="total-balance" src="img/33.svg"></div>
-                                        <div class="ikt-info-price">
-                                            <div class="ikt-info-price-title">Current Balance</div>
-                                            <div class="ikti-info-price-details light-red-color">368.35</div>
-                                            <div class="ikt-info-price-currency">SAR</div>
-                                        </div>
-
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td colspan="3"  class="col-lg-12 user-details">
-                                    <table class="table table-bordered user-details" >
-                                        <tr>
-                                            <td style="border-top:none !important;" class="user-details-date">
-                                                <div class="ikt-date-info">
-                                                    <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                                                    <div class="ikt-date-title">Activation Date</div>
-                                                    <div class="ikt-date-date">26/09/2011</div>
-                                                    <div class="claerfix"></div>
-                                                </div>
-                                            </td>
-                                            <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
-                                                <div class="ikt-date-info">
-                                                    <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                                                    <div class="ikt-date-title">Last Used</div>
-                                                    <div class="ikt-date-date">26/09/2011</div>
-                                                    <div class="claerfix"></div>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                    </table>
-                                </td>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-
-                        </table>
-                        <div style="  float: right; width: 100%;" class=" ">
-
-                            <div id="placeholder" class="col-lg-12 col-xs-12"></div>
-
-                        </div>
-
-
-
-
-
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="tab-pane fade  " id="2">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                <div class="eservice-content-personal-title">
-                                المعلومات الشخصية
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                <div class="eservice-content-personal-description">
-                                    <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                                    <div class="account-info-detail-wrapper">
-                                        <div class="account-info-column">تاريخ الميلاد</div>
-                                        <div class="account-info-value">26/09/2011</div>
-                                        <div class="claerfix"></div>
-                                    </div>
-                                    <div class="claerfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="tab-pane fade  " id="3">
-                        <div class="eservice-content-company-title">
-                            استراتيجية المؤسسة
-                        </div>
-                        <div class="eservice-content-company-description" id="contents-3"></div>
-                            <div class="clearfix"></div>
-                    </div>
-                    <div class="tab-pane fade  " id="4">
-                        <div class="eservice-content-company-title">
-                            الرؤية والرسالة
-                        </div>
-                        <div class="eservice-content-company-description">
-                            مؤسسة خيرية تأ سست عام 1429 هـ ، ومسجلة بوازرة الشؤون الاجتماعية برقم 64، تقدم منح مالية للجهات الخيرية ، بهدف مساعدتها على تقديم خدماتها التنموية للفئات الأشد إحتياجاً ، والعمل على بناء شراكات مع القطاع العام والخاص ، من أجل المساهمة في التنمية المستدامة.
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="tab-pane fade  " id="5">
-                        <div class="eservice-content-company-title">
-                            طلب بدل فاقد
-                        </div>
-                        <div class="eservice-content-iqama-description" id="contents-5">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-        111                                البريد الإلكتروني
-                                    </div>
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                        <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-                                        البريد الإلكتروني
-                                    </div>
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                        <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                    </div>
-                                </div>
-
-                            <div class="row">
-                                <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-                                    البريد الإلكتروني
-                                </div>
-                                <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                    <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                </div>
-                            </div>
-                            <div class="row">
-
-                                <div class="col-lg-offset-4 col-lg-4 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-1  col-xs-18 description eservice-submit">
-                                    <input type="submit" class="button-2x" value="تحديث"    id="submit"   >
-                                </div>
-                            </div>
-                            </form>
-
-                         </div>
-
-
-                        </div>
-                    <div class="tab-pane fade  " id="6">
-                        <div class="eservice-content-company-title">
-                            تحديث البيانات الشخصية
-                        </div>
-                        <div class="eservice-content-iqama-description" id="contents-6">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-                                        asd                                البريد الإلكتروني
-                                    </div>
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                        <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-                                        البريد الإلكتروني
-                                    </div>
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                        <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
-                                        البريد الإلكتروني
-                                    </div>
-                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
-                                        <input type="text" class="form-control" id="formGroupExampleInput4" placeholder="البريد الإلكتروني">
-                                    </div>
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-lg-offset-4 col-lg-4 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-1  col-xs-18 description eservice-submit">
-                                        <input type="submit" class="button-2x" value="تحديث"    id="submit"   >
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-
-
-                    </div>
-
-
-
-
-
-
-                    <div class="clearfix"></div>
+         
+        <div class="row"> 
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 "> 
+                <div class="sub-title-contents grey-color">Azwiya Number <span class="orange-color"> 92000000</span>
                 </div>
+                 
+                <div class="activation-contents grey-color">Khaled Abdul Maqsood</div>
+                 
+                <div class="claerfix"></div>
+                 
             </div>
+             
         </div>
-
+          
+    </section> 
+    <section class="container eservices-wrapper"> 
+        <div class="row eservice-contents"> 
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 eservice-list">    
+                <ul id="myTab" class="nav nav-tabs"> 
+                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square"
+                                                                                   aria-hidden="true"></i> </span> 
+                        Information 
+                    </li>
+                     
+                    <li class="active"><a href="#1" data-id="1" data-path='http://www.google.com' data-toggle="tab"> 
+                            <span class="eservice-list-icons"><i class="fa fa-caret-left" aria-hidden="true"></i></span> 
+                            Card Information  </a></li>
+                     
+                    <li><a href="#2" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            Personal Information  </a></li>
+                      
+                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square"
+                                                                                   aria-hidden="true"></i> </span> 
+                        المشروعات 
+                    </li>
+                     
+                    <li><a href="#3" data-id="3" data-path='' data-toggle="tab"><span class="eservice-list-icons"><i
+                                        class="fa fa-caret-left" aria-hidden="true"></i>   </span>  Shariah Complient 
+                        </a></li>
+                     
+                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            القائمة المفضلة  </a></li>
+                         
+                    <li class="slide-section"><span class="eservice-list-icons"><i class="fa fa-plus-square"
+                                                                                   aria-hidden="true"></i> </span> 
+                        Update Information 
+                    </li>
+                     
+                    <li><a href="#5" data-id="5" data-path='' data-toggle="tab"><span class="eservice-list-icons"><i
+                                        class="fa fa-caret-left" aria-hidden="true"></i>   </span>  Update card  </a>
+                    </li>
+                     
+                    <li><a href="#6" data-id="6" data-path='' data-toggle="tab"><span class="eservice-list-icons"><i
+                                        class="fa fa-caret-left" aria-hidden="true"></i>   </span>  Update Personal
+                            Information  </a></li>
+                      
+                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            Update Mobile Information  </a></li>
+                     
+                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            Update Name  </a></li>
+                     
+                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            Update Iqama / SSN  </a></li>
+                     
+                    <li><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i class="fa fa-caret-left"
+                                                                                            aria-hidden="true"></i>   </span> 
+                            Update Email  </a></li>
+                     
+                    <li class="slide-section-end"><a href="#3" data-toggle="tab"><span class="eservice-list-icons"><i
+                                        class="fa fa-caret-left" aria-hidden="true"></i>   </span>  Update Account
+                            Password  </a></li>
+                          
+                </ul>
+                                      </ul>  
+            </div>
+             
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8"> 
+                <div id="myTabContent" class="tab-content eservice-list-contents"> 
+                    <div id="ajax-preloader-wrapper"> 
+                        <div id="loader"></div>
+                         
+                    </div>
+                     
+                    <div class="tab-pane fade in active" id="contents-1">  
+                        <table class="table table-bordered">   
+                            <tr> 
+                                <td colspan="3" class="col-lg-12 eservice-content-company-title"> Information</td>
+                                 
+                            </tr>
+                             
+                            <tr> 
+                                <td class="col-lg-4"> 
+                                    <div class="ikt-info-wrapper"> 
+                                        <div class="img-ikt-info"><img alt="total-balance" src="img/11.svg"></div>
+                                         
+                                        <div class="ikt-info-price"> 
+                                            <div class="ikt-info-price-title">Total Balance</div>
+                                             
+                                            <div class="ikti-info-price-details color-blue">368.35</div>
+                                             
+                                            <div class="ikt-info-price-currency">SAR</div>
+                                             
+                                        </div>
+                                          
+                                    </div>
+                                     
+                                </td>
+                                 
+                                <td class="col-lg-4 "> 
+                                    <div class="ikt-info-wrapper"> 
+                                        <div class="img-ikt-info"><img alt="total-balance" src="img/22.svg"></div>
+                                         
+                                        <div class="ikt-info-price"> 
+                                            <div class="ikt-info-price-title">Used Balance</div>
+                                             
+                                            <div class="ikti-info-price-details orange-color">368.35</div>
+                                             
+                                            <div class="ikt-info-price-currency">SAR</div>
+                                             
+                                        </div>
+                                          
+                                    </div>
+                                     
+                                </td>
+                                 
+                                <td class="col-lg-4 "> 
+                                    <div class="ikt-info-wrapper"> 
+                                        <div class="img-ikt-info"><img alt="total-balance" src="img/33.svg"></div>
+                                         
+                                        <div class="ikt-info-price"> 
+                                            <div class="ikt-info-price-title">Current Balance</div>
+                                             
+                                            <div class="ikti-info-price-details light-red-color">368.35</div>
+                                             
+                                            <div class="ikt-info-price-currency">SAR</div>
+                                             
+                                        </div>
+                                          
+                                    </div>
+                                      
+                                </td>
+                                 
+                            </tr>
+                             
+                            <tr>  
+                                <td colspan="3" class="col-lg-12 user-details"> 
+                                    <table class="table table-bordered user-details"> 
+                                        <tr> 
+                                            <td style="border-top:none !important;" class="user-details-date"> 
+                                                <div class="ikt-date-info"> 
+                                                    <div class="ikt-date-icon"><i class="fa fa-circle-o"
+                                                                                  aria-hidden="true"></i></div>
+                                                     
+                                                    <div class="ikt-date-title">Activation Date</div>
+                                                     
+                                                    <div class="ikt-date-date">26/09/2011</div>
+                                                     
+                                                    <div class="claerfix"></div>
+                                                     
+                                                </div>
+                                                 
+                                            </td>
+                                             
+                                            <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;"
+                                                class="user-details-istikhdam"> 
+                                                <div class="ikt-date-info"> 
+                                                    <div class="ikt-date-icon"><i class="fa fa-circle-o"
+                                                                                  aria-hidden="true"></i></div>
+                                                     
+                                                    <div class="ikt-date-title">Last Used</div>
+                                                     
+                                                    <div class="ikt-date-date">26/09/2011</div>
+                                                     
+                                                    <div class="claerfix"></div>
+                                                     
+                                                </div>
+                                                 
+                                            </td>
+                                              
+                                        </tr>
+                                         
+                                    </table>
+                                     
+                                </td>
+                                  
+                            </tr>
+                             
+                            <tr>  </tr>
+                              
+                        </table>
+                         
+                        <div style="  float: right; width: 100%;" class=" ">  
+                            <div id="placeholder" class="col-lg-12 col-xs-12"></div>
+                              
+                        </div>
+                              
+                        <div class="clearfix"></div>
+                         
+                    </div>
+                     
+                    <div class="tab-pane fade  " id="2"> 
+                        <div class="row"> 
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "> 
+                                <div class="eservice-content-personal-title">  المعلومات الشخصية </div>
+                                 
+                            </div>
+                             
+                        </div>
+                         
+                        <div class="row"> 
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                        </div>
+                         
+                        <div class="row"> 
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                        </div>
+                         
+                        <div class="row"> 
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                        </div>
+                         
+                        <div class="row"> 
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 "> 
+                                <div class="eservice-content-personal-description"> 
+                                    <div class="icon-list-account light-red-color"><i aria-hidden="true"
+                                                                                      class="fa fa-circle-o"></i></div>
+                                     
+                                    <div class="account-info-detail-wrapper"> 
+                                        <div class="account-info-column">تاريخ الميلاد</div>
+                                         
+                                        <div class="account-info-value">26/09/2011</div>
+                                         
+                                        <div class="claerfix"></div>
+                                         
+                                    </div>
+                                     
+                                    <div class="claerfix"></div>
+                                     
+                                </div>
+                                 
+                            </div>
+                             
+                        </div>
+                         
+                        <div class="clearfix"></div>
+                         
+                    </div>
+                     
+                    <div class="tab-pane fade  " id="3"> 
+                        <div class="eservice-content-company-title">  استراتيجية المؤسسة </div>
+                         
+                        <div class="eservice-content-company-description" id="contents-3"></div>
+                         
+                        <div class="clearfix"></div>
+                         
+                    </div>
+                     
+                    <div class="tab-pane fade  " id="4"> 
+                        <div class="eservice-content-company-title">  الرؤية والرسالة </div>
+                         
+                        <div class="eservice-content-company-description">  مؤسسة خيرية تأ سست عام 1429 هـ ، ومسجلة
+                            بوازرة الشؤون الاجتماعية برقم 64، تقدم منح مالية للجهات الخيرية ، بهدف مساعدتها على تقديم
+                            خدماتها التنموية للفئات الأشد إحتياجاً ، والعمل على بناء شراكات مع القطاع العام والخاص ، من
+                            أجل المساهمة في التنمية المستدامة. 
+                        </div>
+                         
+                        <div class="clearfix"></div>
+                         
+                    </div>
+                     
+                    <div class="tab-pane fade  " id="5"> 
+                        <div class="eservice-content-company-title">  طلب بدل فاقد </div>
+                         
+                        <div class="eservice-content-iqama-description" id="contents-5"> 
+                            <form> 
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          111 البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                  
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                  
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                 
+                                <div class="row">  
+                                    <div class="col-lg-offset-4 col-lg-4 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-1  col-xs-18 description eservice-submit">
+                                          <input type="submit" class="button-2x" value="تحديث" id="submit"> 
+                                    </div>
+                                     
+                                </div>
+                                 
+                            </form>
+                              
+                        </div>
+                           
+                    </div>
+                     
+                    <div class="tab-pane fade  " id="6"> 
+                        <div class="eservice-content-company-title">  تحديث البيانات الشخصية </div>
+                         
+                        <div class="eservice-content-iqama-description" id="contents-6"> 
+                            <form> 
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          asd البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                  
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                  
+                                <div class="row"> 
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12  eservice-headings">
+                                          البريد الإلكتروني 
+                                    </div>
+                                     
+                                    <div class="col-lg-offset-3 col-lg-6 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12 description eservice-details">
+                                          <input type="text" class="form-control" id="formGroupExampleInput4"
+                                                 placeholder="البريد الإلكتروني"> 
+                                    </div>
+                                     
+                                </div>
+                                 
+                                <div class="row">  
+                                    <div class="col-lg-offset-4 col-lg-4 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-1  col-xs-18 description eservice-submit">
+                                          <input type="submit" class="button-2x" value="تحديث" id="submit"> 
+                                    </div>
+                                     
+                                </div>
+                                 
+                            </form>
+                              
+                        </div>
+                           
+                    </div>
+                           
+                    <div class="clearfix"></div>
+                     
+                </div>
+                 
+            </div>
+             
+        </div>
+          
     </section>
-
-
-{% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-<!-- /.nav -->
-<!-- JS jquery, bootstrap ,migrate, etc ... -->
-
-<script type="text/javascript">
-
-    var d1 = [[1262304000000, 3], [1264982400000, 13], [1267401600000, 15], [1270080000000, 18], [1272672000000, 23], [1275350400000, 27], [1277942400000, 30], [1280620800000, 30], [1283299200000, 27], [1285891200000, 22], [1288569600000, 16], [1291161600000, 13]];
-    var data1 = [{data: d1, points: { symbol: "circle", fillColor: "#0F935D" }, color: '#0F935D'}];
-
-    if(window.screen.width < 767) {
-        // some code..
-        var monthsData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-        var monthsData_ar = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    } else {
-        var monthsData = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        var monthsData_ar = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
-    }
-    $(document).ready(function () {
-        $.plot($("#placeholder"), data1, {
-            xaxis: {
-                min: (new Date(2009, 11, 18)).getTime(),
-                max: (new Date(2010, 11, 15)).getTime(),
-                mode: "time",
-                tickSize: [1, "month"],
-                monthNames: monthsData_ar,
-                tickLength: 0,
-                axisLabel: 'Month',
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                axisLabelPadding: 5
-            },
-            yaxis: {
-
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                axisLabelPadding: 5
-            },
-            series: {
-                lines: { show: true },
-                points: {
-                    radius: 3,
-                    show: true,
-                    fill: true
-                },
-            },
-            grid: {
-                hoverable: true,
-                borderWidth: 1
-            },
-            legend: {
-                labelBoxBorderColor: "none",
-                position: "right"
-            }
-        });
-
-        function showTooltip(x, y, contents, z) {
-            $('<div id="flot-tooltip">' + contents + '</div>').css({
-                top: y - 30,
-                left: x - 135,
-                'border-color': z,
-            }).appendTo("body").fadeIn(200);
+       {% endblock %}                
+   {% block javascripts %} 
+<!-- /.nav --> <!-- JS jquery, bootstrap ,migrate, etc ... -->  
+    <script type="text/javascript">      var d1 = [[1262304000000, 3], [1264982400000, 13], [1267401600000, 15], [1270080000000, 18], [1272672000000, 23], [1275350400000, 27], [1277942400000, 30], [1280620800000, 30], [1283299200000, 27], [1285891200000, 22], [1288569600000, 16], [1291161600000, 13]];
+        var data1 = [{data: d1, points: {symbol: "circle", fillColor: "#0F935D"}, color: '#0F935D'}];
+        if (window.screen.width < 767) {         // some code..         var monthsData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];         var monthsData_ar = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]     } else {         var monthsData = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];         var monthsData_ar = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]     }     $(document).ready(function () {         $.plot($("#placeholder"), data1, {             xaxis: {                 min: (new Date(2009, 11, 18)).getTime(),                 max: (new Date(2010, 11, 15)).getTime(),                 mode: "time",                 tickSize: [1, "month"],                 monthNames: monthsData_ar,                 tickLength: 0,                 axisLabel: 'Month',                 axisLabelUseCanvas: true,                 axisLabelFontSizePixels: 12,                 axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',                 axisLabelPadding: 5             },             yaxis: {                  axisLabelUseCanvas: true,                 axisLabelFontSizePixels: 12,                 axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',                 axisLabelPadding: 5             },             series: {                 lines: { show: true },                 points: {                     radius: 3,                     show: true,                     fill: true                 },             },             grid: {                 hoverable: true,                 borderWidth: 1             },             legend: {                 labelBoxBorderColor: "none",                 position: "right"             }         });          function showTooltip(x, y, contents, z) {             $('<div id="flot-tooltip">' + contents + '</div>').css({                 top: y - 30,                 left: x - 135,                 'border-color': z,             }).appendTo("body").fadeIn(200);         }          function getMonthName(numericMonth) {             var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];             var alphaMonth = monthArray[numericMonth];              return alphaMonth;         }          function convertToDate(timestamp) {             var newDate = new Date(timestamp);             var dateString = newDate.getMonth();             var monthName = getMonthName(dateString);              return monthName;         }          var previousPoint = null;          $("#placeholder").bind("plothover", function (event, pos, item) {             if (item) {                 if ((previousPoint != item.dataIndex) || (previousLabel != item.series.label)) {                     previousPoint = item.dataIndex;                     previousLabel = item.series.label;                      $("#flot-tooltip").remove();                      var x = convertToDate(item.datapoint[0]),                             y = item.datapoint[1];                     z = item.series.color;                      showTooltip(item.pageX, item.pageY,                             "<b>" + item.series.label + "</b><br /> " + x + " = " + y + "mm",                             z);                 }             } else {                 $("#flot-tooltip").remove();                 previousPoint = null;             }         });          $('#myTab a').on('click', function (event) {                   //alert('---');             if($(this).data('id') != '13') { // 13 is for logout                 event.preventDefault();                 var path = $(this).data('path');                 //alert(path);                 var id = $(this).data('id');                 // alert(id);                 //if (path == undefined || path == null || path == '') return;                 $.ajax({                      url:'http://localhost/ikthtml/Iktissabhtml/iqama.html',                     beforeSend: function () {                         $('#ajax-preloader-wrapper').show();                     },                     complete: function () {                         $('#ajax-preloader-wrapper').hide();                     },                     success: function (response) {                         $("#contents-"+id).html(response);                     }                 });              }         });       }); </script>   
+    <style type="text/css">  #placeholder {
+            width: 100%;
+            height: 400px;
         }
 
-        function getMonthName(numericMonth) {
-            var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var alphaMonth = monthArray[numericMonth];
+         </style>
 
-            return alphaMonth;
-        }
-
-        function convertToDate(timestamp) {
-            var newDate = new Date(timestamp);
-            var dateString = newDate.getMonth();
-            var monthName = getMonthName(dateString);
-
-            return monthName;
-        }
-
-        var previousPoint = null;
-
-        $("#placeholder").bind("plothover", function (event, pos, item) {
-            if (item) {
-                if ((previousPoint != item.dataIndex) || (previousLabel != item.series.label)) {
-                    previousPoint = item.dataIndex;
-                    previousLabel = item.series.label;
-
-                    $("#flot-tooltip").remove();
-
-                    var x = convertToDate(item.datapoint[0]),
-                            y = item.datapoint[1];
-                    z = item.series.color;
-
-                    showTooltip(item.pageX, item.pageY,
-                            "<b>" + item.series.label + "</b><br /> " + x + " = " + y + "mm",
-                            z);
-                }
-            } else {
-                $("#flot-tooltip").remove();
-                previousPoint = null;
-            }
-        });
-
-        $('#myTab a').on('click', function (event) {
-                  //alert('---');
-            if($(this).data('id') != '13') { // 13 is for logout
-                event.preventDefault();
-                var path = $(this).data('path');
-                //alert(path);
-                var id = $(this).data('id');
-                // alert(id);
-                //if (path == undefined || path == null || path == '') return;
-                $.ajax({
-
-                    url:'http://localhost/ikthtml/Iktissabhtml/iqama.html',
-                    beforeSend: function () {
-                        $('#ajax-preloader-wrapper').show();
-                    },
-                    complete: function () {
-                        $('#ajax-preloader-wrapper').hide();
-                    },
-                    success: function (response) {
-                        $("#contents-"+id).html(response);
-                    }
-                });
-
-            }
-        });
-
-
-    });
-</script>
-
-
-<style type="text/css">
-    #placeholder { width: 100%; height: 400px; }
-</style>
-
-
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script> 
+    <script type="text/javascript"
+            src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script> 
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
         });
-    </script>
-
-{% endblock %}
+    </script>  
+       {% endblock %}                

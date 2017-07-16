@@ -128,20 +128,19 @@ class ActivationController extends Controller
         // check referal
         // to do: uncomment below
         if (!$this->isReferalValid('card_activation')) {
-          // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+          return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
         // get existing user data
-        $url = $request->getLocale() . '/api/' . $this->get('session')->get('iktCardNo') . '/userinfo.json';
+        $url  = $request->getLocale() . '/api/' . $this->get('session')->get('iktCardNo') . '/userinfo.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['success'] == "true") {
             $this->get('session')->set('iktUserData', $data['user']);
         }
         $error = array('success' => true);
         $fData = array('iktCardNo' => $this->get('session')->get('iktCardNo'), 'email' => $this->get('session')->get('email'));
-        $form = $this->createForm(IktCustomerInfo::class, $fData);
-
+        $form  = $this->createForm(IktCustomerInfo::class, $fData);
         $form->handleRequest($request);
         $pData = $form->getData();
         if ($form->isSubmitted() && $form->isValid()) {
@@ -196,7 +195,7 @@ class ActivationController extends Controller
     {
         // check referal
         if (!$this->isReferalValid('card_activation')) {
-            // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+            //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         // get all cities
         $restClient = $this->get('app.rest_client');
@@ -353,7 +352,7 @@ class ActivationController extends Controller
                         $em->flush();
                         $request->getSession()
                             ->getFlashBag()
-                            ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account has been created you can login now '));
+                            ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account has been created you can login now'));
 
                         $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email'));
                         $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));

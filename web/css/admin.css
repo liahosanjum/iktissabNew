@@ -31,17 +31,17 @@ body {
 .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7,
 .col-md-8, .col-md-9 { float: left; }
 .main-container{ float: left; width: 100%; }
-.header-top-section {  height: 129px; border-bottom:1px solid #4e4e4e;margin: auto; width: 1170px; margin-bottom:40px;  }
-.header-footer-section {  line-height: 40px; height: 40px;background-color: #0f0f0f  ;margin-top: 40px; border-top:1px solid #4e4e4e;margin: auto; width: 1170px;  }
+.header-top-section {  height: 120px; margin: auto; width: 1170px; margin-bottom:40px;  }
+.header-footer-section {  line-height: 40px; min-height: 40px;background-color: #0f0f0f  ; border-top:1px solid #4e4e4e;margin: auto;   margin-top: 40px;  }
 .header-footer-section  .footer { text-align: center; font-size: 16px; color: #FFFFFF }
 .left-sidebar{ height: 300px; padding-top: 20px; padding-bottom: 20px; }
 .links{ height: 29px; border-bottom: 1px solid; line-height: 29px; }
-.middle-contents{ height: 800px; }
-.cms-button{ margin-top: 20px; width: 200px; text-align: center }
+.middle-contents{ min-height: 580px; }
+.cms-button{ margin-top: 20px; width: 200px; text-align: center; float: left; }
 #cms_pages_save{ text-align: center; }
 .cmsFormSaveBtn{ text-align: center; }
 textarea.form-control{ height: 200px;}
-
+.title-form{ font-size: 25px; margin-top:20px; }
 .clearboth{clear: both;}
 .header-title-wrapper{ float:left; width: 100%; height: 40px; background-color: #e7e7e7; line-height: 40px; border: 1px solid #eeeeee; }
 
@@ -54,12 +54,12 @@ textarea.form-control{ height: 200px;}
 .header-title-action-list{ padding-left: 10px; padding-right: 10px; float: left; width:280px; text-align: center;    }
 .header-action-list{ float:left; width: 130px }
 .page-heading{ padding-bottom:20px;  }
-.login-area{ width:30%; float: left; }
-.Header-area{ width:70%; float: left}
+.login-area{ width:30%; float: right; font-family: Verdana; font-size: 18px; }
+.Header-area{ width:70%; float: left ; color: #000000; font-size:30px; margin-top: 28px; padding-left:30px;   }
 .addNew{float: right; font-weight: bold; padding-bottom: 20px;}
 
 
-.header-title-wrapper_settings{ float:left; width: 100%;   background-color: #e7e7e7;  border: 1px solid #eeeeee; }
+.header-title-wrapper_settings{ float:left; width: 100%;   min-height:35px; padding-top: 5px;  border: 1px solid #eeeeee; }
 
 .header-title_settings{ padding-left: 10px; padding-right: 10px; float: left; width:135px; text-align: center; font-weight: bold;  }
 .header-title-sno_settings{ padding-left: 10px; padding-right: 10px; float: left; width:10px; text-align: center; font-weight: bold;  }
@@ -70,6 +70,16 @@ textarea.form-control{ height: 200px;}
 .header-title-sno-list_settings{ padding-left: 10px; padding-right: 10px; float: left; width:10px; text-align: center;    }
 .header-title-action-list_settings{ padding-left: 10px; padding-right: 10px; float: left; width:130px; text-align: center;    }
 .header-action-list_settings{ float:left; width: 50px }
-.admin-login { text-align: center; padding-top: 50px;text-align: center; padding-top: 100px;  border: 1px solid #4e4e4e;  padding-bottom: 105px; }
+.admin-login { text-align: center; text-align: center;  border: 1px solid #4e4e4e;  padding-bottom: 70px;
+background-color: #008b40; border: 10px solid #dddddd;
 
+}
+.header-title-admin{ font-family: Verdana; font-size: 30px; margin-bottom: 20px;
+margin-top:40px; color: #FFFFFF;
+border-bottom: 1px solid #FFFFFF;
+}
+.input-admin{ font-size: 17px; font-weight: normal; color: #FFFFFF; padding-top: 20px; }
+.login-admin-conts{ float: left; margin-top: 10px; width: 100%; border-bottom: 1px solid #FFFFFF; padding-bottom: 40px; }
+.login-admin-btn{ border: 1px solid #4e4e4e; height: 35px; width: 205px; margin-top: 30px;  }
+ .cmsForm{ float: left; width: 100%;  }
 

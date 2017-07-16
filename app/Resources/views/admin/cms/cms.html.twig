@@ -8,8 +8,7 @@
         <div class="col-lg-12  col-md-12 col-sm-12 ">
 
             <div class="cmsForm">
-
-            {{ message }}
+                {{ message }}
             </div>
             {{ form_start(form) }}
 
@@ -41,20 +40,31 @@
                 {{ form_errors(form.country) }}
                 {{ form_widget(form.country) }}
             </div>
+
             <div class="cmsForm">
                 {{ form_label(form.status) }}
 
                 {{ form_widget(form.status) }}
             </div>
+            <div class="cmsFormBrochure">
+                {{ form_label(form.brochure) }}
+                {{ form_errors(form.brochure) }}
+                {{ form_widget(form.brochure) }}
+            </div>
+
 
             <div class="cmsFormSaveBtn">
                 {{ form_label(form.save) }}
 
                 {{ form_widget(form.save) }}
             </div>
-
+            <div class="claerfix"></div>
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
+    <style type="text/css">
+        .cmsFormBrochure {
+            display: none; }
+    </style>
 
+{% endblock %}

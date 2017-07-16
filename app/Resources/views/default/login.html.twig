@@ -1,17 +1,6 @@
 {% extends 'base.html.twig' %}
-
-
-
 {% block body %}
-
     <section class="container memeberloginwrapper">
-        {% if app.request.cookies.get('c_locale') == "en" %}
-            {%  set side = 'right'  %}
-        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
-            {%  set side = 'left'  %}
-        {% else %}
-            {%  set side = 'left'  %}
-        {% endif %}
         <div class="breadcrum-wrapper">
             <div class="row">
                 <div class="breadcrumb">
@@ -33,7 +22,7 @@
                     <div class="login-sub-title"><h3>{{ 'In order to view your membership account information it requires that you enter your username and password'|trans }}</h3></div>
                     {% if error %}
 
-                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable "> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable "> {{ error.messageKey|trans(error.messageData) }}</div>
 
                     {% endif %}
                     <div class="contents-cms">{{ 'Please enter your username and password and click the Sign in button'|trans }}</div>
@@ -157,7 +146,7 @@
 
             jQuery.extend(jQuery.validator.messages, {
                 required: "{{ 'This field is required'|trans }}",
-                email: "{{ 'Please enter valid email address'|trans }}",
+                email: "{{ 'Invalid email address'|trans }}",
 
             });
         });

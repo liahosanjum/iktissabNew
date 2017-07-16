@@ -1,0 +1,43 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
+           <div class="addNew">
+               <a href="{{ path('uploadfile')}}">ADD New Image</a>
+           </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th colspan="2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+            {% set i = 1 %}
+            {% for item in data %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td><img width="50" height="50" src="{{ asset('banners/img/') ~ item.image  }} "></td>
+
+                    <td>{{  item.Status }}</td>
+                    <td colspan="2">
+                        <a href="{{ app.request.getBaseURL()  }}/admin/gallerylistdelete/{{ item.id }}" onclick="return delRecord({{ item.id }})">Delete</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ app.request.getBaseURL()  }}/admin/gallerylistupdate/{{item.id}}">Update</a>
+                    </td>
+                 </tr>
+                {% set i = i + 1 %}
+                {% endfor %}
+
+                </tbody>
+           </table>
+    </div>
+
+{% endblock %}
+

@@ -22,6 +22,7 @@ class EnquiryAndSuggestionController extends Controller
     public function addAction(Request $request)
     {
         $response = new Response();
+        $activityLog  = $this->get('app.activity_log');
         $comFunction = new FunctionsController();
         if($comFunction->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
@@ -103,20 +104,28 @@ class EnquiryAndSuggestionController extends Controller
 
                         $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
                         if ($rest) {
-                            return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Record Added Successfully') ,'show_form' => $show_form));
+                            
+                            $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, $comFunction->getIP(), array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
+
+                            return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Form is submitted Successfully') ,'show_form' => $show_form));
                         }
                     } else {
                         return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('') ,'show_form' => $show_form));
                     }
                 } catch (\Exception $e) {
+                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, $comFunction->getIP(), array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => ''));
+
                     return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage() ,'show_form' => $show_form));
                 }
             } else {
                 return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form ));
             }
         } else {
-            if($form->isSubmitted()) { $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
-            } else {   $message = ''; }
+            if($form->isSubmitted()) {
+                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, $comFunction->getIP().'test', array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'), 'Data' => ''));
+
+                $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
+            } else {   $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');}
             $show_form  = false;
             return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $message , 'show_form' => $show_form ));
         }
@@ -161,6 +170,7 @@ class EnquiryAndSuggestionController extends Controller
     {
         try
         {
+
             $commFunction    = new FunctionsController();
             $country_id      = $commFunction->getCountryCode($request);
             $formSettingList = $this->getDoctrine()
@@ -210,7 +220,6 @@ class EnquiryAndSuggestionController extends Controller
                               }
                               $i++;
                           }
-                          // change it to false
                           return false;
                     }
                     else{
@@ -221,8 +230,7 @@ class EnquiryAndSuggestionController extends Controller
         }
         catch (\Exception $e)
         {
-            $message = $e->getMessage();
-            return $this->render('front/faqs.html.twig', array('form' => $form->createView(), 'message' => $message,));
+            return false;
         }
     }
 

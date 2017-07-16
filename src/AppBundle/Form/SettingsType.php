@@ -22,24 +22,30 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('email' , TextType::class, array('label' => 'Email',
+        $builder->add('email' , TextType::class, array('label' => 'Email ',
                 'attr' => array(
-                    'class' => ''
+                    'class' => 'form-control'
                 ),'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
             ))
             ->add('type', ChoiceType::class, array(
-                'label' => 'Select Technical Type',
-                'choices' => array('Select Form Type' => '', 'Inquiries And Suggestion' => 'Inquiries And Suggestion', 'Contact Us' => 'Contact Us'),
+                'label' => 'Select Form Type',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                'choices' => array('Select Form Type' => '', 'Inquiries And Suggestion' => 'Inquiries And Suggestion', 'Contact Us ' => 'Contact Us'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
             ))
 
             ->add('country', ChoiceType::class, array(
-                    'label' => 'Country',
-                    'choices' => array('Country' => '', 'Saudi Arabia' => 'sa', 'Egypt' => 'eg'),
+                    'label' => 'Country ',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                    'choices' => array('Country ' => '', 'Saudi Arabia' => 'sa', 'Egypt ' => 'eg'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                     )
@@ -47,6 +53,9 @@ class SettingsType extends AbstractType
 
             ->add('technical', ChoiceType::class, array(
                 'label' => 'Select Technical Type',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
                 'choices' => array('Select Technical Type' => '', 'Active' => '1', 'In-Active' => '0'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -56,6 +65,9 @@ class SettingsType extends AbstractType
 
             ->add('other', ChoiceType::class, array(
                 'label' => 'Select Type Other',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
                 'choices' => array('Select Type Other' => '', 'Active' => '1', 'In-Active' => '0'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -65,7 +77,7 @@ class SettingsType extends AbstractType
 
 
             ->add('save', SubmitType::class, array('label' => 'Add','attr' => array(
-                'class' => 'form-control cms-button' , 
+                'class' => 'form-control cms-button ' ,
             )));
     }
 

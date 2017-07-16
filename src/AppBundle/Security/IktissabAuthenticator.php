@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
+use Symfony\Component\Translation\Translator;
 
 class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
 {
@@ -26,34 +27,32 @@ class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-
-        //var_dump("auth");die();
         try{
 
             $user = $userProvider->loadUserByUsername($token->getUsername());
         }
         catch (UsernameNotFoundException $e){
-            throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
+            throw new CustomUserMessageAuthenticationException('Invalid Credentials');
         }
-
- //        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_member_area']));
- //         var_dump(unserialize($_SESSION['_sf2_attributes']['_security_admin_area']));die();
-       //var_dump($user);
- //        echo "<hr />";
- //        var_dump($token->getRoles());
-        // die('--');
         $passwordValid = $this->encoder->isPasswordValid($user, $token->getCredentials());
-
-
-
         if($passwordValid)
         {
             //TODO: check member status here
-
             return new UsernamePasswordToken($user, $user->getPassword(), $providerKey, $user->getRoles());
         }
-        else{
-            throw new CustomUserMessageAuthenticationException('Invalid Username or Password----');
+        else
+        {
+            //$re = new Request();
+            throw new CustomUserMessageAuthenticationException('Invalid Credentials');
+//          if($re->cookies->get('c_locale') == 'ar' ){
+//              $message_error = 'Invalid Username or Password ar';
+//          }else
+//          {
+//              $message_error = 'Invalid Username or Password en';
+//          }
+//
+//            throw new CustomUserMessageAuthenticationException($message_error);
+            // throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
         }
     }
 

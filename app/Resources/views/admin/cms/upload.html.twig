@@ -1,38 +1,20 @@
 {% extends '::baseadmin.html.twig' %}
- {% block stylesheets %}
-     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="{{ asset('demo/css/style.css') }}"/>
-<link rel="stylesheet" href="{{ asset('demo/css/jquery.fileupload.css') }}"/>
-
-
- {% endblock %}
-
 
 
 {% block body %}
-    <div class="container">
-        <!-- The fileinput-button span is used to style the file input field as button -->
-    <span class="btn btn-success fileinput-button">
-        <i class="glyphicon glyphicon-plus"></i>
-        <span> ...</span>
-        <!-- The file input field used as target for the file upload widget -->
-        <input id="fileupload" type="file" name="fileupload[]" multiple>
-    </span>
-        <br>
-        <br>
-        <!-- The global progress bar -->
-        <div id="progress" class="progress">
-            <div class="progress-bar progress-bar-success"></div>
+    <div class="row">
+        <div class="col-lg-12  col-md-12 col-sm-12 ">
+        <div class="cmsForm"></div>
+            <h1>Adding a new image</h1>
+
+            {{ form_start(form) }}
+            {# ... #}
+
+            {{ form_row(form.image) }}
+
+            {{ form_end(form) }}
         </div>
-        <!-- The container for the uploaded files -->
-        <div id="files" class="files"></div>
-        <br>
-
-
     </div>
 {% endblock %}
 
- {% block javascripts %}
 
-
- {% endblock %}

@@ -35,7 +35,7 @@ class MobileType extends AbstractType
                     array(
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
-                        'message' => 'Invalid Iqama/SSN Number')),)))
+                        'message' => 'Invalid Iqama Id/SSN Number')),)))
             ->add('ext', TextType::class, array(
                 'label' => 'Country-Code:','label_attr' => ['class' => ' formControl-ext formLayout col-lg-6 col-md-6 col-sm-6 col-xs-2   form_labels'],
                 'attr' => array('class' => 'mobile_ext form-control-modified formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   ' , 'value'=> $ext , 'readonly' => 'readonly'),

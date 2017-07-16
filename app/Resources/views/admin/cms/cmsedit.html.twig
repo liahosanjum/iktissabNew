@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 page-heading ">
 
-            Update Page
+            <div class="title-form">Update Page </div>
 
         </div>
 
@@ -40,6 +40,11 @@
                 {{ form_errors(form.edesc) }}
                 {{ form_widget(form.edesc) }}
             </div>
+            <div class="cmsForm">
+                {{ form_label(form.country) }}
+                {{ form_errors(form.country) }}
+                {{ form_widget(form.country) }}
+            </div>
 
             <div class="cmsForm">
                 {{ form_label(form.status) }}
@@ -58,6 +63,7 @@
 
             {{ form_end(form) }}
         </div>
+        <div class="claerfix"></div>
     </div>
 {% endblock %}
 

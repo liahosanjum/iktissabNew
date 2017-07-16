@@ -47,7 +47,7 @@ class UserController extends Controller
             '/admin/cms/users.html.twig',
             array(
                 'users' => $pager,
-                'ikt' => $ikt,
+                'ikt'   => $ikt,
                 'email' => $email
             )
         );

@@ -1,4 +1,12 @@
-﻿#smsverify { margin-top:30px;margin-bottom:30px; }
+﻿.navbar-collapse { padding-left: 0px !important;  }
+.pass-repeat{ margin-top:8px !important;}
+.email-repeat{ margin-top:8px !important;}
+.iktpass{ padding-top: 10px; }
+.form-control[readonly] { margin-bottom: 5px !important; }
+.home-no-data{ min-height: 400px; margin-top: 50px; margin-bottom: 50px; }
+.err-img { margin-top:70px; margin-bottom: 70px; }
+.errorPage{ min-height: 500px;  }
+#smsverify { margin-top:30px;margin-bottom:30px; }
 .offset-layout{ margin-left: 16.66%; margin-right: 16.66%; }
 
 #forgot_email_submit{ float: left;   margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important;}
@@ -26,7 +34,7 @@
 .mobile-iqama-wrapper { margin-left:15px ; margin-right:15px;}
 .mobile-form-mags { margin-left:15px !important; margin-right:15px !important;}
 
-#login_form input.form-control{ padding-left: 25px !important; }
+#login_form input.form-control{ padding-left: 25px !important; padding-top: 12px !important; }
 .reset_password_wrapper h2 {
     color: #343434;
     font-family: Verdana;
@@ -617,6 +625,7 @@ select#ikt_update_maritial_status  {
 .password-margins{ margin-left:15px; margin-right:15px; }
 .eservice-content-inner-wrapper{    float: left; width: 100%; padding-right:15px ;padding-left:15px; }
 .formLayout{ margin-bottom:5px; font-weight: 600; font-size: 15px; }
+.form-cardactivation-wrapper-step2 .title-cardactivation-form .formLayout{ margin-bottom:5px; font-weight: 500; font-size: 14px; }
 
 /** email **/
 .email-wrapper{ padding-left:15px; }
@@ -795,7 +804,7 @@ body{
 
 .home-text-grey
 {
-    float: right; padding-right: 10px;
+    float: right;
 }
 .home-text-grey1
 {
@@ -925,7 +934,7 @@ body{
 .promotion-section_down{ min-height: 186px; float: right; width: 100%; border: 6px solid #dddddd; background-color:#FFFFFF;  }
 .promotion-section_down:hover{background-color: #008B40; color:#FFFFFF; }
 .slider{ float: right;   width: 100%; }
-.message-promo-wrapper{ margin-top:20px; margin-bottom: 20px; width: 100%; }
+.message-promo-wrapper{ margin-top:21px; margin-bottom: 21px; width: 100%; }
 
 .promo-sec-wrapper{ float: right; width: 100%; }
 .promo-sec-wrapper a { color: #000000; }
@@ -937,7 +946,7 @@ body{
 .promo-ico img {  text-align: center;  }
 .promo-img {  height:68px; }
 .promo-title{ width: 100%; font-family: Verdana; font-size: 20px; float: none; display: block; text-align: center; padding-top: 5px; }
-.promo-detail { padding-left: 3px; padding-right: 3px; text-align: center; width: 100%; float: none; font-size: 13px; font-family: Verdana; padding-bottom: 15px; line-height: 15px; }
+.promo-detail { padding-left: 3px; padding-right: 3px; text-align: center; width: 100%; float: none; font-size: 13px; font-family: Verdana; padding-bottom: 13px; line-height: 15px; }
 .langSelected a{ font-family: Verdana; font-size: 13px;  }
 
 
@@ -1233,7 +1242,7 @@ body{
 .se-iktitem-footer a { color: #FFFFFF; }
 .se-iktitem-footer a:hover { color: #777;}
 .social-icons a:hover { color: #f29100; }
-.wrapper-logo{ padding-top: 20px; padding-bottom: 20px;}
+.wrapper-logo{ padding-top: 22px; padding-bottom: 22px;}
 .ph-svg{ height: 50px;width: 48px; }
 .header-contact-number{ font-weight: bold; color: #008b40; font-size: 20px; line-height: 15px; }
 
@@ -1274,7 +1283,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 .services-tawani .col-lg-6 {  margin-bottom:20px; padding-right: 0px; }
 .captcha-code{ float: left; width: 100%; }
-.contactus-list-wrapper{ float: left; border-right: 1px solid #dddddd }
+.contactus-list-wrapper{ float: left; border-right: 1px solid #dddddd;  }
 .contactus-question { color: #008b40; font-size: 18px;  text-align: right; font-weight: bold; margin-bottom: 15px; }
 .contactus-list-title-wrapper { float: right; padding-top: 10px; }
 .contactus-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 700; }
@@ -1285,6 +1294,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .login-inner-contents .contents-cms { padding-top: 48px; margin-bottom: 7px; font-weight: 500; }
 .memberlogin-emailarea .contents-cms { padding-top: 30px; margin-bottom: 10px; line-height: 20px; font-weight: 500;}
 .contactus-inner-contents{ float:left; margin-bottom:20px;  }
+.contactus-inner-contents-message{ float:left; min-height: 400px;  }
+
 .login-inner-contents{ float:left; width: 100%;  }
 .title-contactus-form{ float: left; padding-bottom: 10px; padding-top: 10px; font-weight: 700; font-size: 14px; }
 .contactForm input {
@@ -1563,13 +1574,13 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .iktissab-activation-step2{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
 .ikt-activation-title{ float: left; text-align: right; width: 57%; padding-left: 3px;}
 .ikt-activation-number {float: left;  text-align: left; width: 42%; padding-left: 3px;}
-.form-cardactivation-inner{margin-top: 8px; float: left; width: 100%; }
+.form-cardactivation-inner{margin-top: 5px; float: left; width: 100%; }
 
 .aboutus-wrapper {  margin-bottom: 50px; direction: ltr;  }
 
 .iktissab-activation-step3{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
 .card-activation-thanks-message { direction:ltr;font-size: 16px;  margin-top: 34px; font-family: Verdana;
-    padding-left: 10px; float: left; width: 100%; font-weight: bold;   }
+    padding-left: 28px; float: left; width: 100%; font-weight: bold;   }
 
 
 .aboutus-wrapper .col-lg-12{  padding-left: 0px;}
