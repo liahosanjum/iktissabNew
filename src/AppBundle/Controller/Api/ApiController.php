@@ -185,6 +185,7 @@ class ApiController extends FOSRestController
 
         try{
             $citesAreasAndJobs = $cardService->getCitiesAreasAndJobs();
+
         }
         catch (RestServiceFailedException $e){
             return $this->handleView($this->view(array('success'=>false, "ResponseCode"=>$responseCodes['SERVICE_CONNECTION'])));

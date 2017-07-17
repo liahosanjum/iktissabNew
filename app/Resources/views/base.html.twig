@@ -24,8 +24,6 @@
 
 {% if app.request.cookies.get('c_locale') == "en" %}
     {%  set side = 'right'  %}
-{% elseif app.request.cookies.get('c_locale') == "ar"  %}
-    {%  set side = 'left'  %}
 {% else %}
     {%  set side = 'left'  %}
 {% endif %}

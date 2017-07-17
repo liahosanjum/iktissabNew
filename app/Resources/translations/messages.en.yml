@@ -388,8 +388,13 @@
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number en **** %s'
 'Signup': 'Signup'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now en'
-
-
+'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card': 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card'
+'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer': ''
+'log.no_posts_found': 'log.no_posts_found'
+'Actions': 'Actions'
+'Send OTP': 'Send OTP'
+'user.no_posts_found': 'user.no_posts_found'
+'Inquiry and suggestions': 'Inquiry and suggestions'
 
 
 

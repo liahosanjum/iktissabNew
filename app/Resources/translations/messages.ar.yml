@@ -390,7 +390,10 @@
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number ar **** %s'
 'Signup': 'تسجيل'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now ar'
-
+'log.no_posts_found': 'log.no_posts_found'
+'Actions': 'Actions'
+'Send OTP': 'Send OTP'
+'user.no_posts_found': 'user.no_posts_found'
 
 
 
