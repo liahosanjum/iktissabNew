@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Security;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,14 +40,20 @@ class LogoutHandler implements LogoutSuccessHandlerInterface
      */
     public function onLogoutSuccess(Request $request)
     {
-        $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getIktCardNo();
-        $acrivityLog = $this->containerInterface->get('app.activity_log');
-        if($this->session->get('IktUserData')) {
-            $this->session->remove('iktUserData');
-        }
-        $acrivityLog->logLogoutEvent($user);
-        $response = new RedirectResponse($this->router->generate('account_home',array('_locale'=>$request->getLocale(), '_country'=>$request->get('_country'))));
-        return $response;
+
+            if ($this->containerInterface->get('security.token_storage')->getToken() != '') {
+                $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getIktCardNo();
+                $acrivityLog = $this->containerInterface->get('app.activity_log');
+                $acrivityLog->logLogoutEvent($user);
+            }
+            if ($this->session->get('IktUserData')) {
+                $this->session->remove('iktUserData');
+            }
+
+            $response = new RedirectResponse($this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => $request->get('_country'))));
+            return $response;
+
+
         // TODO: Implement onLogoutSuccess() method.
     }
 }

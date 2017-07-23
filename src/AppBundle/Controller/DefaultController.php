@@ -835,7 +835,7 @@ class DefaultController extends Controller
                 'type' => PasswordType::class,
                 'constraints' => array(
                     new NotBlank(),
-                    new Length(array('minMessage' => 'Password must be at least 8 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 8, 'max' => 40))
+                    new Length(array('minMessage' => 'Password must be at least 6 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 6, 'max' => 40))
                 ),
                 'invalid_message' => 'Password and confirm password must match',
                 'first_options' => array('label' => 'Enter New Password',

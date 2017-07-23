@@ -29,7 +29,6 @@ security:
             stateless: true
             wsse: true
 
-
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -59,7 +58,6 @@ security:
             simple_form:
               success_handler: app.iktadmin_success_handler
 #             default_target_path: homepage
-              always_use_default_target_path: true
               login_path: /admin/admin
               check_path: /admin/admin
               authenticator: app.iktissabadmin_authenticator

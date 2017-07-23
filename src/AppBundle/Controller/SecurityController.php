@@ -85,6 +85,13 @@ class SecurityController extends Controller
             }
         }
 
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+            echo 'adf'; exit;
+            // create current user country session
+
+            $this->get('session')->set('userSelectedCountry',$request->get('_country'));
+            return $this->redirectToRoute('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale));
+        }
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             // create current user country session

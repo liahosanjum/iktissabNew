@@ -28,7 +28,8 @@ class RestClientService
         $this->restClient = $restClient;
         $this->jsonEncoder = $jsonEncoder;
     }
-
+    // sohail@gmail.com
+    // abc@1234
 
     private  function GetXWSSE(){
 
@@ -317,7 +318,7 @@ class RestClientService
         {
             $result = $this->restClient->get($url, $options);
             // print_r($result);
-            echo 'here restGetForm '.$result->getContent();
+            $result->getContent();
             if($result->getStatusCode() == Response::HTTP_OK)
             {
                 if($result->headers->get('content_type') == 'application/json')
