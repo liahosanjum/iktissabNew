@@ -44,8 +44,8 @@ class EnquiryAndSuggestionType extends AbstractType
         ))
 
         ->add('job', TextType::class, array('label' => 'Job' ,
-            'label_attr' => ['class' => 'required formLayout form_labels'],
-        'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+            'label_attr' => ['class' => 'formLayout inq_form_job form_labels'],
+        'attr' => array('class' => 'col-lg-4 inq_form_job form-control-modified  formLayout'),
 
         ))
 
@@ -73,8 +73,8 @@ class EnquiryAndSuggestionType extends AbstractType
                         new Email(array('message' => 'Invalid email address'))
                     )))
             ->add('reason', ChoiceType::class, array('label'=>"Reason",
-                'label_attr' => ['class' => 'required formLayout form_labels'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+                'label_attr' => ['class' => 'required formLayout inq_form_reason form_labels'],
+                'attr' => array('class' => 'col-lg-4 inq_form_reason form-control-modified  formLayout'),
 
                 "choices"=>array(
                         "Complaint" => EnquiryAndSuggestion::COMPLAINT,

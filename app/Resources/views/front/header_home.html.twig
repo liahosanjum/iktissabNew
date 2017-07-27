@@ -27,6 +27,7 @@
     {% block stylesheets %}
         <link rel="stylesheet"  href="{{ asset('css/slick/slick_'~app.request.get('_locale')~'.css') }}"  />
         <link rel="stylesheet" href="{{ asset('css/slick/slick-theme_'~app.request.get('_locale')~'.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/slick/modal-thems.css') }}" />
 
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
         <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
@@ -47,6 +48,13 @@
     <script type="text/javascript" src="{{ asset('js/html5shiv.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/respond.min.js') }}"></script>
     <![endif]-->
+    <script type="text/javascript">
 
+        if(top.location != self.location){
+            top.location = self.location.href;
+        }
+
+
+    </script>
 </head>
 

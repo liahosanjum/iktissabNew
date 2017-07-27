@@ -39,21 +39,62 @@
             {% if show_form == true %}
                 <div class="row">
                     <div class="col-lg-12 ">
+
+
                         {{ form_start(form) }}
                             {{ form_row(form.name) }}
-                            {{ form_row(form.job) }}
-
-     {{ form_row(form.mobile) }}
-
 
                             {{ form_row(form.email) }}
 
-                        {{ form_row(form.reason) }}
+                        <div class="row">
+                             <div class="col-lg-6">
+                                <div class="">
+                                    {{ form_label(form.job) }}  </div>
+                                <div class="cardactivationForm">
+
+
+                                    {{ form_widget(form.job) }}
+                                </div>
+                                <div class="title-cardactivation-form">
+                                    {{ form_errors(form.job) }}
+                                </div>
+                              </div>
+                            <div class="col-lg-6">
+                                <div class="">
+                                    {{ form_label(form.reason) }}
+                                </div>
+                                <div class="cardactivationForm">
+                                    {{ form_widget(form.reason) }}
+                                </div>
+                                <div class="title-cardactivation-form">
+                                    {{ form_errors(form.reason) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        {{ form_row(form.mobile) }}
                         {{ form_row(form.comments) }}
                         <div class="captcha-code">
-                            {{ form_row(form.captchaCode) }}
+                          <div class="row">
+                            <div class="col-lg-6">
+                                <div class="title-cardactivation-form">
+                                    {{ form_label(form.captchaCode) }}
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-lg-12">{{ form_widget(form.captchaCode) }}
+                              </div>
+
+                          </div>
+
+
                             </div>
                         {{ form_end(form) }}
+
                     </div>
                 </div>
             {% endif %}

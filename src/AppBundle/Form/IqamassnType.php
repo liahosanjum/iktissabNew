@@ -26,7 +26,7 @@ class IqamassnType extends AbstractType
         $country_id = $options['extras']['country'];
 
         $builder->add('iqamassn_registered', TextType::class, array(
-            'label' => 'Registered Iqama ID/SSN',
+            'label' => 'Registered Iqama ID/SSN'.$country_id,
             'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
             'attr' =>array('readonly' => 'readonly' , 'value' => $iktID_no  , 'maxlength' => ($country_id == 'sa') ? 10 : 14  ,'class' => 'form-control formLayout' ),
             'constraints' => array(
@@ -35,17 +35,17 @@ class IqamassnType extends AbstractType
                     array(
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
-                        'message' => 'Invalid Iqama Id/SSN Number')),
+                        'message' => 'Invalid Iqama Id/SSN Number'.$country_id)),
                     new  Assert\Callback( array($iktID_no, 'validateIqama') )
 
                 )))
             ->add('iqamassn_new', RepeatedType::class, [
                 'type' => TextType::class,
 
-                'invalid_message' => 'Iqama/SSN fields must match',
+                'invalid_message' => 'Iqama/SSN fields must match'.$country_id,
                 'required' => true,
-                'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),  'label' => 'New Iqama ID/SSN', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
-                'second_options' => array( 'attr' =>array('class' => 'form-control formLayout' ,'maxlength' => ($country_id == 'sa') ? 10 : 14 ), 'label' => 'Confirm New Iqama ID/SSN', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),  'label' => 'New Iqama ID/SSN'.$country_id, 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'second_options' => array( 'attr' =>array('class' => 'form-control formLayout' ,'maxlength' => ($country_id == 'sa') ? 10 : 14 ), 'label' => 'Confirm New Iqama ID/SSN'.$country_id, 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array(
                     new NotBlank(array('message' =>  'This field is required')),
@@ -53,7 +53,7 @@ class IqamassnType extends AbstractType
                     array (
                             'pattern'   => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match'     => true,
-                            'message'   => 'Invalid Iqama Id/SSN Number')),)])
+                            'message'   => 'Invalid Iqama Id/SSN Number'.$country_id)),)])
             ->add('comment_iqamassn', TextareaType::class, array('label' => 'Comments',  'label_attr' => ['class' => 'formLayout required col-lg-12 col-md-12 col-sm-12 col-xs-12 form_labels'],
                 'attr'          =>array('maxlength' => 255 , 'class' => 'form-control formLayout'),
                 'constraints'   => array(

@@ -15,12 +15,14 @@
 "Password and confirm password must match": "Password and confirm password must match"
 'Invalid Iktissab Card Number': 'Invalid Iktissab Card Number'
 'New Iktissab card number and confirm new iktissab card number must be same': 'New Iktissab card number and confirm new iktissab card number must be same'
-"Iqama/SSN fields must match": "Iqama Id/SSN fields must match"
-"New email and confirm email fields must match": "New email and confirm email fields must match"
+"Iqama/SSN fields must matchsa": "Iqama Id/SSN fields must match"
+"Iqama/SSN fields must matcheg": "Natinal Number fields must match"
+"New email and confirm email fields must match": "New Email and Confirm new email must be same"
 "Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1"
 "Please enter 10 digits mobile number starting with 5": "Please enter 10 digits mobile number starting with 5"
 "Country-Code:": "Country-Code:"
-'Invalid Iqama Id/SSN Number': 'Invalid Iqama Id/SSN Number'
+'Invalid Iqama Id/SSN Numbersa': 'Invalid Iqama Id/SSN Number asdf'
+'Invalid Iqama Id/SSN Numbereg': 'Invalid National Number'
 'Iqama Id/SSN is not valid': 'Iqama Id/SSN is not valid ar'
 'Invalid captcha code': 'Invalid captcha code'
 'Enter Code': 'Enter Code'

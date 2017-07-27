@@ -7,6 +7,7 @@ use AppBundle\Entity\Subscription;
 use AppBundle\Entity\User;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -38,40 +39,50 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-        $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        if(isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieCountry <> '')
-        {
-             return $this->redirect($this->generateUrl('homepage', array('_country'=>$cookieCountry,'_locale'=>$cookieLocale)));
-        }
-        /*
-        else
-        {
-            // here get cookie from othaimmarkets.com website for country
-            $cookie_country_from  = 'sa';
-            // here get cookie from othaimmarkets.com website for language
-            $cookie_language_from = 'ar';
-            $response = new Response();
-            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+
+        try {
+
+
+            $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
             $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-            $locale  = $request->getLocale();
-            $country = $request->get('_country');
-
-            $locale  = $cookie_language_from;
-            $country = $cookie_country_from;
-            if((!isset($cookieLocale)) && ($cookieLocale == '') && (!isset($cookieCountry)) && ($cookieCountry == '')){
-                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
-                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
-                $response->sendHeaders();
-                return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
+            if (isset($cookieLocale) && $cookieLocale <> '' && isset($cookieCountry) && $cookieCountry <> '') {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
             }
-        }
-        */
+            /*
+            else
+            {
+                // here get cookie from othaimmarkets.com website for country
+                $cookie_country_from  = 'sa';
+                // here get cookie from othaimmarkets.com website for language
+                $cookie_language_from = 'ar';
+                $response = new Response();
+                $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                $locale  = $request->getLocale();
+                $country = $request->get('_country');
 
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath(
-                    $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
-        ]);
+                $locale  = $cookie_language_from;
+                $country = $cookie_country_from;
+                if((!isset($cookieLocale)) && ($cookieLocale == '') && (!isset($cookieCountry)) && ($cookieCountry == '')){
+                    $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                    $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                    $response->sendHeaders();
+                    return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
+                }
+            }
+            */
+
+            return $this->render('default/index.html.twig', [
+                'base_dir' => realpath(
+                        $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+            ]);
+        }
+        catch (Exception $e){
+            return $this->render('default/index.html.twig', [
+                'base_dir' => realpath(
+                        $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+            ]);
+        }
 
     }
 
@@ -218,149 +229,138 @@ class DefaultController extends Controller
      */
     public function homepageAction(Request $request)
     {
+        try {
 
-        $response = new Response();
 
-        $commFunct = new FunctionsController();
-        if($commFunct->checkSessionCookies($request) == false){
-            return $this->redirect($this->generateUrl('landingpage'));
-        }
+            $response = new Response();
 
-        $userLang = '';
-        $locale = $request->getLocale();
-        if($request->query->get('lang')) {
-            $userLang = trim($request->query->get('lang'));
-        }
-        if ($userLang != '' && $userLang != null) {
-            // we will only modify cookies if the both the params are same for the langauge
-            // this means that the query is modified from the change language link
-            if($userLang == $locale)
-            {
-                $commFunct->changeLanguage($request, $userLang);
-                $locale = $request->getLocale();
+            $commFunct = new FunctionsController();
+            if ($commFunct->checkSessionCookies($request) == false) {
+                return $this->redirect($this->generateUrl('landingpage'));
             }
-            else
-            {
-                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+
+            $userLang = '';
+            $locale = $request->getLocale();
+            if ($request->query->get('lang')) {
+                $userLang = trim($request->query->get('lang'));
+            }
+            if ($userLang != '' && $userLang != null) {
+                // we will only modify cookies if the both the params are same for the langauge
+                // this means that the query is modified from the change language link
+                if ($userLang == $locale) {
+                    $commFunct->changeLanguage($request, $userLang);
+                    $locale = $request->getLocale();
+                } else {
+                    if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
                 }
             }
-        }
 
 
-
-        $userCountry = '';
-        if($request->query->get('ccid')) {
-            $userCountry = $request->query->get('ccid');
-        }
-        $country = $request->get('_country');
-        if ($userCountry != '' && $userCountry != null) {
-            if($userCountry == $country) {
-                $commFunct->changeCountry($request, $userCountry);
-                $country = $request->get('_country');}
-            else {
-                if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
-                    return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+            $userCountry = '';
+            if ($request->query->get('ccid')) {
+                $userCountry = $request->query->get('ccid');
+            }
+            $country = $request->get('_country');
+            if ($userCountry != '' && $userCountry != null) {
+                if ($userCountry == $country) {
+                    $commFunct->changeCountry($request, $userCountry);
+                    $country = $request->get('_country');
+                } else {
+                    if ($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
                 }
             }
-        }
 
-        if($request->cookies->get(AppConstant::COOKIE_LOCALE))
-        {
-            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
-                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-            }
-            if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
-                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-            }
-        }
-
-        /********/
-        // get all news from db
-        if($request->cookies->get(AppConstant::COOKIE_COUNTRY))
-        {
-            $news_country = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        }
-        else
-        {
-            $news_country = 'sa';
-        }
-        $em = $this->getDoctrine()->getManager();
-        $homePageNews = $em->getRepository('AppBundle:CmsPages')
-            ->findBy(array( 'status' => '1' , 'type' => 'news' , 'country' => $news_country  ));
-        //print_r($homePageNews);
-
-        $data_news = array();
-        $i = 0;
-        foreach($homePageNews as $homePageNew)
-        {
-            $data_news[$i]['id'] = $homePageNew->getId();
-            // echo '<br>';
-            if($request->cookies->get(AppConstant::COOKIE_LOCALE) == 'ar')
-            {
-                $data_news[$i]['details'] =  $homePageNew->getAdesc();
-            }
-            else
-            {
-                $data_news[$i]['details'] =  $homePageNew->getEdesc();
-            }
-            $i++;
-        }
-
-
-
-
-
-        /********/
-
-        $restClient = $this->get('app.rest_client');
-        $url = AppConstant::OTHAIM_WEBSERVICE_URL;
-
-
-
-
-        $postData = "{\"service\":\"IktissabPromotions\"} ";
-        $data = $restClient->restPostForm($url,
-            $postData, array('input-content-type' => "text/json" , 'output-content-type' => "text/json" ,
-                'language' => $locale
-            ));
-
-            $data_dec = json_decode($data , true);
-            $data_dec['success'];
-            if($data_dec['success'] == true) {
-            $products = json_decode($data);
-            // var_dump(json_decode($data));
-            // echo "<br>";
-            // var_dump($products->products[0]);
-            // var_dump($products->success);
-            if ($products->success == true) {
-
-
-                $pro = $products->products;
-
-                // var_dump($pro);
-                $i = 0;
-                foreach ($products->products as $data) {
-                    $listing[$i]['ID'] = $data->ID;
-                    $listing[$i]['Price'] = $data->Price;
-                    $listing[$i]['SpecialPrice'] = $data->SpecialPrice;
-                    $listing[$i]['Name'] = $data->Name;
-                    $listing[$i]['SKU'] = $data->SKU;
-                    $listing[$i]['URL'] = $data->URL;
-                    $listing[$i]['SmallImage'] = $data->SmallImage;
-                    $i++;
+            if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                    return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
                 }
-                // var_dump($listing);
-                return $this->render('front/homepage.html.twig', array('DataPromo' => $listing , 'data_news' => $data_news ));
+                if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                    return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+            }
+
+            /********/
+            // get all news from db
+            if ($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                $news_country = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
             } else {
-                return $this->render('front/homepage.html.twig', array('DataPromo' => "" , 'data_news' => $data_news));
+                $news_country = 'sa';
+            }
+            $em = $this->getDoctrine()->getManager();
+            $homePageNews = $em->getRepository('AppBundle:CmsPages')
+                ->findBy(array('status' => '1', 'type' => 'news', 'country' => $news_country));
+            //print_r($homePageNews);
+
+            $data_news = array();
+            $i = 0;
+            foreach ($homePageNews as $homePageNew) {
+                $data_news[$i]['id'] = $homePageNew->getId();
+                // echo '<br>';
+                if ($request->cookies->get(AppConstant::COOKIE_LOCALE) == 'ar') {
+                    $data_news[$i]['details'] = $homePageNew->getAdesc();
+                } else {
+                    $data_news[$i]['details'] = $homePageNew->getEdesc();
+                }
+                $i++;
+            }
+
+
+            /********/
+
+            $restClient = $this->get('app.rest_client');
+            $url = AppConstant::OTHAIM_WEBSERVICE_URL;
+
+
+            $postData = "{\"service\":\"IktissabPromotions\"} ";
+            $data = $restClient->restPostForm($url,
+                $postData, array('input-content-type' => "text/json", 'output-content-type' => "text/json",
+                    'language' => $locale
+                ));
+
+            $data_dec = json_decode($data, true);
+            $data_dec['success'];
+            if ($data_dec['success'] == true) {
+                $products = json_decode($data);
+                // var_dump(json_decode($data));
+                // echo "<br>";
+                // var_dump($products->products[0]);
+                // var_dump($products->success);
+                if ($products->success == true) {
+
+
+                    $pro = $products->products;
+
+                    // var_dump($pro);
+                    $i = 0;
+                    foreach ($products->products as $data) {
+                        $listing[$i]['ID'] = $data->ID;
+                        $listing[$i]['Price'] = $data->Price;
+                        $listing[$i]['SpecialPrice'] = $data->SpecialPrice;
+                        $listing[$i]['Name'] = $data->Name;
+                        $listing[$i]['SKU'] = $data->SKU;
+                        $listing[$i]['URL'] = $data->URL;
+                        $listing[$i]['SmallImage'] = $data->SmallImage;
+                        $i++;
+                    }
+                    // var_dump($listing);
+                    return $this->render('front/homepage.html.twig', array('DataPromo' => $listing, 'data_news' => $data_news));
+                } else {
+                    return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
+                }
+            } else {
+                return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
             }
         }
-        else
-        {
-            return $this->render('front/homepage.html.twig', array('DataPromo' => "" , 'data_news' => $data_news ));
+        catch(Exception $e){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+
+            return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
         }
         /********/
 
@@ -398,83 +398,108 @@ class DefaultController extends Controller
      */
     public function getCmsContent(Request $request , $id)
     {
-        $response = new Response();
 
-        $commFunct = new FunctionsController();
-        if($commFunct->checkSessionCookies($request) == false){
-            return $this->redirect($this->generateUrl('landingpage'));
-        }
+        try
+        {
+            $response = new Response();
 
-        $userLang = '';
-        $locale = $request->getLocale();
-        if($request->query->get('lang')) {
-            $userLang = trim($request->query->get('lang'));
-        }
-        if ($userLang != '' && $userLang != null) {
-            // we will only modify cookies if the both the params are same for the langauge
-            // this means that the query is modified from the change language link
-            if($userLang == $locale)
-            {
-                $commFunct->changeLanguage($request, $userLang);
-                $locale = $request->getLocale();
+            $commFunct = new FunctionsController();
+            if ($commFunct->checkSessionCookies($request) == false) {
+                return $this->redirect($this->generateUrl('landingpage'));
             }
-            else
-            {
-                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+
+            $userLang = '';
+            $locale = $request->getLocale();
+            if ($request->query->get('lang')) {
+                $userLang = trim($request->query->get('lang'));
+            }
+            if ($userLang != '' && $userLang != null) {
+                // we will only modify cookies if the both the params are same for the langauge
+                // this means that the query is modified from the change language link
+                if ($userLang == $locale) {
+                    $commFunct->changeLanguage($request, $userLang);
+                    $locale = $request->getLocale();
+                } else {
+                    if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
                 }
             }
-        }
 
 
-
-        $userCountry = '';
-        if($request->query->get('ccid')) {
-            $userCountry = $request->query->get('ccid');
-        }
-        $country = $request->get('_country');
-        if ($userCountry != '' && $userCountry != null) {
-            if($userCountry == $country) {
-                $commFunct->changeCountry($request, $userCountry);
-                $country = $request->get('_country');}
-            else {
-                if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
-                    return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+            $userCountry = '';
+            if ($request->query->get('ccid')) {
+                $userCountry = $request->query->get('ccid');
+            }
+            $country = $request->get('_country');
+            if ($userCountry != '' && $userCountry != null) {
+                if ($userCountry == $country) {
+                    $commFunct->changeCountry($request, $userCountry);
+                    $country = $request->get('_country');
+                } else {
+                    if ($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                        return $this->redirect($this->generateUrl('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
                 }
             }
+
+            if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                    return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+                if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                    return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+            }
+
+            if ($commFunct->checkSessionCookies($request) == false) {
+                return $this->redirect($this->generateUrl('landingpage'));
+            }
+            $em = $this->getDoctrine()->getEntityManager();
+            $cmspages = $this->getDoctrine()
+                ->getRepository('AppBundle:CmsPages')
+                ->findOneBy(array('id' => $id, 'status' => 1, 'type' => 'CMS',
+                    'country' => 'sa',
+                ));
+            $data = array();
+            $i = 0;
+            $error = 'alert-danger';
+            if (!$cmspages) {
+                return $this->render('front/cms/contents.html.twig', array('Data' => "",  'errorcl' => $error,
+
+                    'message' => 'No record found'));
+            } else {
+                $error = '';
+                return $this->render('front/cms/contents.html.twig', array('data' => $data, 'message' => '',
+                    'errorcl' => $error,
+                    'Data' => array('id' => $cmspages->getId(), 'Atitle' => $cmspages->getAtitle(), 'Adesc' => $cmspages->getAdesc(), 'Edesc' => $cmspages->getEdesc(), 'Etitle' => $cmspages->getEtitle())));
+            }
+        }
+        catch(Exception $e){
+            $error = 'alert-danger';
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            return $this->render('front/cms/contents.html.twig', array('Data' => "", 'message' => $message,
+                'errorcl' => $error
+                ));
+        }
+        catch (AccessDeniedException $ed)
+        {
+            $message = $ed->getMessage();
+            $error['success'] = false;
+            $error['message'] = $this->get('translator')->trans($ed->getMessage());
+            return $this->render('/default/send_pwd.twig',
+                array(
+                    'form'    => $form->createView(),
+                    'error'   => $error
+                )
+            );
         }
 
-        if($request->cookies->get(AppConstant::COOKIE_LOCALE))
-        {
-            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
-                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-            }
-            if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
-                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-            }
-        }
 
-        if($commFunct->checkSessionCookies($request) == false){
-            return $this->redirect($this->generateUrl('landingpage'));
-        }
-        $em = $this->getDoctrine()->getEntityManager();
-        $cmspages = $this->getDoctrine()
-            ->getRepository('AppBundle:CmsPages')
-            ->findOneBy(array('id' => $id , 'status' => 1 , 'type' => 'CMS' ,
-            'country' => 'sa' ,
-            ));
-        $data = array();
-        $i = 0;
-        if (!$cmspages)
-        {
-            return $this->render('front/cms/contents.html.twig', array('Data' => "" , 'message' => 'No record found' ));
-        }
-        else
-        {
-            return $this->render('front/cms/contents.html.twig', array('data' => $data ,  'message' => '' , 'Data' => array('id' => $cmspages->getId() ,'Atitle' => $cmspages->getAtitle(),'Adesc' => $cmspages->getAdesc(),'Edesc' => $cmspages->getEdesc() ,'Etitle' => $cmspages->getEtitle())));
-        }
+
+
     }
 
 
@@ -483,135 +508,145 @@ class DefaultController extends Controller
      */
     public function forgotPassword(Request $request)
     {
-        $commFunct = new FunctionsController();
-        if($commFunct->checkSessionCookies($request) == false){
-            return $this->redirect($this->generateUrl('landingpage'));
-        }
-        $error   = "";
-        $locale_cookie  = $request->getLocale();
-        $country_cookie = $request->get('_country');
-        $userLang = trim($request->query->get('lang'));
-        if ($userLang != '' && $userLang != null) {
-            if($userLang == $locale_cookie) {
-                $request->getLocale();
-                $commFunct->changeLanguage($request, $userLang);
-                $locale_cookie = $request->getLocale();
-            } else {
-                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
-                    return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+        try {
+            $commFunct = new FunctionsController();
+            if ($commFunct->checkSessionCookies($request) == false) {
+                return $this->redirect($this->generateUrl('landingpage'));
+            }
+            $error = "";
+            $locale_cookie = $request->getLocale();
+            $country_cookie = $request->get('_country');
+            $userLang = trim($request->query->get('lang'));
+            if ($userLang != '' && $userLang != null) {
+                if ($userLang == $locale_cookie) {
+                    $request->getLocale();
+                    $commFunct->changeLanguage($request, $userLang);
+                    $locale_cookie = $request->getLocale();
+                } else {
+                    if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                        return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
                 }
             }
-        }
-        if($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
-            $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
-            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale_cookie) {
-                // modify here if the language is to be changes forom the uprl
-                return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale_cookie) {
+                    // modify here if the language is to be changes forom the uprl
+                    return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+                if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country_cookie) {
+                    return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
             }
-            if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country_cookie) {
-                return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
-            }
-        }
-        $activityLog = $this->get('app.activity_log');
-        $posted = array();
-        $postData = $request->request->all();
-        if ($postData) {
-            // 1 get user password according to the email provided
-            $em = $this->getDoctrine()->getManager();
-            $conn = $em->getConnection();
-            $email = $postData['email'];
+            $activityLog = $this->get('app.activity_log');
+            $posted = array();
+            $postData = $request->request->all();
+            if ($postData) {
+                // 1 get user password according to the email provided
+                $em = $this->getDoctrine()->getManager();
+                $conn = $em->getConnection();
+                $email = $postData['email'];
 
-            $country_id = $this->getCountryCode($request);
-            $locale = $this->getCountryLocal($request);
-            $stm = $conn->prepare('SELECT * FROM user WHERE  email = ?   ');
-            // $stm = $conn->prepare('SELECT * FROM user WHERE country = ? AND email = ?   ');
-            $stm->bindValue(1, $email);
-            // $stm->bindValue(2, $country_id);
-            // here checking the others equal to 1.
-            $stm->execute();
-            $result = $stm->fetchAll();
-            if ($result) {
-                // send email
-                $email = $email; //'sa.aspire@gmail.com';
-                //--> $email = $result[0]['email'];
-                //--> print_r($result);
-                $user_id = $result[0]['ikt_card_no'];
-                $user_id_en =  $user_id; // $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
-                //$user_id_en = base64_encode($user_id . AppConstant::SECRET_KEY_FP);
-                $user_id_en = $this->base64url_encode($user_id . AppConstant::SECRET_KEY_FP);
-                $time = time();
-                $token = uniqid() . md5($email . time() . rand(111111, 999999));
-                $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token, 'id' => $user_id_en), UrlGenerator::ABSOLUTE_URL);
-                $data = serialize(array('time' => $time, 'token' => $token));
-                $data_values = array(
-                    $data,
+                $country_id = $this->getCountryCode($request);
+                $locale = $this->getCountryLocal($request);
+                $stm = $conn->prepare('SELECT * FROM user WHERE  email = ?   ');
+                // $stm = $conn->prepare('SELECT * FROM user WHERE country = ? AND email = ?   ');
+                $stm->bindValue(1, $email);
+                // $stm->bindValue(2, $country_id);
+                // here checking the others equal to 1.
+                $stm->execute();
+                $result = $stm->fetchAll();
+                if ($result) {
+                    // send email
+                    $email = $email; //'sa.aspire@gmail.com';
+                    //--> $email = $result[0]['email'];
+                    //--> print_r($result);
+                    $user_id = $result[0]['ikt_card_no'];
+                    $user_id_en = $user_id; // $this->encrypt($user_id, AppConstant::SECRET_KEY_FP);
+                    //$user_id_en = base64_encode($user_id . AppConstant::SECRET_KEY_FP);
+                    $user_id_en = $this->base64url_encode($user_id . AppConstant::SECRET_KEY_FP);
+                    $time = time();
+                    $token = uniqid() . sha1($email . time() . rand(111111, 999999) . $user_id);
+                    $link = $this->generateUrl('resetpassword', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token), UrlGenerator::ABSOLUTE_URL);
+                    $data = serialize(array('time' => $time, 'token' => $token));
+                    $data_values = array(
+                        $data,
+                        $user_id,
+                    );
 
-                    $user_id,
-                );
-
-                $stm = $conn->executeUpdate('UPDATE user  SET  
+                    $stm = $conn->executeUpdate('UPDATE user  SET  
                                                     data    = ?
                                                     WHERE ikt_card_no = ? ', $data_values);
 
-                /*$data_values = array(
-                    $data,
-                    $country_id,
-                    $user_id,
-                );
+                    /*$data_values = array(
+                        $data,
+                        $country_id,
+                        $user_id,
+                    );
 
-                $stm = $conn->executeUpdate('UPDATE user  SET  
-                                                    data    = ?
-                                                    WHERE country = ?  AND ikt_card_no = ? ', $data_values);*/
+                    $stm = $conn->executeUpdate('UPDATE user  SET
+                                                        data    = ?
+                                                        WHERE country = ?  AND ikt_card_no = ? ', $data_values);*/
 
 
-                if ($stm == 1) {
-                    $message = \Swift_Message::newInstance();
-                    $request = new Request();
-                    //--> $email   = 'sa.aspire@gmail.com';
-                    $message->addTo($email);
-                    $message->addFrom($this->container->getParameter('mailer_user'))
-                        ->setSubject(AppConstant::EMAIL_SUBJECT)
-                        ->setBody(
-                            $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
-                                'email' => $email,
-                                'link' => $link
-                            ]),
-                            'text/html'
-                        );
+                    if ($stm == 1) {
+                        $message = \Swift_Message::newInstance();
+                        $request = new Request();
+                        //--> $email   = 'sa.aspire@gmail.com';
+                        $message->addTo($email);
+                        $message->addFrom($this->container->getParameter('mailer_user'))
+                            ->setSubject(AppConstant::EMAIL_SUBJECT)
+                            ->setBody(
+                                $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
+                                    'email' => $email,
+                                    'link' => $link
+                                ]),
+                                'text/html'
+                            );
 
-                    if ($this->container->get('mailer')->send($message)) {
-                        $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
-                        $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => serialize($result)));
-                        $errorcl = 'alert-success';
-                        return $this->render('default/login.html.twig', array(
-                             'message' => $message,'error' => $error, 'errorcl' => $errorcl
-                        ));
-                    } else {
-                        $message = $this->get('translator')->trans('Email has not been sent');
-                        $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => $result));
-                        $errorcl = 'alert-danger';
-                        return $this->render('default/login.html.twig', array(
-                             'message' => $message,'error' => $error, 'errorcl' => $errorcl
+                        if ($this->container->get('mailer')->send($message)) {
+                            $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
+                            $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => serialize($result)));
+                            $errorcl = 'alert-success';
+                            return $this->render('default/login.html.twig', array(
+                                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+                            ));
+                        } else {
+                            $message = $this->get('translator')->trans('Email has not been sent');
+                            $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => $result));
+                            $errorcl = 'alert-danger';
+                            return $this->render('default/login.html.twig', array(
+                                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
 
-                        ));
+                            ));
+                        }
+
                     }
-
+                } else {
+                    $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
+                    $errorcl = 'alert-danger';
+                    return $this->render('default/login.html.twig', array(
+                        'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+                    ));
                 }
-            } else {
-                $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
-                $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
-                $errorcl = 'alert-danger';
-                return $this->render('default/login.html.twig', array(
-                     'message' => $message, 'error' => $error , 'errorcl' => $errorcl
-                ));
             }
+            $message = "";
+            $errorcl = "";
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
         }
-        $message = "";
-        $errorcl = "";
-        return $this->render('default/login.html.twig', array(
-            'message' => $message, 'error' => $error , 'errorcl' => $errorcl
-        ));
+        catch(Exception $e){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+
+            $errorcl = 'alert-danger';
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
+        }
+
     }
 
     /**
@@ -619,6 +654,7 @@ class DefaultController extends Controller
      */
     public function forgotPasswordbkAction(Request $request, $message)
     {
+
         $commFunct = new FunctionsController();
         if($commFunct->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
@@ -641,7 +677,7 @@ class DefaultController extends Controller
             ))->getForm();
 
 
-        $locale_cookie = $request->getLocale();
+        $locale_cookie  = $request->getLocale();
         $country_cookie = $request->get('_country');
         $userLang = trim($request->query->get('lang'));
         if ($userLang != '' && $userLang != null) {
@@ -794,117 +830,145 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_country}/{_locale}/resetpassword/{time}/{token}/{id}", name="resetpassword")
+     * @Route("/{_country}/{_locale}/resetpassword/{time}/{token}", name="resetpassword")
      * @param $time
      * @param $token
      */
 
-    public function resetPasswordAction(Request $request, $time, $token, $id)
+    public function resetPasswordAction(Request $request, $time, $token)
     {
-        $commFunct = new FunctionsController();
-        //
-        $activityLog = $this->get('app.activity_log');
-        $em = $this->getDoctrine()->getManager();
-        $time = (integer)$time;
-        $dataValue = serialize(array('time' => $time, 'token' => $token));
-        //todo:
-        $id    = $id;//$this->decrypt($id, AppConstant::SECRET_KEY_FP);
-        // $id = base64_decode($id . AppConstant::SECRET_KEY_FP);
-        $id = $this->base64url_decode($id . AppConstant::SECRET_KEY_FP);
+        try {
+
+            $commFunct = new FunctionsController();
+            //
+            $activityLog = $this->get('app.activity_log');
+            $em = $this->getDoctrine()->getManager();
+            $time = (integer)$time;
+            $dataValue = serialize(array('time' => $time, 'token' => $token));
+
+            //todo:
+            //$id    = $id;
+            ////$this->decrypt($id, AppConstant::SECRET_KEY_FP);
+            // $id = base64_decode($id . AppConstant::SECRET_KEY_FP);
+            //$id = $this->base64url_decode($id . AppConstant::SECRET_KEY_FP);
 
 
-        $user  = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
-        // print_r($user);
-        if(isset($user) && $user != null) {
-            $user_email = $user->getEmail();
-        } else {
-            $user_email = '';
-        }
+            $user = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue));
 
-        $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate')))
-            ->add('email', EmailType::class,
-                array(
-                    'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
-
-                    'label' => 'E-mail address', 'disabled' => true,
-                'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
-                )))
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'constraints' => array(
-                    new NotBlank(),
-                    new Length(array('minMessage' => 'Password must be at least 8 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 8, 'max' => 40))
-                ),
-                'invalid_message' => 'Password and confirm password must match',
-                'first_options' => array('label' => 'Enter New Password',
-                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
-                    'label_attr' => ['class' => 'formLayout  form_labels'],
-                   ),
-                'second_options' => array('label' => "Confirm Password" ,
-                    'attr' =>array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'  ),
-                    'label_attr' => ['class' => 'formLayout    form_labels'],
-                   ),
-
-            ))
-            ->add('submit', SubmitType::class, array('label' => 'Reset Password','attr' => array('class' => 'btn btn-primary') ))
-            ->getForm();
-        $form->get('email')->setData($user_email);
-        // echo $data['time'] ;
-        // echo '<br>';
-        // echo time();
+            //$user  = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue , 'iktCardNo' => $id));
 
 
+            if (isset($user) && $user != null) {
+                $user_email = $user->getEmail();
+                $id = $user->getIktCardNo();
+            } else {
+                $user_email = '';
+                $id = '';
+            }
+
+            $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate')))
+                ->add('email', EmailType::class,
+                    array(
+                        'label_attr' => ['class' => 'formLayout    form_labels'],
+                        'attr' => array('class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'),
+
+                        'label' => 'E-mail address', 'disabled' => true,
+                        'constraints' => array(
+                            new NotBlank(array('message' => 'This field is required')),
+                        )))
+                ->add('password', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'constraints' => array(
+                        new NotBlank(),
+                        new Length(array('minMessage' => 'Password must be at least 6 characters', 'maxMessage' => 'Password must not be greater then 40 characters', 'min' => 6, 'max' => 40))
+                    ),
+                    'invalid_message' => 'Password and confirm password must match',
+                    'first_options' => array('label' => 'Enter New Password',
+                        'attr' => array('class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'),
+                        'label_attr' => ['class' => 'required formLayout  form_labels'],
+                    ),
+                    'second_options' => array('label' => "Confirm Password",
+                        'attr' => array('class' => '  form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'),
+                        'label_attr' => ['class' => 'required formLayout    form_labels'],
+                    ),
+
+                ))
+                ->add('submit', SubmitType::class, array('label' => 'Reset Password', 'attr' => array('class' => 'btn btn-primary')))
+                ->getForm();
+            $form->get('email')->setData($user_email);
+            // echo $data['time'] ;
+            // echo '<br>';
+            // echo time();
 
 
+            $data_form['show_form'] = 1;
+            if ($user && $user != null) {
+                $data = unserialize($user->getData());
+                $currentPassword = $user->getPassword();
+                if (strtotime('+1 day', $data['time']) > time()) {
+                    $form->handleRequest($request);
+                    if ($form->isSubmitted() && $form->isValid()) {
+                        $formData = $form->getData();
+                        $newPassword = $formData['password'];
+                        if ($currentPassword == md5($newPassword)) {
+                            $message = $this->get('translator')->trans('New Password and old password must not be the same');
+                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                            $errorcl = 'alert-danger';
+                            return $this->render('front/resetpassword.html.twig', array(
+                                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                'errorcl' => $errorcl
 
-        $data_form['show_form'] = 1;
-        if ($user && $user != null) {
-            $data = unserialize($user->getData());
-            $currentPassword = $user->getPassword();
-            if (strtotime('+1 day', $data['time']) > time()) {
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $formData = $form->getData();
-                    $newPassword = $formData['password'];
-                    if ($currentPassword == md5($newPassword)) {
-                        $message = $this->get('translator')->trans('New Password and old password must not be the same');
-                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
-
-                        return $this->render('front/resetpassword.html.twig', array(
-                            'form' => $form->createView(), 'message' => $message, 'data' => $data_form
-                        ));
+                            ));
+                        } else {
+                            $user->setPassword(md5($formData['password']));
+                            $user->setData('');
+                            $em->persist($user);
+                            $em->flush();
+                            $message = $this->get('translator')->trans('Your password has been reset successfully');
+                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                            $errorcl = 'alert-success';
+                            return $this->render('front/resetpassword.html.twig', array(
+                                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                'errorcl' => $errorcl
+                            ));
+                        }
                     } else {
-                        $user->setPassword(md5($formData['password']));
-                        $user->setData('');
-                        $em->persist($user);
-                        $em->flush();
-                        $message = $this->get('translator')->trans('Your password has been reset successfully');
-                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                        $message = $this->get('translator')->trans('Please reset your password');
+                        $errorcl = 'alert-success';
                         return $this->render('front/resetpassword.html.twig', array(
-                            'form' => $form->createView(), 'message' => $message, 'data' => $data_form
+                            'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                            'errorcl' => $errorcl
                         ));
                     }
                 } else {
-                    $message = $this->get('translator')->trans('Please reset your password');
+                    $message = $this->get('translator')->trans('Your link to reset password has been expired');
+                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                    $errorcl = 'alert-danger';
                     return $this->render('front/resetpassword.html.twig', array(
-                        'form' => $form->createView(), 'message' => $message, 'data' => $data_form
+                        'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                        'errorcl' => $errorcl
                     ));
                 }
             } else {
                 $message = $this->get('translator')->trans('Your link to reset password has been expired');
+                $data_form['show_form'] = 0;
                 $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                $errorcl = 'alert-danger';
                 return $this->render('front/resetpassword.html.twig', array(
-                    'form' => $form->createView(), 'message' => $message, 'data' => $data_form
+                    'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                    'errorcl' => $errorcl
                 ));
             }
-        } else {
-            $message = $this->get('translator')->trans('Your link to reset password has been expired');
+        }
+        catch(Exception $e)
+        {
+            $message = $this->get('translator')->trans('An invalid exception occurred');
             $data_form['show_form'] = 0;
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+            $errorcl = 'alert-danger';
             return $this->render('front/resetpassword.html.twig', array(
-                'form' => $form->createView(), 'message' => $message, 'data' => $data_form
+                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                'errorcl' => $errorcl
             ));
         }
     }
@@ -1002,8 +1066,10 @@ class DefaultController extends Controller
     {
         $country = $request->get('_country');
         $em = $this->getDoctrine()->getEntityManager();
-        $formEmail = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']])
-            ->add('email', EmailType::class, array('label' => 'Email Id', 'constraints' => array(
+        $formEmail = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']    ])
+            ->add('email', EmailType::class, array('label' => 'Email Id',
+                    'attr' => array('placeholder'=> 'someone@gmail.com'),
+                    'constraints' => array(
 
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Email(array('message' => 'Invalid email address'))
@@ -1019,7 +1085,8 @@ class DefaultController extends Controller
         $formMobile = $this->get('form.factory')->createNamedBuilder('subs_mob','Symfony\Component\Form\Extension\Core\Type\FormType',null, ['attr' => ['novalidate' => 'novalidate']])
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'attr' => array('maxlength'=> ($request->get('country') == 'sa') ? 9 : 14),
+
+                'attr' => array('placeholder'=> '0524747474' , 'maxlength'=> ($request->get('country') == 'sa') ? 9 : 14),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(

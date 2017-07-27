@@ -17,7 +17,7 @@ class UpdatePasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('old_password', TextType::class, ['label' => "Enter Current Password",
+        $builder->add('old_password', PasswordType::class, ['label' => "Enter Current Password",
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels'],
             'attr' => ['class' => 'form-control   formLayout'],
         'constraints' => array

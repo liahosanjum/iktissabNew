@@ -23,6 +23,11 @@ class SecurityController extends Controller
 
 
         $response = new Response();
+        //echo $request->getUri();
+        if($request->isXmlHttpRequest()){
+            echo "<script type='text/javascript'>top.location.href='".$request->getUri()."'</script>";
+            exit();
+        }
         $commFunct = new FunctionsController();
         if($commFunct->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
@@ -85,6 +90,13 @@ class SecurityController extends Controller
             }
         }
 
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+            echo 'adf'; exit;
+            // create current user country session
+
+            $this->get('session')->set('userSelectedCountry',$request->get('_country'));
+            return $this->redirectToRoute('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale));
+        }
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             // create current user country session

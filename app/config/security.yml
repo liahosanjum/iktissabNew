@@ -29,7 +29,6 @@ security:
             stateless: true
             wsse: true
 
-
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -49,6 +48,7 @@ security:
               check_path: login
               authenticator: app.iktissab_authenticator
               provider: iktuser_provider
+              require_previous_session: false
             logout:
               path: account_logout
               success_handler: app.logout_handler
@@ -59,7 +59,6 @@ security:
             simple_form:
               success_handler: app.iktadmin_success_handler
 #             default_target_path: homepage
-              always_use_default_target_path: true
               login_path: /admin/admin
               check_path: /admin/admin
               authenticator: app.iktissabadmin_authenticator

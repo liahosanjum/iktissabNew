@@ -43,7 +43,6 @@
                                 <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
                                 <ul id="webTicker-{{ app.request.get('_locale') }}">
                                     {% for item_news in data_news %}
-
                                         {{ item_news.details|raw }}
                                     {%  endfor %}
 
@@ -133,14 +132,34 @@
                         {% for items in DataPromo %}
 
                         <div class="Product-wrapper" id="{{ DataPromo[i].ID }}">
-                            <a target="_blank" href="#" class="Product-Details" >
-                                <div class="Product-img"><img  alt="promotional-images" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" /></div>
+
+
+                            <span target="#" href="#" class="Product-Details" >
+                                <div class="Product-img">
+
+
+                                    <div class="Imgcontainer">
+                                      <div class="Product-img">  <img id="" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" alt="Avatar"   ></div>
+                                        <div class="middle">
+                                            <div class="textZoom" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
+                                                <img src="{{asset('img/zoom_03.jpg')  }}">
+                                            </div>
+                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}'')">
+                                                <a href=""><i class="fa fa-eye" aria-hidden="true">
+
+                                                </i></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <div class="Product-price">
                                     <span class="price-beforedesc">{{ 'SAR'|trans }}{{ DataPromo[i].Price|round(2, 'floor') }} </span>
                                     <span class="price-afterdesc">{{ 'SAR'|trans }}{{ DataPromo[i].SpecialPrice|round(2, 'floor') }} </span>
                                 </div>
                                 <div class="Product-name">{{ DataPromo[i].Name }}</div>
-                            </a>
+                            </span>
                         </div>
                             {% set i = i + 1 %}
                         {%  endfor %}
@@ -367,9 +386,36 @@
                 </div>
             </div>
         </div>
+        <div id="myModal" class="modal">
+            <span class="close" >&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
 
     </section> <!-- /.slick Section -->
+    <script type="text/javascript">
+        // Get the modal
+        var modal = document.getElementById('myModal');
+        function show(image) {
+            var img = document.getElementById(image);
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
 
+            modal.style.display = "block";
+            modalImg.src = image;
+            captionText.innerHTML = this.alt;
+
+        }
+
+        // Get the <span> element that closes the modal
+
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    </script>
 
 
 

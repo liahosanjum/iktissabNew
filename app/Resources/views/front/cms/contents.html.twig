@@ -21,7 +21,13 @@
 
                             <a href="#" class="last-breadcrumb">{{ Data.Atitle  }} </a>
                         {% endif %}
+                {% else %}
+                    <a href="#" class="last-breadcrumb">
 
+                        اكتساب
+
+
+                    </a>
                 {% endif %}
 
             </div>
@@ -31,7 +37,7 @@
     <div class="row">
         <div class="col-lg-12  col-md-12  col-sm-12  col-xs-12 login-list-message-wrapper">
             {% if message != '' %}
-                <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable">
+                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable">
                     {{ message }}
                 </div>
             {% endif %}
