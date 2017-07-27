@@ -319,24 +319,147 @@ class AccountController extends Controller
 
     public function accountInfoAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-        }
-        
-        $restClient = $this->get('app.rest_client');
-        if(!$this->get('session')->get('iktUserData'))
-        {
-            $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
-            // echo AppConstant::WEBAPI_URL.$url;
-            $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
-            if($data['success'] == "true") {
-                $this->get('session')->set('iktUserData', $data['user']);
+        $activityLog = $this->get('app.activity_log');
+        try {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
             }
+            $message = '';
+            $restClient = $this->get('app.rest_client');
+            if (!$this->get('session')->get('iktUserData')) {
+                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                if ($data['success'] == "true") {
+                    $this->get('session')->set('iktUserData', $data['user']);
+                }
+            }
+            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+            if (!$this->get('session')->get('iktUserData')) {
+                $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
+                // echo AppConstant::WEBAPI_URL.$url;
+                $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                // print_r($data);
+                if ($data['status'] == 1) {
+                    // response is ok from services
+                    if ($data['success'] == "true") {
+                        // data is also present from services
+                        $this->get('session')->set('iktUserData', $data['user']);
+                    } else {
+                        // no data is presenet on the services
+                        $message = $data['message'];
+                    }
+                } else {
+                    // exception occrured from the services side
+                    $data = '';
+                    $message = $this->get('translator')->trans('An invalid exception occurred');
+                }
+            }
+
+
+            // print_r($data);
+            // delete it
+
+            $data_array = '';
+
+            $iktUserData = $this->get('session')->get('iktUserData');
+
+
+            $url_trans_count = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
+            $data_trans_count = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
+            //print_r($data_trans_count);
+            if ($data_trans_count['status'] == 1) {
+                if ($data_trans_count != "" && $data_trans_count != null) {
+                    if ($data_trans_count['success'] == true && $data_trans_count['status'] == 1) {
+                        // echo AppConstant::WEBAPI_URL.$url;
+                        $url_trans_count = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customermonthtlysales.json';
+                        $data_transaction = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
+                        //var_dump($data_transaction);
+                        if ($data_transaction['status'] == 1) {
+                            if ($data_transaction['success'] == true) {
+                                $i = 0;
+                                $year = date('Y');
+                                $month = date('m');
+                                $year_later = mktime(0, 0, 0, $month, 30, $year - 1);
+                                // $year_later = mktime(0, 0, 0, $month, 30, $year);-1
+                                if ($data_transaction != "" && $data_transaction != null) {
+                                    foreach ($data_transaction['data_user'] as $data_transactions) {
+                                        $i++;
+                                        //print_r($data_transactions);
+                                        // $data_transactions['trans_date'];
+                                        $date_current = mktime(0, 0, 0, $data_transactions['Mnth'], 30, $data_transactions['YR']);
+                                        if ($date_current > $year_later) {
+                                            $data_array[$i]['c_id'] = $data_transactions['c_id'];
+                                            $data_array[$i]['YR'] = $data_transactions['YR'];
+                                            //$data_array[$i]['Mnth'] = $data_transactions['Mnth'];
+                                            $data_array[$i]['Mnth'] = $this->getMonth($data_transactions['Mnth'], $data_transactions['YR'], $request->cookies->get(AppConstant::COOKIE_LOCALE));
+                                            $data_array[$i]['Sales'] = $data_transactions['Sales'];
+                                        }
+                                    }
+                                } else {
+                                    $data_array = "";
+                                    $message = $this->get('translator')->trans('An invalid exception occurred');
+                                }
+                            } else {
+                                $data_array = "";
+                                $message = $data_transaction['message'];
+                            }
+
+
+                        } else {
+                            $data_array = "";
+                            $message = $this->get('translator')->trans('An invalid exception occurred');
+
+                        }
+
+                    } else {
+                        $data_array = "";
+                        $message = $data_trans_count['message'];
+                    }
+                } else {
+                    $data_array = "";
+                    $message = $this->get('translator')->trans('An invalid exception occurred');
+                }
+            } else {
+                $data_array = "";
+                $message = $data_trans_count['message'];
+            }
+            // var_dump($data_transaction);
+            // var_dump($data_array);
+            // array_multisort($data_array,SORT_DESC,SORT_NUMERIC);
+
+            //$this->sksort($data_array, "YR");
+            //$this->sksort($data_array, "Mnth");
+
+            $data_array = "";
+            return $this->render('/account/accountinfo.html.twig', array('iktData' => $iktUserData,
+
+                'iktTransData' => $data_array,
+                'message' => $message
+
+            ));
         }
-        $iktUserData = $this->get('session')->get('iktUserData');
-        return $this->render('/account/home.html.twig',
-            array('iktData' => $iktUserData)
-        );
+        catch (Exception $e){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $data_array = "";
+            return $this->render('/account/accountinfo.html.twig', array('iktData' => $iktUserData,
+                'iktTransData' => $data_array,
+                'message' => $message
+
+            ));
+        }
+        catch(AccessDeniedException $ed){
+            $message =  $this->get('translator')->trans($ed->getMessage());
+            $data_array = "";
+            return $this->render('/account/accountinfo.html.twig', array('iktData' => $iktUserData,
+                'iktTransData' => $data_array,
+                'message' => $message
+
+            ));
+        }
+
+
+
     }
 
 

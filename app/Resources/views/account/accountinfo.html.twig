@@ -1,12 +1,9 @@
-{% block headerhome %}
-    {#{{ parent() }}#}
-{% endblock %}
 
 <table class="table table-bordered">
 
 
     <tr>
-        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Information'|trans }} </td>
+        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Personal Information'|trans }}</td>
     </tr>
     <tr>
         <td class="col-lg-4">
@@ -14,8 +11,8 @@
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
-                    <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
+                    <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used']|round(2, 'floor') }}</div>
+                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                 </div>
 
             </div>
@@ -25,8 +22,8 @@
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
-                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
+                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used']|round(2, 'floor') }}</div>
+                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                 </div>
 
             </div>
@@ -36,8 +33,8 @@
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/33.svg')}}"></div>
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
-                    <div class="ikti-info-price-details light-red-color">{{ iktData['balance'] }}</div>
-                    <div class="ikt-info-price-currency">SAR</div>
+                    <div class="ikti-info-price-details light-red-color">{{ iktData['balance']|round(2, 'floor') }}</div>
+                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
                 </div>
 
             </div>
@@ -51,17 +48,27 @@
                 <tr>
                     <td style="border-top:none !important;" class="user-details-date">
                         <div class="ikt-date-info">
-                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                            <div class="ikt-date-title">Activation Date111111</div>
-                            <div class="ikt-date-date">26/09/2011</div>
+                            <div class="ikt-date-icon-r"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                            <div class="ikt-date-title">{{ 'Activation Date'|trans }}</div>
+                            <div class="ikt-date-date">
+
+                                {%   set act_date = iktData['activation_date']|split(' ') %}
+                                {{ act_date[0] }}
+
+
+
+                            </div>
                             <div class="claerfix"></div>
                         </div>
                     </td>
                     <td style="border-top:none !important; border-left:none !important; border-bottom:none !important;" class="user-details-istikhdam">
                         <div class="ikt-date-info">
-                            <div class="ikt-date-icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
-                            <div class="ikt-date-title">Last Used1111</div>
-                            <div class="ikt-date-date">26/09/2011</div>
+                            <div class="ikt-date-icon-o"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+                            <div class="ikt-date-title">{{ 'Last Used'|trans }}</div>
+                            <div class="ikt-date-date">
+                                {%   set last_used_date = iktData['last_used_date']|split(' ') %}
+                                {{ last_used_date[0] }}
+                            </div>
                             <div class="claerfix"></div>
                         </div>
                     </td>
@@ -76,6 +83,131 @@
     </tr>
 
 </table>
-<div style="  float: right; width: 100%;" class=" ">
-    <div id="placeholder" class="col-lg-12 col-xs-12"></div>
+<div style="  float: right; width: 100%; margin-left:30px !important;" class="">
+    {% if message != '' %}
+        <div class="alert-success-forms formMessage alert  fade in alert-dismissable">
+            {{ message }}
+        </div>
+    {% endif %}
+    <div id="placeholder" class="col-lg-12 col-xs-12" style="height: 400px; width: 100%;">
+    </div>
+
 </div>
+
+<script type="text/javascript">
+
+
+
+
+
+    var d1 = [
+        {% for item , value in iktTransData %}
+        ["{{ value.Mnth }}", {{ value.Sales }}],
+        {% endfor %}
+    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(document).ready(function () {
+
+        var data = [ ["January", 110], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
+
+
+
+        $.plot("#placeholder", [ d1 ], {
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.6,
+                    align: "center"
+                }
+            },
+            xaxis: {
+                axisLabel: "World Cities",
+                mode: "categories",
+                tickLength: 0
+            }
+        });
+
+        // Add the Flot version string to the footer
+
+        $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+
+
+        /*
+         setTimeout(function(){
+         window.location.reload(1);
+         }, 30000);
+         */
+
+
+
+
+
+        $('#myTab a').on('click', function (event) {
+
+            if($(this).data('id') != '13') { // 13 is for logout
+                event.preventDefault();
+                var path = $(this).data('path');
+                // alert(path);
+                var id = $(this).data('id');
+                //alert('{{ app.request.cookies.get("c_locale") }}');
+
+
+                //  url: "{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}";
+
+                // if('{{ app.request.cookies.get("c_locale") }}' ==  'en' && '{{ app.request.cookies.get("c_country") }}' == "sa" ){
+                // window.location = url;
+                // return;
+                //}
+
+
+                // if (path == undefined || path == null || path == '') return;
+
+                $.ajax({
+                    url:path,
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    },
+                    success: function (response) {
+                        $("#contents-"+id).html(response);
+                    },
+                    error: function(errorThrown){
+
+                        alert("There is an error with AJAX!");
+                    }
+                });
+
+            }
+        });
+
+
+    });
+</script>
+
+
+<style type="text/css">
+    #placeholder { width: 100%; height: 400px; }
+    #chartContainer { float:right; position: relative; display: flex; margin-left:20px;}
+    .canvasjs_chart_tooltip { display: none;  }
+    .canvasjs-chart-canvas{ margin-left:20px; }
+
+</style>
+
+
+
