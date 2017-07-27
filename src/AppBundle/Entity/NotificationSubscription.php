@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="notification_subscription")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\NotificationSubscriptionRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class NotificationSubscription
 {
@@ -54,7 +55,7 @@ class NotificationSubscription
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modified", type="datetime")
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
@@ -212,6 +213,20 @@ class NotificationSubscription
             return NotificationSubscription::SUBSCRIBE_NO;
 
         return $value;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function OnPrePersist(){
+        $this->created = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function OnPreUpdate(){
+        $this->modified = new \DateTime('now');
     }
 }
 

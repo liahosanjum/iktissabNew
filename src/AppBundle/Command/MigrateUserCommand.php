@@ -37,8 +37,8 @@ class MigrateUserCommand extends ContainerAwareCommand
         $connection = $doctrine->getConnection();
 
         $stm = $connection->query("SELECT count(*) as counter FROM user");
-        $stm->fetchAll();
-        if($stm->rowCount()>0){
+        $stmRow = $stm->fetchAll();
+        if($stmRow[0]['counter']>0){
             $output->writeln("FIRST TRUNCATE USER TABLE THEN RUN THIS SCRIPT");
             return;
         }
