@@ -166,8 +166,19 @@ class IktissabCardService
     }
     public function updateCard($post){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        return $client->IsAuthorized(true)->Post($post, "/");
+        return $client->IsAuthorized(true)->Post('', $post);
     }
 
-
+    public function changePassword($post){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        return $client->IsAuthorized(true)->Post('change_password', $post);
+    }
+    public function changeEmail($post){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        return $client->IsAuthorized(true)->Post('change_email', $post);
+    }
+    public function changeCard($post){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        return $client->IsAuthorized(true)->Post('change_card', $post);
+    }
 }

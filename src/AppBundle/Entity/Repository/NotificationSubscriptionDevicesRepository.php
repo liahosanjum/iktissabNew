@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity\Repository;
 use AppBundle\Entity\NotificationSubscriptionDevices;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * NotificationSubscriptionDevicesRepository
@@ -17,9 +18,10 @@ class NotificationSubscriptionDevicesRepository extends \Doctrine\ORM\EntityRepo
      */
     public function GetNextSerial($iktCard)
     {
-        $max = $this->_em->createQueryBuilder()->select("MAX(nsd.serial)")
+        $max = $this->_em->createQueryBuilder()
+            ->select("MAX(nsd.serial)")
             ->from("AppBundle:NotificationSubscriptionDevices", "nsd")
-            ->where("nsd.IktCard = :iktCard")
+            ->where("nsd.iktCard = :iktCard")
             ->setParameter("iktCard", $iktCard)
             ->getQuery()
             ->getSingleScalarResult();
@@ -31,19 +33,21 @@ class NotificationSubscriptionDevicesRepository extends \Doctrine\ORM\EntityRepo
     }
 
     /**
-     * @param $device
      * @param $uid
+     * @param $token
      * @return mixed|NotificationSubscriptionDevices
      */
-    public function  GetDeviceByDeviceAndUid($device, $uid){
+    public function  GetDeviceByDeviceUIDAndToken($uid, $token){
         return $this->_em
             ->createQueryBuilder()
+            ->select("d")
             ->from("AppBundle:NotificationSubscriptionDevices", 'd')
-            ->where('d.device = :device')
-            ->andWhere('d.deviceUid = :deviceUid')
-            ->setParameter('device', $device)
-            ->setParameter('deviceUid', $uid)
+            ->where('d.deviceUID = :deviceUID')
+            ->andWhere('d.deviceToken = :deviceToken')
+            ->setParameter('deviceUID', $uid)
+            ->setParameter('deviceToken', $token)
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 }

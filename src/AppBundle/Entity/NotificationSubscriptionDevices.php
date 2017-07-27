@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="notification_subscription_devices")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\NotificationSubscriptionDevicesRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class NotificationSubscriptionDevices
 {
@@ -39,16 +40,16 @@ class NotificationSubscriptionDevices
     /**
      * @var string
      *
-     * @ORM\Column(name="device_uid", type="string", length=200)
+     * @ORM\Column(name="device_token", type="string", length=500)
      */
-    private $deviceUid;
+    private $deviceToken;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="notification_id", type="string", length=500)
+     * @ORM\Column(name="device_uid", type="string", length=200)
      */
-    private $notificationId;
+    private $deviceUID;
 
     /**
      * @var \DateTime
@@ -60,7 +61,7 @@ class NotificationSubscriptionDevices
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modified", type="datetime")
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
@@ -136,52 +137,52 @@ class NotificationSubscriptionDevices
     }
 
     /**
-     * Set deviceUid
+     * Set deviceToken
      *
-     * @param string $deviceUid
+     * @param string $deviceToken
      *
      * @return NotificationSubscriptionDevices
      */
-    public function setDeviceUid($deviceUid)
+    public function setDeviceToken($deviceToken)
     {
-        $this->deviceUid = $deviceUid;
+        $this->deviceToken = $deviceToken;
 
         return $this;
     }
 
     /**
-     * Get deviceUid
+     * Get deviceToken
      *
      * @return string
      */
-    public function getDeviceUid()
+    public function getDeviceToken()
     {
-        return $this->deviceUid;
+        return $this->deviceToken;
     }
 
     /**
-     * Set notificationId
+     * Set deviceUID
      *
-     * @param string $notificationId
+     * @param string $deviceUID
      *
      * @return NotificationSubscriptionDevices
      */
-    public function setNotificationId($notificationId)
+    public function setDeviceUID($deviceUID)
     {
-        $this->notificationId = $notificationId;
+        $this->deviceUID = $deviceUID;
+
         return $this;
     }
 
     /**
-     * Get notificationId
+     * Get deviceUID
      *
      * @return string
      */
-    public function getNotificationId()
+    public function getDeviceUID()
     {
-        return $this->notificationId;
+        return $this->deviceUID;
     }
-
     /**
      * Set created
      *
@@ -228,6 +229,20 @@ class NotificationSubscriptionDevices
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function OnPrePersist(){
+        $this->created = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function  OnPreUpdate(){
+        $this->modified = new \DateTime('now');
     }
 }
 

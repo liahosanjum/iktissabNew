@@ -59,6 +59,8 @@ services:
     app.services.iktissab_card_service:
         class: AppBundle\Services\IktissabCardService
         arguments: ['@doctrine.orm.entity_manager', '@service_container']
+    app.services.iktweb_service:
+        class: AppBundle\Services\IKTWebService
     app.services.enquiry_and_suggestion:
             class: AppBundle\Controller\Common\EnquiryAndSuggestion
             arguments: ['@service_container', '@doctrine.orm.entity_manager']

@@ -104,19 +104,20 @@ class ApiController extends FOSRestController
 
         if(key_exists('email', $post) && key_exists('card', $post)){
 
-            $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($post['email']);
-            if($user != null){
-                return $this->handleView($this->view(["Value"=>"EmailExist"], Response::HTTP_OK));
-            }
-            $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($post['card']);
+            $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneBy(['iktCardNo'=>$post['card']]);
             if($user != null){
                 return $this->handleView($this->view([ "Value"=>"CardExist"], Response::HTTP_OK));
+            }
+
+            $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneBy(['email'=>$post['email']]);
+            if($user != null){
+                return $this->handleView($this->view(["Value"=>"EmailExist"], Response::HTTP_OK));
             }
 
             return $this->handleView($this->view(["Value"=>"New"], Response::HTTP_OK));
 
         }
-        return $this->handleView($this->view([], Response::HTTP_BADE_REQUEST));
+        return $this->handleView($this->view([], Response::HTTP_BAD_REQUEST));
     }
 
     /**
@@ -795,17 +796,24 @@ class ApiController extends FOSRestController
                 $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo());
 
                 $sh1 = sha1($code . $userinfo['user']['mobile'] . md5($code));
+                $md5Password = md5($password);
                 if($sh1 == $secret && strlen($password)>=6){
+                    $result = $this->get('app.services.iktissab_card_service')->changePassword('{"secret":"'.$md5Password.'"}');
+                    if($result['success'] == true && $result['status']==1) {
+                        $webUser->setPassword($md5Password);
+                        $em->persist($webUser);
+                        $em->flush();
 
-                    $webUser->setPassword(md5($password));
-                    $em->persist($webUser);
-                    $em->flush();
-
-                    $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $webUser->getIktCardNo(), array('newPassword'=>$password,'session' => serialize($webUser)));
-
-                    return $this->handleView(
-                        $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK)
-                    );
+                        $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $webUser->getIktCardNo(), array('newPassword' => $password, 'session' => serialize($webUser)));
+                        return $this->handleView(
+                            $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK)
+                        );
+                    }
+                    else{
+                        return $this->handleView(
+                            $this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK)
+                        );
+                    }
 
                 }
 
@@ -917,32 +925,31 @@ class ApiController extends FOSRestController
                 ->setSmsSubscription($parameters['sms'])
                 ->setPushSubscription($parameters['push']);
 
-
-
-            $device = $em->getRepository("AppBundle:NotificationSubscriptionDevices")->GetDeviceByDeviceAndUid($parameters['device'], $parameters['deviceUid']);
+            $device = null;
+            if($parameters['oldDeviceToken'] != '' || $parameters['oldDeviceUID'] != '')
+                $device = $em->getRepository("AppBundle:NotificationSubscriptionDevices")->findOneBy(['deviceUID'=>$parameters['oldDeviceUID'], 'deviceToken'=>$parameters['oldDeviceToken']]);
 
             //delete if iktissab card is not the same
-
-            if($device){
-                if($device->getIktCard() != $parameters['card']){
-                    $em->remove($device);
-                    $em->flush();
-                }
-                else{
-                    $device->setNotificationId($parameters['notificationId']);
-
-                }
+            if($device != null && ($device->getIktCard() != $parameters['card'] || $parameters['push'] != 'y')){
+                $em->remove($device);
+                $em->flush();
+                $device = null;
             }
-            else{
+            else if($device != null && $parameters['push'] == 'y'){
+                $device->setDeviceToken($parameters['deviceToken']);
+                $device->setDeviceUID($parameters['deviceUID']);
+                $em->persist($device);
+            }
+            else if($device == null && $parameters['push'] == 'y'){
                 $device = new NotificationSubscriptionDevices();
                 $device->setIktCard($parameters['card'])
                     ->setSerial($em->getRepository("AppBundle:NotificationSubscriptionDevices")->GetNextSerial($parameters['card']))
                     ->setDevice($parameters['device'])
-                    ->setDeviceUid($parameters['deviceUid'])
-                    ->setNotificationId($parameters['notificationId']);
+                    ->setDeviceToken($parameters['deviceToken'])
+                    ->setDeviceUID($parameters['deviceUID']);
+                $em->persist($device);
             }
             $em->persist($subscription);
-            $em->persist($device);
 
             $em->flush();
 
@@ -958,16 +965,57 @@ class ApiController extends FOSRestController
     }
 
     /**
-     * @param $card
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param string $device
+     * @return Response
      */
-    public function getSubscribeAction($card){
-
-        $data = $this->getDoctrine()->getRepository('AppBundle:NotificationSubscription')->findBy(['iktCard'=>$card]);
+    public function getSubscribeAction($device){
+        $card = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $data = [];
+        $subscription = $this->getDoctrine()->getRepository('AppBundle:NotificationSubscription')->findOneBy(['iktCard'=>$card]);
+        if($subscription){
+            $subDevice = $this->getDoctrine()->getRepository("AppBundle:NotificationSubscriptionDevices")->findOneBy(['iktCard'=>$card, 'device'=>$device]);
+            $data['push'] = $subscription->getPushSubscription();
+            $data['sms'] = $subscription->getSmsSubscription();
+            $data['email'] = $subscription->getEmailSubscription();
+            $data['card'] = $subscription->getIktCard();
+            if($subDevice){
+                $data['device'] = $device;
+                $data['deviceToken'] = $subDevice->getDeviceToken();
+            }
+        }
 
         return $this->handleView(
             $this->view(ApiResponse::Response(true, 1, $data), Response::HTTP_OK)
         );
+
+    }
+
+    /**
+     * @param $card
+     * @param $ssn
+     * @return Response
+     */
+    public function getSendPwdAction($card, $ssn){
+        try {
+
+
+            $service = $this->get('app.services.iktweb_service');
+            $result = $service->Get('send_pwd', ['c_id' => $card, 'id_no' => $ssn]);
+            if (trim($result) == 'تم إرسال كلمة السر بنجاح The Customer Password is sent successfully') {
+                return $this->handleView(
+                    $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans('The Customer Password is sent successfully')), Response::HTTP_OK)
+                );
+            } else {
+                return $this->handleView(
+                    $this->view(ApiResponse::Response(true, 2, trim($result)), Response::HTTP_OK)
+                );
+            }
+        }
+        catch (Exception $ex){
+            return $this->handleView(
+                $this->view(ApiResponse::Response(true, 3, null), Response::HTTP_OK)
+            );
+        }
 
     }
 
