@@ -4,7 +4,7 @@
 }
 .login-passreset{ float: left; text-align: left; }
 #FormCaptcha_CaptchaDiv{ float: right; }
-.navbar-right .dropdown-menu { right: -20px; }
+.navbar-right .dropdown-menu { right: -42px; }
 .navbar-collapse { padding-left: 0px !important;  }
 .pass-repeat{ margin-top:8px !important;}
 .email-repeat{ margin-top:8px !important;}
