@@ -12,7 +12,9 @@ use AppBundle\Exceptions\RestServiceFailedException;
 use Circle\RestClientBundle\Exceptions\CurlException;
 use Circle\RestClientBundle\Services\RestClient;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -22,17 +24,46 @@ class RestClientService
     private $restClient;
     private $apiUrl;
     private $jsonEncoder;
-
-    public function __construct(RestClient $restClient, JsonEncoder $jsonEncoder)
+    private $isAuthorized;
+    private $container;
+    public function __construct(RestClient $restClient, JsonEncoder $jsonEncoder, ContainerInterface $container)
     {
         $this->restClient = $restClient;
         $this->jsonEncoder = $jsonEncoder;
+        $this->container = $container;
     }
-    // sohail@gmail.com
-    // abc@1234
 
+    /**
+     * @param $isAuthorized
+     * @return RestClientService
+     */
+    public function IsAuthorized($isAuthorized){
+        $this->isAuthorized = $isAuthorized;
+        return $this;
+    }
     private  function GetXWSSE(){
+        $d = new \DateTime("NOW");
+        $currentDate = $d->format("Y/m/d H:i:s");
 
+        $area = "anonymous";
+        $email = "anonymous@gmail.com";
+        $secret = "";
+        if($this->isAuthorized){
+            $area = "customer";
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $email = $user->getUsername();
+            $secret = $user->getPassword();
+        }
+
+        $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+
+        $nonce = md5($guid);
+        $passwordHash = sha1(base64_encode($nonce) . $currentDate . $secret);
+        $passwordDigest =  base64_encode($passwordHash);
+        $digest = 'UsernameToken Username="%s", area="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
+        $digest = sprintf($digest, $email, $area, $passwordDigest, $nonce, $currentDate);
+        return $digest;
+        /*
         $d = new \DateTime("NOW");
         $currentDate = $d->format("Y/m/d H:i:s");
 
@@ -44,6 +75,7 @@ class RestClientService
         $digest = 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
         $digest = sprintf($digest, AppConstant::IKTISSAB_API_USER, $passwordDigest, $nonce, $currentDate);
         return $digest;
+        */
     }
 
 
@@ -318,7 +350,7 @@ class RestClientService
         {
             $result = $this->restClient->get($url, $options);
             // print_r($result);
-            $result->getContent();
+            echo 'here restGetForm '.$result->getContent();
             if($result->getStatusCode() == Response::HTTP_OK)
             {
                 if($result->headers->get('content_type') == 'application/json')
