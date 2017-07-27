@@ -99,8 +99,7 @@
 
 
 
-
-    var d1 = [
+var d1 = [
         {% for item , value in iktTransData %}
         ["{{ value.Mnth }}", {{ value.Sales }}],
         {% endfor %}
@@ -156,45 +155,7 @@
 
 
 
-        $('#myTab a').on('click', function (event) {
 
-            if($(this).data('id') != '13') { // 13 is for logout
-                event.preventDefault();
-                var path = $(this).data('path');
-                // alert(path);
-                var id = $(this).data('id');
-                //alert('{{ app.request.cookies.get("c_locale") }}');
-
-
-                //  url: "{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}";
-
-                // if('{{ app.request.cookies.get("c_locale") }}' ==  'en' && '{{ app.request.cookies.get("c_country") }}' == "sa" ){
-                // window.location = url;
-                // return;
-                //}
-
-
-                // if (path == undefined || path == null || path == '') return;
-
-                $.ajax({
-                    url:path,
-                    beforeSend: function () {
-
-                    },
-                    complete: function () {
-
-                    },
-                    success: function (response) {
-                        $("#contents-"+id).html(response);
-                    },
-                    error: function(errorThrown){
-
-                        alert("There is an error with AJAX!");
-                    }
-                });
-
-            }
-        });
 
 
     });

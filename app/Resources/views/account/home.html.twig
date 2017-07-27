@@ -262,28 +262,10 @@
 
                             </div>
 
-
+                            <div class="clearfix"></div>
                         </div>
 
-                        <div class="tab-pane fade" id="3">
 
-                            <div class="complient-wshariah-wrapper" id="contents-3">
-
-
-
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade  " id="4">
-                            <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                <div id="loader"></div>
-                            </div>
-
-                        </div>
                         <div class="tab-pane fade  " id="5">
 
                             <div class="eservice-content-iqama-description" id="contents-5">
@@ -294,6 +276,7 @@
                             </div>
 
 
+
                         </div>
                         <div class="tab-pane fade  " id="6">
                             <div class="eservice-content-personal-title">
@@ -301,11 +284,11 @@
                             </div>
                             <div class="eservice-content-iqama-description" id="contents-6">
 
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
+
+
+                                <div id="ajax-preloader-wrapper" style="margin-top:150px;" >
                                     <div id="loader"></div>
                                 </div>
-
-
                             </div>
 
 
@@ -440,7 +423,11 @@
             $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 
 
-
+/*
+            setTimeout(function(){
+               window.location.reload(1);
+            }, 30000);
+            */
 
 
 
@@ -475,11 +462,12 @@
 
                         },
                         success: function (response) {
+
                             $("#contents-"+id).html(response);
                         },
                         error: function(errorThrown){
 
-                            //alert("There is an error with AJAX!");
+                            alert("There is an error with AJAX!");
                         }
                     });
 
