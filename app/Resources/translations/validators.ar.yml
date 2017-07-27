@@ -17,16 +17,14 @@
 'New Iktissab card number and confirm new iktissab card number must be same': 'New Iktissab card number and confirm new iktissab card number must be same ar'
 'Iqama/SSN fields must match': 'رقم الهوية أو الإقامة غير متطابق'
 'New email and confirm email fields must match': 'New email and confirm email fields must match ar'
-"Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1 ar"
-"Please enter 10 digits mobile number starting with 5": "Please enter 10 digits mobile number starting with 5 ar"
-
-"Country-Code:": "Country-Code ar:"
-'Invalid Iqama Id/SSN Number': 'Invalid Iqama Id/SSN Number ar'
+"Country-Code:": "Country Code ar:"
+'Invalid Iqama Id/SSN Numbersa': 'Invalid Iqama Id/SSN Number ar'
+'Invalid Iqama Id/SSN Numbereg': 'Invalid National Number ar'
 'Iqama Id/SSN is not valid': 'Iqama Id/SSN is not valid ar'
 'Invalid captcha code': 'Invalid captcha code ar'
 'Enter Code': 'Enter Code ar'
 'New Iktissab id and comfirm iktissab id must be same': 'New Iktissab id and comfirm iktissab id must be same ar'
-'Please enter valid iktissab id starting with 9': 'Please enter valid iktissab id starting with 9 ar'
-'Please enter valid iktissab id starting with 5': 'Please enter valid iktissab id starting with 5 ar'
+'Iktissab Id must start with 5 for Egypt': 'Please enter valid iktissab id starting with 9 ar'
+'Iktissab Id must start with 9 for Saudi Arabia': 'Iktissab Id must start with 9 for Saudi Arabia ar'
 "Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1 ar"
 "Please enter 9 digits mobile number starting with 5": "Please enter 9 digits mobile number starting with 5 ar"

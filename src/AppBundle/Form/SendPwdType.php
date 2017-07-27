@@ -38,7 +38,7 @@ class SendPwdType extends AbstractType
             )
         ))
             ->add('iqama', TextType::class, array(
-                'label'       => 'Registered Iqama ID/SSN',
+                'label'       => 'Registered Iqama ID/SSN'.$lookupData['country'],
                 'attr'        => array( 'class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout',
                 'maxlength'   => ($lookupData['country'] == 'sa') ? 10 : 14 ),
                 'label_attr'  => ['class' => 'form-separator col-lg-12 col-md-12 col-sm-12 col-xs-12    form_labels nopadding'],
@@ -48,7 +48,7 @@ class SendPwdType extends AbstractType
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => 'Invalid Iqama Id/SSN Number')
+                            'message' => 'Invalid Iqama Id/SSN Number'.$lookupData['country'])
                     ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: abdulali
+ * User: s.aman
  * Date: 1/11/17
  * Time: 1:23 PM
  */
@@ -12,21 +12,25 @@ namespace AppBundle\Controller\Api;
 use AppBundle\AppBundle;
 use AppBundle\AppConstant;
 
+use AppBundle\Entity\NotificationSubscription;
+
+use AppBundle\Entity\NotificationSubscriptionDevices;
 use AppBundle\Entity\User;
 use AppBundle\Exceptions\RestServiceFailedException;
 use AppBundle\Form\IktRegType;
 use AppBundle\Form\IktUpdateType;
-use AppBundle\HttpCode;
 
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
+
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -51,13 +55,30 @@ class ApiController extends FOSRestController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getDo_loginAction(Request $request)
+    public function postDo_loginAction(Request $request)
     {
-        if(!$this->isRoleApi() || !$this->isRoleUser()) throw new UnauthorizedHttpException("Authorization");
-        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        $view = $this->view(['Value' => $user->getId()], HttpCode::HTTP_OK);
+        $email = $request->request->get('email', '');
+        $secret = $request->request->get('secret', '');
+
+        $view = $this->view(['Success'=>false, 'Value' =>''], Response::HTTP_OK);
+        if($secret != '' && $email != ''){
+            $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneBy(['email'=>$email]);
+
+            if($user){
+                //echo md5($user->getPassword() . md5($email)) ." --- " . $secret;die();
+                if(md5($user->getPassword() . md5($email)) == $secret){
+                    $view = $this->view(['Success'=>true, 'Value' =>$user->getIktCardNo()], Response::HTTP_OK);
+                }
+
+            }
+            else{
+                $view = $this->view(['Success'=>false, 'Value' =>''], Response::HTTP_OK);
+            }
+        }
+
         return $this->handleView($view);
+
     }
 
     /**
@@ -66,7 +87,7 @@ class ApiController extends FOSRestController
      */
     public function getTerms_and_conditionsAction(Request $request){
 
-        $view = $this->view(["success"=>true, "Terms"=>$this->get('translator')->trans("These are the test terms and condition services. that will return terms and conditions")], HttpCode::HTTP_OK);
+        $view = $this->view(["success"=>true, "Terms"=>$this->get('translator')->trans("These are the test terms and condition services. that will return terms and conditions")], Response::HTTP_OK);
 
         return $this->handleView($view);
 
@@ -78,24 +99,24 @@ class ApiController extends FOSRestController
      */
     public function postIs_card_or_email_existAction(Request $request)
     {
-    
+
         $post = $request->request->all();
 
         if(key_exists('email', $post) && key_exists('card', $post)){
 
             $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($post['email']);
             if($user != null){
-                return $this->handleView($this->view(["Value"=>"EmailExist"], HttpCode::HTTP_OK));
+                return $this->handleView($this->view(["Value"=>"EmailExist"], Response::HTTP_OK));
             }
             $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($post['card']);
             if($user != null){
-                return $this->handleView($this->view([ "Value"=>"CardExist"], HttpCode::HTTP_OK));
+                return $this->handleView($this->view([ "Value"=>"CardExist"], Response::HTTP_OK));
             }
 
-            return $this->handleView($this->view(["Value"=>"New"], HttpCode::HTTP_OK));
+            return $this->handleView($this->view(["Value"=>"New"], Response::HTTP_OK));
 
         }
-        return $this->handleView($this->view([], HttpCode::HTTP_BADE_REQUEST));
+        return $this->handleView($this->view([], Response::HTTP_BADE_REQUEST));
     }
 
     /**
@@ -106,14 +127,14 @@ class ApiController extends FOSRestController
     public function getSend_activation_codeAction(Request $request, $mobile)
     {
         $code = rand(111111, 999999);
-        //return $this->handleView($this->view(["Value"=>$code], HttpCode::HTTP_OK));
+        //return $this->handleView($this->view(["Value"=>$code], Response::HTTP_OK));
         $message = $this->get('translator')->trans("Please insert this temporary code %s , to continue with IKTISSAB Card registration.", ["%s"=>$code]);
         $is_sms_sended = $this->get("app.sms_service")->sendSms($mobile, $message, $request->get("_country") );
         if($is_sms_sended){
-            return $this->handleView($this->view(["Value"=>sha1($code . $mobile . md5($code))], HttpCode::HTTP_OK));
+            return $this->handleView($this->view(["Value"=>sha1($code . $mobile . md5($code))], Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view(["Value"=>"NotSend"], HttpCode::HTTP_OK));
+        return $this->handleView($this->view(["Value"=>"NotSend"], Response::HTTP_OK));
 
         //$activityLog = $this->get('app.activity_log');
         //$activityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $data['user']));
@@ -161,9 +182,10 @@ class ApiController extends FOSRestController
 
         $translator = $this->get('translator');
         $cardService = $this->get('app.services.iktissab_card_service');
-        
+
         try{
             $citesAreasAndJobs = $cardService->getCitiesAreasAndJobs();
+
         }
         catch (RestServiceFailedException $e){
             return $this->handleView($this->view(array('success'=>false, "ResponseCode"=>$responseCodes['SERVICE_CONNECTION'])));
@@ -186,6 +208,7 @@ class ApiController extends FOSRestController
             }
             $areasArranged[$value['name']] = $value['name'];
         }
+
         $areasArranged['-1'] = '-1';
         $parameters = $request->request->all();
 
@@ -236,11 +259,11 @@ class ApiController extends FOSRestController
                 }
                 $saveCustomer = $cardService->saveCard($newCustomer);
                 if ($saveCustomer['success'] != true) {
-                    return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), HttpCode::HTTP_OK));
+                    return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), Response::HTTP_OK));
                 }
             }
             catch (RestServiceFailedException $e) {
-                return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), HttpCode::HTTP_OK));
+                return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['SERVICE_CONNECTION']), Response::HTTP_OK));
             }
 
             $user = new User();
@@ -274,10 +297,10 @@ class ApiController extends FOSRestController
             $log->logEvent(
                 AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS,
                 $parameters['iktCardNo'], ['message' => 'New Card Registeration From Mobile', 'session' => $newCustomer]);
-            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), HttpCode::HTTP_OK));
+            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA'], "errors"=>$form->getErrors(true)), HttpCode::HTTP_OK));
+        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA'], "errors"=>$form->getErrors(true)), Response::HTTP_OK));
     }
 
     /**
@@ -299,12 +322,12 @@ class ApiController extends FOSRestController
 
         $parameters = $request->request->all();
         $cardService = $this->get('app.services.iktissab_card_service');
-       
+
         try{
             $userInformation = $cardService->getUserInfo($parameters['iktCardNo']);
         }
         catch(RestServiceFailedException $ex){
-            return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['INVALID_DATA']), HttpCode::HTTP_OK));
+            return $this->handleView($this->view(array('Success'=>false, 'ResponseCode'=>$responseCodes['INVALID_DATA']), Response::HTTP_OK));
         }
 
         //build form
@@ -357,7 +380,7 @@ class ApiController extends FOSRestController
             //send sms to user
             $smsText = $this->get('translator')->trans('Welcome to iktissab website your Username:{username} password:{password}', array('{username}'=>$parameters['email'], '{password}'=>$parameters['password']['first']));
             $smsService = $this->get('app.sms_service');
-                $smsService->sendSms($userInformation['user']['mobile'], $smsText, $request->get('_country'));
+            $smsService->sendSms($userInformation['user']['mobile'], $smsText, $request->get('_country'));
 
             //send email to the user
             $emailMessage = \Swift_Message::newInstance();
@@ -376,10 +399,10 @@ class ApiController extends FOSRestController
                 AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS,
                 $parameters['iktCardNo'], ['message' => 'New Card Registeration From Mobile', 'session' => serialize($userInformation['user'])]);
 
-            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), HttpCode::HTTP_OK));
+            return $this->handleView($this->view(array("Success"=>true, "ResponseCode"=>null), Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA']), HttpCode::HTTP_OK));
+        return $this->handleView($this->view(array("Success"=>false, "ResponseCode"=>$responseCodes['INVALID_DATA']), Response::HTTP_OK));
 
     }
 
@@ -395,7 +418,7 @@ class ApiController extends FOSRestController
             $citesAreasAndJobs = $cardService->getCitiesAreasAndJobs();
         }
         catch (RestServiceFailedException $e){
-            return $this->handleView($this->view(ApiResponse::Response(false, 2, null), HttpCode::HTTP_OK));
+            return $this->handleView($this->view(ApiResponse::Response(false, 2, null), Response::HTTP_OK));
         }
 
         $citiesArranged = array();
@@ -475,27 +498,30 @@ class ApiController extends FOSRestController
                 }
                 $count++;
             }
+            if(empty($form_data)){
+                return $this->handleView($this->view(ApiResponse::Response(true, 3, null), Response::HTTP_OK));
+            }
             try {
                 $result = $cardService->updateUserDetails($user['C_id'], json_encode($form_data));
                 if($result['success'] && $result['status'] == 1){
-                    return $this->handleView($this->view(ApiResponse::Response(true, 1, $result["message"]), HttpCode::HTTP_OK));
+                    return $this->handleView($this->view(ApiResponse::Response(true, 1, $result["message"]), Response::HTTP_OK));
                 }
                 else{
-                    return $this->handleView($this->view(ApiResponse::Response(true, 3, $result["message"]), HttpCode::HTTP_OK));
+                    return $this->handleView($this->view(ApiResponse::Response(true, 3, $result["message"]), Response::HTTP_OK));
                 }
 
             }
             catch (RestServiceFailedException $ex){
-                return $this->handleView($this->view(ApiResponse::Response(true, 2, null), HttpCode::HTTP_OK));
+                return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
             }
             catch (Exception $e) {
-                return $this->handleView($this->view(ApiResponse::Response(true, 2, null), HttpCode::HTTP_OK));
+                return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
 
             }
 
         }
         else{
-            return $this->handleView($this->view(ApiResponse::Response(true, 3, $form->getErrors(true, true)), HttpCode::HTTP_OK));
+            return $this->handleView($this->view(ApiResponse::Response(true, 3, $form->getErrors(true, true)), Response::HTTP_OK));
         }
     }
 
@@ -508,22 +534,22 @@ class ApiController extends FOSRestController
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
             $response = $cardService->updateMobile(json_encode($parameters));
             if($response["success"] && $response["status"] == 1){
-                $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_SUCCESS, $parameters['C_id'], $logData);
             }
             else{
-                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $parameters['C_id'], $logData);
             }
 
         }
         catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -538,22 +564,22 @@ class ApiController extends FOSRestController
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
             $response = $cardService->updateSSN(json_encode($parameters));
             if($response["success"] && $response["status"] == 1){
-                $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_SUCCESS, $parameters['C_id'], $logData);
             }
             else{
-                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $parameters['C_id'], $logData);
             }
 
         }
         catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -568,22 +594,25 @@ class ApiController extends FOSRestController
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
             $response = $cardService->updateName(json_encode($parameters));
             if($response["success"] && $response["status"] == 1){
-                $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_SUCCESS, $parameters['C_id'], $logData);
             }
             else{
-                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $parameters['C_id'], $logData);
             }
 
         }
+        catch (AccessDeniedException $ac){
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_FORBIDDEN);
+        }
         catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -592,29 +621,43 @@ class ApiController extends FOSRestController
 
     public function postUpdate_emailAction(Request $request){
         //status 1 = updated, 2=validation error, 3 = connection error
+
+        /**
+         * @var AppBundle/Entity/User
+         */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $cardService = $this->get('app.services.iktissab_card_service');
         $parameters = $request->request->all();
+        $parameters['C_id'] = $user->getIktCardNo();
+        $parameters['field'] = 'email';
+        $parameters['comment'] = '';
         $view = null;
         try{
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
-            $response = $cardService->updateName(json_encode($parameters));
+            $response = $cardService->updateEmail(json_encode($parameters));
             if($response["success"] && $response["status"] == 1){
-                $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
+                $em = $this->getDoctrine()->getManager();
+                $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
+                $currentUser->setEmail($parameters["new_value"]);
+                $em->persist($currentUser);
+                $em->flush();
+                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
-                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_SUCCESS, $parameters['C_id'], $logData);
+                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $parameters['C_id'], $logData);
             }
             else{
-                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
-                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $parameters['C_id'], $logData);
+                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $parameters['C_id'], $logData);
             }
 
         }
         catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -632,26 +675,26 @@ class ApiController extends FOSRestController
         $view = null;
         try{
             if(md5($parameters['currentPassword']) != $user->getPassword()){
-                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("Your current password is not valid")), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("Your current password is not valid")), Response::HTTP_OK);
             }
             elseif(strlen($parameters["password"]) < 6 ){
-                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("Password must be at least 6 characters")), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("Password must be at least 6 characters")), Response::HTTP_OK);
             }
             elseif(md5($parameters["password"]) == $user->getPassword() ){
-                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("New Password and old password must not be the same")), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("New Password and old password must not be the same")), Response::HTTP_OK);
             }
             else{
                 $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
                 $currentUser->setPassword(md5($parameters["password"]));
                 $em->persist($currentUser);
                 $em->flush();
-                $view = $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans("Password updated successfully")), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans("Password updated successfully")), Response::HTTP_OK);
             }
 
 
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -666,26 +709,266 @@ class ApiController extends FOSRestController
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
             $response = $cardService->updateLostCard(json_encode($parameters));
             if($response["success"] && $response["status"] == 1){
-                $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_SUCCESS, $user->getId(), $logData);
             }
             else{
-                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), HttpCode::HTTP_OK);
+                $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
                 $logData["message"] = $response["message"];
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, $user->getId(), $logData);
             }
 
         }
         catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
         catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
+            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
     }
 
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postPassword_reset_requestAction(Request $request)
+    {
+        //status 1 = user exist and code is send to mobile, 2 = user not found, 3 = exception occur
+        try {
+            $parameters = $request->request->all();
+            $email = $parameters['email'];
+            $em = $this->getDoctrine()->getManager();
+            $webUser = $em->getRepository("AppBundle:User")->findOneBy(array("email" => $email));
+
+            if ($webUser != null) {
+
+                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo());
+
+                $code = rand(111111, 999999);
+                $sh1 = sha1($code . $userinfo['user']['mobile'] . md5($code));
+                $this->get('app.sms_service')->sendSms(
+                    $userinfo['user']['mobile'],
+                    $this->get('translator')->trans("Forgot Password Verification Code %code", array("%code"=>$code))
+                    , $request->get("_country"));
+                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $webUser->getIktCardNo(), array('session' => serialize($webUser)));
+
+                return $this->handleView(
+                    $this->view(ApiResponse::Response(true, 1, $sh1), Response::HTTP_OK)
+                );
+
+            }
+
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 2, null), Response::HTTP_OK)
+            );
+        }
+        catch (Exception $ex1){
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK)
+            );
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postReset_passwordAction(Request $request)
+    {
+        //status 1 = password is changed, 2 = information is not valid, 3 = exception occur
+        try {
+            $parameters = $request->request->all();
+            $email = $parameters["email"];
+            $password = $parameters['password'];
+            $code = $parameters['code'];
+            $secret = $parameters['secret'];
+
+            $em = $this->getDoctrine()->getManager();
+            $webUser = $em->getRepository("AppBundle:User")->findOneBy(array("email" => $email));
+
+            if ($webUser != null) {
+
+                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo());
+
+                $sh1 = sha1($code . $userinfo['user']['mobile'] . md5($code));
+                if($sh1 == $secret && strlen($password)>=6){
+
+                    $webUser->setPassword(md5($password));
+                    $em->persist($webUser);
+                    $em->flush();
+
+                    $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $webUser->getIktCardNo(), array('newPassword'=>$password,'session' => serialize($webUser)));
+
+                    return $this->handleView(
+                        $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK)
+                    );
+
+                }
+
+                return $this->handleView(
+                    $this->view(ApiResponse::Response(false, 2, null), Response::HTTP_OK)
+                );
+
+
+            }
+
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 2, null), Response::HTTP_OK)
+            );
+        }
+        catch (Exception $ex1){
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK)
+            );
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postRetrieve_emailAction(Request $request)
+    {
+        //status 1 = user is validated and email is send to user mobile, 2=given information is not valid, 3 = an arbitrary error occur, 4 = iktissab service is not available
+        try{
+
+            $parameters = $request->request->all();
+
+            $card = $parameters["card"] or "";
+            $ssn = $parameters["ssn"] or "";
+
+            if($ssn != "" && $card != "") {
+
+                $em = $this->getDoctrine()->getManager();
+
+                $webUser = $em->getRepository("AppBundle:User")->find($card);
+                if ($webUser != null) {
+
+                    $service = $this->get("app.services.iktissab_card_service");
+                    $userinfo = $service->getUserInfo($card);
+
+                    $iktUser = $userinfo["user"];
+
+                    if ($iktUser["ID_no"] == $ssn) {
+                        $smsMessage = $this->get('translator')->trans("Your account registration email is %s", ["%s" => $webUser->getEmail()]);
+
+                        //send sms code
+                        $this->get('app.sms_service')->sendSms($iktUser['mobile'], $smsMessage, $request->get('_country'));
+                        $this->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $smsMessage, 'session' => $iktUser));
+
+                        $length = strlen($iktUser["mobile"]);
+                        $message = $this->get('translator')->trans('You will receive sms on your mobile number **** %s', ["%s" => substr($iktUser['mobile'], $length-4, $length)]);
+
+                        return $this->handleView(
+                            $this->view(ApiResponse::Response(true, 1, $message), Response::HTTP_OK)
+                        );
+
+                    }
+
+                }
+
+                return $this->handleView(
+                    $this->view(ApiResponse::Response(false, 2, null), Response::HTTP_OK)
+                );
+            }
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK)
+            );
+
+        }
+        catch (RestServiceFailedException $ex){
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 4, null), Response::HTTP_OK)
+            );
+        }
+        catch (Exception $ex1){
+            return $this->handleView(
+                $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK)
+            );
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postSubscribeAction(Request $request){
+
+        //{card:132,email:true,sms:false,push:true,device:{deviceName:iphone,deviceUid:21312}}
+
+        $view = null;
+        try{
+
+            $parameters = $request->request->all();
+
+            $em = $this->getDoctrine()->getManager();
+            $subscription = $em->getRepository("AppBundle:NotificationSubscription")->find($parameters['card']);
+            if($subscription == null){
+                $subscription = new NotificationSubscription();
+                $subscription->setIktCard($parameters['card']);
+            }
+
+            $subscription->setEmailSubscription($parameters['email'])
+                ->setSmsSubscription($parameters['sms'])
+                ->setPushSubscription($parameters['push']);
+
+
+
+            $device = $em->getRepository("AppBundle:NotificationSubscriptionDevices")->GetDeviceByDeviceAndUid($parameters['device'], $parameters['deviceUid']);
+
+            //delete if iktissab card is not the same
+
+            if($device){
+                if($device->getIktCard() != $parameters['card']){
+                    $em->remove($device);
+                    $em->flush();
+                }
+                else{
+                    $device->setNotificationId($parameters['notificationId']);
+
+                }
+            }
+            else{
+                $device = new NotificationSubscriptionDevices();
+                $device->setIktCard($parameters['card'])
+                    ->setSerial($em->getRepository("AppBundle:NotificationSubscriptionDevices")->GetNextSerial($parameters['card']))
+                    ->setDevice($parameters['device'])
+                    ->setDeviceUid($parameters['deviceUid'])
+                    ->setNotificationId($parameters['notificationId']);
+            }
+            $em->persist($subscription);
+            $em->persist($device);
+
+            $em->flush();
+
+            $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
+
+
+        }
+        catch (Exception $ex){
+            $view = $this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK);
+        }
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @param $card
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getSubscribeAction($card){
+
+        $data = $this->getDoctrine()->getRepository('AppBundle:NotificationSubscription')->findBy(['iktCard'=>$card]);
+
+        return $this->handleView(
+            $this->view(ApiResponse::Response(true, 1, $data), Response::HTTP_OK)
+        );
+
+    }
 
 }

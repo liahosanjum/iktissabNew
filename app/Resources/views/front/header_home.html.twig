@@ -48,6 +48,13 @@
     <script type="text/javascript" src="{{ asset('js/html5shiv.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/respond.min.js') }}"></script>
     <![endif]-->
+    <script type="text/javascript">
 
+        if(top.location != self.location){
+            top.location = self.location.href;
+        }
+
+
+    </script>
 </head>
 

@@ -1,5 +1,6 @@
 ﻿.login-inner-contents-wrapper { border-left: 1px solid #DDDDDD; padding-left: 25px; padding-bottom: 5px;  }
 .topMenu .col-lg-5 { padding-right: 0px;  }
+.login-passreset{ float: right; text-align: right; }
 .pass-repeat{ margin-top:8px !important;}
 .email-repeat{ margin-top:8px !important;}
 .iktpass{ padding-top: 10px; }
@@ -11,7 +12,7 @@
 #smsverify { margin-top:30px;margin-bottom:30px; }
 .verify-code { padding:15px !important; margin-top:20px;  }
 #forgot_email_submit{ float: right;   margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important;}
-
+.formMessage { margin-top: 34px; }
 #send_pwd_submit{ float: right;  margin-top: 40px;  width: 40%; margin-left: 30% !important; margin-right: 30% !important; }
 .memebersendpwdwrapper { direction: rtl; }
 .form-separator { margin-top:20px; }
@@ -872,7 +873,7 @@ label.error{
 .sq-icon:hover { background-color:#008B40; color: #FFFFFF; font-family: DroidKufiBold;   }
 
 .sq-title { padding-top: 31px;padding-bottom: 3px;  float: right; width: 100%; text-align: center; line-height: 19px; }
-.nav > li > a:focus , .nav > li a:hover { background-color: #F29100; color: #000; }
+.nav > li > a:focus , .nav > li a:hover { background-color: #F29100; color: #FFF; }
 .menu-wrapper .navbar-nav > li > a > .fa-home { font-size: 39px;}
 .menu-wrapper .navbar-nav > li.home-icon > a { padding-top:3px !important;  padding-bottom: 3px !important; padding-left: 23px; padding-right: 23px;}
 .menu-wrapper .nav .open > a,.menu-wrapper .nav .open > a:focus,.menu-wrapper .nav .open > a:hover{  background-color: #F29100;  }
@@ -1113,8 +1114,9 @@ a.last-breadcrumb{ text-decoration: none; color: #343434; font-size: 14px; }
 a.last-breadcrumb:hover{ text-decoration: none; }
 
 .faq-list-wrapper{ float: right;}
-.faqs-question { color: #008b40; font-size: 17px;  text-align: right; font-weight: 900; margin-bottom: 15px; }
-.faqs-answer { color: #343434; font-size: 14px; text-align: right; margin-bottom: 18px; line-height: 25px; font-weight: 600; }
+.faqs-question { color: #008b40; font-size: 17px;  text-align: right; font-weight: 900; margin-bottom: 10px; }
+.faqs-answer { color: #343434; font-size: 14px; text-align: right;
+    margin-bottom: 18px; line-height: 22px; font-weight: 600; border-bottom: dotted  1px #ADADAD; padding-bottom:15px; }
 .faqs-wrapper .col-lg-12 {  padding-right: 0px;  }
 .breadcrumb .in-active-link{ color: #008b40; font-size: 14px; font-weight: 600; }
 .faq-list-separator{ border-bottom: 2px dotted #dddddd; font-size: 9px; margin-bottom: 20px; margin-top: 25px;  }
@@ -1161,6 +1163,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .contactus-question { color: #008b40; font-size: 18px;  text-align: right; font-weight: bold; margin-bottom: 15px; }
 .contactus-list-title-wrapper { float: right; padding-top: 0px; }
 .contactus-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 900; }
+.reset_pass input { text-align: right;   }
+.reset_pass { text-align: right;direction: rtl; margin-bottom: 30px; }
 .reset_pass .btn-primary { width: 300px !important; float: right; }
 .login-list-title-wrapper { float: right; padding-top: 10px; text-align: right; }
 .login-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 900; text-align: right; }
@@ -1522,7 +1526,7 @@ select#ikt_update_maritial_status  {
     line-height: 15px;
     padding-right: 12px;
     text-align: right;
-    border: 1px solid #dddddd;
+    border: 1px solid #ADADAD;
     width: 100%;
     font-family: DroidKufiRegular;
     font-size: 12px;
@@ -1586,9 +1590,9 @@ select#ikt_update_maritial_status  {
 
 .chk-agree { float: right; width: 20px; padding-right: 0px;}
 .chk-agree-desc { float: right; padding-right: 5px; line-height: 29px; padding-right: 10px; font-weight: 700; font-size: 14px;}
-.chk-wrapper { float: right; padding-top: 10px; padding-bottom: 25px;}
-.chk-wrapper-submit { float: right;padding-bottom: 8px; margin-top: 50px; margin-bottom: 44px;}
-.desc{ width: 100%; }
+.chk-wrapper { float: right; padding-top: 10px; padding-bottom: 15px;}
+.chk-wrapper-submit { float: right;padding-bottom: 8px;}
+.desc{ width: 94%; float: right; line-height: 23.5px;}
 .cardactivationForm { float: right; width: 100%; }
 .date-birth-step2 .cardactivationForm { float: right; width: 97%; padding-right: 3px; text-align: right;  }
 .activation-form-wrapper { margin-right: 8.33333%; }
@@ -1625,9 +1629,12 @@ select#ikt_update_maritial_status  {
 #appbundle_enquiryandsuggestion_reason{ border: 1px solid #ADADAD; height: 33px; }
 #appbundle_enquiryandsuggestion_submit { width:263px;margin-top: 48px }
 
-.activation-description{ margin-top:50px;border: 2px solid #dddddd; background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px; }
-.activation-description .sno { padding-right: 5px; float: right; width: 28px; height: 38px; direction: ltr;  }
-.activation-description .desc-list { float: right; text-align: right; font-size: 14px; font-weight: 600; width: 100%;}
+.activation-description{ margin-top:50px;border: 2px solid #dddddd;
+    background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px;
+    padding-bottom:20px; }
+.activation-description .sno { padding-right: 5px; float: right; width: 28px;  direction: ltr; width: 4%;  }
+.activation-description .desc-list { float: right; text-align: right;
+    font-size: 14px; font-weight: 600; width: 100%;}
 .iktissab-activation-step2{ float: right; width: 100%; font-size: 16px; font-weight: 900; direction: rtl; padding-top: 10px; margin-right: 29%}
 .iktissab-activation-step3{ float: right; width: 100%; font-size: 16px; font-weight: 900; direction: rtl; padding-top: 10px; margin-right: 35%}
 
@@ -1663,7 +1670,7 @@ select#ikt_update_maritial_status  {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(218, 216, 111, 0.6);
 }
 .eservices-wrapper .form-control{ border-radius: 0px; border: 1px solid #969696;  font-weight: 400; }
-.form-control{ border-radius: 0px; border: 1px solid #969696;  font-weight: 400; }
+.form-control{ border-radius: 0px; border: 1px solid #969696;  font-weight: 400; padding-right:6px !important; }
 .eservices-wrapper #myTab { padding-right:0px !important;   }
 .eservices-wrapper .eservice-contents{    margin-top:25px;  }
 .eservices-wrapper .nav-tabs > li > a { border-radius: 0px; }
@@ -1776,7 +1783,8 @@ table.user-details { margin-bottom: 0px !important; }
     -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(218, 216, 111, 0.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(218, 216, 111, 0.6);
 }
-.memeberloginwrapper .form-control{ border-radius: 0px; border: 1px solid #969696;  font-weight:400; font-family: Cairo; }
+.memeberloginwrapper .form-control{ border-radius: 0px; border: 1px solid #969696;  font-weight:400;
+    font-family: Cairo; padding-right: 26px !important; }
 
 .member-login-submit .btn-block {
     background-color: #008b40;

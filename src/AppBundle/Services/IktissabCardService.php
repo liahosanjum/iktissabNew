@@ -80,7 +80,7 @@ class IktissabCardService
         else {
             return AppConstant::INVALID_DATA;
         }
-        
+
     }
 
     /**
@@ -104,15 +104,15 @@ class IktissabCardService
      */
     public function getUserInfo($card){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result = $client->Get($card . '/userinfo');
+        $result = $client->IsAuthorized(true)->Get($card . '/userinfo');
         return $result;
     }
     public function saveUser($data){
-        
+
     }
     public function updateUserDetails($card, $post){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result = $client->Post('update_user_detail', $post);
+        $result = $client->IsAuthorized(true)->Post('update_user_detail', $post);
         $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_USERINFO_SUCCESS, $card, $post);
         return $result;
     }
@@ -126,40 +126,32 @@ class IktissabCardService
 
     public function updateMobile($data){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result  = $client->Post("update_user_mobile", $data);
+        $result  = $client->IsAuthorized(true)->Post("update_user_mobile", $data);
         return $result;
     }
 
     public function updateSSN($data){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result  = $client->Post("update_user_ssn", $data);
+        $result  = $client->IsAuthorized(true)->Post("update_user_ssn", $data);
         return $result;
     }
     public function updateLostCard($data){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result  = $client->Post("update_lost_card", $data);
+        $result  = $client->IsAuthorized(true)->Post("update_lost_card", $data);
         return $result;
     }
 
     public function updateName($data){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result  = $client->Post("update_user_name", $data);
+        $result  = $client->IsAuthorized(true)->Post("update_user_name", $data);
         return $result;
     }
 
     public function updateEmail($data)
     {
-        $user = $this->em->getRepository("AppBundle:User")->find($data['card']);
-        if($user){
-            //Todo: it is not yet completed
-            $client = $this->container->get('app.services.iktissab_rest_service');
-            $client->Post('update_user_email', $data);
-            $user->setEmail($data['email']);
-            $this->container->get('app.activity_log')->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $data['card'], $data);
-
-            return array('success'=>true);
-        }
-        return array('success'=>false);
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        $result = $client->IsAuthorized(true)->Post('update_user_email', $data);
+        return $result;
     }
     public function updatePassword($data)
     {
@@ -174,6 +166,8 @@ class IktissabCardService
     }
     public function updateCard($post){
         $client = $this->container->get('app.services.iktissab_rest_service');
-        return $client->Post($post, "/");
+        return $client->IsAuthorized(true)->Post($post, "/");
     }
+
+
 }

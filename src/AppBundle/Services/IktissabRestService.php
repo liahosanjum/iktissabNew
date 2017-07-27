@@ -13,23 +13,30 @@ use Circle\RestClientBundle\Exceptions\CurlException;
 use Circle\RestClientBundle\Services\RestClient;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class IktissabRestService
 {
     private $restClient;
+    private $tokenStorage;
     private $jsonEncoder;
     private $request;
-
+    private $isAuthorized = false;
     /**
      * IktissabRestService constructor.
+     * @param TokenStorage $tokenStorage
      * @param RestClient $restClient
      * @param JsonEncoder $jsonEncoder
      * @param RequestStack $requestStack
      */
-    public function __construct(RestClient $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack )
+    public function __construct(TokenStorage $tokenStorage, RestClient $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack )
     {
+        $this->tokenStorage = $tokenStorage;
         $this->restClient = $restClient;
         $this->jsonEncoder = $jsonEncoder;
         $this->request = $requestStack->getCurrentRequest();
@@ -54,19 +61,36 @@ class IktissabRestService
     private function GetXWSSE(){
 
         $d = new \DateTime("NOW");
-        $currentDate = $d->format("y/m/d H:i:s");
+        $currentDate = $d->format("Y/m/d H:i:s");
+
+        $area = "anonymous";
+        $email = "anonymous@gmail.com";
+        $secret = "";
+        if($this->isAuthorized){
+            $area = "customer";
+            $email = $this->tokenStorage->getToken()->getUser()->getUsername();
+            $secret = $this->tokenStorage->getToken()->getUser()->getPassword();
+        }
 
         $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 
         $nonce = md5($guid);
-        $passwordHash = sha1(base64_encode($nonce) . $currentDate . md5(AppConstant::IKTISSAB_API_SECRET));
+        $passwordHash = sha1(base64_encode($nonce) . $currentDate . $secret);
         $passwordDigest =  base64_encode($passwordHash);
-        $digest = 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
-        $digest = sprintf($digest, AppConstant::IKTISSAB_API_USER, $passwordDigest, $nonce, $currentDate);
+        $digest = 'UsernameToken Username="%s", area="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
+        $digest = sprintf($digest, $email, $area, $passwordDigest, $nonce, $currentDate);
         return $digest;
 
     }
 
+    /**
+     * @param $isAuthorized
+     * @return IktissabRestService
+     */
+    public function IsAuthorized($isAuthorized){
+        $this->isAuthorized = $isAuthorized;
+        return $this;
+    }
     /**
      * @param $path
      * @return mixed|string
@@ -78,6 +102,9 @@ class IktissabRestService
         $uri = $this->GetWebServiceUrl($path);
         try {
             $result = $this->restClient->get($uri, $options);
+            if($result->getStatusCode() == Response::HTTP_FORBIDDEN){
+                throw new AccessDeniedException();
+            }
             if ($result->headers->get('Content-Type') == 'application/json') {
                 $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
                 return $resultFormatted;
@@ -102,6 +129,11 @@ class IktissabRestService
         $uri = $this->GetWebServiceUrl($path);
         try {
             $result = $this->restClient->post($uri, $payload, $options);
+
+            if($result->getStatusCode() == Response::HTTP_FORBIDDEN){
+                throw new AccessDeniedException();
+            }
+
             if ($result->headers->get('Content-Type') == 'application/json') {
                 $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
                 return $resultFormatted;

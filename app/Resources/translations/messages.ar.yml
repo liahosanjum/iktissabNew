@@ -26,7 +26,7 @@
 'Birthdate': 'تاريخ الميلاد'
 'Job Title': 'المسمى الوظيفي'
 'Balance': 'رصيد العميل'
-'Gender:': الجنس/النوع
+'Gender:': 'الجنس/النوع'
 'Shoppers': 'المتسوق'
 'Customer Name': 'اسم العميل'
 'Iktissab ID': 'رقم بطاقة إكتساب'
@@ -75,38 +75,39 @@
 'Invalid email address': 'بريد الكتروني غير صحيح'
 'New Email and Confirm new email must be same': 'New Email and Confirm new email must be same'
 'New email and current email must not be the same': 'New email and current email must not be the same'
-'Your record is not updated': 'Your record is not updated'
+'Your record is not updated': 'Your information is not updated'
 'SMS not sent': 'SMS not sent'
 'Please enter correct verification code': 'Please enter correct verification code'
-'Invalid user': 'Invalid user'
+'Invalid user': 'Please provide valid account information'
 'Registered SSN/Iqama': 'رقم الهوية / الإقامة المسجلة لدينا'
 'Comments': 'التعليق'
 'Update your mobile': 'تحديث رقم جوالك'
-'UpdateMobileSuccessfull': 'UpdateMobileSuccessfull'
-'UpdateMobileError': 'UpdateMobileError'
-'UpdateIqamaSuccessfull': 'UpdateIqamaSuccessfull'
-'UpdateIqamaError': 'UpdateIqamaError'
-'Update your Iqama Id/ SSN': 'تحديث رقم هويتك'
-'Registered Iqama ID/SSN': 'رقم الهوية / الإقامة المسجلة لدينا'
-'New Iqama ID/SSN': 'رقم الهوية أو الإقامة الجديد'
-'Confirm New Iqama ID/SSN': 'تأكيد رقم الهوية أو الإقامة الجديد'
+'Update your Iqama Id/ SSNsa': 'تحديث رقم هويتك'
+'Update your Iqama Id/ SSNeg': 'Update Your National Number ar'
+'Registered Iqama ID/SSNsa': 'رقم الهوية / الإقامة المسجلة لدينا'
+'Registered Iqama ID/SSNeg': 'Registered National Number'
+'New Iqama ID/SSNsa': 'رقم الهوية أو الإقامة الجديد'
+'New Iqama ID/SSNeg': 'رقم الهوية أو الإقامة الجديد'
+'Confirm New Iqama ID/SSNsa': 'تأكيد رقم الهوية أو الإقامة الجديد'
+'Confirm New Iqama ID/SSNeg': 'Confirm New National Number'
 'Please enter valid 10 digits Iqama Id/SSN': 'Please enter valid 10 digits Iqama Id/SSN'
-'New Iqama Id/SSN and old Iqama Id/SSN must not be same': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same ar'
-'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same ar'
+'New Iqama Id/SSN and old Iqama Id/SSN must not be samesa': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same ar'
+'New Iqama Id/SSN and old Iqama Id/SSN must not be sameeg': 'New National Number and old National Number must not be same ar'
+'New Iqama Id/SSN and confirm new Iqama Id/SSN must be samesa': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same ar'
+'New Iqama Id/SSN and confirm new Iqama Id/SSN must be sameeg': 'New National Number and confirm new National Number must be same ar'
 'Please enter comments': 'Please enter comments'
 'Please enter valid 14 digits Iqama Id/SSN': 'Please enter valid 14 digits Iqama Id/SSN ar'
 'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number ar'
 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN ar'
 'Update Your Name': 'تحديث الاسم'
 'Full Name': 'الإسم بالكامل'
-'Name must be in two parts': 'Name must be in two parts'
+'Name must be in two parts': 'Full name must be of atleast two parts'
 'Update Missing Card': 'بدل فاقد'
 'New Iktissab Number': 'رقم بطاقة إكتساب الجديدة'
 'Confirm Iktissab Number': 'تأكيد رقم بطاقة اكتساب'
 'You can change your IKTISSAB Card with the new one through the following form': 'يمكنك تغيير بطاقة اكتساب عن طريق النموذج التالي'
 'Dear customer': 'عزيزي العميل'
 'Update': 'تحديث'
-'Invalid token detected.Please submit again': 'Invalid token detected.Please submit the form again ar'
 'You can update your full name through the following form': 'يمكنك تحديث معلوماتك عن طريق النموذج التالي'
 'This field is required': 'نرجو تعبئة هذه الخانة'
 'Password fields must match': 'كلمة المرور غير مطابقة'
@@ -120,13 +121,9 @@
 "Select Area": "أخترالحي"
 "Update Personal Information": "تحديث البيانات الشخصيه"
 "Jan": "Jan"
-"Result": "Result ar"
-"Convert to": "Convert to ar"
-"Result ( yyyy-MM-dd)": "Result ( yyyy-MM-dd) ar"
 "BirthDate ( yyyy-MM-dd)": "BirthDate ( yyyy-MM-dd) ar"
-"Inquiries and Suggestions": "الاستفسارات والمقترحات"
 "If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible": "عميلنا العزيز اذا كان لديك اي شكوي - استفسار او اقتراح نامل منك تعبئة النموذج التالي وارساله."
-"Before sending the form,please read our": "ولمزيد من المعلومات نرجو زيارة الرابط التالي"
+"Before sending the form,please read our FAQs": "ولمزيد من المعلومات نرجو زيارة الرابط التالي"
 "FAQs": "الأسئلة المتكررة "
 "Reason": "السبب"
 "Captcha": "صورة التحقق"
@@ -149,8 +146,6 @@
 "Email has not been sent": "Email has not been sent ar"
 "New Password and old password must not be the same": "New Password and old password must not be the same ar"
 "Your password has been reset successfully": "Your password has been reset successfully ar"
-"Reset your password here": "Reset your password here ar"
-"Link expired": "Link expired ar"
 "Captcha Code": "‏صورة التحقق"
 "Reset Password": "إعادة تعيين كلمة المرور"
 "E-mail address": "‏عنوان البريد الإلكتروني"
@@ -177,7 +172,7 @@
 "Hijri": "هجري"
 "year_arabic": " سنة "
 "Year": " سنة "
-"Thankyou": "thankyou arabic"
+"Thankyou": "thankyou ar"
 "This Promotion Start From %s% To %e%": "هذا العرض يبدا من %s% وينتهى في  %e%"
 "Our Dear Customer": "عزيزى العميل"
 "We are pleased to be one of Alothaim Markets customers": "يسعدنا أن تكون أحد عملاء أسواق العثيم كما يسعدنا تلقي ملاحظاتكم واقتراحاتكم."
@@ -190,15 +185,15 @@
 "New Iktissab ID": "رقم بطاقة إكتساب الجديدة"
 "Confirm Iktissab ID": "تأكيد رقم بطاقة اكتساب"
 "You have already make a change request .Hence cannot make a new request.": "عفواً لقد انهت الجلسة الخاصة بكم برجاء المحاولة مرة أخرى"
-"Iqama/SSN fields must match": "Iqama/SSN fields must match ar"
+"Iqama/SSN fields must matchsa": "Iqama ID/SSN fields must match ar"
+"Iqama/SSN fields must matcheg": "National fields must match ar"
 "Your new and old password must not be the same": "Your new and old password must not be the same"
 "Your password is updated successfully": "Your password is updated successfully ar"
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same ar"
-"Your email address is not updated.Please try again": "Your email address is not updated.Please try again ar"
+"Your email address is not updated.Please try again": "Unable to update email. Please try again ar"
 "about iktissab": "عن اكتساب"
 "about us": "لماذا نحن"
 "sharia complient": "متوافق مع الشريعة"
-"inquiry and suggestion": "الشكاوى والمقترحات"
 "Customer Service": "خدمة العمل"
 "Promotions": "العروض الترويجية"
 "participation store": "المتاجر المشاركة"
@@ -220,7 +215,6 @@
 "Newsletter": "النشـرة البريديـة"
 "News letter subscription": "اشترك معنا فى النشرة البريدية وخدمة"
 "Messages to receive the latest offers": "الرسائل لتصلك أحدث عروضنا"
-"Complaints & Suggestions emailing": "الشكاوى والمقترحاتالنشـرة البريديـة"
 "Join Us": "اشتراك"
 "Messaging Service": "خدمـة الرسائـل"
 "Iktissab Card": "البطاقات"
@@ -262,7 +256,7 @@
 "You can update your mobile with the new one through the following form": "You can update your mobile with the new one through the following form"
 "Update Information": "تحديث البيانات"
 "Home": "الرئيسية"
-"Profile has been updated": "Profile has been updated ar"
+"Profile has been updated": "Your profile has been updated ar"
 "Jan": "يناير"
 "Feb": "فبراير"
 "March": "مارس"
@@ -280,7 +274,6 @@
 "Please enter your username and password and click the Sign in button": "فضلا أدخل اسم المستخدم وكلمة المرور الخاصة بك ثم أنقر على الزر تسجيل الدخول"
 "Signin for Iktissab Card Gain": "تسجيل الدخول للأعضاء اكتساب"
 "In order to view your membership account information it requires that you enter your username and password": "لكي تتمكن من الاطلاع على معلومات حساب العضوية الخاص بك يتطلب ذلك أدخال اسم المستخدم وكلمة المرور"
-"Login": "الدخول إلى حسابي"
 "Did you forgot your password": "هل نسيت كلمة المرور"
 "Reset Password": "إعادة تعيين كلمة المرور"
 "if you have forgotten your password, you can reset a new password by sending some instructions to our registered email": "إذا كنت قد نسيت كلمة المرور الخاصة بك، فسوف يمكنك إعادة تعيين كلمة مرور جديدة وذلك من خلال ارسال بعض التعليمات إلى البريد الإلكتروني المسجل لدينا"
@@ -293,6 +286,7 @@
 "Head Office": "الإدارة العامة"
 "Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road": "المملكة العربية السعودية - الربوة - الطريق الدائري الشرقي"
 "Riyadh": "الرياض"
+'Telephone': 'رقم الهاتف'
 "Fax": "الفاكس"
 "Our site on Google": "موقعنا على جوجل"
 "Step One": "الخطوة التالية"
@@ -310,34 +304,27 @@
 "Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer": " تحتفظ اكتساب بحقها في إلغاء الاشتراك أو إلغاء الرصيد بدون الرجوع للعميل"
 "Your use of the card will express your agreement to the terms and conditions, and Iktissab reserve the right to change the terms and conditions without prior notice to the customer": " استخدامك للبطاقة يدل على موافقتك على الشروط ويحق لـ اكتساب تعديل أو تغير هذه الشروط بدون الرجوع للعميل"
 "The customer is not allowed to use more than 1 card, or any card that is not connected to data": "لا يحق للعميل إستخدام أكثر من بطاقة أو أي بطاقة غير مرتبطة ببياناته"
-"Accept terms and conditions": "وافق على شروط وأحكام استخدام البطاقة"
 "This field is required": "هذا الحقل مطلوب"
-"First name": "الاسم الأول"
-"Second name": "الاسم الثاني"
-"Third name": "الاسم الثالث"
-"Family name": "اسم العائلة"
 "10% discount at all Kiaabi branches only for cardholders": "خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب"
 "Abdullah Al Othaim Markets offers huge discounts for holders of up to 25 purchase cards": "أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25"
 "Iktissab Card Id Activation": " تفعيل بطاقة اكتساب رقم"
 "Please enter activation code": "فضلاً ادخل كود التفعيل"
 "Please enter 6 digits code you received on your mobile": "لقد تم ارسال كود التفعيل والمكون من 6 أرقام إلى جوالك المنتهي بـ"
 "Thank you. Your activation request has been received successfully": "شكراً لكم لقد تم استلام طلب التفعيل بنجاح "
-"Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account ar"
-"Inquiry and suggestions": "الشكاوى والمقترحات"
+"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account ar"
+"Inquiry and Suggestions": "الشكاوى والمقترحات"
 "Retrieve account email": "استعادة البريد الإلكتروني للحساب"
 "Credit Cash": "المبالغ المكتسبة"
-"Unable to update record": "Unable to update record ar"
-"Full name must be of atleast two parts": "Full name must be of atleast two parts ar"
+"Unable to update record": "Unable to update information ar"
 'An invalid exception occurred': 'An invalid exception occurred ar'
 'Please enter valid Iktissab id and Iqama Id/SSN': 'Please enter valid Iktissab id and Iqama Id/SSN ar'
 'Information': "معلوماتي"
-'Iktissab password Recovery': 'استعادة كلمة المرور الخاصة برصيد اكتساب'
+'Iktissab password Recovery': 'استعادة كلمة مرور البطاقة'
 'Enter Iktissab ID': 'أدخل رقم بطاقة إكتساب'
 'Please enter valid Iqama ID/SSN': 'Please enter valid Iqama ID/SSN'
-'Please enter valid Iktissab card number': 'Please enter valid Iktissab card number'
+'Please enter valid Iktissab card number': 'Please enter valid Iktissab Id'
 'Mission and Vission': 'الرؤية والرسالـة'
 'Participating Stores': 'المتاجر المشاركـة'
-'Iktissab password Recovery': 'استعادة كلمة المرور الخاصة برصيد اكتساب'
 'Activation Date': 'تاريخ التفعيل'
 'Last Used': 'أخر استخدام'
 'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** ar'
@@ -345,26 +332,19 @@
 'Sorry! The page your requesting is not available': 'Sorry! The page you are requesting is not available ar'
 'SMS sent successfully': 'SMS sent successfully'
 'SMS not sent.Please try again': 'SMS not sent.Please try again'
-'The given email is not a registered email': 'The given email is not a registered email'
-'Invalid Iqama Id / SSN. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id / SSN. Please enter correct Iqama Id/SSN'
+'The given email is not a registered email': 'The given email is not registered before'
 'Invalid Iqama Id/SSN Number': 'Invalid Iqama Id/SSN Number ar'
-'Error While processing your request': 'Error While processing your request ar'
-'Please enter valid Iqama Id/SSN': 'Please enter valid Iqama Id/SSN ar'
-'Please enter correct Iqama Id/SSN': 'Please enter correct Iqama Id/SSN'
 'Your account registration email is %s': 'Your account registration email is %s'
-'Card is not registered on website': 'Card is not registered on website ar'
-'Unable to update record.Please submit the form again': 'Unable to update record.Please submit the form again'
-'Unable to update name': 'Unable to update name ar'
+'Card is not registered on website': 'Iktissab card is not registered on website ar'
+'Unable to update name': 'Sorry, your name is not updated. Please try again'
 'Please provide valid Iktissab Id': 'Please provide valid Iktissab Id'
 'Iktissab Id must start with 5 for Egypt': 'Iktissab Id must start with 5 for Egypt'
 'Iktissab Id must start with 9 for Saudi Arabia': 'Iktissab Id must start with 9 for Saudi Arabia'
-'No record found': 'No record found ar'
+'No record found': 'No information found ar'
 'Dear Customer, you have already make submission for this form.': 'Dear Customer, you have already make submission for this form.'
 'Information': 'Information'
-'Please reset your iktissab account password': 'Please reset your iktissab account password'
-'Users Activity Logs': 'Users Activity Logs'
 'Action Date': 'Action Date'
-'Action': 'Action'
+'Actions': 'Actions'
 'View Details': 'View Details'
 'Invalid Iktissab Card Number': 'رقم بطاقة اكتساب غير صحيح'
 'Invalid captcha code': 'لكلمة التحقق غير صحيحة'
@@ -372,7 +352,7 @@
 'Please enter 10 digits mobile number starting with 1': 'Please enter 10 digits mobile number starting with 1 ar'
 'Invalid Credentials': 'معلومات الدخول خاطئة'
 'birthdate': 'birthdate'
-'Please enter the sms code': 'Please enter the sms code'
+'Please enter the sms code': 'Please enter sms code you received on your mobile'
 'Gregorian': 'Gregorian'
 'Iktissab Id': 'Iktissab Id'
 'Details': 'Details'
@@ -385,20 +365,14 @@
 'Question': 'Question'
 'link': 'link'
 'PO BOX': 'PO BOX'
-'update lost card': 'update lost card'
+'update lost card': 'Update lost card'
 'Unable to process your request.Please try later': 'Unable to process your request.Please try later ar'
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number ar **** %s'
 'Signup': 'تسجيل'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now ar'
 'Password must be at least 6 characters': 'Password must be at least 6 characters ar'
-
-
-
-
-
-
-
-
-
-
-
+'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card': 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card'
+'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer': 'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer'
+'Inquiry and suggestions': 'الاستفسارات والمقترحات'
+'Please enter valid Iktissab id and iqama/SSNsa': 'Please enter valid Iktissab id and Iqama ID/SSN'
+'Please enter valid Iktissab id and iqama/SSNeg': 'Please enter valid Iktissab id and National Number'

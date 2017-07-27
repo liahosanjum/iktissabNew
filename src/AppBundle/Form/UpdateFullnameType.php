@@ -17,7 +17,7 @@ class UpdateFullnameType extends AbstractType
         $iktID_no   = $options['extras']['iktID_no'];
         $country_id = $options['extras']['country'];
 
-        $builder->add('fullname_registered_iqamaid', TextType::class, array('label' => 'Registered Iqama ID/SSN',
+        $builder->add('fullname_registered_iqamaid', TextType::class, array('label' => 'Registered Iqama ID/SSN'.$country_id,
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
             'attr' =>array('class' => 'form-control formLayout' ,'value' => $iktID_no , 'readonly' => 'readonly' ),
             'constraints' => array(
@@ -26,7 +26,7 @@ class UpdateFullnameType extends AbstractType
                     array(
                         'pattern' => ($country_id == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                         'match' => true,
-                        'message' => 'Invalid Iqama Id/SSN Number')
+                        'message' => 'Invalid Iqama Id/SSN Number'.$country_id)
                 ),)
         ))
         ->add('fullname', TextType::class, array('label' => 'Full Name',

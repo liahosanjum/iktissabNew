@@ -276,7 +276,8 @@ class RestClientService
         }
         catch (CurlException $e)
         {
-           throw new Exception('Unable to process your request at this time.Please try later');
+
+            throw new Exception('Unable to process your request at this time.Please try later');
         }
     }
 
@@ -301,8 +302,8 @@ class RestClientService
         try
         {
             $result = $this->restClient->get($url, $options);
-            // print_r($result);
-            echo 'here restGetForm '.$result->getContent();
+           
+            $result->getContent();
             if($result->getStatusCode() == Response::HTTP_OK)
             {
                 if($result->headers->get('content_type') == 'application/json')
@@ -350,7 +351,7 @@ class RestClientService
         {
             $result = $this->restClient->get($url, $options);
             // print_r($result);
-            echo 'here restGetForm '.$result->getContent();
+            $result->getContent();
             if($result->getStatusCode() == Response::HTTP_OK)
             {
                 if($result->headers->get('content_type') == 'application/json')

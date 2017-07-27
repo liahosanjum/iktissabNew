@@ -48,6 +48,7 @@ security:
               check_path: login
               authenticator: app.iktissab_authenticator
               provider: iktuser_provider
+              require_previous_session: false
             logout:
               path: account_logout
               success_handler: app.logout_handler

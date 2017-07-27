@@ -23,6 +23,11 @@ class SecurityController extends Controller
 
 
         $response = new Response();
+        //echo $request->getUri();
+        if($request->isXmlHttpRequest()){
+            echo "<script type='text/javascript'>top.location.href='".$request->getUri()."'</script>";
+            exit();
+        }
         $commFunct = new FunctionsController();
         if($commFunct->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));

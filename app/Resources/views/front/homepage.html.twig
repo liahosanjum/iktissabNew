@@ -43,7 +43,6 @@
                                 <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
                                 <ul id="webTicker-{{ app.request.get('_locale') }}">
                                     {% for item_news in data_news %}
-
                                         {{ item_news.details|raw }}
                                     {%  endfor %}
 
@@ -390,7 +389,7 @@
         <div id="myModal" class="modal">
             <span class="close" >&times;</span>
             <img class="modal-content" id="img01">
-            <div id="caption">sdfsf</div>
+            <div id="caption"></div>
         </div>
 
     </section> <!-- /.slick Section -->
