@@ -431,7 +431,7 @@ class AccountController extends Controller
             //$this->sksort($data_array, "YR");
             //$this->sksort($data_array, "Mnth");
 
-            $data_array = "";
+             
             return $this->render('/account/accountinfo.html.twig', array('iktData' => $iktUserData,
 
                 'iktTransData' => $data_array,
