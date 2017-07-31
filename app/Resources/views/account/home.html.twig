@@ -254,101 +254,116 @@
                         </div>
 
                         <div class="tab-pane fade  " id="2">
+                            <div class="eservice-content-personal-title">
+                                {{ 'Personal Information'|trans }}
+                            </div>
                             <div class="eservice-content-iqama-description" id="contents-2">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
-
 
                             </div>
-
+                            <div id="ajax-preloader-wrapper2" style="margin-top:150px;">
+                                <div id="loader2"></div>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
 
 
                         <div class="tab-pane fade  " id="5">
+                            <div  class="eservice-content-personal-title ">
+                                {{ 'Update Missing Card'|trans}}
+                            </div>
 
                             <div class="eservice-content-iqama-description" id="contents-5">
 
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
                             </div>
-
+                            <div id="ajax-preloader-wrapper5" style="margin-top:150px;">
+                                <div id="loader5"></div>
+                            </div>
 
 
                         </div>
                         <div class="tab-pane fade  " id="6">
                             <div class="eservice-content-personal-title">
-                                {{ 'Personal Information'|trans }}
+                                {{ 'Update Personal Information'|trans }}
                             </div>
                             <div class="eservice-content-iqama-description" id="contents-6">
 
-
-
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;" >
-                                    <div id="loader"></div>
-                                </div>
                             </div>
-
-
+                            <div id="ajax-preloader-wrapper6" style="margin-top:150px;" >
+                                <div id="loader6"></div>
+                            </div>
                         </div>
 
                         <div class="tab-pane fade  " id="7">
+                            <div  class="eservice-content-personal-title title-form-wrapper">
+                                {{ 'Update your mobile'|trans}}
+                            </div>
 
                             <div class="eservice-content-iqama-description" id="contents-7">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
 
                             </div>
+                            <div id="ajax-preloader-wrapper7" style="margin-top:150px;">
+                                <div id="loader7"></div>
+                            </div>
+
 
 
                         </div>
 
                         <div class="tab-pane fade  " id="8">
-                            <div class="eservice-content-iqama-description" id="contents-8">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
+                            <div  class="eservice-content-personal-title  title-form-wrapper">
+                                {{ 'Update Your Name'|trans}}
                             </div>
+                            <div class="eservice-content-iqama-description" id="contents-8">
 
+                            </div>
+                            <div id="ajax-preloader-wrapper8" style="margin-top:150px;">
+                                <div id="loader8"></div>
+                            </div>
 
                         </div>
 
                         <div class="tab-pane fade  " id="9">
+                            <div  class="eservice-content-personal-title title-form-wrapper">
+                                {{ ("Update your Iqama Id/ SSN"~app.request.get('_country'))|trans}}
+                            </div>
 
                             <div class="eservice-content-iqama-description" id="contents-9">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
 
+                            </div>
+                            <div id="ajax-preloader-wrapper9" style="margin-top:150px;">
+                                <div id="loader9"></div>
                             </div>
 
 
                         </div>
 
                         <div class="tab-pane fade  " id="10">
-
+                            <div class="eservice-content-personal-title title-form-wrapper">
+                                {{ 'Update your email'|trans}}
+                            </div>
                             <div class="eservice-content-iqama-description" id="contents-10">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
 
                             </div>
+                            <div id="ajax-preloader-wrapper10" style="margin-top:150px;">
+                                <div id="loader10"></div>
+                            </div>
+
 
 
                         </div>
 
 
                         <div class="tab-pane fade  " id="11">
+                            <div  class="eservice-content-personal-title title-form-wrapper">
+                                {{ 'Update Password'|trans}}
+                            </div>
 
                             <div class="eservice-content-iqama-description" id="contents-11">
-                                <div id="ajax-preloader-wrapper" style="margin-top:150px;">
-                                    <div id="loader"></div>
-                                </div>
-
                             </div>
+                            <div id="ajax-preloader-wrapper11" style="margin-top:150px;">
+                                <div id="loader11"></div>
+                            </div>
+
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -373,36 +388,13 @@
 
     <script type="text/javascript">
 
-
-
-
-
         var d1 = [
             {% for item , value in iktTransData %}
                 ["{{ value.Mnth }}", {{ value.Sales }}],
             {% endfor %}
         ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $(document).ready(function () {
-
-            var data = [ ["January", 110], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
-
-
-
             $.plot("#placeholder", [ d1 ], {
                 series: {
                     bars: {
@@ -417,64 +409,36 @@
                     tickLength: 0
                 }
             });
-
-            // Add the Flot version string to the footer
-
             $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 
-
-/*
-            setTimeout(function(){
-               window.location.reload(1);
-            }, 30000);
-            */
-
-
-
-
-
-            $('#myTab a').on('click', function (event) {
-
+            $('#myTab a').on('click', function (event)
+            {
                 if($(this).data('id') != '13') { // 13 is for logout
                     event.preventDefault();
                     var path = $(this).data('path');
-                    // alert(path);
                     var id = $(this).data('id');
-                    //alert('{{ app.request.cookies.get("c_locale") }}');
-
-
-                    //  url: "{{ path('account_home', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}";
-
-                        // if('{{ app.request.cookies.get("c_locale") }}' ==  'en' && '{{ app.request.cookies.get("c_country") }}' == "sa" ){
-                        // window.location = url;
-                        // return;
-                    //}
-
-
-                    // if (path == undefined || path == null || path == '') return;
 
                     $.ajax({
                         url:path,
                         beforeSend: function () {
+                            $('#ajax-preloader-wrapper'+id).html('<div id="loader"></div>');
+                            $("#contents-"+id).html('');
 
                         },
                         complete: function () {
-
                         },
-                        success: function (response) {
 
+                        success: function (response) {
+                            $('#ajax-preloader-wrapper'+id).html('');
                             $("#contents-"+id).html(response);
                         },
                         error: function(errorThrown){
-
                             alert("There is an error with AJAX!");
                         }
                     });
 
                 }
             });
-
-
         });
     </script>
 
@@ -484,7 +448,6 @@
         #chartContainer { float:right; position: relative; display: flex; margin-left:20px;}
         .canvasjs_chart_tooltip { display: none;  }
         .canvasjs-chart-canvas{ margin-left:20px; }
-
     </style>
 
 

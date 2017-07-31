@@ -1,10 +1,5 @@
-
-
-        <div class="row">
+<div class="row">
             <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
-                <div  class="eservice-content-personal-title title-form-wrapper">
-                    {{ 'Update your mobile'|trans}}
-                </div>
 
                 <div class="titleForm_main iqama-id-wrapper">
                     {{ 'Dear customer'|trans}}
@@ -18,8 +13,7 @@
                     {{ message }}
                 </div>
                 {% endif %}
-                <div id="preLoaders">
-                </div>
+                <div id="preLoadersMob"></div>
                 <div class="claerfix"></div>
             </div>
         </div>
@@ -66,13 +60,12 @@
 
 
 
+<style type="text/css">#preLoadersMob {  border-radius: 12px;  left: 40%;  position: absolute;  top: 40%;  z-index: 1;  }</style>
 
 
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
@@ -89,12 +82,13 @@
                             processData: false,
                             contentType: false,
                             beforeSend: function() {
-                                $('#preLoaders').html('<div id="loader"></div>');
+                                $('#preLoadersMob').html('<div id="loader"></div>');
                             },
                             complete: function(){
-                                $('#preLoaders').html('');
+
                             },
                             success: function (response) {
+                                //$('#preLoaders').html('');
                                 $('#contents-7').html(response);
                             }
                         })

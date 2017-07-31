@@ -15,7 +15,6 @@
 'Area': 'Area'
 'House Number': 'House Number'
 'PO Box': 'PO Box'
-
 'Zip Code': 'Zip Code'
 'City': 'City'
 'Telephone (Home)': 'Telephone (Home)'
@@ -58,7 +57,8 @@
 'Select Shopper': 'Select Shopper'
 'English': 'English'
 'Arabic': 'Arabic'
-'Iqama/SSN Number': 'Iqama Id/SSN Number'
+'Iqama/SSN Numbersa': 'Iqama Id/SSN'
+'Iqama/SSN Numbereg': 'National Number'
 'Next step': 'Next Step'
 'Current Email': 'Current Email'
 'New Email': 'New Email'
@@ -75,10 +75,11 @@
 'New Email and Confirm new email must be same': 'New Email and Confirm new email must be match'
 'New email and current email must not be the same': 'New email and current email must not be same'
 'Your record is not updated': 'Your information is not updated'
-'SMS not sent': 'Sorry , SMS is not sent..Please try again'
+'SMS not sent': 'Sorry , SMS is not sent.Please try again'
 'Please enter correct verification code': 'Please enter correct verification code'
 'Invalid user': 'Please provide valid account information'
-'Registered SSN/Iqama': 'Registered Iqama Id/SSN'
+'Registered SSN/Iqamasa': 'Registered Iqama Id/SSN'
+'Registered SSN/Iqamaeg': 'Registered National'
 'Comments': 'Comments'
 'Update your mobile': 'Update your mobile'
 'Update your Iqama Id/ SSNsa': 'Update Your Iqama Id/SSN'
@@ -90,15 +91,15 @@
 'Confirm New Iqama ID/SSNsa': 'Confirm New Iqama ID/SSN'
 'Confirm New Iqama ID/SSNeg': 'Confirm New National Number'
 'Please enter valid 10 digits Iqama Id/SSN': 'please enter a valid 10 digit SSN/Iqama number.'
+'Please enter valid 14 digits Iqama Id/SSN': 'please enter a valid 14 National Number.'
 'New Iqama Id/SSN and old Iqama Id/SSN must not be samesa': 'New Iqama Id/SSN and old Iqama Id/SSN must not be same'
 'New Iqama Id/SSN and old Iqama Id/SSN must not be sameeg': 'New National Number and old National Number must not be same'
 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be samesa': 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be same'
 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be sameeg': 'New National Number and confirm new National Number must be same'
 'Please enter comments': 'Please enter comments'
-'Please enter valid 14 digits Iqama Id/SSNsa': 'Please enter a valid 14 digits Iqama Id/SSN'
-'Please enter valid 14 digits Iqama Id/SSNeg': 'Please enter a valid 14 digits National Number'
 'Please enter valid 9 digits mobile number': 'Please enter valid 9 digits mobile number'
-'Invalid Iqama Id / SSN or mobile number. Please enter correct Iqama Id/SSN': 'Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSN'
+'Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSNsa': 'Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSN'
+'Invalid Iqama Id/SSN or mobile number. Please enter correct Iqama Id/SSNeg': 'Invalid National Number or mobile number. Please enter correct National Number'
 'Update Your Name': 'Update Your Name'
 'Full Name': 'Full Name'
 'Name must be in two parts': 'Full name must be of atleast two parts'
@@ -204,7 +205,8 @@
 "Personal Information": "Personal Information"
 "Update Mobile": "Update Mobile"
 "Update Name": "Update Name"
-"Update-Iqama-SSN": "Update Iqama Id/SSN"
+"Update-Iqama-SSNsa": "Update Iqama Id/SSN"
+"Update-Iqama-SSNsa": "Update National Number"
 "Update lost card": "Update lost card"
 "Update Email": "Update Email"
 "Your Balance": "Your Balance"
@@ -317,7 +319,6 @@
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
 'An invalid exception occurred': 'An invalid exception occurred'
-'Please enter valid Iktissab id and Iqama Id/SSN': 'Please enter valid Iktissab Id and Iqama Id/SSN'
 'Information': 'Information'
 'Iktissab password Recovery': 'Iktissab password recovery'
 'Enter Iktissab ID': 'Enter Iktissab ID'
@@ -365,7 +366,6 @@
 'Abdullah Al Othaim Markets Company, Riyadh': 'Abdullah Al Othaim Markets Company, Riyadh'
 'Question': 'Question'
 'link': 'link'
-'PO BOX': 'PO BOX'
 'update lost card': 'Update lost card'
 'Unable to process your request.Please try later': 'Unable to process your request.Please try later en'
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number en **** %s'
@@ -373,7 +373,6 @@
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now en'
 'Password must be at least 6 characters': 'Password must be at least 6 characters'
 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card':
-'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer': 'Iktissab reserve the rights to cancel the membership or the credit without prior notice to the customer'
-'Inquiry and suggestions': 'Inquiry and suggestions'
+'Inquiry and Suggestions': 'Inquiry and suggestions'
 'Please enter valid Iktissab id and iqama/SSNsa': 'Please enter valid Iktissab id and Iqama ID/SSN'
 'Please enter valid Iktissab id and iqama/SSNeg': 'Please enter valid Iktissab id and National Number'

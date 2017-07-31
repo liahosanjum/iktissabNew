@@ -8,6 +8,7 @@ use AppBundle\Entity\User;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -204,11 +205,11 @@ class DefaultController extends Controller
             $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
             $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
             if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
-                //return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
             }
 
             if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
-                //return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
             }
         }
         return;

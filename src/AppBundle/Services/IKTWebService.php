@@ -29,6 +29,4 @@ class IKTWebService
         $serviceResult = $serviceName."Result";
         return $this->client->$serviceResult;
     }
-
-
 }
