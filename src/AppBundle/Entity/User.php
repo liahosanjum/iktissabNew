@@ -77,14 +77,14 @@ class User
     /**
      * @var int
      *
-     * @ORM\Column(name="activation_source", type="smallint", nullable=false)
+     * @ORM\Column(name="status", type="smallint", nullable=false)
      */
     private $status;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="activation_source", type="datetime", length=1, nullable=true)
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
