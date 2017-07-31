@@ -1019,4 +1019,70 @@ class ApiController extends FOSRestController
 
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postActivate_usersAction(Request $request)
+    {
+        $parameters = $request->request->all();
+        $postData = [];
+        if($parameters != '')
+            $postData = $this->container->get('serializer.encoder.json')->decode($parameters, 'array');
+        if(is_array($postData) && count($postData)>0){
+
+            $em = $this->getDoctrine()->getManager();
+            $repo = $em->getRepository('AppBundle:User');
+            $approved = [];
+            $rejected = [];
+            foreach ($postData as $row){
+                $card = $repo->find($row['card']);
+
+                if($card != null){
+                    if($row['process'] == 3){
+                        $rejected[] = $row['card'];
+                        $card->setStatus(2);
+                        $em->remove($card);
+                        //$em->flush();
+                    }
+                    else if($row['process'] == 2){
+                        $card->setStatus(1);
+                        $em->persist($card);
+                        //$em->flush();
+                        $approved[] = $row['card'];
+                    }
+                }
+
+            }
+
+            $view = $this->view(ApiResponse::Response(true, 1, ['Approved'=>$approved, "Rejected"=>$rejected]), Response::HTTP_OK);
+        }
+        else{
+            $view = $this->view(ApiResponse::Response(true, 2, 'Nothing found to update'), Response::HTTP_OK);
+        }
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postGetUsersAction(Request $request){
+        $parameters = $request->request->all();
+        $postData = [];
+        if($parameters != '')
+            $postData = $this->container->get('serializer.encoder.json')->decode($parameters, 'array');
+        if(isset($postData['cards'])){
+
+            $users = $this->getDoctrine()->getRepository('AppBundle:User')->GetUsersByCards($postData['cards']);
+
+            return $this->handleView($this->view(ApiResponse::Response(true, 1, $users), Response::HTTP_OK));
+
+        }
+
+        return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
+    }
+
+
 }

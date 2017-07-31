@@ -25,4 +25,21 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->setHydrationMode(3);
     }
 
+    /**
+     * @param array $cards
+     * @return array|null
+     */
+    public function GetUsersByCards($cards = []){
+        if(empty($cards)) return null;
+
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from('AppBundle:User', 'u')
+            ->where('u.iktCardNo IN(:cards)')
+            ->setParameter('cards',  implode(',', $cards))
+            ->getQuery()
+            ->getResult(3);
+
+    }
+
 }
