@@ -73,7 +73,20 @@ class User
      * @ORM\Column(name="activation_source", type="string", length=1, nullable=true)
      */
     private $activationSource;
-    
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="activation_source", type="smallint", nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="activation_source", type="datetime", length=1, nullable=true)
+     */
+    private $modified;
 
     /**
      * Get iktCardNo
@@ -268,5 +281,44 @@ class User
     public function getActivationSource()
     {
         return $this->activationSource;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param \DateTime $modified
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function OnPreUpdate(){
+        $this->modified = new \DateTime('NOW');
     }
 }
