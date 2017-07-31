@@ -40,16 +40,9 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
 
     <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
-    <script type="text/javascript"
-            src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
     <script type="text/javascript">
 
@@ -139,7 +132,7 @@
                 return;
             }
 
-
+            /*
             if (window.XMLHttpRequest) {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp = new XMLHttpRequest();
@@ -156,6 +149,8 @@
             }
             xmlhttp.open("GET", "{{ app.request.baseUrl }}/account/dateofbirthconverter/" + str_to_convert + "/" + str, true);
             xmlhttp.send();
+            */
+
 
         });
 

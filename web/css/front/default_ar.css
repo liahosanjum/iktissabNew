@@ -873,7 +873,8 @@ label.error{
 .sq-icon:hover { background-color:#008B40; color: #FFFFFF; font-family: DroidKufiBold;   }
 
 .sq-title { padding-top: 31px;padding-bottom: 3px;  float: right; width: 100%; text-align: center; line-height: 19px; }
-.nav > li > a:focus , .nav > li a:hover { background-color: #F29100; color: #FFF; }
+ .nav > li a:hover { background-color: #F29100; color: #FFF; }
+.topMenu .top-lang-wrapper ul > li > ul >li:hover { color: #000; background-color: #F29100; }
 .menu-wrapper .navbar-nav > li > a > .fa-home { font-size: 39px;}
 .menu-wrapper .navbar-nav > li.home-icon > a { padding-top:3px !important;  padding-bottom: 3px !important; padding-left: 23px; padding-right: 23px;}
 .menu-wrapper .nav .open > a,.menu-wrapper .nav .open > a:focus,.menu-wrapper .nav .open > a:hover{  background-color: #F29100;  }
@@ -2050,7 +2051,7 @@ table.user-details { margin-bottom: 0px !important; }
     .topMenu  .navbar-nav .open .dropdown-menu { background-color: #FFFFFF;  }
     li.dropdown > ul.dropdown-menu { box-shadow: 5px 6px 6px #9c9c9c;  }
     .menu-wrapper li.dropdown > ul.dropdown-menu { box-shadow: 5px 6px 6px #000;  }
-    .topMenu .dropdown-menu > li:last-child > a { background-color: #ffffff;  border: 1px solid #dddddd;  box-shadow: 2px 6px 8px #dddddd;  text-align: right;}
+    .topMenu .dropdown-menu > li:last-child > a { border: 1px solid #dddddd;  box-shadow:0 6px 12px rgba(0, 0, 0, 0.176);  text-align: right;}
     .top-lang-wrapper .navbar-nav { margin: 0px; float: left; }
     .topMenu  .navbar-nav .open .dropdown-menu > li > a { float: left; width: 100%; }
     .content-hide{ display: none;}

@@ -12,7 +12,7 @@
                     </div>
                 {% endif %}
             </div>
-            <div id="preLoaders">
+            <div id="preLoadersUpd">
             </div>
             {{ form_start(form) }}
 
@@ -166,10 +166,12 @@
 
 
             var areas = {{ areas.content| raw }} ;
+
             $('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
             jQuery('#ikt_update_city_no').on('change', function () {
                 manage_areas($(this).val())
             });
+
             // if form is submitted then manage the areas and cities
             if ($('#ikt_update_city_no').val() != '') {
                 manage_areas($('#ikt_update_city_no').val());
@@ -221,11 +223,11 @@
                             processData: false,
                             contentType: false,
                             beforeSend: function () {
-                                $('#message-return').html('');
-                                $('#preLoaders').html('<div id="loader"></div>');
+
+                                $('#preLoadersUpd').html('<div id="loader"></div>');
                             },
                             complete: function () {
-                                $('#preLoaders').html('');
+                                //$('#preLoadersUpd').html('');
                             },
                             success: function (response) {
                                 $('#contents-6').html(response);
@@ -236,6 +238,7 @@
         });
             </script>
 
+        <style>#preLoadersUpd {  border-radius: 12px;  left: 40%;  position: absolute;  top: 40%;  z-index: 1;  }</style>
 
     {% endblock %}
 

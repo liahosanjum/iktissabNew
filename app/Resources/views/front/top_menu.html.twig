@@ -39,7 +39,7 @@
                             <li class="dropdown">
                                 <a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'My Account'|trans }}    &nbsp;&nbsp;</a>
-                                <ul class="dropdown-menu right">
+                                <ul class="dropdown-menu">
 
                                     <li><a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Personal Information'|trans }}</a></li>
                                     <!--
@@ -84,7 +84,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'Saudia'|trans }}    &nbsp;&nbsp;  <img alt="saudia" src="{{ asset('img/ksa.jpg')}}"  height="13px" /></a>
-                            <ul class="dropdown-menu right">
+                            <ul class="dropdown-menu">
                                 <li><a href="{{ path('setCountry', {'_country': 'eg', '_locale':local_language_url }|merge({'ccid': 'eg' })) }}">{{ 'Egypt'|trans }}</a></li>
                             </ul>
                         </li>
