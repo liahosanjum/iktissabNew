@@ -1023,19 +1023,20 @@ class ApiController extends FOSRestController
      * @param Request $request
      * @return Response
      */
-    public function postActivate_usersAction(Request $request)
+    public function postPushUsersAction(Request $request)
     {
         $parameters = $request->request->all();
-        $postData = [];
-        if($parameters != '')
-            $postData = $this->container->get('serializer.encoder.json')->decode($parameters, 'array');
-        if(is_array($postData) && count($postData)>0){
+        if($parameters == '' or empty($parameters)){
+            $parameters = $this->get('serializer.encoder.json')->decode($request->getContent(), 'array');
+        }
+
+        if(isset($parameters['users']) and count($parameters['users'])>0){
 
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('AppBundle:User');
             $approved = [];
             $rejected = [];
-            foreach ($postData as $row){
+            foreach ($parameters['users'] as $row){
                 $card = $repo->find($row['card']);
 
                 if($card != null){
@@ -1043,12 +1044,12 @@ class ApiController extends FOSRestController
                         $rejected[] = $row['card'];
                         $card->setStatus(2);
                         $em->remove($card);
-                        //$em->flush();
+                        $em->flush();
                     }
                     else if($row['process'] == 2){
                         $card->setStatus(1);
                         $em->persist($card);
-                        //$em->flush();
+                        $em->flush();
                         $approved[] = $row['card'];
                     }
                 }
@@ -1064,25 +1065,50 @@ class ApiController extends FOSRestController
         return $this->handleView($view);
     }
 
+
     /**
      * @param Request $request
      * @return Response
      */
-    public function postGetUsersAction(Request $request){
+    public function postPullUsersAction(Request $request){
         $parameters = $request->request->all();
-        $postData = [];
-        if($parameters != '')
-            $postData = $this->container->get('serializer.encoder.json')->decode($parameters, 'array');
-        if(isset($postData['cards'])){
+        if($parameters == '' or empty($parameters)){
+            $parameters = $this->get('serializer.encoder.json')->decode($request->getContent(), 'array');
+        }
 
-            $users = $this->getDoctrine()->getRepository('AppBundle:User')->GetUsersByCards($postData['cards']);
+        if(isset($parameters['users']) and count($parameters['users'])>0){
+            $users = $this->getDoctrine()->getRepository('AppBundle:User')->GetUsersByCards($parameters['users']);
 
-            return $this->handleView($this->view(ApiResponse::Response(true, 1, $users), Response::HTTP_OK));
-
+            return $this->handleView($this->view(ApiResponse::Response(true, 1, implode(',', $users)), Response::HTTP_OK));
         }
 
         return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postUpdateLostCardsAction(Request $request){
+        $parameters = $request->request->all();
+        if($parameters == '' or empty($parameters)){
+            $parameters = $this->get('serializer.encoder.json')->decode($request->getContent(), 'array');
+        }
+
+        if(isset($parameters['lostcards']) and count($parameters['lostcards'])>0){
+
+            $em = $this->getDoctrine()->getManager();
+            foreach ($parameters['lostcards'] as $lostcard){
+                $user = $em->getRepository('AppBundle:User')->find($lostcard['card']);
+                $user->setIktCardNo($lostcard['new_card']);
+                $em->persist($user);
+            }
+            $em->flush();
+
+            return $this->handleView($this->view(ApiResponse::Response(true, 1, 'Update Successful'), Response::HTTP_OK));
+        }
+
+        return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
+    }
 
 }

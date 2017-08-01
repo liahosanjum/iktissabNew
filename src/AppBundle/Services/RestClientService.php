@@ -25,6 +25,7 @@ class RestClientService
     private $apiUrl;
     private $jsonEncoder;
     private $isAuthorized;
+    private $isAdmin;
     private $container;
     public function __construct(RestClient $restClient, JsonEncoder $jsonEncoder, ContainerInterface $container)
     {
@@ -41,6 +42,14 @@ class RestClientService
         $this->isAuthorized = $isAuthorized;
         return $this;
     }
+    /**
+     * @param boolean $isAdmin
+     * @return $this
+     */
+    public function IsAdmin($isAdmin){
+        $this->isAdmin = $isAdmin;
+        return $this;
+    }
     private  function GetXWSSE(){
         $d = new \DateTime("NOW");
         $currentDate = $d->format("Y/m/d H:i:s");
@@ -48,7 +57,12 @@ class RestClientService
         $area = "anonymous";
         $email = "anonymous@gmail.com";
         $secret = "";
-        if($this->isAuthorized){
+        if($this->isAdmin){
+            $area = "admin";
+            $email = $this->container->getParameter('admin_user_email');
+            $secret = md5($this->container->getParameter('admin_user_password'));
+        }
+        else if($this->isAuthorized){
             $area = "customer";
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             $email = $user->getUsername();
