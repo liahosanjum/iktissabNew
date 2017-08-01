@@ -137,7 +137,7 @@ class ActivationController extends Controller
         $smsService = $this->get('app.sms_service');
         // get existing user data
         $url  = $request->getLocale() . '/api/' . $this->get('session')->get('iktCardNo') . '/userinfo.json';
-        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $data = $restClient->isAdmin(true)->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['success'] == "true") {
             $this->get('session')->set('iktUserData', $data['user']);
         }
