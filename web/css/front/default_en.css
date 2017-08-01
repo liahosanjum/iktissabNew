@@ -1612,7 +1612,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 .iktissab-activation-step3{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
 .card-activation-thanks-message { direction:ltr;font-size: 16px;  margin-top: 34px; font-family: Verdana;
-    padding-left: 28px; float: left; width: 100%; font-weight: bold;   }
+    padding-left: 15px; padding-right: 15px; float: left; width: 100%; font-weight: bold;   }
 
 
 .aboutus-wrapper .col-lg-12{  padding-left: 0px;}

@@ -36,7 +36,7 @@
             <div class="eservice-content-personal-description">
                 <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
                 <div class="account-info-detail-wrapper">
-                    <div class="account-info-column">{{ 'Iqama/SSN Number'|trans }}</div>
+                    <div class="account-info-column">{{ ('Iqama/SSN Number'~app.request.get('_country'))|trans }}</div>
                     <div class="account-info-value">{{ iktData['ID_no'] }}</div>
                     <div class="claerfix"></div>
                 </div>

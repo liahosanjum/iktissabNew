@@ -19,6 +19,7 @@ use AppBundle\Form\IktRegType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Debug\Exception\UndefinedFunctionException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,21 +102,23 @@ class ActivationController extends Controller
 
     public function checkScenerio($iktCardNo)
     {
-        $restClient = $this->get('app.rest_client');
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-        $locale = $request->getLocale();
-        $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
-        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        if ($data['success'] != true) {
-            Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
-//            Throw new Exception($this->get('translator')->trans($data['message']), 1);
-        } else {
-            if ($data['data']['cust_status'] == 'Active' || $data['data']['cust_status'] == 'In-Active') {
-                return AppConstant::IKT_REG_SCENERIO_2;
-            } elseif ($data['data']['cust_status'] == 'NEW' || $data['data']['cust_status'] == 'Distributed') {
-                return AppConstant::IKT_REG_SCENERIO_1;
-            }
-        }
+            $restClient = $this->get('app.rest_client');
+            $request = $this->container->get('request_stack')->getCurrentRequest();
+            $locale = $request->getLocale();
+            $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+            $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+            // print_r($data);
+                if ($data['success'] != true) {
+                    Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
+                    // Throw new Exception($this->get('translator')->trans($data['message']), 1);
+                } else {
+                    if ($data['data']['cust_status'] == 'Active' || $data['data']['cust_status'] == 'In-Active') {
+                        return AppConstant::IKT_REG_SCENERIO_2;
+                    } elseif ($data['data']['cust_status'] == 'NEW' || $data['data']['cust_status'] == 'Distributed') {
+                        return AppConstant::IKT_REG_SCENERIO_1;
+                    }
+                }
+
         return true;
 
     }
@@ -347,6 +350,7 @@ class ActivationController extends Controller
                         $user->setIktCardNo($this->get('session')->get('iktCardNo'));
                         $user->setRegDate(time());
                         $user->setPassword($this->get('session')->get('pass'));
+                        $user->setStatus('0');
                         $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
                         $em->persist($user);
                         $em->flush();
@@ -481,6 +485,7 @@ class ActivationController extends Controller
             $user->setEmail($newCustomer['email']);
             $user->setIktCardNo($newCustomer['C_id']);
             $user->setRegDate(time());
+            $user->setStatus(0);
             $user->setPassword($this->get('session')->get('pass'));
             $user->setActivationSource(User::ACTIVATION_SOURCE_WEB);
             $em->persist($user);
