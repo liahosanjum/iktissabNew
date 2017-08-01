@@ -13,7 +13,7 @@ use Circle\RestClientBundle\Exceptions\CurlException;
 use Circle\RestClientBundle\Services\RestClient;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -27,19 +27,23 @@ class IktissabRestService
     private $jsonEncoder;
     private $request;
     private $isAuthorized = false;
+    private $isAdmin = false;
+    private $container;
     /**
      * IktissabRestService constructor.
      * @param TokenStorage $tokenStorage
      * @param RestClient $restClient
      * @param JsonEncoder $jsonEncoder
      * @param RequestStack $requestStack
+     * @param ContainerInterface $container
      */
-    public function __construct(TokenStorage $tokenStorage, RestClient $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack )
+    public function __construct(TokenStorage $tokenStorage, RestClient $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack, ContainerInterface $container )
     {
         $this->tokenStorage = $tokenStorage;
         $this->restClient = $restClient;
         $this->jsonEncoder = $jsonEncoder;
         $this->request = $requestStack->getCurrentRequest();
+        $this->container = $container;
     }
 
     /**
@@ -66,7 +70,12 @@ class IktissabRestService
         $area = "anonymous";
         $email = "anonymous@gmail.com";
         $secret = "";
-        if($this->isAuthorized){
+        if($this->isAdmin){
+            $area = "admin";
+            $email = $this->container->getParameter('admin_user_email');
+            $secret = md5($this->container->getParameter('admin_user_password'));
+        }
+        else if($this->isAuthorized){
             $area = "customer";
             $email = $this->tokenStorage->getToken()->getUser()->getUsername();
             $secret = $this->tokenStorage->getToken()->getUser()->getPassword();
@@ -84,11 +93,20 @@ class IktissabRestService
     }
 
     /**
-     * @param $isAuthorized
+     * @param boolean $isAuthorized
      * @return IktissabRestService
      */
     public function IsAuthorized($isAuthorized){
         $this->isAuthorized = $isAuthorized;
+        return $this;
+    }
+
+    /**
+     * @param boolean $isAdmin
+     * @return $this
+     */
+    public function IsAdmin($isAdmin){
+        $this->isAdmin = $isAdmin;
         return $this;
     }
     /**
