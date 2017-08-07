@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 
 
-class FaqsType extends AbstractType
+class FaqType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

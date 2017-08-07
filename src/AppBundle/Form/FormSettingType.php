@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 // use Symfony\Component\Validator\Constraints\NotBlank;
 // use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class FormSettingsType extends AbstractType
+class FormSettingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

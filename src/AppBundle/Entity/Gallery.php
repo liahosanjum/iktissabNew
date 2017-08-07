@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * CmsPages
+ * Gallery
  *
  * @ORM\Table(name="gallery")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\GalleryRepository")
@@ -178,7 +178,7 @@ class Gallery
      *
      * @param integer $status
      *
-     * @return integer
+     * @return Gallery
      */
     public function setStatus($status)
     {
@@ -216,7 +216,7 @@ class Gallery
      *
      * @param string $image
      *
-     * @return image
+     * @return Gallery
      */
     public function setImage($image)
     {

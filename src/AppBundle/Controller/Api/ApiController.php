@@ -15,6 +15,7 @@ use AppBundle\AppConstant;
 use AppBundle\Entity\NotificationSubscription;
 
 use AppBundle\Entity\NotificationSubscriptionDevices;
+use AppBundle\Entity\RejectedUser;
 use AppBundle\Entity\User;
 use AppBundle\Exceptions\RestServiceFailedException;
 use AppBundle\Form\IktRegType;
@@ -1041,9 +1042,15 @@ class ApiController extends FOSRestController
 
                 if($card != null){
                     if($row['process'] == 3){
+                        $rejectedUser = new RejectedUser();
+                        $rejectedUser->setIktCardNo($card->getIktCardNo())
+                            ->setActivationSource($card->getActivationSource())
+                            ->setEmail($card->getEmail())
+                            ->setRegDate($card->getRegDate());
+
                         $rejected[] = $row['card'];
-                        $card->setStatus(2);
                         $em->remove($card);
+                        $em->persist($rejectedUser);
                         $em->flush();
                     }
                     else if($row['process'] == 2){

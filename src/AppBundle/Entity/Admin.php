@@ -49,15 +49,13 @@ class Admin
      */
     private $password;
 
-
-
     
     /**
      * Set email
      *
      * @param string $email
      *
-     * @return User
+     * @return Admin
      */
     public function setEmail($email)
     {
@@ -81,7 +79,7 @@ class Admin
      *
      * @param integer $regDate
      *
-     * @return User
+     * @return Admin
      */
     public function setRegDate($regDate)
     {
@@ -90,19 +88,6 @@ class Admin
         return $this;
     }
 
-    /**
-     * Set iktCardNo
-     *
-     * @param integer $iktCardNo
-     *
-     * @return User
-     */
-    public function setIktCardNo($iktCardNo)
-    {
-        $this->iktCardNo = $iktCardNo;
-
-        return $this;
-    }
 
     /**
      * Get regDate
@@ -119,7 +104,7 @@ class Admin
      *
      * @param integer $lastLogin
      *
-     * @return User
+     * @return Admin
      */
     public function setLastLogin($lastLogin)
     {
@@ -143,7 +128,7 @@ class Admin
      *
      * @param string $password
      *
-     * @return User
+     * @return Admin
      */
     public function setPassword($password)
     {

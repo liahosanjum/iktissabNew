@@ -8,16 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Faqs
+ * Faq
  *
  * @ORM\Table(name="faq")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\FaqsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\FaqRepository")
  */
-class Faqs
+class Faq
 {
-
-
-
     /**
      * @var int
      *
@@ -50,7 +47,7 @@ class Faqs
 
     /**
      * @var string
-     *@ORM\Column(name="question", type="string", length=255)
+     * @ORM\Column(name="question", type="string", length=255)
      * @Assert\NotBlank(message="This Field is required")
      */
     private $question;
@@ -100,7 +97,7 @@ class Faqs
      *
      * @param string $mobile
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setMobile($mobile)
     {
@@ -124,7 +121,7 @@ class Faqs
      *
      * @param string $email
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setEmail($email)
     {
@@ -151,7 +148,7 @@ class Faqs
      *
      * @param string $question
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setQuestion($question)
     {
@@ -179,7 +176,7 @@ class Faqs
      *
      * @param string $country
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setCountry($country)
     {
@@ -205,7 +202,7 @@ class Faqs
      *
      * @param \DateTime $created
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setCreated($created)
     {
@@ -240,7 +237,7 @@ class Faqs
      *
      * @param string $user_ip
      *
-     * @return Faqs
+     * @return Faq
      */
     public function setUser_ip($user_ip)
     {

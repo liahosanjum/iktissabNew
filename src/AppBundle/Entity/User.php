@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user",options={"engine"="MyISAM"})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
  */
 class User
@@ -28,35 +28,35 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="email", type="string", length=80, nullable=false)
      */
     private $email;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reg_date", type="integer", nullable=false)
+     * @ORM\Column(name="reg_date", type="integer", nullable=false, options={"unsigned"=true})
      */
     private $regDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="last_login", type="integer", nullable=true)
+     * @ORM\Column(name="last_login", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $lastLogin;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="password", type="string", length=32, nullable=false)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=255, nullable=true)
+     * @ORM\Column(name="country", type="string", length=2, nullable=true)
      */
     private $country;
 
@@ -82,9 +82,9 @@ class User
     private $status;
 
     /**
-     * @var \DateTime
+     * @var int
      *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
+     * @ORM\Column(name="modified", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $modified;
 
@@ -300,7 +300,7 @@ class User
     }
 
     /**
-     * @param \DateTime $modified
+     * @param int $modified
      */
     public function setModified($modified)
     {
@@ -308,7 +308,7 @@ class User
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
     public function getModified()
     {
@@ -319,6 +319,7 @@ class User
      * @ORM\PreUpdate()
      */
     public function OnPreUpdate(){
-        $this->modified = new \DateTime('NOW');
+        $d = new  \DateTime("now");
+        $this->modified = $d->getTimestamp();
     }
 }

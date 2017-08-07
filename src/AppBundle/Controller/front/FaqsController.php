@@ -4,8 +4,8 @@ namespace AppBundle\Controller\Front;
 
 
 use AppBundle\AppConstant;
-use AppBundle\Form\FaqsType;
-use AppBundle\Entity\Faqs;
+use AppBundle\Form\FaqType;
+use AppBundle\Entity\Faq;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,8 +54,8 @@ class FaqsController extends Controller
             }
             $show_form = true;
             $display_settings = $this->getFormSubmissionSettings($request, 'Faqs Form');
-            $faqs = new Faqs();
-            $form = $this->createForm(FaqsType::class, $faqs ,array('extras' => array('country' => $commFunction->getCountryCode($request))));
+            $faqs = new Faq();
+            $form = $this->createForm(FaqType::class, $faqs ,array('extras' => array('country' => $commFunction->getCountryCode($request))));
             $locale   = $request->getLocale();
             $country  = $commFunction->getCountryCode($request);
             $form->handleRequest($request);
@@ -175,7 +175,7 @@ class FaqsController extends Controller
                     $current_time =  mktime($date_current_hours[0] + 3, $date_current_hours[1], $date_current_hours[2], $date_current_days[1], $date_current_days[2] , $date_current_days[0]);
                     $user_ip = $commFunction->getIP();
                     $formSettingList1 = $this->getDoctrine()
-                        ->getRepository('AppBundle:Faqs')
+                        ->getRepository('AppBundle:Faq')
                         ->findBy(array('user_ip' => $user_ip, 'country' => $country_id), array('id' => 'DESC'), $number_of_entries );
                     if(isset($formSettingList1) && $formSettingList1 != null) {
                         $i=0;
