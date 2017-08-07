@@ -4,12 +4,11 @@ namespace AppBundle\Entity;
 
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * User
  *
- * @ORM\Table(name="user", options={"engine"="MyISAM"})
+ * @ORM\Table(name="user",options={"engine"="MyISAM"})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
  */
 class User

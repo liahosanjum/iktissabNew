@@ -2,9 +2,9 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\AppConstant;
-use AppBundle\Entity\FormSettings;
+use AppBundle\Entity\FormSetting;
 use AppBundle\Entity\Gallery;
-use AppBundle\Entity\Settings;
+use AppBundle\Entity\EmailSetting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,8 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Form\CmsPagesType;
 use AppBundle\Form\GalleryType;
 
-use AppBundle\Form\SettingsType;
-use AppBundle\Form\FormSettingsType;
+use AppBundle\Form\EmailSettingType;
+use AppBundle\Form\FormSettingType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use AppBundle\Entity\CmsPages;
@@ -627,7 +627,9 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             // $file stores the uploaded PDF file
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            /**
+             * @var Symfony\Component\HttpFoundation\File\UploadedFile
+             */
             $file = $gallery->getImage();
             // Generate a unique name for the file before saving it
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
@@ -713,9 +715,9 @@ class AdminController extends Controller
      */
     public function settingsAction(Request $request)
     {
-        $settings = new Settings();
+        $settings = new EmailSetting();
         // echo '====='.$cmsPage->getAdesc();
-        $form = $this->createForm(SettingsType::class, $settings);
+        $form = $this->createForm(EmailSettingType::class, $settings);
         // print_r($form);
         $form->handleRequest($request);
         // $request->request->get('adesc');
@@ -755,7 +757,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $settings = $em->getRepository('AppBundle:Settings')->find($id);
         $type = $settings->getType();
-        $form = $this->createForm(SettingsType::class, $settings);
+        $form = $this->createForm(EmailSettingType::class, $settings);
         $form->handleRequest($request);
         $settingsData = $form->getData();
         $type = $form->get('type')->getData();
@@ -792,7 +794,7 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $settingsList = $this->getDoctrine()
-            ->getRepository('AppBundle:Settings')
+            ->getRepository('AppBundle:EmailSetting')
             ->findAll();
         $data = array();
         $i = 0;
@@ -830,7 +832,7 @@ class AdminController extends Controller
     {
         // delete the record
         $em = $this->getDoctrine()->getManager();
-        $settingDel = $em->getRepository('AppBundle:Settings')->find($id);
+        $settingDel = $em->getRepository('AppBundle:EmailSetting')->find($id);
         $em->remove($settingDel);
         $em->flush();
         // route to listing
@@ -884,8 +886,8 @@ class AdminController extends Controller
      */
     public function addFormDisplaySettingAction(Request $request)
     {
-        $displaysettings = new FormSettings();
-        $form = $this->createForm(FormSettingsType::class, $displaysettings);
+        $displaysettings = new FormSetting();
+        $form = $this->createForm(FormSettingType::class, $displaysettings);
         $form->handleRequest($request);
         if ($form->isValid() && $form->isSubmitted())
         {
@@ -920,8 +922,8 @@ class AdminController extends Controller
     public function formDisplaySettingsUpdateAction(Request $request,$id)
     {
         $em = $this->getDoctrine()->getManager();
-        $settings = $em->getRepository('AppBundle:FormSettings')->find($id);
-        $form = $this->createForm(FormSettingsType::class, $settings);
+        $settings = $em->getRepository('AppBundle:FormSetting')->find($id);
+        $form = $this->createForm(FormSettingType::class, $settings);
         $form->handleRequest($request);
         $settingsData = $form->getData();
         $type = $form->get('formtype')->getData();
@@ -958,7 +960,7 @@ class AdminController extends Controller
     {
         // delete the record
         $em = $this->getDoctrine()->getManager();
-        $settingDel = $em->getRepository('AppBundle:FormSettings')->find($id);
+        $settingDel = $em->getRepository('AppBundle:FormSetting')->find($id);
         $em->remove($settingDel);
         $em->flush();
         // route to listing

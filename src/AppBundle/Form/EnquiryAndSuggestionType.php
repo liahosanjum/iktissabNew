@@ -4,7 +4,7 @@ namespace AppBundle\Form;
 
 
 use AppBundle\Entity\EnquiryAndSuggestion;
-use AppBundle\Entity\FormSettings;
+use AppBundle\Entity\FormSetting;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 use Symfony\Component\Form\AbstractType;

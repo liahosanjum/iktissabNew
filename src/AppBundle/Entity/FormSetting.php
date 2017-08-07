@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FormSettings
+ * FormSetting
  *
  * @ORM\Table(name="form_setting")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\FormSettingsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\FormSettingRepository")
  */
-class FormSettings
+class FormSetting
 {
     const Inquiries_And_Suggestion = "Inquiries And Suggestion";
     const Faqs_Form = "Faqs Form";
@@ -79,7 +79,7 @@ class FormSettings
     /**
      * Set status
      * @param string $status
-     * @return FormSettings
+     * @return FormSetting
      */
     public function setStatus($status)
     {
@@ -102,7 +102,7 @@ class FormSettings
      *
      * @param string $formtype
      *
-     * @return FormSettings
+     * @return FormSetting
      */
     public function setFormType($formtype)
     {
@@ -126,7 +126,7 @@ class FormSettings
      *
      * @param integer $country
      *
-     * @return Settings
+     * @return FormSetting
      */
     public function setCountry($country)
     {
@@ -149,7 +149,7 @@ class FormSettings
      * Set submissions
      *
      * @param integer $submissions
-     * @return FormSettings
+     * @return FormSetting
      */
     public function setSubmissions($submissions)
     {
@@ -171,7 +171,7 @@ class FormSettings
      * Set limito
      *
      * @param integer $limitto
-     * @return FormSettings
+     * @return FormSetting
      */
     public function setLimitto($limitto)
     {

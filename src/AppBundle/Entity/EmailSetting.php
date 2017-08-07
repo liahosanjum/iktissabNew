@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Settings
  *
  * @ORM\Table(name="email_setting")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SettingsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\EmailSettingRepository")
  */
-class Settings
+class EmailSetting
 {
     /**
      * @var int
@@ -38,11 +38,7 @@ class Settings
     /**
      * @var string
      *
-<<<<<<< HEAD
-     * @ORM\Column(name="country", type="string", length=50)
-=======
      * @ORM\Column(name="country", type="string", length=10)
->>>>>>> 5f6f1f7e3151828f17d3f6b2e0dfbfcbda994cff
      */
     private $country;
 
@@ -76,7 +72,7 @@ class Settings
      *
      * @param string $email
      *
-     * @return Settings
+     * @return EmailSetting
      */
     public function setEmail($email)
     {
@@ -100,7 +96,7 @@ class Settings
      *
      * @param string $type
      *
-     * @return Settings
+     * @return EmailSetting
      */
     public function setType($type)
     {
@@ -124,7 +120,7 @@ class Settings
      *
      * @param integer $country
      *
-     * @return Settings
+     * @return EmailSetting
      */
     public function setCountry($country)
     {
@@ -148,7 +144,7 @@ class Settings
      *
      * @param integer $technical
      *
-     * @return Settings
+     * @return EmailSetting
      */
     public function setTechnical($technical)
     {
@@ -172,7 +168,7 @@ class Settings
      *
      * @param integer $other
      *
-     * @return Settings
+     * @return EmailSetting
      */
     public function setOther($other)
     {
