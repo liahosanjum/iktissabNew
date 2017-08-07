@@ -47,7 +47,13 @@ class IktissabUserProvider implements UserProviderInterface
             //  echo $user->getQuery()->getSQL();
         if ($user) {
             // return new WebserviceUser($username, $password, $salt, $roles);
-            return new IktissabUser($user->getEmail(), $user->getPassword(),$user->getIktCardNo(), '', array('ROLE_IKTUSER'));
+            return new IktissabUser(
+                $user->getEmail(),
+                $user->getPassword(),
+                $user->getIktCardNo(),
+                $user->getCountry(),
+                '',
+                array('ROLE_IKTUSER'));
             // TODO: Implement loadUserByUsername() method.
         }
         throw new UsernameNotFoundException(

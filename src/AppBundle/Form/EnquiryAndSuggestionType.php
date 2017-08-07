@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EnquiryAndSuggestionType extends AbstractType
 {
@@ -38,7 +38,7 @@ class EnquiryAndSuggestionType extends AbstractType
             'label_attr' => ['class' => 'required formLayout form_labels'],
         'attr' => array('class' => 'col-lg-8 form-control formLayout'),
             'constraints' => array(
-                new NotBlank(array('message' =>  'This field is required'))
+                new Assert\NotBlank(array('message' =>  'This field is required'))
 
             )
         ))
@@ -55,7 +55,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'attr' => array('class' => 'col-lg-8 form-control formLayout','maxlength'=> ($country == 'sa') ? 10 : 14   )  ,
                 'constraints' => array(
 
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                     new Regex(
                         array(
                             'pattern' => ($country == 'sa') ? '/^([0-9]){10}$/' : '/^([0-9]){14}$/',
@@ -69,7 +69,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label_attr' => ['class' => 'required formLayout form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                     'constraints' => array(
-                        new NotBlank(array('message' => 'This field is required')),
+                        new Assert\NotBlank(array('message' => 'This field is required')),
                         new Email(array('message' => 'Invalid email address'))
                     )))
             ->add('reason', ChoiceType::class, array('label'=>"Reason",
@@ -82,12 +82,21 @@ class EnquiryAndSuggestionType extends AbstractType
                         "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
                         "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
             )))
-            ->add('comments', TextareaType::class, array('label'=>"Comments",
+            ->add('comments', TextareaType::class, array('label'=>"Comments11",
                 'label_attr' => ['class' => 'required formLayout form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
-                )
+                    new Assert\NotBlank(array('message' => 'This field is required')),)
+
+
+            ))
+
+            ->add('comments', TextareaType::class, array(
+                'label_attr' => ['class' => 'required formLayout form_labels'],
+                'label' => 'Comments',
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+                'constraints' => array(
+                    new NotBlank(array('message' => 'This field is required'))),
 
 
             ))
@@ -97,23 +106,11 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required'))),
+                    new Assert\NotBlank(array('message' => 'This field is required'))),
                 
 
             ));
-            //->add('country', TextType::class, array('label'=>"Country"))
-            if(!isset($options["extras"]['mobile'])) {
-                $builder->add('captchaCode', CaptchaType::class, array(
 
-                    'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
-                    'constraints' => array(
-                        new NotBlank(array('message' => 'This field is required')),
-                        new ValidCaptcha(array("message"=>"Invalid captcha code"))
-                    ),
-
-
-                ));
-            }
 
             $builder->add('source', HiddenType::class, array('label' => 'Source' ,
                     'attr' =>array('value' => 'W'),))

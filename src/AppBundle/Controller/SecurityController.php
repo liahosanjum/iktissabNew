@@ -23,7 +23,7 @@ class SecurityController extends Controller
 
 
         $response = new Response();
-        //echo $request->getUri();
+        $request->getUri();
         if($request->isXmlHttpRequest()){
             echo "<script type='text/javascript'>top.location.href='".$request->getUri()."'</script>";
             exit();
@@ -50,8 +50,8 @@ class SecurityController extends Controller
             {
                 if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
                     return $this->redirect($this->generateUrl('account_home',
-                        array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
-                            '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                            array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
+                                '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                 }
             }
         }
@@ -99,7 +99,6 @@ class SecurityController extends Controller
         */
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             // create current user country session
-            
             $this->get('session')->set('userSelectedCountry',$request->get('_country'));
             return $this->redirectToRoute('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale));
         }

@@ -1477,7 +1477,10 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .card-activation-phone-title { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
     padding-left: 10px; float: left; width: 100%; margin-left:20%; }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
-.card-activation-phone-code { margin-top: 10px; margin-left: 40%; margin-right:40%; }
+.card-activation-phone-code { margin-top: 10px; width: 100%; }
+.card-activation-phone-code ul { float: right; width: 60% ; margin-left: 20%; margin-right:20%;}
+.card-activation-phone-code ul li { float: right; width: 50%; margin-right: 25%; margin-left: 25%; }
+#enter_otp_otp { margin-left:35%; margin-right:35%; width: 30%; }
 .red-color { color: #FF0000; padding-left: 10px;  }
 .card-activation-phone-note { margin-top: 40px; float: left; font-size: 14px; font-weight: 600;  }
 .user-member { background: rgba(0, 0, 0, 0) url("../../img/login-user.svg") no-repeat scroll 1% 50%;

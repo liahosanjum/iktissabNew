@@ -19,6 +19,7 @@
 'City': 'المدينة'
 'Telephone (Home)': 'رقم الهاتف (المنزل)'
 'Telephone (Office)': 'رقم الهاتف (المكتب)'
+'Telephone': 'رقم الهاتف'
 'Mobile': 'رقم الجوال'
 'Email': 'البريد الإلكتروني'
 'Nationality': 'الجنسية'
@@ -94,7 +95,7 @@
 'Confirm New Iqama ID/SSNeg': 'تأكيد الرقم القومي الجديد'
 'Please enter valid 10 digits Iqama Id/SSN': 'فضلاً أدخل رقم بطاقة الهوية/الإقامة المكون من 10 أرقام'
 'Please enter valid 14 digits Iqama Id/SSN': 'فضلاً أدخل الرقم القومي المكون من 14 رقم'
-'New Iqama Id/SSN and old Iqama Id/SSN must not be samesa':'رقم الهوية/الإقامة الجديد نفس رقم الهوية /الإقامة المستخدم حالياً، برجاء أستخدام رقم هوية/إقامة آخر'
+'New Iqama Id/SSN and old Iqama Id/SSN must not be samesa': 'رقم الهوية/الإقامة الجديد نفس رقم الهوية /الإقامة المستخدم حالياً، برجاء أستخدام رقم هوية/إقامة آخر'
 'New Iqama Id/SSN and old Iqama Id/SSN must not be sameeg': 'الرقم القومي الجديد نفس الرقم القومي المستخدم حالياً، برجاء أستخدام رقم قومي آخر'
 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be samesa': 'تأكيد رقم الهوية/الإقامة الجديد غير متطابق'
 'New Iqama Id/SSN and confirm new Iqama Id/SSN must be sameeg': 'تأكيد الرقم القومي الجديد غير متطابق'
@@ -375,3 +376,4 @@
 'Inquiry and Suggestions': 'الاستفسارات والمقترحات'
 'Please enter valid Iktissab id and iqama/SSNsa': 'فضلاً أدخل رقم اكتساب وهوية/إقامة صحيحين'
 'Please enter valid Iktissab id and iqama/SSNeg': 'فضلاً أدخل رقم اكتساب ورقم قومي صحيحين'
+"Country-Code:": "كود البلد :"

@@ -15,8 +15,9 @@ class IktissabUser implements UserInterface, EquatableInterface
     private $salt;
     private $roles;
     private $ikt_card_no;
+    private $country;
 
-    public function __construct($username, $password, $ikt_card_no, $salt="", $roles = array('ROLE_IKTUSER'))
+    public function __construct($username, $password, $ikt_card_no, $country, $salt="", $roles = array('ROLE_IKTUSER'))
     {
 //        die('webservice use const');
         $this->username = $username;
@@ -24,6 +25,7 @@ class IktissabUser implements UserInterface, EquatableInterface
         $this->salt = $salt;
         $this->roles = $roles;
         $this->ikt_card_no = $ikt_card_no;
+        $this->country = $country;
     }
 
     public function getRoles()
@@ -34,6 +36,9 @@ class IktissabUser implements UserInterface, EquatableInterface
     public function getPassword()
     {
         return $this->password;
+    }
+    public function getCountry(){
+        return $this->country;
     }
     public function setPassword($value)
     {

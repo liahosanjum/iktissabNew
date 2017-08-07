@@ -31,7 +31,9 @@
             {% if(error.success == false) %}
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                     <div class="text-center alert alert-danger">
-                        {{ error.message }}
+                        {{ error.message }} {% if error.code == 10 %}
+                        <a href="{{ path('login', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}"">Here</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}
