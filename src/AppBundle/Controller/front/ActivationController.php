@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Debug\Exception\UndefinedFunctionException;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +52,7 @@ class ActivationController extends Controller
                 $this->get('session')->set('email', $pData['email']);
                 $acrivityLog = $this->get('app.activity_log');
                 $this->checkInStagging($pData['iktCardNo']);
+                //exit;
                 if ($this->get('session')->get('scenerio') == AppConstant::IKT_REG_SCENERIO_1) {
                     // make log
                     $acrivityLog->logEvent(AppConstant::ACTIVITY_NEW_CARD_REGISTRATION, 1, array('ikt_card' => $pData['iktCardNo'], 'email' => $pData['email']));
@@ -69,6 +71,10 @@ class ActivationController extends Controller
             } catch (Exception $e) {
                 $error['success'] = false;
                 $error['message'] = $e->getMessage();
+                if( $e->getCode() == 10 ){
+                    $error['code'] = $e->getCode();
+                }
+
             }
         }
         return $this->render('/activation/activation.twig',
@@ -85,14 +91,14 @@ class ActivationController extends Controller
         // First step to check the  email in mysql db
         $checkEmail = $em->getRepository('AppBundle:User')->findOneByEmail($pData['email']);
         if (!is_null($checkEmail)) {
-            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link.'), 1);
+            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link.'), 10);
         }
         // Second step to check the  ikt card in mysql db
         $checkIktCard = $em->getRepository('AppBundle:User')->find($pData['iktCardNo']);
+        //print_r($checkIktCard->getIktCardNo().'--'.$checkIktCard->getStatus());exit;
         if (!is_null($checkIktCard)) {
             Throw new Exception($this->get('translator')->trans('This Card is already registered.'), 1);
         }
-
     }
 
     /**
@@ -102,10 +108,11 @@ class ActivationController extends Controller
 
     public function checkScenerio($iktCardNo)
     {
-            $restClient = $this->get('app.rest_client');
+            $restClient = $this->get('app.rest_client')->IsAdmin(true);
             $request = $this->container->get('request_stack')->getCurrentRequest();
             $locale = $request->getLocale();
             $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
+            // todo: adding admin previleges
             $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
             // print_r($data);
                 if ($data['success'] != true) {
@@ -130,17 +137,20 @@ class ActivationController extends Controller
     {
         // check referal
         // to do: uncomment below
-        if (!$this->isReferalValid('card_activation')) {
-          return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
-        }
-        $restClient = $this->get('app.rest_client');
+//        if (!$this->isReferalValid('card_activation')) {
+          //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+//        }
+        $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $smsService = $this->get('app.sms_service');
         // get existing user data
         $url  = $request->getLocale() . '/api/' . $this->get('session')->get('iktCardNo') . '/userinfo.json';
-        $data = $restClient->isAdmin(true)->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+        $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
         if ($data['success'] == "true") {
             $this->get('session')->set('iktUserData', $data['user']);
         }
+
+
         $error = array('success' => true);
         $fData = array('iktCardNo' => $this->get('session')->get('iktCardNo'), 'email' => $this->get('session')->get('email'));
         $form  = $this->createForm(IktCustomerInfo::class, $fData);
@@ -183,6 +193,11 @@ class ActivationController extends Controller
         $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
         $matcher = $this->get('router')->getMatcher();
         $parameters = $matcher->match($lastPath);
+        //var_dump($request);
+        //echo "<br />base url = ".$baseUrl;
+        //echo "<br /> Last path = ".$lastPath;
+        //var_dump($parameters);
+        //die("---");
         if ($parameters['_route'] != $url) {
             return false;
         }
@@ -204,6 +219,7 @@ class ActivationController extends Controller
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
         $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
+        // todo: adding admin previleges
         $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
 //        var_dump($cities_jobs_area); die('---');
         $cities = $cities_jobs_area['cities'];
@@ -282,6 +298,7 @@ class ActivationController extends Controller
                 $message = "Please insert this temporary code $otp , to continue with Iktissab website registration.";
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
+                // todo: uncomment
                 $smsService->sendSms($pData['mobile'], $message, $request->get('_country'));
                 $acrivityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $newCustomer));
 
@@ -313,13 +330,22 @@ class ActivationController extends Controller
 
     function checkIqamaLocal($iqama)
     { // iqama validation in local MSSQL db
-        $restClient = $this->get('app.rest_client');
+        $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $url = $request->getLocale() . '/api/' . $iqama . '/is_ssn_used.json';
+        // todo:addingadmin previleges
+
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        if ($data['success'] == false) { // this iqama is not registered previously
-            return true;
-        } else {
+        // added by sohail  $data['status'] ifelse
+        if ($data['status'] == 1)
+        {
+            if ($data['success'] == false) { // this iqama is not registered previously
+                return true;
+            } else {
+                Throw new Exception($this->get('translator')->trans($data['message']), 1);
+            }
+        }
+        else{
             Throw new Exception($this->get('translator')->trans($data['message']), 1);
         }
     }
@@ -332,6 +358,7 @@ class ActivationController extends Controller
     public function enterOtpAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
+        //echo $this->get('session')->get('otp');
         $error = array('success' => true);
         $form = $this->createForm(EnterOtpType::class);
         $form->handleRequest($request);
@@ -352,6 +379,7 @@ class ActivationController extends Controller
                         $user->setPassword($this->get('session')->get('pass'));
                         $user->setStatus('0');
                         $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
+                        $user->setCountry($request->get('_country'));
                         $em->persist($user);
                         $em->flush();
                         $request->getSession()
@@ -360,6 +388,24 @@ class ActivationController extends Controller
 
                         $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email'));
                         $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
+                        // sohail code if send sms is successfull then creat the
+                        // same account in offline db for accessing services.
+
+
+                        $form_data   =  array(
+                            'email'     => $this->get('session')->get('email'),
+                            'password'  => $this->get('session')->get('pass'),
+                            'country'   => $request->get('_country') ,
+                            'status'    => 1,
+                            'ActivationSource' => 'w',
+                            'C_id'      => $this->get('session')->get('iktCardNo')
+                        );
+                        $this->createTempUser($request , $form_data);
+
+
+
+
+
 
                         $activityLog->logEvent(AppConstant::ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS, $this->get('session')->get('iktCardNo'), array('message' => $message, 'session' => json_encode($this->get('session')->get('iktUserData'))));
                         $message = \Swift_Message::newInstance();
@@ -434,7 +480,7 @@ class ActivationController extends Controller
     function checckBeforeAdd($iktCardNo)
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $restClient = $this->get('app.rest_client');
+        $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         if ($data['data']['cust_status'] == 'NEW' || $data['data']['cust_status'] == 'Distributed') {
@@ -443,23 +489,28 @@ class ActivationController extends Controller
             Throw New Exception($this->get('translator')->trans('Error in adding new card'));
         }
         $this->checkInStagging($iktCardNo);
-
-
     }
 
     function checkInStagging($iktCardNo)
     {
-//        $request = Request::createFromGlobals();
+        // $request = Request::createFromGlobals();
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $restClient = $this->get('app.rest_client');
+        $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/is_in_stagging.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        if ($data['success'] == true) // this card is in stagging so dont add again
-        {
-            Throw New Exception($this->get('translator')->trans($data['message']));
+        // print_r($data);
+        // $data['status'] == true indicates that
+        // from the webservice return response is 200
+
+        // ifelse added by sohail
+        if($data['status'] == 1) {
+            if ($data['success'] == true) // this card is in stagging so dont add again
+            {
+                Throw New Exception($this->get('translator')->trans($data['message']));
+            }
+        } else {
+            Throw New Exception($this->get('translator')->trans('An invalid exception occurred'));
         }
-
-
     }
 
     function add()
@@ -474,10 +525,10 @@ class ActivationController extends Controller
         try {
             $this->checkOnline(array('iktCardNo' => $newCustomer['C_id'], 'email' => $newCustomer['email']));
             $saveCustomer = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $cData, array('Country-Id' => strtoupper($request->get('_country'))));
-//            var_dump($cData);
-//            var_dump($url);
-//            var_dump($saveCustomer);
-//            die('----');
+            //var_dump($cData);
+            //var_dump($url);
+            // var_dump($saveCustomer);
+            //die('----');
             if ($saveCustomer != true) {
                 Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
             }
@@ -556,6 +607,7 @@ class ActivationController extends Controller
         die('---');
     }
 
+
     /**
      * @Route("/testsms")
      */
@@ -590,4 +642,130 @@ class ActivationController extends Controller
         var_dump($sms);
     }
 
+
+    /**
+     * @param Request $request
+     * @Route("/{_country}/{_locale}/testi", name="testi")
+     *
+     */
+    public function testAction(Request $request)
+    {
+        // print_r($conn);
+        $country_id  = $request->get('_country');
+        $form_data   =  array(
+            'email'     => 'sa.aspire55@gmail.com',
+            'password'  => '31528198109743225ff9d0cf04d1fdd1',
+            'country'   => $request->get('_country') ,
+            'status'    => 1,
+            'ActivationSource' => 'w',
+            'C_id'      => '98239094'
+        );
+        $this->createTempUser($request , $form_data);
+
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     */
+    public function createTempUser(Request $request , $form_param)
+    {
+        try
+        {
+            $country_id  = $request->get('_country');
+            $restClient  = $this->get('app.rest_client')->IsAdmin(true);
+            //print_r($form_param);
+            /************************/
+            $url  = $request->getLocale() . '/api/create_offlineuser.json';
+            $form_data   =  array(
+                    'email'     => $form_param['email'],
+                    'password'  => $form_param['password'],
+                    'country'  => $country_id,
+                    'status'    => 1,
+                    'ActivationSource' => 'w',
+                    'C_id'      => $form_param['C_id']
+            );
+            $postData = json_encode($form_data);
+            // print_r($postData);
+
+            $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => 'sa'));
+            //print_r($data);exit;
+            if($data['status'] == 1)
+            {
+                if ($data['status'] == true)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                $data = array($form_param['C_id'] , $form_param['email'] , $form_param['password']);
+                $data_serilize = serialize($data);
+                $em = $this->getDoctrine()->getManager("default");
+                $conn = $em->getConnection();
+                $queryBuilder = $conn->createQueryBuilder();
+
+                $stm_new = $conn->prepare('SELECT * FROM temp_user WHERE ikt_card_no = ?   ');
+                //here $new_value is the new iktissab card id
+                $stm_new->bindValue(1, $form_param['C_id']);
+                $stm_new->execute();
+                $newdata = $stm_new->fetch();
+                $data_values = '';
+                if ($newdata)
+                {
+                    $data_values = array(
+                          0,
+                        $form_param['C_id'],
+                        $data_serilize,
+                        $country_id,
+                        $form_param['C_id']
+                    );
+                    $stm = $conn->executeUpdate('UPDATE 
+                                                  temp_user SET  
+                                                            status    = ?,
+                                                            ikt_card_no = ? ,
+                                                            data = ?,
+                                                            country = ? 
+                    WHERE ikt_card_no = ?  ', $data_values);
+
+
+
+                }
+                else
+                {
+
+
+                     $stm = $queryBuilder
+                        ->insert('temp_user')
+                        ->values(
+                            array
+                            (
+                                'ikt_card_no' => '?',
+                                'field' => '?',
+                                'data' => '?',
+                                'country' => '?',
+                                'status' => '?',
+                            )
+                        )
+                        ->setParameter(0, $form_param['C_id'])
+                        ->setParameter(1, 'scenari2_user_not_created')
+                        ->setParameter(2, $data_serilize)
+                         ->setParameter(3, $country_id)
+                        ->setParameter(4, 2);
+                    $stm->execute();
+                }
+
+                return false;
+            }
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
+        catch (AccessDeniedException $ad)
+        {
+            return false;
+        }
+    }
 }

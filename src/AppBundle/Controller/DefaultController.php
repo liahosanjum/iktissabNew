@@ -1291,6 +1291,8 @@ class DefaultController extends Controller
         }
     }
 
+    
+
     function base64url_encode($s) {
         return str_replace(array('+', '/'), array('-', '_'), base64_encode($s));
     }

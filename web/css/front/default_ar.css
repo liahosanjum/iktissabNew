@@ -3,6 +3,7 @@
 .login-passreset{ float: right; text-align: right; }
 .pass-repeat{ margin-top:8px !important;}
 .email-repeat{ margin-top:8px !important;}
+.messsage-wrapper{ margin-left:15px; margin-right:15px; }
 .iktpass{ padding-top: 10px; }
 .form-control[readonly] { margin-bottom: 5px !important; }
 .home-no-data{ min-height: 400px; margin-top: 50px; margin-bottom: 50px; }
@@ -323,7 +324,7 @@ label.required:after {
 }
 label.error{
     color: #e32 !important;
-    font-size: 14px;
+    font-size: 13px;
     width: 100%;
 }
 .password-wrapper{  padding-left:15px; padding-right:15px; }

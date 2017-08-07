@@ -15,7 +15,7 @@ class EnterOtpType extends AbstractType
         $builder->add('otp', TextType::class, array('label' => 'Enter Code',
             'attr'  =>array( 'class' => 'form-control col-lg-4 input-text required-entry'),
             'constraints' => array(
-            new Assert\NotBlank(array('message' => 'This Field is required')),
+            new Assert\NotBlank(array('message' => 'This field is required')),
 
         )
         ))

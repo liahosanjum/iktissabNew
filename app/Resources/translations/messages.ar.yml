@@ -19,6 +19,7 @@
 'City': 'المدينة'
 'Telephone (Home)': 'رقم الهاتف (المنزل)'
 'Telephone (Office)': 'رقم الهاتف (المكتب)'
+'Telephone': 'رقم الهاتف'
 'Mobile': 'رقم الجوال'
 'Email': 'البريد الإلكتروني'
 'Nationality': 'الجنسية'
@@ -375,3 +376,4 @@
 'Inquiry and Suggestions': 'الاستفسارات والمقترحات'
 'Please enter valid Iktissab id and iqama/SSNsa': 'فضلاً أدخل رقم اكتساب وهوية/إقامة صحيحين'
 'Please enter valid Iktissab id and iqama/SSNeg': 'فضلاً أدخل رقم اكتساب ورقم قومي صحيحين'
+"Country-Code:": "كود البلد :"

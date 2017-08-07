@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\AppConstant;
 use AppBundle\Controller\Common\FunctionsController;
+use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
 use AppBundle\Form\ForgotEmailType;
 
@@ -56,6 +57,10 @@ class AccountController extends Controller
     public function myAccountAction(Request $request)
     {
         try {
+
+
+
+
                 $activityLog      = $this->get('app.activity_log');
                 $response = new Response();
                 if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -133,7 +138,7 @@ class AccountController extends Controller
                         $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                         // echo AppConstant::WEBAPI_URL.$url;
                         $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                        // print_r($data);
+                        //print_r($data);
                         if($data['status'] == 1) {
                             // response is ok from services
                             if ($data['success'] == "true") {
@@ -157,11 +162,12 @@ class AccountController extends Controller
                     // delete it
 
                     $data_array = '';
-
                     $iktUserData = $this->get('session')->get('iktUserData');
 
 
 
+                    //exit;
+                    //print_r($iktUserData['C_id']);
                     $url_trans_count = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
                     $data_trans_count = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url_trans_count, array('Country-Id' => strtoupper($request->get('_country'))));
                     //print_r($data_trans_count);
@@ -543,6 +549,7 @@ class AccountController extends Controller
     {
         try
         {
+
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
             }
@@ -584,10 +591,18 @@ class AccountController extends Controller
             //get current email of the user
             $currentEmail     = $iktUserData['email'];
             $mobile  = $iktUserData['mobile'];
+
+
             $form = $this->createForm(UpdateEmailType::class, array() ,array(
                     'extras'  => array('email'   => $currentEmail)));
             // form posted data
             $data = $request->request->all();
+            //For logged in user infomation
+            $tokenStorage = $this->get('security.token_storage');
+            $user_email_online = $tokenStorage->getToken()->getUser()->getUsername();
+
+
+
             // print_r($data); exit;
             if(!empty($data))
             {
@@ -605,6 +620,7 @@ class AccountController extends Controller
                 );
                 // print_r($form_data[0]);exit;
                 $this->get('session')->set('new_value', $data['update_email']['newemail']['first']);
+
                 // here we will check if the email is already registered on website or not
                 $email_val = $this->checkEmail($data['update_email']['newemail']['first'],$Country_id);
                 // print_r($email_val);
@@ -618,6 +634,9 @@ class AccountController extends Controller
 
 
                 if(!empty($email_val)) {
+
+
+
                     if ($email_val['success']) {
 
                         if ($email_val['result']['email']) {
@@ -1541,6 +1560,8 @@ class AccountController extends Controller
             $restClient = $this->get('app.rest_client')->IsAuthorized(true);
             $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
                 $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
+
             if(!empty($cities_jobs_area) && $cities_jobs_area !="") {
 
 
@@ -1565,6 +1586,10 @@ class AccountController extends Controller
                 $areasArranged['-1'] = '-1';
                 $areas = $this->json($cities_jobs_area['areas']);
 
+            }else{
+                $citiesArranged=null;
+                $jobsArranged=null;
+                $areasArranged= null;
             }
             $birthdate = explode('/', $user['birthdate']);
             if ($birthdate[2] > 1850) {
@@ -1588,9 +1613,7 @@ class AccountController extends Controller
                 'dob' => new \DateTime($dob),
                 'dob_h' => new \DateTime($dob_h),
             );
-            $citiesArranged=null;
-            $jobsArranged=null;
-            $areasArranged= null;
+
             $form = $this->createForm(IktUpdateType::class, $dataArr, array(
                     'additional' => array(
                         'locale' => $request->getLocale(),
@@ -1609,6 +1632,7 @@ class AccountController extends Controller
             $pData = $form->getData();
 
             if ($form->isSubmitted() && $form->isValid()) {
+
                 if ($pData['date_type'] == 'g') {
                     $dateBirth = $pData['dob']->format('Y-m-d');
                 } else {
@@ -1656,8 +1680,10 @@ class AccountController extends Controller
                     );
 
                 return $this->redirectToRoute('account_update', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+
             }
             else {
+
                     $message = $this->get('translator')->trans('');
                     return $this->render('/account/update.html.twig',
                         array
@@ -2324,7 +2350,7 @@ class AccountController extends Controller
             }
             $activityLog = $this->get('app.activity_log');
             $country_id  = $request->get('_country');
-            $this->getUser()->getIktCardNo();
+
             $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
 
             $iktUserData = $this->get('session')->get('iktUserData');
@@ -2448,4 +2474,36 @@ class AccountController extends Controller
         }
 
     }
+
+
+
+    /**
+     * @Route("/{_country}/{_locale}/setCountryLogin", name="setCountryLogin")
+     * @param Request $request
+     * @param $langauge
+     */
+    public function setCountryLogin(Request $request , $ccid)
+    {
+        $response = new Response();
+        $tokenStorage = $this->get('security.token_storage');
+        $userCountry  =  $ccid;
+        $userCountry  =  trim($request->query->get('ccid'));
+        $commFunct = new FunctionsController();
+        $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+        $commFunct->changeCountry($request, $userCountry);
+        if($this->get('session')->get('iktUserData'))
+        {
+            //return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+            $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+        }
+        else
+        {
+            //echo 'sdf';
+            //$url = $this->generateUrl('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale));
+            return $this->redirectToRoute('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale));
+
+            //return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+        }
+    }
+
 }

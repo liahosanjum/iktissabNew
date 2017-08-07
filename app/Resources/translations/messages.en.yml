@@ -19,6 +19,7 @@
 'City': 'City'
 'Telephone (Home)': 'Telephone (Home)'
 'Telephone (Office)': 'Telephone (Office)'
+'Telephone': 'Telephone'
 'Mobile': 'Mobile'
 'Email': 'Email'
 'Nationality': 'Nationality'
@@ -371,9 +372,10 @@
 'Unable to process your request.Please try later': 'Unable to process your request.Please try later en'
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number en **** %s'
 'Signup': 'Signup'
-'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now en'
+'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now'
 'Password must be at least 6 characters': 'Password must be at least 6 characters'
 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card':
 'Inquiry and Suggestions': 'Inquiry and suggestions'
 'Please enter valid Iktissab id and iqama/SSNsa': 'Please enter valid Iktissab id and Iqama ID/SSN'
 'Please enter valid Iktissab id and iqama/SSNeg': 'Please enter valid Iktissab id and National Number'
+"Country-Code:": "Country-Code :"

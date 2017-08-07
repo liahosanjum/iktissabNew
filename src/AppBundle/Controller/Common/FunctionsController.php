@@ -53,7 +53,7 @@ class FunctionsController
         $userCountry = $country;
         if ($userCountry != '' && $userCountry != null) {
             $country = $userCountry;
-            $response->headers->clearCookie('c_country');
+            $response->headers->clearCookie(AppConstant::COOKIE_COUNTRY);
             $response->sendHeaders();
         }
         $country = $request->get('_country');
