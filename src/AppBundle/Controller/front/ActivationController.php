@@ -71,10 +71,6 @@ class ActivationController extends Controller
             } catch (Exception $e) {
                 $error['success'] = false;
                 $error['message'] = $e->getMessage();
-                if( $e->getCode() == 10 ){
-                    $error['code'] = $e->getCode();
-                }
-
             }
         }
         return $this->render('/activation/activation.twig',
@@ -91,7 +87,7 @@ class ActivationController extends Controller
         // First step to check the  email in mysql db
         $checkEmail = $em->getRepository('AppBundle:User')->findOneByEmail($pData['email']);
         if (!is_null($checkEmail)) {
-            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link.'), 10);
+            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link.'), 1);
         }
         // Second step to check the  ikt card in mysql db
         $checkIktCard = $em->getRepository('AppBundle:User')->find($pData['iktCardNo']);
