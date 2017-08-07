@@ -681,15 +681,15 @@ class AccountController extends Controller
                             // sending sms
                             $otp = rand(111111, 999999);
                             $this->get('session')->set('smscode', $otp);
-                            $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10) . $otp;
+                            $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10);
                             $smsmessage = $this->get('translator')->trans("Verification code:") . $otp . $this->get('translator')->trans("Changing account email");
                             $smsService = $this->get('app.sms_service');
                             $MsgID = rand(1, 99999);
                             $msg = $message;  //$this->get('translator')->trans('test_message'); //"welcome to you in mobily.ws ,testing sms service";
-                            //$smsResponse = $smsService->sendSmsEmail($mobile, $smsmessage, $request->get('_country'));
+                            $smsResponse = $smsService->sendSmsEmail($mobile, $smsmessage, $request->get('_country'));
                             // revert this code
                             // sohail:todo
-                            $smsResponse = 1;
+                            //$smsResponse = 1;
                             // exit;
                             if ($smsResponse == 1) {
                                 $message_sms = $this->get('translator')->trans('SMS sent successfully');
@@ -2232,7 +2232,7 @@ class AccountController extends Controller
                                 $message = $this->get('translator')->trans("Your account registration email is %s", ["%s" => $accountEmail]);
                                 $acrivityLog = $this->get('app.activity_log');
                                 // send sms code
-                                echo $status_sms = $smsService->sendSms($data['user'][1], $message, $request->get('_country'));
+                                $status_sms = $smsService->sendSms($data['user'][1], $message, $request->get('_country'));
                                 if($status_sms == 1) {
                                     $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 1, array('message' => $message, 'session' => $data['user']));
                                     $error['success'] = true;
