@@ -706,7 +706,7 @@ class ActivationController extends Controller
                 $conn = $em->getConnection();
                 $queryBuilder = $conn->createQueryBuilder();
 
-                $stm_new = $conn->prepare('SELECT * FROM tempUser WHERE ikt_card_no = ?   ');
+                $stm_new = $conn->prepare('SELECT * FROM temp_user WHERE ikt_card_no = ?   ');
                 //here $new_value is the new iktissab card id
                 $stm_new->bindValue(1, $form_param['C_id']);
                 $stm_new->execute();
@@ -722,7 +722,7 @@ class ActivationController extends Controller
                         $form_param['C_id']
                     );
                     $stm = $conn->executeUpdate('UPDATE 
-                                                  tempUser SET  
+                                                  temp_user SET  
                                                             status    = ?,
                                                             ikt_card_no = ? ,
                                                             data = ?,
@@ -737,7 +737,7 @@ class ActivationController extends Controller
 
 
                      $stm = $queryBuilder
-                        ->insert('tempUser')
+                        ->insert('temp_user')
                         ->values(
                             array
                             (
