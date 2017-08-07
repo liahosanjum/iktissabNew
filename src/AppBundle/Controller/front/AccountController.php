@@ -681,7 +681,7 @@ class AccountController extends Controller
                             // sending sms
                             $otp = rand(111111, 999999);
                             $this->get('session')->set('smscode', $otp);
-                            $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10) . $otp;
+                            $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10);
                             $smsmessage = $this->get('translator')->trans("Verification code:") . $otp . $this->get('translator')->trans("Changing account email");
                             $smsService = $this->get('app.sms_service');
                             $MsgID = rand(1, 99999);
