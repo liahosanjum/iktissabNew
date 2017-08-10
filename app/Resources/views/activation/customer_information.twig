@@ -358,6 +358,21 @@
         $(document).ready(function () {
 
             // for months in hijri
+            $('#ikt_reg_dob_month').empty().append('' +
+                    '<option value="">{{ 'Month'|trans }}</option>' +
+                    '<option value="1">{{ 'Jan'|trans }}</option>' +
+                    '<option value="2">{{ 'Feb'|trans }}</option>' +
+                    '<option value="3">{{ 'March'|trans }}</option>' +
+                    '<option value="4">{{ 'April'|trans }}</option>' +
+                    '<option value="5">{{ 'May'|trans }}</option>' +
+                    '<option value="6">{{ 'June'|trans }}</option>' +
+                    '<option value="7">{{ 'July'|trans }}</option>' +
+                    '<option value="8">{{ 'August'|trans }}</option>' +
+                    '<option value="9">{{ 'September'|trans }}</option>' +
+                    '<option value="10">{{ 'October'|trans }}</option>' +
+                    '<option value="11">{{ 'November'|trans }}</option>' +
+                    '<option value="12">{{ 'December'|trans }}</option>'
+            );
 
             $('#ikt_reg_dob_h_month').empty().append('' +
                     '<option value="">{{ 'Month'|trans }}</option>' +
@@ -388,7 +403,7 @@
             }else{
                 $('#div_dg').hide();
                 $('#div_dh').show();
-                $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                $('#btn_dob_h').val('{{ 'Gregorian'|trans }}');
                 $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
                 $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
                 $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");

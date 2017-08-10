@@ -9,6 +9,8 @@
 'pur_group-6': 'الخادم/السائق'
 'gender-M': 'ذكر'
 'gender-f': 'أنثى'
+'Male': 'ذكر'
+'Female': 'أنثى'
 'Name': 'الاسم'
 'Customer Status': 'حالة العميل'
 'Iktissab Card No': 'رقم بطاقة اكتساب'
@@ -42,7 +44,7 @@
 'Select Country': 'أختر المدينة'
 'Area': 'الحي'
 'Street': 'الشارع'
-'Select Nationality': 'اختر'
+'Select Nationality': 'اخترجنسية'
 'Day': 'يوم'
 'Month': 'شهر'
 'Year': 'سنة'
@@ -124,7 +126,6 @@
 "Select Job": "أختر المهنة"
 "Select Area": "أخترالحي"
 "Update Personal Information": "تحديث البيانات الشخصيه"
-"Jan": "Jan"
 "BirthDate ( yyyy-MM-dd)": "تاريخ الميلاد"
 "If you have any questions, suggestion, inquiry or complaint, please fill in the following form and submit. We will take actions as soon as possible": "عميلنا العزيز اذا كان لديك اي شكوي - استفسار او اقتراح نأمل منك تعبئة النموذج التالي وأرساله."
 "Before sending the form,please read our FAQs": "ولمزيد من المعلومات نرجو زيارة الرابط التالي"
@@ -372,8 +373,12 @@
 'Signup': 'تسجيل'
 'Dear customer, your account has been created you can login now': 'عزيزنا العميل، لقد تم إنشاء حسابكم ويمكنكم تسجيل الدخول والاطلاع عليه الآن'
 'Password must be at least 6 characters': 'كلمة المرور يجب إلا تقل عن 6 أحرف'
-'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card': 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card'
 'Inquiry and Suggestions': 'الاستفسارات والمقترحات'
 'Please enter valid Iktissab id and iqama/SSNsa': 'فضلاً أدخل رقم اكتساب وهوية/إقامة صحيحين'
 'Please enter valid Iktissab id and iqama/SSNeg': 'فضلاً أدخل رقم اكتساب ورقم قومي صحيحين'
 "Country-Code:": "كود البلد :"
+'You have registered previously. If you have forgot password please click this link': 'You have registered previously. If you have forgot password please click this link'
+'Please insert this temporary code to continue with Iktissab Card registration:': 'الرجاء إدخال الرمز المؤقت التالي للاستمرار بعملية التسجيل في موقع اكتساب:'
+'Welcome to iktissab website your Username:': 'اهلاً بك في موقع إكتساب. أسم المستخدم الخاص بك'
+'This Card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقاً'
+'Iktissab card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقا'

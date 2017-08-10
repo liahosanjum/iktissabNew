@@ -1,4 +1,9 @@
 {% extends 'base.html.twig' %}
+{% block headerhome %}
+
+    {{ parent() }}
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+{% endblock %}
 
 {% block body %}
 
@@ -161,7 +166,7 @@
 </section>
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
+<script src="{{ asset('js/jquery.validate.js') }}"></script>
 <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
 <script type="text/javascript">
     $(document).ready(function () {

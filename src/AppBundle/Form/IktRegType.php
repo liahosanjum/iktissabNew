@@ -93,7 +93,7 @@ class IktRegType extends AbstractType
                     'attr' =>array('class' => 'form-control formLayout'),
 
                     'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match',
+                    'invalid_message' => 'Password field must match',
                     'required' => true,
                     'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout     form_labels'], 'attr' =>array('class' => 'form-control   formLayout form_labels')),
                     'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required formLayout pass-repeat    form_labels'],'attr' => array('class' => 'form-control  formLayout form_labels')),
@@ -131,6 +131,7 @@ class IktRegType extends AbstractType
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label'],
                 'years' => range(date('Y') - 5, date('Y') - 77),
                 'label' => 'Birthdate',
+//                'months' => array(1=>"test",1,1,4=>"welcome",5,6,7,8,9,10,11,12),
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label required'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
@@ -164,7 +165,7 @@ class IktRegType extends AbstractType
                 )
             ))
             ->add('iqama', TextType::class, array(
-                'label' => 'Iqama/SSN Number',
+                'label' => 'Iqama/SSN Number'.$lookupData['country'],
                 'label_attr' => ['class' => 'formLayout    form_labels'],
                 'attr' =>array('maxlength' => ($lookupData['country'] == 'sa') ? 10 : 15),
                 'constraints' => array(
@@ -173,7 +174,7 @@ class IktRegType extends AbstractType
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => 'Invalid Iqama Id/SSN Number')
+                            'message' => 'Invalid Iqama Id/SSN Number'.$lookupData['country'])
                     ),
 //                    new Assert\Callback([
 //                        'callback' => [$this, 'validateIqama']

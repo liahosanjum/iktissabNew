@@ -87,13 +87,13 @@ class ActivationController extends Controller
         // First step to check the  email in mysql db
         $checkEmail = $em->getRepository('AppBundle:User')->findOneByEmail($pData['email']);
         if (!is_null($checkEmail)) {
-            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link.'), 1);
+            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link'), 1);
         }
         // Second step to check the  ikt card in mysql db
         $checkIktCard = $em->getRepository('AppBundle:User')->find($pData['iktCardNo']);
         //print_r($checkIktCard->getIktCardNo().'--'.$checkIktCard->getStatus());exit;
         if (!is_null($checkIktCard)) {
-            Throw new Exception($this->get('translator')->trans('This Card is already registered.'), 1);
+            Throw new Exception($this->get('translator')->trans('This Card is already registered'), 1);
         }
     }
 
@@ -110,9 +110,8 @@ class ActivationController extends Controller
             $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
             // todo: adding admin previleges
             $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-            // print_r($data);
                 if ($data['success'] != true) {
-                    Throw new Exception($this->get('translator')->trans('Iktissab Card is invalid.'), 1);
+                    Throw new Exception($this->get('translator')->trans('Invalid Iktissab Card Number'), 1);
                     // Throw new Exception($this->get('translator')->trans($data['message']), 1);
                 } else {
                     if ($data['data']['cust_status'] == 'Active' || $data['data']['cust_status'] == 'In-Active') {
@@ -155,10 +154,17 @@ class ActivationController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->get('session')->set('pass',md5($pData['password']));
+                $this->get('session')->set('password_unmd5',$pData['password']);
                 $this->get('session')->set('mobile',$data['user']['mobile']);
                 $otp = rand(111111, 999999);
                 $this->get('session')->set('otp', $otp);
-                $message = $this->get('translator')->trans("Please insert this temporary code %s , to continue with Iktissab Card registration.", ["%s"=>$otp]);
+
+                if($request->getLocale() == 'ar'){
+                    $message = $this->get('translator')->trans("الرجاء إدخال الرمز المؤقت التالي للاستمرار بعملية التسجيل في موقع اكتساب:".$otp);
+                }
+                else{
+                    $message = $this->get('translator')->trans("Please insert this temporary code to continue with Iktissab Card registration:".$otp);
+                }
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
@@ -286,12 +292,21 @@ class ActivationController extends Controller
                     "source" => User::ACTIVATION_SOURCE_WEB
                 );
                 $this->get('session')->set('new_customer', $newCustomer);
+                $this->get('session')->set('password_unmd5',$pData['password']);
                 $this->get('session')->set('pass', md5($pData['password']));
                 $this->get('session')->set('mobile', $pData['mobile']);
 
                 $otp = rand(111111, 999999);
                 $this->get('session')->set('otp', $otp);
-                $message = "Please insert this temporary code $otp , to continue with Iktissab website registration.";
+                if($request->getLocale() == 'ar'){
+                    $message = $this->get('translator')->trans("الرجاء إدخال الرمز المؤقت التالي للاستمرار بعملية التسجيل في موقع اكتساب:".$otp);
+                }
+                else{
+                    $message = $this->get('translator')->trans("Please insert this temporary code to continue with Iktissab Card registration:".$otp);
+                }
+
+
+
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 // todo: uncomment
@@ -333,6 +348,7 @@ class ActivationController extends Controller
 
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
         // added by sohail  $data['status'] ifelse
+        // print_r($data);exit;
         if ($data['status'] == 1)
         {
             if ($data['success'] == false) { // this iqama is not registered previously
@@ -381,8 +397,13 @@ class ActivationController extends Controller
                         $request->getSession()
                             ->getFlashBag()
                             ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account has been created you can login now'));
+                        if($request->getLocale() == 'ar'){
+                            $message = $this->get('translator')->trans('اهلاً بك في موقع اكتساب. اسم المستخدم الخاص بك:' . $this->get('session')->get('email').' و كلمة المرور :'.$this->get('session')->get('password_unmd5'));
+                        }
+                        else {
+                            $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email') . 'and Password: '.$this->get('session')->get('password_unmd5') );
+                        }
 
-                        $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email'));
                         $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
                         // sohail code if send sms is successfull then creat the
                         // same account in offline db for accessing services.
@@ -429,7 +450,13 @@ class ActivationController extends Controller
                             $this->checckBeforeAdd($newCustomer['C_id']);
                             $this->checkIqamaLocal($newCustomer['ID_no']);
                             $this->add();
-                            $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $newCustomer['email']);
+                            if($request->getLocale() == 'ar'){
+                                $message = $this->get('translator')->trans('اهلاً بك في موقع اكتساب. اسم المستخدم الخاص بك:' . $this->get('session')->get('email').' و كلمة المرور :'.$this->get('session')->get('password_unmd5'));
+                            }
+                            else {
+                                $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email') . 'and Password: '.$this->get('session')->get('password_unmd5') );
+                            }
+
                             $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
 
                             $message = \Swift_Message::newInstance();
@@ -523,7 +550,7 @@ class ActivationController extends Controller
             $saveCustomer = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $cData, array('Country-Id' => strtoupper($request->get('_country'))));
             //var_dump($cData);
             //var_dump($url);
-            // var_dump($saveCustomer);
+            //var_dump($saveCustomer);
             //die('----');
             if ($saveCustomer != true) {
                 Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
@@ -605,37 +632,76 @@ class ActivationController extends Controller
 
 
     /**
-     * @Route("/testsms")
+     * @Route("/{_country}/{_locale}/testsms", name="test_sms")
      */
     function testsmsAction()
     {
-        $message = \Swift_Message::newInstance();
 
-        $message->addTo('abdulbasitnawab@gmail.com', 'Abdul')
-            ->addFrom('fidakhan007@gmail.com')
-            ->setSubject('test email')
-            ->setBody(
-                $this->renderView(':email-templates/customers:new-account-creation.html.twig', ['customer' => 'cname', 'email' => 'cname']),
-                'text/html'
-            );
 
-        $mail = $this->get('mailer')->send($message);
+        // $mail = $this->get('mailer')->send($message);
 
         // test via sms as service
-        dump($mail);
-        dump($message);
+        // dump($mail);
+        // dump($message);
 //        $smsService = $this->get('app.sms_service');
 //        $smsService->sendSms("569858396", 7777, 'sa');
-        return new Response();
-        die('----');
+        //return new Response();
+        //die('----');
+        $message = $this->get('translator')->trans("Please insert this tem");
 
         // this method will be used from sms service now
         $restClient = $this->get('app.rest_client');
-        $payload = "mobile=Othaim&password=0557554443&numbers=966569858396&sender=Iktissab&msg=rrereewelcome&timeSend=0&dateSend=0&applicationType=68&domainName=othaimmarkets.com&msgId=3813&deleteKey=101115&lang=3";
+        $payload = "mobile=Othaim&password=0557554443&numbers=966583847092&sender=Iktissab&msg=".$message."&timeSend=0&dateSend=0&applicationType=68&domainName=othaimmarkets.com&msgId=3813&deleteKey=101115&lang=3";
         $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;
         echo "<br /> payload == " . $payload;
         $sms = $restClient->restGet($url, array());
-        var_dump($sms);
+        //var_dump($sms);
+    }
+
+    /**
+     * @Route("/{_country}/{_locale}/testsms2", name="test_sms2")
+     */
+    public function testsms2Action()
+    {
+        $smsService = $this->get('app.sms_service');
+        $receiver = '583847092';
+        $message = $this->get('translator')->trans("Please insert this temporary code %s , to continue with Iktissab Card registration.", ["%s"=>'454545']);
+        $country = 'sa';
+
+        if ($country == 'eg')
+        {
+            $mobilyUser = $this->params['mobily_user_eg'];
+            $mobilyPass = $this->params['mobily_pass_eg'];
+            // for EG we store the
+            $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
+            $mobilySender = $this->params['mobily_sender_eg'];
+        }
+        else
+        {
+            $mobilyUser = $this->params['mobily_user'];
+            $mobilyPass = $this->params['mobily_pass'];
+            $countryPrefix = AppConstant::IKT_SA_PREFIX;
+            $mobilySender = $this->params['mobily_sender'];
+            // format number
+            if(strlen($receiver) == 10)
+                $receiver = substr($receiver,1 ,strlen($receiver)-1);
+        }
+        $msgID  = rand(1, 9999);
+        $delKey = rand(1, 9999);
+        //$messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
+        $messageFormatted = $message;
+
+        $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
+        $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;
+        //echo $url;
+        $sms = $this->restClient->restGet($url, array());
+//        $sms = 1;
+        // var_dump($sms);
+//        die('---');
+        if ($sms == '1') {
+            return true;
+        }
+
     }
 
 
@@ -659,6 +725,27 @@ class ActivationController extends Controller
         $this->createTempUser($request , $form_data);
 
     }
+
+    /**
+     * @param Request $request
+     * @Route("/{_country}/{_locale}/testi2", name="testi2")
+     *
+     */
+    public function test2Action(Request $request)
+    {
+        $smsService = $this->get('app.sms_service');
+        //$message = $this->get('translator')->trans('Creation Date');
+
+        $message = $this->get('translator')->trans('Username');
+        $acrivityLog = $this->get('app.activity_log');
+        //send sms code
+        $smsService->sendSmsTest('0583847092', $message, 'sa');
+        die('----');
+    }
+
+
+
+
 
 
     /**

@@ -4,6 +4,7 @@
 'Invalid phone number': 'رقم هاتف غير صحيح'
 'Email and confirm email do not matched': 'بريد الكتروني غير مطابق'
 'Password field must match': 'كلمة المرور غير مطابقة'
+'Password fields must match': 'كلمة المرور غير مطابقة'
 'Invalid mobile number': 'رقم جوال غير صحيح'
 'Please Approve Terms and conditions': 'يجب الموافقة على شروط التسجيل'
 'Please select title': 'فضلا حدد اللقب'
@@ -17,7 +18,7 @@
 'Invalid Iktissab Card Number': 'رقم بطاقة اكتساب غير صحيح'
 'Iqama/SSN fields must match': 'رقم الهوية أو الإقامة غير متطابق'
 'New email and confirm email fields must match': 'تأكيد البريد الإلكترونـي غير متطابق'
-"Country-Code:": "Country Code ar:"
+"Country-Code:": "كود البلد :"
 'Invalid Iqama Id/SSN Numbersa': 'رقم الهوية/الإقامة غير صحيح'
 'Invalid Iqama Id/SSN Numbereg': 'الرقم القومي غير صحيح'
 'Invalid captcha code': 'الرمز المرئي غير صحيح'
@@ -32,3 +33,4 @@
 'Please enter valid iktissab id starting with 5': 'رقم اكتساب يجب أن يبدأ بـ 5'
 'Iktissab card number must start with 5 for egypt': 'رقم اكتساب يجب أن يبدأ بـ 5'
 'Iktissab card number must start with 9 for Saudi Arabia': 'رقم بطاقة اكتساب يجب أن يبدأ بالرقم 9'
+'Password must be greater then 6 characters': 'كلمة المرور يجب إلا تقل عن 6 أحرف'

@@ -3,6 +3,7 @@
 'Invalid phone number': 'Invalid phone number'
 'Email and confirm email do not matched': 'Email and confirm email do not matched'
 'Password field must match': 'Password field must match'
+'Password fields must match': 'Password field must match'
 'Invalid mobile number': 'Invalid mobile number'
 'Please Approve Terms and conditions': 'Please Approve Terms and conditions'
 'Please select title': 'Please select title'
@@ -30,3 +31,4 @@
 'Please enter valid iktissab id starting with 9': 'Please enter valid iktissab id starting with 9 en'
 'Please enter valid iktissab id starting with 5': 'Please enter valid iktissab id starting with 5 en'
 'Your new Iktissab card is invalid': 'Your new Iktissab card is invalid'
+'Password must be greater then 6 characters': 'Password must be greater then 6 characters'

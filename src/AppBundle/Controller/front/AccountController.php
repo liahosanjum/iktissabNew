@@ -731,10 +731,10 @@ class AccountController extends Controller
         catch (\Exception $e)
         {
             $errorcl = 'alert-danger';
-            $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' =>$e->getMessage(), 'session' => $iktUserData));
+            $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $e->getMessage(), 'session' => $iktUserData));
 
             return $this->render('account/email.html.twig',
-                array('form' => $form->createView(),  'message' => $e->getMessage() , 'errorcl' => $errorcl )
+                array('form' => $form->createView(),  'message' => $this->get('translator')->trans($e->getMessage()) , 'errorcl' => $errorcl )
             );
         }
 
@@ -2105,7 +2105,7 @@ class AccountController extends Controller
                         $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
                         // echo AppConstant::WEBAPI_URL.$url;
                         $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-
+                        //print_r($data_user);exit;
                         if (!empty($data_user)) {
                             if ($data_user['success'] == true) {
                                 $message = $data_user['message'];

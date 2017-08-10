@@ -40,7 +40,7 @@ class IktCustomerInfo extends AbstractType
                     'label' => 'Email Id',
 
                     'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match',
+                    'invalid_message' => 'Password fields must match',
                     'required' => true,
                     'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
                     'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),

@@ -130,7 +130,7 @@ class ApiController extends FOSRestController
     {
         $code = rand(111111, 999999);
         //return $this->handleView($this->view(["Value"=>$code], Response::HTTP_OK));
-        $message = $this->get('translator')->trans("Please insert this temporary code %s , to continue with IKTISSAB Card registration.", ["%s"=>$code]);
+        $message = $this->get('translator')->trans("Please insert this temporary code to continue with Iktissab Card registration:".$code.'test2');
         $is_sms_sended = $this->get("app.sms_service")->sendSms($mobile, $message, $request->get("_country") );
         if($is_sms_sended){
             return $this->handleView($this->view(["Value"=>sha1($code . $mobile . md5($code))], Response::HTTP_OK));
@@ -355,7 +355,7 @@ class ApiController extends FOSRestController
             ->add('password', RepeatedType::class,
                 array(
                     'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match',
+                    'invalid_message' => 'Password fields must match',
                     'required' => true,
                     'first_options' => ['label' => 'Password'],
                     'second_options' => ['label' => 'Repeat password'],
@@ -380,7 +380,15 @@ class ApiController extends FOSRestController
             $em->flush();
 
             //send sms to user
-            $smsText = $this->get('translator')->trans('Welcome to iktissab website your Username:{username} password:{password}', array('{username}'=>$parameters['email'], '{password}'=>$parameters['password']['first']));
+            if($request->getLocale() == 'ar'){
+                $smsText = $this->get('translator')->trans('اهلاً بك في موقع اكتساب. اسم المستخدم الخاص بك:' . $parameters['email'] .' و كلمة المرور :'.$parameters['password']['first']);
+            }
+            else {
+                $smsText = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $parameters['email'] . 'and Password: '.$parameters['password']['first'] );
+            }
+            //$smsText = $this->get('translator')->trans('Welcome to iktissab website your Username:{username} password:{password}', array('{username}'=>$parameters['email'], '{password}'=>$parameters['password']['first']));
+
+
             $smsService = $this->get('app.sms_service');
             $smsService->sendSms($userInformation['user']['mobile'], $smsText, $request->get('_country'));
 
