@@ -105,7 +105,7 @@ class EnquiryAndSuggestionController extends Controller
                         $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
                         if ($rest) {
                             
-                            $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, $comFunction->getIP(), array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
+                            $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, 0, array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
 
                             return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Form is submitted Successfully') ,'show_form' => $show_form));
                         }
@@ -113,7 +113,7 @@ class EnquiryAndSuggestionController extends Controller
                         return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('') ,'show_form' => $show_form));
                     }
                 } catch (\Exception $e) {
-                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, $comFunction->getIP(), array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => ''));
+                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => ''));
 
                     return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage() ,'show_form' => $show_form));
                 }
@@ -122,7 +122,7 @@ class EnquiryAndSuggestionController extends Controller
             }
         } else {
             if($form->isSubmitted()) {
-                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, $comFunction->getIP().'test', array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'), 'Data' => ''));
+                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'), 'Data' => ''));
 
                 $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
             } else {   $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');}
@@ -174,7 +174,7 @@ class EnquiryAndSuggestionController extends Controller
             $commFunction    = new FunctionsController();
             $country_id      = $commFunction->getCountryCode($request);
             $formSettingList = $this->getDoctrine()
-                ->getRepository('AppBundle:FormSettings')
+                ->getRepository('AppBundle:FormSetting')
                 ->findOneBy(array('status' => 1, 'formtype' => $form , 'country' => $country_id));
             $country_id = $commFunction->getCountryCode($request);
             $i = 0;
