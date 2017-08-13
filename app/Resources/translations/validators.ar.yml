@@ -26,7 +26,7 @@
 'New Iktissab id and comfirm iktissab id must be same':  'تأكيد رقم بطاقة اكتساب الجديد غير متطابق'
 'Iktissab Id must start with 5 for Egypt': 'رقم اكتساب يجب أن يبدأ بـ 5'
 'Iktissab Id must start with 9 for Saudi Arabia': 'رقم بطاقة اكتساب يجب أن يبدأ بالرقم 9'
-"Please enter 10 digits mobile number starting with 1": 'فضلاً ادخل رقم جوال صحيح مكون من 11 رقم ويبدأ بـ 0'
+"Please enter 10 digits mobile number starting with 1": 'فضلاً ادخل رقم جوال صحيح مكون من 10 رقم ويبدأ بـ 1'
 "Please enter 9 digits mobile number starting with 5":  'فضلاً ادخل رقم جوال صحيح مكون من 9 أرقام ويبدأ بـ 5'
 'This email is already registered before please enter a valid email': 'ربما يكون البريد الإلكتروني الجديد مسجل سابقاً، فضلاً أدخل بريد الكتروني آخر'
 'Please enter valid iktissab id starting with 9': 'رقم بطاقة اكتساب يجب أن يبدأ بالرقم 9'
@@ -34,3 +34,6 @@
 'Iktissab card number must start with 5 for egypt': 'رقم اكتساب يجب أن يبدأ بـ 5'
 'Iktissab card number must start with 9 for Saudi Arabia': 'رقم بطاقة اكتساب يجب أن يبدأ بالرقم 9'
 'Password must be greater then 6 characters': 'كلمة المرور يجب إلا تقل عن 6 أحرف'
+'Invalid Code Please try again': 'Invalid Code Please try again ar'
+"Iqama/SSN fields must matchsa": "رقم الهوية/الإقامة غير مطابقة"
+"Iqama/SSN fields must matcheg": "الرقم القومي غير مطابقة"

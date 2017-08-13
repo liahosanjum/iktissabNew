@@ -189,7 +189,7 @@
 "Your request has been submitted": "تم استلام طلبكم بنجاح"
 "New Iktissab ID": "رقم بطاقة إكتساب الجديدة"
 "Confirm Iktissab ID": "تأكيد رقم بطاقة اكتساب"
-"You have already make a change request .Hence cannot make a new request.": "عفواً لقد انهت الجلسة الخاصة بكم برجاء المحاولة مرة أخرى"
+"You have already make a change request .Hence cannot make a new reques": "عفواً لقد انهت الجلسة الخاصة بكم برجاء المحاولة مرة أخرى"
 "Iqama/SSN fields must matchsa": "تأكيد الهوية/الإقامة غير متطابق"
 "Iqama/SSN fields must matcheg": "تأكيد الرقم القومي غير متطابق"
 "Your new and old password must not be the same": "لا يسمح بإستخدام كلمة المرور الحالية ككلمة مرور جديدة"
@@ -382,3 +382,5 @@
 'Welcome to iktissab website your Username:': 'اهلاً بك في موقع إكتساب. أسم المستخدم الخاص بك'
 'This Card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقاً'
 'Iktissab card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقا'
+'New Iktissab id and old Iktissab id must not be same': 'رقم بطاقة اكتساب الجديد نفس رقم بطاقة اكتساب المستخدم حالياً، برجاء أستخدام رقم بطاقة اكتساب آخر'
+

@@ -42,7 +42,8 @@ class ActivateCardoneType extends AbstractType
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' => '/^[9,5]([0-9]){7}$/',
+                            //'pattern' => '/^[9,5]([0-9]){7}$/', basit code commented by sohail
+                            'pattern' => ($country_id == 'sa') ? '/^[9]([0-9]){7}$/' : '/^[5]([0-9]){7}$/',
                             'match' => true,
                             'message' => 'Invalid Iktissab Card Number')),)
             ))

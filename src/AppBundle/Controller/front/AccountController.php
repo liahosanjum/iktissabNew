@@ -57,10 +57,6 @@ class AccountController extends Controller
     public function myAccountAction(Request $request)
     {
         try {
-
-
-
-
                 $activityLog      = $this->get('app.activity_log');
                 $response = new Response();
                 if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -1332,7 +1328,7 @@ class AccountController extends Controller
                         $validateIqama = $this->validateIqama($iqamassn_new);
 
                         if ($validateIqama == false) {
-                            $message = $this->get('translator')->trans('Invalid Iqama Id/SSN Number'.$country_id);
+                            $message = $this->get('translator')->trans('Invalid Iqama Id/SSN Numbersa');
                             $errorcl = 'alert-danger';
                             return $this->render('account/iqamassn.html.twig',
                                 array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl));
@@ -1789,9 +1785,18 @@ class AccountController extends Controller
             ));
             $data = $request->request->all();
             $url  = $request->getLocale() . '/api/update_lost_card.json';
-            // print_r($data);exit;
+
             if(!empty($data))
             {
+                /************************/
+                if($data['missing_card']['new_iktissab_id']['first'] == $iktCardNo) {
+                    $message = $this->get('translator')->trans('New Iktissab id and old Iktissab id must not be same');
+
+                    $error = 'alert-danger';
+                    return $this->render('account/missingcard.html.twig',
+                        array('form' => $form->createView(), 'message' => $message, 'errorcl' => $error)
+                    );
+                }
                 /************************/
                 $form_data = array(
                     'ID_no'     => $iktID_no,
@@ -2505,5 +2510,8 @@ class AccountController extends Controller
             //return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }
+
+
+
 
 }

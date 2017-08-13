@@ -157,7 +157,7 @@
 "Confirm Password": "Confirm Password"
 "Your link to reset password has been expired": "Your link to reset password has been expired"
 "Please reset your password": "Please reset your password"
-"Mobile number i.e 584444099": "Mobile number i.e 584444099"
+"Mobile number i.e 584444099": "5xxxxxxx"
 "Captcha Code": "Captcha Code ar"
 "Reset Password": "Reset Password"
 "Muharram": "Muharram"
@@ -187,7 +187,7 @@
 "Your request has been submitted": "Your request has been submitted"
 "New Iktissab ID": "New Iktissab ID"
 "Confirm Iktissab ID": "Confirm Iktissab ID"
-"You have already make a change request .Hence cannot make a new request.": "You have already make a change request .Hence cannot make a new request"
+"You have already make a change request .Hence cannot make a new request": "You have already make a change request .Hence cannot make a new request"
 "Iqama/SSN fields must matchsa": "Iqama ID/SSN fields must match"
 "Iqama/SSN fields must matcheg": "National Number fields must match"
 "Your new and old password must not be the same": "Your new and old password must not be the same"
@@ -384,5 +384,7 @@
 'Welcome to iktissab website your Username:': 'Welcome to iktissab your user name is:'
 'This Card is already registered': 'This Card is already registered'
 'Iktissab card is already registered':  'Iktissab card is already registeredً'
+'New Iktissab id and old Iktissab id must not be same': 'New Iktissab id and old Iktissab id must not be same'
+
 
 

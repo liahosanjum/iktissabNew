@@ -29,7 +29,7 @@ class SmsService
         {
             $mobilyUser = $this->params['mobily_user_eg'];
             $mobilyPass = $this->params['mobily_pass_eg'];
-            // for EG we store the
+            // for EG we store the countrycode
             $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
             $mobilySender = $this->params['mobily_sender_eg'];
         }

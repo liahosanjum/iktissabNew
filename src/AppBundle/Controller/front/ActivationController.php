@@ -43,6 +43,7 @@ class ActivationController extends Controller
         $pData = $form->getData();
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+
                 $this->checkOnline($pData);
                 // check if card valid from local/office ikt database
                 $scenerio = $this->checkScenerio($pData['iktCardNo']);
@@ -68,7 +69,9 @@ class ActivationController extends Controller
                 }
 
 
-            } catch (Exception $e) {
+            }
+            catch (Exception $e)
+            {
                 $error['success'] = false;
                 $error['message'] = $e->getMessage();
             }
@@ -81,13 +84,18 @@ class ActivationController extends Controller
         );
     }
 
+
+
     public function checkOnline($pData)
     {
         $em = $this->getDoctrine()->getEntityManager();
         // First step to check the  email in mysql db
+
+
+
         $checkEmail = $em->getRepository('AppBundle:User')->findOneByEmail($pData['email']);
         if (!is_null($checkEmail)) {
-            Throw new Exception($this->get('translator')->trans('You have registered previously. If you have forgot password please click this link'), 1);
+            Throw new Exception($this->get('translator')->trans('The new email is already registered before , please enter a valid email'), 100);
         }
         // Second step to check the  ikt card in mysql db
         $checkIktCard = $em->getRepository('AppBundle:User')->find($pData['iktCardNo']);
@@ -168,6 +176,7 @@ class ActivationController extends Controller
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
                 $smsService->sendSms($data['user']['mobile'], $message, $request->get('_country'));
+
                 $acrivityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $data['user']));
                 $request->getSession()
                     ->getFlashBag()
@@ -266,8 +275,14 @@ class ActivationController extends Controller
         if ($form->isValid() && $form->isSubmitted()) {
             try {
                 $area = ($pData['area_no'] == '-1' ) ? $pData['area_text'] : $pData['area_no'];
+
+                // check iqama validity
+                if($request->get('_country') == 'sa') {
+                    $this->validateIqama($pData['iqama']);
+                }
                 // check iqama in local SQl db
                 $this->checkIqamaLocal($pData['iqama']);
+
                 if($pData['date_type'] == 'h'){
                     $dob = $pData['dob_h']->format('Y-m-d h:i:s');
                 }else{
@@ -309,7 +324,6 @@ class ActivationController extends Controller
 
                 $acrivityLog = $this->get('app.activity_log');
                 //send sms code
-                // todo: uncomment
                 $smsService->sendSms($pData['mobile'], $message, $request->get('_country'));
                 $acrivityLog->logEvent(AppConstant::ACTIVITY_SEND_SMS, 1, array('message' => $message, 'session' => $newCustomer));
 
@@ -382,7 +396,7 @@ class ActivationController extends Controller
                 case AppConstant::IKT_REG_SCENERIO_2:
                     $em = $this->getDoctrine()->getEntityManager();
                     if ($form->getData()['otp'] != $this->get('session')->get('otp')) {
-                        $form->get('otp')->addError(new FormError($this->get('translator')->trans('Invalid Code Please try again')));
+                        $form->get('otp')->addError(new FormError($this->get('translator')->trans('Please enter correct verification code')));
                     } else {
                         $user = new User();
                         $user->setEmail($this->get('session')->get('email'));
@@ -404,7 +418,10 @@ class ActivationController extends Controller
                             $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email') . 'and Password: '.$this->get('session')->get('password_unmd5') );
                         }
 
+
+
                         $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
+
                         // sohail code if send sms is successfull then creat the
                         // same account in offline db for accessing services.
 
@@ -851,4 +868,99 @@ class ActivationController extends Controller
             return false;
         }
     }
+
+
+
+
+    public function validateIqama($iqama)
+    {
+
+            $iqama = $iqama;
+            $evenSum = 0;
+            $oddSum = 0;
+            $entireSum = 0;
+            for ($i = 0; $i < strlen($iqama); $i++) {
+
+                $temp = '';
+                if ($i % 2) { // odd number
+                    $oddSum = $oddSum + $iqama[$i];
+                } else {
+
+                    $multE = $iqama[$i] * 2;
+
+                    if (strlen($multE) > 1) {
+
+
+                            $temp = (string)$multE;
+                        $evenSum = $evenSum + ($temp[0] + $temp[1]);
+
+                    } else {
+                        $evenSum = $evenSum + $multE;
+
+                    }
+                }
+            }
+            $entireSum = $evenSum + $oddSum;
+
+            if (($entireSum % 10) == 0) {
+                return true;
+            }
+            else
+            {
+                Throw new Exception($this->get('translator')->trans('Invalid Iqama Id/SSN Numbersa'), 1);
+            }
+    }
+
+
+
+    /**
+     * @param Request $request
+     * @Route("/{_country}/{_locale}/v2", name="v2")
+     *
+     */
+    function checkiqama2Action()
+    {                       // function to validate iqama this code will be implemented in the FormType as callback validation
+        $iqama = '2407200837';
+        $evenSum = 0;
+        $oddSum = 0;
+        for ($i = 0; $i < strlen($iqama); $i++) {
+            $temp = '';
+            if ($i % 2) { // odd number
+
+                $oddSum = $oddSum + $iqama[$i];
+
+            } else {
+                //even
+                $multE = $iqama[$i] * 2;
+                if (strlen($multE) > 1) {
+                    $temp = (string)$multE;
+                    $evenSum = $evenSum + ($temp[0] + $temp[1]);
+                } else {
+                    $evenSum = $evenSum + $multE;
+                }
+            }
+
+
+        }
+        $entireSum = $evenSum + $oddSum;
+        echo "entire sum is" . $entireSum;
+        echo $entireSum % 10;
+        if (($entireSum % 10) == 0) {
+            echo "Iqama is valid";
+        } else {
+            echo "invalid iqama";
+        }
+
+
+        die('---');
+    }
+
+
+
+
+
+
+
+
+
 }
