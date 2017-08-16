@@ -110,7 +110,7 @@
 'You can change your IKTISSAB Card with the new one through the following form': 'You can change your IKTISSAB Card with the new one through the following form'
 'Dear customer': 'Dear Customer'
 'Update': 'Update'
-'You can update your full name through the following form': 'You can update your full name through the following form'
+'You can update your full name through the following form': 'You can update your information through the following form'
 'This field is required': 'This field is required'
 'Password fields must match': 'Password fields must be the same ar'
 'Update Password': 'Update Password'
@@ -182,7 +182,7 @@
 "We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply.": "We are also pleased to receive your comments and suggestions. We confirm receiving your comments and will be forwarded to the concerned department and you will be notified of the action taken immediately after we receive the concerned department’s reply."
 "We extend our thanks to you for communicating with us via the website of Alothaim Markets company and will be always happy to serve you round the clock.": "We extend our thanks to you for communicating with us via the website of Alothaim Markets company and will be always happy to serve you round the clock."
 "Greetings": "Greetings"
-"Customer Service Team": "Customer Service Teamء"
+"Customer Service Team": "Customer Service Team"
 "Dear Customer, you have already make submission for this form": "Dear Customer, you have already submitted this form"
 "Your request has been submitted": "Your request has been submitted"
 "New Iktissab ID": "New Iktissab ID"
@@ -217,8 +217,7 @@
 "logout": "Logout"
 "login": "Login"
 "Newsletter": "Newsletter"
-"News letter subscription": "Subscribe to our Newsletter Service"
-"Messages to receive the latest offers": "Messages to receive the latest offers"
+"Subscribe to our Newsletter and Messages Services to receive the latest offers": "Subscribe to our Newsletter and Messages Services to receive the latest offers"
 "Join Us": "Join Us"
 "Messaging Service": "Messaging Service"
 "Iktissab Card": "Iktissab Card"
@@ -276,8 +275,8 @@
 "User Name": "User Name"
 "Login": "Login"
 "Please enter your username and password and click the Sign in button": "Please enter your username and password and click the login button"
-"Signin for Iktissab Card Gain": "Signin for Iktissab Card"
-"In order to view your membership account information it requires that you enter your username and password": "In order to view your membership account information it requires that you enter your username and password"
+"Signin for Iktissab Member": "Signin for Iktissab Member"
+"In order to view your membership account information it requires that you enter your username and password": "In order to view your membership account information it requires to enter your username and password"
 "Did you forgot your password": "Did you forgot your password"
 "Reset Password": "Reset Password"
 "if you have forgotten your password, you can reset a new password by sending some instructions to our registered email": "if you have forgotten your password, you can reset a new password by sending some instructions to your registered email"
@@ -294,9 +293,9 @@
 "Fax": "Fax"
 "Our site on Google": "Our site on Google"
 "Step One": "Step One"
-"Iktissab Card Activation": "Iktissab Card Activation"
-"Create an account for an activated card": "Create an account for an activated card"
-"Iktissab card activaiton step benefits": "To activate your card and get your secret number, and to take advantage of the opportunity to add cash and enjoy the benefits of acquisition Please enter here your data and activate the card"
+"Iktissab Card Activation": "Card Activation"
+"Create an account for an activated card": "Create an account for card activation"
+"Iktissab card activaiton step benefits": "To activate your card, acquire pin and to take advantage of the opportunity of accumulating credit amounts and enjoying Iktissab features. Please enter here your data and activate the card"
 "Customer Information": "Customer Information"
 "Verification": "Verification"
 "Accept terms and conditions": "Accept Terms and Conditions"
@@ -319,7 +318,7 @@
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
-'An invalid exception occurred': 'An invalid exception occurred'
+'An invalid exception occurred': 'Unable to process your request.Please try later'
 'Information': 'Information'
 'Iktissab password Recovery': 'Iktissab password recovery'
 'Enter Iktissab ID': 'Enter Iktissab ID'
@@ -332,6 +331,8 @@
 'Last Used': 'Last Used'
 'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** '
 'SAR': 'SAR'
+'Currency-sa': 'SR'
+'Currency-eg': 'EGP'
 'Sorry! The page your requesting is not available': 'Sorry! The page your requesting is not available'
 'SMS sent successfully': 'SMS sent successfully'
 'SMS not sent.Please try again': 'Sorry , SMS not sent.Please try again'
@@ -369,8 +370,8 @@
 'Question': 'Question'
 'link': 'link'
 'update lost card': 'Update lost card'
-'Unable to process your request.Please try later': 'Unable to process your request.Please try later en'
-'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number en **** %s'
+'Unable to process your request.Please try later': 'Unable to process your request.Please try later'
+'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number **** %s'
 'Signup': 'Signup'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now'
 'Password must be at least 6 characters': 'Password must be at least 6 characters'
@@ -385,6 +386,10 @@
 'This Card is already registered': 'This Card is already registered'
 'Iktissab card is already registered':  'Iktissab card is already registeredً'
 'New Iktissab id and old Iktissab id must not be same': 'New Iktissab id and old Iktissab id must not be same'
-
+"R": "Reason"
+"C": "Complaint"
+"E": "Inquiry"
+"S": "Suggestion"
+"If there is an account associated with this E-mail then you will receive an email with a link to reset your password": "If there is an account associated with this E-mail then you will receive an email with a link to reset your password."
 
 

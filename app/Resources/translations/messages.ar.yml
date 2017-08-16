@@ -114,7 +114,7 @@
 'You can change your IKTISSAB Card with the new one through the following form': 'يمكنك تغيير بطاقة اكتساب عن طريق النموذج التالي'
 'Dear customer': 'عزيزي العميل'
 'Update': 'تحديث'
-'You can update your full name through the following form': 'يمكنك تحديث معلوماتك عن طريق النموذج التالي'
+'You can update your information through the following form': 'يمكنك تحديث معلوماتك عن طريق النموذج التالي'
 'This field is required': 'نرجو تعبئة هذه الخانة'
 'Password fields must match': 'كلمة المرور غير مطابقة'
 'Update Password': 'تغيير كلمة المرور'
@@ -205,7 +205,7 @@
 "community services": "خدمة المجتمع"
 "faqs": "الأسئلة المتكررة"
 "Contact Us": "اتصل بناء"
-"Personal Information": "تحديث البيانات الشخصية"
+"Personal Information": "البيانات الشخصية"
 "Update Mobile": "تحديث رقم جوالك"
 "Update Name": "تحديث الاسم"
 "Update-Iqama-SSNsa": "تحديث رقم هويتك"
@@ -219,8 +219,7 @@
 "logout": "خروج"
 "login": "دخول"
 "Newsletter": "النشـرة البريديـة"
-"News letter subscription": "اشترك معنا فى النشرة البريدية وخدمة"
-"Messages to receive the latest offers": "الرسائل لتصلك أحدث عروضنا"
+"Subscribe to our Newsletter and Messages Services to receive the latest offers": "اشترك معنا فى النشرة البريدية وخدمة الرسائل لتصلك أحدث عروضنا"
 "Join Us": "اشتراك"
 "Messaging Service": "خدمـة الرسائـل"
 "Iktissab Card": "البطاقات"
@@ -278,7 +277,7 @@
 "User Name": "اسم المستخدم"
 "Login": "تسجيل الدخول"
 "Please enter your username and password and click the Sign in button": "فضلا أدخل اسم المستخدم وكلمة المرور الخاصة بك ثم أنقر على الزر تسجيل الدخول"
-"Signin for Iktissab Card Gain": "تسجيل الدخول للأعضاء اكتساب"
+"Signin for Iktissab Member": "تسجيل الدخول للأعضاء اكتساب"
 "In order to view your membership account information it requires that you enter your username and password": "لكي تتمكن من الاطلاع على معلومات حساب العضوية الخاص بك يتطلب ذلك أدخال اسم المستخدم وكلمة المرور"
 "Did you forgot your password": "هل نسيت كلمة المرور"
 "Reset Password": "إعادة تعيين كلمة المرور"
@@ -321,7 +320,7 @@
 "Retrieve account email": "استعادة البريد الإلكتروني للحساب"
 "Credit Cash": "المبالغ المكتسبة"
 "Unable to update record": "نأسف، تعذر تحديث معلوماتك"
-'An invalid exception occurred': 'نأسف، لقد حدث خطأ ما غير متوقع'
+'An invalid exception occurred': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
 'Information': "معلوماتي"
 'Iktissab password Recovery': 'استعادة كلمة مرور البطاقة'
 'Enter Iktissab ID': 'أدخل رقم بطاقة إكتساب'
@@ -332,6 +331,8 @@
 'Last Used': 'أخر استخدام'
 'You will recieve sms on your mobile number **** ': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ ****'
 'SAR': 'ريال'
+'Currency-sa': 'ريال'
+'Currency-eg': 'جنيه'
 'Sorry! The page your requesting is not available': 'عفواً المحتوى المطلوب غير متوفرة حالياً'
 'SMS sent successfully': 'تم إرسال الرسالة بنجاح'
 'SMS not sent.Please try again': 'نأسف، لقد تعذر أرسال الرسالة إلى جوالك'
@@ -383,4 +384,9 @@
 'This Card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقاً'
 'Iktissab card is already registered': 'رقم بطاقة اكتساب  مسجلة سابقا'
 'New Iktissab id and old Iktissab id must not be same': 'رقم بطاقة اكتساب الجديد نفس رقم بطاقة اكتساب المستخدم حالياً، برجاء أستخدام رقم بطاقة اكتساب آخر'
+"R": "السبب"
+"C": "شكوى"
+"E": "استفسار"
+"S": "مقترح"
+"If there is an account associated with this E-mail then you will receive an email with a link to reset your password": "إذا كان عنوان البريد الإلكتروني الذي قمت بإدخاله مرتبط بحسابك فسوف نقوم بإرسال بريد إلكتروني يحتوى على رابط لإعادة تعيين كلمة المرور"
 

@@ -1,58 +1,61 @@
 {% extends "/email-templates/email-base-customers.email.twig" %}
 {% block emailbody %}
-    <table align="center" class="bgItem" border="0" cellpadding="0" cellspacing="0" valign="top" width="100%"
-           style="background: #ffffff;">
+    {% if app.request.get('_locale') == "en" %}
+        {%  set lang = 'left'  %}
+    {% else %}
+        {%  set lang =  'right'  %}
+    {% endif %}
+
+    <table align="center"  border="0" cellpadding="0" cellspacing="0" valign="top" width="100%"
+           style="font-family:verdana,arial,helvetica;font-size:small;text-align:center;border:1px solid #4e4e4e">
         <tbody>
         <tr>
             <td align="right" valign="top">
-                &nbsp;
+                <img alt="Iktissab" src="https://ci6.googleusercontent.com/proxy/JxQ2JMDCn1WhfgZCMQ1Q2lqgDgz7DdNyJ638Wq3tSxv_i6a-GVtu33DBOkxuwG1MJ1p3qH1DUVF7mSijm12fSvi27Y4hlDUQN43RHD7pl-yAuOJvy1J0IsDwbyCxjHNplf4=s0-d-e1-ft#http://www.othaimmarkets.com/iktissab/themes/iktissab/images/mail/header.png" class="CToWUd" width="100%">
             </td>
         </tr>
         <tr>
-            <td align="right" valign="top">
-                &nbsp;
-            </td>
+            <td>&nbsp;</td>
         </tr>
         <tr>
-            <td align="right" valign="top">
-                <div class="contentEditableContainer contentTextEditable">
-                    <div class="contentEditable">
+            <td align="{{ lang }}" valign="top">
+                <div>
+                    <div  style="margin-left: 30px; margin-right: 30px;min-height:300px; float: {{ lang }}; margin-top:60px;">
                         <p style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-
                         </p>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Inquiries and Suggestions'|trans}}
-                        </div>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Full name'|trans}} : {{ name }}
-                        </div>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Job'|trans}} : {{ job }}
-                        </div>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Mobile'|trans}} : {{ mobile }}
-                        </div>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Email'|trans }} : {{ email }}
-                        </div>
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;">
-                            {{ 'Reason'|trans }} : {{ reason }}
-                        </div>
 
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;">:{{ 'Full Name'|trans}} </div><div style="float: {{ lang }}"> {{ name }} </div>
+                        </div>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;">:{{ 'Job'|trans}} </div><div style="float: {{ lang }}"> {{ job }} </div>
+                        </div>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0; width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;">: {{ 'Mobile'|trans}} </div><div style="float: {{ lang }}"> {{ mobile }} </div>
+                        </div>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0; width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;">:{{ 'Email'|trans }} </div><div style="float: {{ lang }}"> {{ email }} </div>
+                        </div>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0; width: 100%;  float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;">:{{ 'Reason'|trans }} </div><div style="float: {{ lang }}"> {{ reason|trans }} </div>
+                        </div>
                     </div>
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
 
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
+
+        <tr><td style="background-color:#008544;color:#ffffff;height:50px;text-align:center;font-size: 16px;" colspan="2">
+
+                {{ 'Copy rights'|trans }}
+
+            </td></tr>
 
 
 
         </tbody>
     </table>
+
+
+
 {% endblock %}

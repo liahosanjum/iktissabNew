@@ -1,5 +1,10 @@
 ﻿.login-inner-contents-wrapper { border-left: 1px solid #DDDDDD; padding-left: 25px; padding-bottom: 5px;  }
 .topMenu .col-lg-5 { padding-right: 0px;  }
+.inq-form{ margin-top:13px !important;}
+#mobile-ext-enq{ float: left; }
+.mobile-number-enq{ float:right !important; }
+.mobile-ext-enq{ float:left !important; }
+.mobile-ext-enq-lbl{ margin-top:15px; margin-bottom:3px; font-weight: 700; }
 .login-passreset{ float: right; text-align: right; }
 .pass-repeat{ margin-top:8px !important;}
 .email-repeat{ margin-top:8px !important;}
@@ -35,7 +40,9 @@
 .eservice-list-icons{ margin-left: 5px; margin-right: 3px; }
 .mobile-iqama-wrapper { margin-right:15px }
 .mobile-form-mags { margin-left:15px !important; margin-right:15px !important;}
-.card-activation-thanks-message { font-size: 18px; font-weight: 700; margin-top: 34px; }
+.card-activation-thanks-message { font-size: 18px; font-weight: 700; margin-top: 34px;
+margin-left: 15px; margin-right: 15px;
+}
 
 .mob-ex { padding-right:10px ; padding-top:2px ; }
 .extension-mob { float: left; width: 25%;  }
@@ -76,6 +83,7 @@
 .mobile-extension-inner{ float: left; width: 100px; }
 .contact-us-main-wrapper { margin-bottom: 30px; direction: rtl; }
 .captcha-code{ padding-top:20px; float: right; width: 100%; }
+.contact-us-main-wrapper .captcha-code{   padding-top:0px; float: right; width: 100%; }
 .title-cardactivation-form-captcha {  float: right; width:100%; text-align: right; }
 #FormCaptcha_CaptchaImageDiv{ float: right; text-align: right; }
 .mobile-extension-inner-flagcountry{ float: left; width:96px; margin-top:5px;
@@ -349,7 +357,7 @@ label.error{
     border-radius: 2px;
     border: 2px solid #008b40;
     height: 33px;
-    width:84px;
+    width:160px;
     font-family: DroidKufiBold;
 }
 
@@ -371,11 +379,11 @@ label.error{
 
 #btn_dob:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
 #btn_dob_h:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
-.btn_dob_wrappper { float: right; width: auto; padding-right: 40px; margin-top:10px; }
-.btn_dob_h_wrappper { float: right; width: auto; padding-right: 40px; margin-top:10px; }
+.btn_dob_wrappper { float: right; width: auto; padding-right: 40px;  }
+.btn_dob_h_wrappper { float: right; width: auto; padding-right: 40px;  }
 .btn_dob_wrappper_step2 { float: right;    }
 .btn_dob_wrappper_step2 { float: right;    }
-.btn_dob_wrappper { float: right; width: auto; padding-right: 40px; margin-top:10px; }
+.btn_dob_wrappper { float: right; width: auto; padding-right: 40px;  }
 
 #ikt_update_submit {
     background-color: #008b40;
@@ -450,9 +458,9 @@ label.error{
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 
 }
-.mobile-ext-wraper{ padding-right: 0px; width: 115px;  float: left; margin-top:10px;   }
+.mobile-ext-wraper{ padding-right: 0px; width: 115px;  float: left; margin-top:0px;   }
 .mobile-ext-wraper-mobile{ margin-top:10px; padding-left: 15px;    }
-.mobile-number-wraper{ margin-top:10px;      float: right;   }
+.mobile-number-wraper{ margin-top:0px;      float: right;   }
 .iqama-id-wrapper { padding-right:15px !important; }
 .alert-success-forms{ font-size: 16px; font-weight: normal; }
 #mobile_mobile-error{ width: 100%; }
@@ -1164,7 +1172,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .contactus-list-wrapper{ float: right; border-left: 1px solid #dddddd; text-align: right;  }
 .contactus-question { color: #008b40; font-size: 18px;  text-align: right; font-weight: bold; margin-bottom: 15px; }
 .contactus-list-title-wrapper { float: right; padding-top: 0px; }
-.contactus-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 900; }
+.contactus-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 900; margin-top:12px; }
 .reset_pass input { text-align: right;   }
 .reset_pass { text-align: right;direction: rtl; margin-bottom: 30px; }
 .reset_pass .btn-primary { width: 300px !important; float: right; }
@@ -1309,9 +1317,9 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .steps-wrapper{ float: right;  }
 .steps-title{ text-align: center; font-size: 14px; font-weight: 900; margin-bottom: 15px; }
 .card-activation-phone-message { font-size: 14px; font-weight: 700; margin-top: 34px; }
-.card-activation-phone-title{ font-size: 14px; font-weight: 700; margin-top: 34px; margin-right: 20%;  }
+.card-activation-phone-title{ font-size: 14px; font-weight: 700; margin-top: 34px; margin-right: 23%;  }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
-.card-activation-phone-code { margin-top: 10px; margin-right: 40%; margin-left: 40%; }
+.card-activation-phone-code { margin-top: 10px; margin-right: 36%; margin-left: 36%; }
 .red-color { color: #FF0000; padding-right: 10px;  }
 .card-activation-phone-note { margin-top: 40px; float: right; font-size: 14px; font-weight: 600;  }
 .user-member { background: rgba(0, 0, 0, 0) url("../../img/login-user.svg") no-repeat scroll 99% 50%;
@@ -1384,14 +1392,14 @@ select#ikt_update_dob_h_day{
     margin-right: 2px;
 }
 
-#ikt_update_dob_day { margin-bottom: 10px;  margin-top:10px;float: left; }
-#ikt_update_dob_year { margin-bottom: 10px;  margin-top:10px;float: left; }
-#ikt_update_dob_month { margin-bottom: 10px;  margin-top:10px;float: left; }
+#ikt_update_dob_day { float: left; }
+#ikt_update_dob_year { float: left; }
+#ikt_update_dob_month { float: left; }
 #ikt_update_dob { float: right; width: 75%;  }
 
-#ikt_update_dob_h_day { margin-bottom: 10px;  margin-top:10px;float: left; }
-#ikt_update_dob_h_year { margin-bottom: 10px;  margin-top:10px;float: left; }
-#ikt_update_dob_h_month { margin-bottom: 10px;  margin-top:10px;float: left; }
+#ikt_update_dob_h_day { float: left; }
+#ikt_update_dob_h_year { float: left; }
+#ikt_update_dob_h_month { float: left; }
 #ikt_update_dob_h { float: right; width: 75%;  }
 
 
@@ -1631,7 +1639,7 @@ select#ikt_update_maritial_status  {
 #appbundle_enquiryandsuggestion_reason{ border: 1px solid #ADADAD; height: 33px; }
 #appbundle_enquiryandsuggestion_submit { width:263px;margin-top: 48px }
 
-.activation-description{ margin-top:50px;border: 2px solid #dddddd;
+.activation-description{ margin-top:48px;border: 2px solid #dddddd;
     background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px;
     padding-bottom:20px; }
 .activation-description .sno { padding-right: 5px; float: right; width: 28px;  direction: ltr; width: 4%;  }
@@ -1693,8 +1701,8 @@ select#ikt_update_maritial_status  {
 
 .user-details{ border-top:none !important;  border-right: none;  }
 #myTabContent .user-details { padding: 0px; border-left: 0px !important; }
-#myTabContent .user-details-date {  border-right: 0px !important; }
-#myTabContent .user-details-istikhdam { border-right: 0px !important; }
+#myTabContent .user-details-date {  border-right: 0px !important; padding-top:15px; padding-bottom:15px; width: 50%;  }
+#myTabContent .user-details-istikhdam { border-right: 0px !important; padding-top:15px; padding-bottom:15px; }
 table.user-details { margin-bottom: 0px !important; }
 
 
@@ -1707,8 +1715,8 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper .panel-heading h4 { font-size: 14px; font-weight: 700; color: #FFFFFF;  }
 .eservices-wrapper .panel-heading a { text-decoration: none; }
 .eservices-wrapper .panel-heading a:hover { text-decoration: none; }
-.eservices-wrapper .eservice-content-company-title{ color: #347F5B; font-size: 17px; font-weight: 900;margin-bottom: 22px; line-height: 17px; padding-right: 20px; padding-top: 20px;  }
-.eservices-wrapper .eservice-content-personal-title{ padding-bottom:20px;color: #347F5B; font-size: 17px; border-bottom: 1px solid #dddddd; font-weight: 900;margin-bottom: 22px; line-height: 17px; padding-right: 20px; padding-top: 20px;  }
+.eservices-wrapper .eservice-content-company-title{ color: #347F5B; font-size: 17px; font-weight: 900;margin-bottom: 22px; line-height: 17px; padding-right: 20px; padding-top: 15px; padding-bottom:15px;  }
+.eservices-wrapper .eservice-content-personal-title{ padding-bottom:16px;color: #347F5B; font-size: 17px; border-bottom: 1px solid #dddddd; font-weight: 900;margin-bottom: 22px; line-height: 17px; padding-right: 20px; padding-top: 16px;  }
 .eservices-wrapper .eservice-content-personal-description{   padding-bottom:20px ;line-height: 25px; font-size: 14px; font-weight: 700; padding-right: 66px; word-wrap: break-word; }
 
 .eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px;
@@ -1720,7 +1728,7 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper li.active .fa{ color:#008b40 !important;  }
 .eservices-wrapper .eservice-heading-title { font-size: 18px; font-weight: 600; }
 .account-all { border-top: 1px solid #adadad; border-left: 1px solid #adadad;border-bottom: 1px solid #adadad;   }
-.eservices-wrapper .slide-section { font-size:14px; background-color: #008B40; padding-top: 10px; font-weight: 700; padding-bottom: 10px; margin-top: 2px solid #FFFFFF; margin-top: 5px; }
+.eservices-wrapper .slide-section { font-size:14px; background-color: #008B40; padding-top: 10px; font-weight: 700; padding-bottom: 10px;  margin-top: 5px; }
 .eservices-wrapper .slide-section .fa-minus-square { color: #347f5b; padding-right: 10px;   }
 .eservices-wrapper li.slide-section:first-child{ margin-top: 0px; }
 .eservices-wrapper .slide-section-end{ border-bottom: 1px solid #adadad; }
@@ -1736,11 +1744,11 @@ table.user-details { margin-bottom: 0px !important; }
 .column-data-wrapper { border: 1px solid #4e4e4e;  }
 .orange-color{ color: #F29100; padding-right: 5px; }
 .table-bordered-custom { border-top:none;  border-right:none;  }
-.ikt-info-wrapper{ float: right; width: 100%; padding-right: 43px; padding-top: 10px; padding-bottom: 10px;  }
+.ikt-info-wrapper{ float: right; width: 100%; padding-right: 40px; padding-top: 10px; padding-bottom: 10px;  }
 .img-ikt-info { float: right; width:20%;  }
 .ikt-info-price { float: right ; width: 80%; }
-.ikt-info-price-title{ float: right; width: 100%; font-size: 15px; font-weight: 700; padding-right: 10px; color: #575757; }
-.ikti-info-price-details{ float: right; width: 65%; font-size: 28px; padding-right: 13px; line-height: 25px; font-family: Cairo; text-align: center; }
+.ikt-info-price-title{ float: right; width: 100%; font-size: 15px; font-weight: 700; padding-right: 25px; color: #575757; }
+.ikti-info-price-details{ font-weight:normal;float: right; width: 65%; font-size: 28px; padding-right: 26px; line-height: 25px; font-family: Cairo; text-align: center; }
 .color-blue { color: #29ABE2; }
 .light-red-color {color:#EF5350; }
 
@@ -1762,13 +1770,13 @@ table.user-details { margin-bottom: 0px !important; }
     color: #343434;
 }
 
-.ikt-info-price-currency { float: right; font-size: 15px; padding-top: 10px; }
+.ikt-info-price-currency { float: right; font-size: 15px; padding-top: 10px; font-weight: normal; padding-right:5px; }
 
-.ikt-date-info{ margin: 0 auto; width: 50%; }
+.ikt-date-info{ margin: 0 auto; width: 52%; }
 .ikt-date-icon-o{ float: right; padding-left: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
 .ikt-date-icon-r{ float: right; padding-left: 7px; font-size: 12px; color: #FF0000; font-weight: bold; padding-top: 3px; }
-.ikt-date-date{ float: right; padding-left: 1px; padding-right: 7px; color: #0F935D;}
-.ikt-date-title{ float: right; color: #575757;  }
+.ikt-date-date{ float: right; padding-left: 1px; padding-right: 7px; color: #0F935D; font-size: 16px; font-weight: normal; }
+.ikt-date-title{ float: right; color: #575757; font-weight: 600; font-size: 16px;  }
 .memeberemailwrapper{direction: rtl;}
 .memeberloginwrapper{min-height:500px; direction: rtl;}
 .memeberloginwrapper h1 { color: #347F5B; font-size: 22px; font-weight: 900;  }

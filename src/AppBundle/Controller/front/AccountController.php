@@ -1864,7 +1864,7 @@ class AccountController extends Controller
         }
         catch(Exception $e)
         {
-            $message = $this->get('translator')->trans('An invalid exception occurred') ;
+            $message = $this->get('translator')->trans('Unable to process your request.Please try later') ;
             $error = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, '' , array('iktissab_card_no' => '', 'message' => $e->getMessage(), 'session' => '' ));
             return $this->render('account/missingcard.html.twig',

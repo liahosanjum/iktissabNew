@@ -35,7 +35,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
-     * @Assert\NotBlank(message="This Field is required")
+     *
      *
      */
     private $name;
@@ -44,7 +44,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="job", type="string", length=200)
-     * @Assert\NotBlank(message="This Field is required")
+     *
      *
      */
     private $job;
@@ -53,8 +53,8 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="mobile", type="string", length=16)
-     * @Assert\NotBlank(message="This Field is required")
-     * @Assert\Regex(pattern="/^\d{10,16}$/", message="Invalid mobile number")
+     *
+     *
      */
     private $mobile;
 
@@ -62,8 +62,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
-     * @Assert\NotBlank(message="This Field is required")
-     * @Assert\Email(message="Invalid email address")
+     *
      */
     private $email;
 
@@ -71,7 +70,6 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="reason", type="string", length=1)
-     * @Assert\NotBlank(message="This Field is required")
      * @Assert\Choice(choices={EnquiryAndSuggestion::TECHNICAL_SUPPORT, EnquiryAndSuggestion::COMPLAINT, EnquiryAndSuggestion::ENQUIRY, EnquiryAndSuggestion::SUGGESTION }, message="Invalid reason")
      */
     private $reason;
@@ -80,7 +78,7 @@ class EnquiryAndSuggestion
      * @var string
      *
      * @ORM\Column(name="comments", type="string", length=1000)
-     * @Assert\NotBlank(message="This Field is required")
+     *
      */
     private $comments;
 

@@ -398,67 +398,73 @@ class ActivationController extends Controller
                     if ($form->getData()['otp'] != $this->get('session')->get('otp')) {
                         $form->get('otp')->addError(new FormError($this->get('translator')->trans('Please enter correct verification code')));
                     } else {
-                        $user = new User();
-                        $user->setEmail($this->get('session')->get('email'));
-                        $user->setIktCardNo($this->get('session')->get('iktCardNo'));
-                        $user->setRegDate(time());
-                        $user->setPassword($this->get('session')->get('pass'));
-                        $user->setStatus('0');
-                        $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
-                        $user->setCountry($request->get('_country'));
-                        $em->persist($user);
-                        $em->flush();
-                        $request->getSession()
-                            ->getFlashBag()
-                            ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account has been created you can login now'));
-                        if($request->getLocale() == 'ar'){
-                            $message = $this->get('translator')->trans('اهلاً بك في موقع اكتساب. اسم المستخدم الخاص بك:' . $this->get('session')->get('email').' و كلمة المرور :'.$this->get('session')->get('password_unmd5'));
-                        }
-                        else {
-                            $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email') . 'and Password: '.$this->get('session')->get('password_unmd5') );
-                        }
+                        //try catch adde by sohail
+                        try {
 
 
-
-                        $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
-
-                        // sohail code if send sms is successfull then creat the
-                        // same account in offline db for accessing services.
-
-
-                        $form_data   =  array(
-                            'email'     => $this->get('session')->get('email'),
-                            'password'  => $this->get('session')->get('pass'),
-                            'country'   => $request->get('_country') ,
-                            'status'    => 1,
-                            'ActivationSource' => 'w',
-                            'C_id'      => $this->get('session')->get('iktCardNo')
-                        );
-                        $this->createTempUser($request , $form_data);
-
-
-
-
+                            $user = new User();
+                            $user->setEmail($this->get('session')->get('email'));
+                            $user->setIktCardNo($this->get('session')->get('iktCardNo'));
+                            $user->setRegDate(time());
+                            $user->setPassword($this->get('session')->get('pass'));
+                            $user->setStatus('0');
+                            $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
+                            $user->setCountry($request->get('_country'));
+                            $em->persist($user);
+                            $em->flush();
+                            $request->getSession()
+                                ->getFlashBag()
+                                ->add('ikt_success', $this->get('translator')->trans('Dear customer, your account has been created you can login now'));
+                            if ($request->getLocale() == 'ar') {
+                                $message = $this->get('translator')->trans('اهلاً بك في موقع اكتساب. اسم المستخدم الخاص بك:' . $this->get('session')->get('email') . ' و كلمة المرور :' . $this->get('session')->get('password_unmd5'));
+                            } else {
+                                $message = $this->get('translator')->trans('Welcome to iktissab website your Username:' . $this->get('session')->get('email') . 'and Password: ' . $this->get('session')->get('password_unmd5'));
+                            }
 
 
-                        $activityLog->logEvent(AppConstant::ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS, $this->get('session')->get('iktCardNo'), array('message' => $message, 'session' => json_encode($this->get('session')->get('iktUserData'))));
-                        $message = \Swift_Message::newInstance();
+                            $smsService->sendSms($this->get('session')->get('mobile'), $message, $request->get('_country'));
 
-                        $message->addTo($this->get('session')->get('email'), $this->get('session')->get('email'))
-                            ->addFrom($this->getParameter('mailer_user'))
-                            ->setSubject(AppConstant::EMAIL_SUBJECT)
-                            ->setBody(
-                                $this->renderView(':email-templates/customers:new-account-creation.html.twig', ['customer' => $this->get('session')->get('email'), 'email' => $this->get('session')->get('email')]),
-                                'text/html'
+                            // sohail code if send sms is successfull then creat the
+                            // same account in offline db for accessing services.
+
+
+                            $form_data = array(
+                                'email' => $this->get('session')->get('email'),
+                                'password' => $this->get('session')->get('pass'),
+                                'country' => $request->get('_country'),
+                                'status' => 1,
+                                'ActivationSource' => 'w',
+                                'C_id' => $this->get('session')->get('iktCardNo')
                             );
+                            $this->createTempUser($request, $form_data);
 
-                        $this->get('mailer')->send($message);
-                        return $this->redirectToRoute('activation_thanks', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+                            $ikt_sec2_data = $this->get('session')->get('iktUserData');
+                            $activityLog->logEvent(AppConstant::ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS, $this->get('session')->get('iktCardNo'), array('message' => $message, 'session' => json_encode($this->get('session')->get('iktUserData'))));
+                            $message = \Swift_Message::newInstance();
+                            $message->addTo($this->get('session')->get('email'), $this->get('session')->get('email'))
+                                ->addFrom($this->getParameter('mailer_user'))
+                                ->setSubject(AppConstant::EMAIL_SUBJECT)
+                                ->setBody(
+                                    $this->renderView(':email-templates/customers:new-account-creation.html.twig', ['customer' => $ikt_sec2_data['cname'] , 'email' => $this->get('session')->get('email'),
+                                        'password' => $this->get('session')->get('password_unmd5')
+                                    ]),
+                                    'text/html'
+                                );
+                            $this->get('mailer')->send($message);
+                            return $this->redirectToRoute('activation_thanks', array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
+                        }
+                        catch(\Exception $e)
+                        {
+                            $activityLog->logEvent(AppConstant::ACTIVITY_NEW_CARD_REGISTRATION_ERROR, 1, array('iktissab_card_no' =>  $this->get('session')->get('name'), 'message' => $e->getMessage(), 'session' => json_encode($this->get('session')->get('iktUserData')) ));
+                            $error['success'] = false;
+                            $error['message'] = $e->getMessage();
+                        }
                     }
+
                     break;
                 case AppConstant::IKT_REG_SCENERIO_1;
                     if ($form->getData()['otp'] != $this->get('session')->get('otp')) {
-                        $form->get('otp')->addError(new FormError($this->get('translator')->trans('Invalid Code Please try again')));
+                        $form->get('otp')->addError(new FormError($this->get('translator')->trans('Please enter correct verification code')));
                     } else {
                         $newCustomer = $this->get('session')->get('new_customer');
                         // check in stagging // check in live db
@@ -482,7 +488,7 @@ class ActivationController extends Controller
                                 ->addFrom($this->getParameter('mailer_user'))
                                 ->setSubject(AppConstant::EMAIL_SUBJECT)
                                 ->setBody(
-                                    $this->renderView(':email-templates/customers:new-account-creation.html.twig', ['customer' => $newCustomer['cname'], 'email' => $newCustomer['cname']]),
+                                    $this->renderView(':email-templates/customers:new-account-creation.html.twig', ['customer' => $newCustomer['cname'], 'email' => $this->get('session')->get('email'), 'password' => $this->get('session')->get('password_unmd5')]),
                                     'text/html'
                                 );
 
@@ -577,6 +583,7 @@ class ActivationController extends Controller
             $user->setIktCardNo($newCustomer['C_id']);
             $user->setRegDate(time());
             $user->setStatus(0);
+            $user->setCountry($request->get('_country'));
             $user->setPassword($this->get('session')->get('pass'));
             $user->setActivationSource(User::ACTIVATION_SOURCE_WEB);
             $em->persist($user);

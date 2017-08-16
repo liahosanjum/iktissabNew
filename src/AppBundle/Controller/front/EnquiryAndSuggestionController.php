@@ -189,7 +189,7 @@ class EnquiryAndSuggestionController extends Controller
                     date_default_timezone_set("Asia/Riyadh");
                     $date_now = date('Y-m-d H:i:s');
                     $date_current = explode(' ', $date_now );
-                    $date_current_days  = explode('-', $date_current[0] );
+                    $date_current_days   = explode('-', $date_current[0] );
                     $date_current_hours  = explode(':' ,$date_current[1]);
                     $current_time =  mktime($date_current_hours[0] + 3, $date_current_hours[1], $date_current_hours[2],
                     $date_current_days[1], $date_current_days[2] , $date_current_days[0]);
@@ -206,7 +206,6 @@ class EnquiryAndSuggestionController extends Controller
                           foreach ($formSettingList1 as $form_setting_list)
                           {
                               $date_of_submission = $formSettingList1[$i]->getCreated()->format('Y-m-d H:i:s');
-
                               $date_of_submission = explode(' ', $date_of_submission);
                               $date_of_submission[0];
                               $date_of_submission[1];

@@ -625,9 +625,11 @@ class DefaultController extends Controller
 
                     }
                 } else {
-                    $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    //$message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a link to reset your password');
+
                     $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
-                    $errorcl = 'alert-danger';
+                    $errorcl = 'alert-success';
                     return $this->render('default/login.html.twig', array(
                         'message' => $message, 'error' => $error, 'errorcl' => $errorcl
                     ));
@@ -1291,7 +1293,7 @@ class DefaultController extends Controller
         }
     }
 
-    
+
 
     function base64url_encode($s) {
         return str_replace(array('+', '/'), array('-', '_'), base64_encode($s));
