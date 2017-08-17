@@ -144,7 +144,7 @@
                                             <div class="textZoom" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
                                                 <img src="{{asset('img/zoom_03.jpg')  }}">
                                             </div>
-                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}'')">
+                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
                                                 <a href=""><i class="fa fa-eye" aria-hidden="true">
 
                                                 </i></a>
@@ -154,11 +154,12 @@
                                     </div>
 
                                 </div>
+                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
                                 <div class="Product-price">
                                     <span class="price-beforedesc">{{ 'SAR'|trans }}{{ DataPromo[i].Price|round(2, 'floor') }} </span>
                                     <span class="price-afterdesc">{{ 'SAR'|trans }}{{ DataPromo[i].SpecialPrice|round(2, 'floor') }} </span>
                                 </div>
-                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
+
                             </span>
                         </div>
                             {% set i = i + 1 %}
@@ -387,7 +388,7 @@
             </div>
         </div>
         <div id="myModal1" class="modal">
-            <span class="close" >Close</span>
+            <span class="close"  style="color:#FFFFFF;">Close</span>
             <img class="modal-content" id="img01">
             <div id="caption"></div>
         </div>

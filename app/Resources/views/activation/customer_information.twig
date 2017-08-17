@@ -274,7 +274,12 @@
                                                 </div>
                                                 <div class="cardactivationForm">
                                                     <div class="extension-mob">
-                                                    <input class="mob-ex" type="text" value="966" readonly disabled>
+                                                    {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                        <input class="mob-ex" type="text" value="0020" readonly disabled>
+                                                        {% else %}
+                                                        <input class="mob-ex" type="text" value="966" readonly disabled>
+                                                        {%  endif %}
+
                                                         </div>
                                                     <div class="mob">
                                                     {{ form_widget(form.mobile) }}

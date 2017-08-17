@@ -993,7 +993,7 @@ body{
 .home-title { font-size: 22px; font-family: cairo; line-height: 22px; padding-left: 10px; font-weight: 700;   }
 .slick-products { float: right; width: 100%; }
 /** sohailo h320**/
-.Product-wrapper{ float: right; text-align: center; height: 320px  }
+.Product-wrapper{ float: right; text-align: center; height: 300px;  }
 .se-iktitem-brand .Product-wrapper{ float: right; text-align:center; height: 130px; }
 .se-iktitem-brand .Product-Details .Product-img img {
     margin: 0 auto;
@@ -1026,7 +1026,7 @@ body{
 }
 
 .se-iktitem .Product-Details .Product-img {
-    height:220px;
+    height:183px;
 }
 
 .se-iktitem .Product-Details .Product-price {
@@ -1044,7 +1044,7 @@ body{
     font-size: 15px;
     font-weight: normal;
     margin: 5px 0 0;
-    max-height: 45px;
+    height: 55px;
     font-family: Arial;
     overflow: hidden;
 }
@@ -1063,7 +1063,7 @@ body{
     margin-top: calc(0.14em / 2 * -1);
     position: absolute;
     right: 0;
-    top: 50%;
+    top: 53%;
 }
 .header-contact-text{ font-size: 16px; font-weight: 700;  }
 .ikt-save-img{ padding-right: 17px; float: right; }

@@ -163,7 +163,9 @@ class ActivationController extends Controller
             try {
                 $this->get('session')->set('pass',md5($pData['password']));
                 $this->get('session')->set('password_unmd5',$pData['password']);
+                
                 $this->get('session')->set('mobile',$data['user']['mobile']);
+                
                 $otp = rand(111111, 999999);
                 $this->get('session')->set('otp', $otp);
 
@@ -294,7 +296,7 @@ class ActivationController extends Controller
                     "cname" => $pData['fullName'],
                     "area" => $area,
                     "city_no" => $pData['city_no'],
-                    "mobile" => ($request->get('_country') == 'sa' ? "0" : "0") . $pData['mobile'],
+                    "mobile" => ($request->get('_country') == 'sa' ? "0" : "0020") . $pData['mobile'],
                     "email" => $pData['email'],
                     "nat_no" => $pData['nationality']->getId(),
                     "Marital_status" => $pData['maritial_status'],
@@ -306,10 +308,17 @@ class ActivationController extends Controller
                     "pincode" => mt_rand(1000, 9999),
                     "source" => User::ACTIVATION_SOURCE_WEB
                 );
+
+                if($request->get('_country') == 'eg'){
+                    $mob_with_country_code = "0020".$pData['mobile'];
+                }else{
+                    // here no country code
+                    $mob_with_country_code = $pData['mobile'];
+                }
                 $this->get('session')->set('new_customer', $newCustomer);
                 $this->get('session')->set('password_unmd5',$pData['password']);
                 $this->get('session')->set('pass', md5($pData['password']));
-                $this->get('session')->set('mobile', $pData['mobile']);
+                $this->get('session')->set('mobile', $mob_with_country_code);
 
                 $otp = rand(111111, 999999);
                 $this->get('session')->set('otp', $otp);
@@ -384,7 +393,7 @@ class ActivationController extends Controller
     public function enterOtpAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
-        //echo $this->get('session')->get('otp');
+        echo $this->get('session')->get('otp');
         $error = array('success' => true);
         $form = $this->createForm(EnterOtpType::class);
         $form->handleRequest($request);
@@ -463,6 +472,7 @@ class ActivationController extends Controller
 
                     break;
                 case AppConstant::IKT_REG_SCENERIO_1;
+
                     if ($form->getData()['otp'] != $this->get('session')->get('otp')) {
                         $form->get('otp')->addError(new FormError($this->get('translator')->trans('Please enter correct verification code')));
                     } else {
@@ -573,11 +583,22 @@ class ActivationController extends Controller
             $saveCustomer = $restClient->restPost(AppConstant::WEBAPI_URL . $url, $cData, array('Country-Id' => strtoupper($request->get('_country'))));
             //var_dump($cData);
             //var_dump($url);
-            //var_dump($saveCustomer);
-            //die('----');
-            if ($saveCustomer != true) {
+            // var_dump($saveCustomer);
+            // die('----');
+
+            /*if ($saveCustomer!= true) {
+                Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
+            }*/
+
+            if($saveCustomer['status'] == 0){
+                Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
+                // incase the validation is bypassed in the form
+                //Throw New Exception($this->get('translator')->trans('Unable to process your request.Please try later'));
+            }
+            if ($saveCustomer['success'] != true) {
                 Throw New Exception($this->get('translator')->trans($saveCustomer['message']));
             }
+
             $user = new User();
             $user->setEmail($newCustomer['email']);
             $user->setIktCardNo($newCustomer['C_id']);

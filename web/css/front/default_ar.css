@@ -796,7 +796,7 @@ label.error{
 .se-iktitem-brand .ikt-offer { margin-right: 15px;float: right; border-right: 4px solid #008B40; padding:3px 7px 5px 0px;  }
 .home-title { font-size: 16px; font-family: DroidKufiBold;  }
 .slick-products { float: right; width: 100%; }
-.Product-wrapper{ float: right; text-align: center; height: 320px; }
+.Product-wrapper{ float: right; text-align: center; height: 300px; }
 .se-iktitem-brand .Product-wrapper{ float: right; text-align: center;   height: 130px;   }
 .se-iktitem-brand .Product-Details .Product-img img {
     margin: 0 auto;
@@ -833,7 +833,7 @@ label.error{
 }
 
 .se-iktitem .Product-Details .Product-img {
-    height:210px;
+    height:183px;
 }
 .se-iktitem .Product-Details .Product-price {
     padding-bottom: 5px;
@@ -850,7 +850,7 @@ label.error{
     font-size: 14px;
     font-weight: normal;
     margin: 5px 0 0;
-    max-height: 45px;
+    height: 55px;
     overflow: hidden;
 }
 .se-iktitem .Product-Details .Product-price .price-beforedesc{
@@ -863,12 +863,12 @@ label.error{
 .se-iktitem .Product-Details .Product-price .price-beforedesc::after {
     border-bottom: 0.14em solid rgba(15, 153, 97, 0.6);
     content: "";
-    left: 0;
-
+    left: -39px;
+    line-height:1em;
     margin-top: calc(0.14em / 2 * -1);
     position: absolute;
     right: 0;
-    top: 50%;
+    top: 53%;
 }
 .header-contact-text{ font-size: 13px; font-weight: 700;  }
 .ikt-save-img{ padding-left: 19px; }

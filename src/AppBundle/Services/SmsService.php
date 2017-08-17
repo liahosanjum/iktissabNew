@@ -29,7 +29,8 @@ class SmsService
         {
             $mobilyUser = $this->params['mobily_user_eg'];
             $mobilyPass = $this->params['mobily_pass_eg'];
-            // for EG we store the countrycode
+            // for EG we store the countrycode in with mobile number
+            // so no need to add prefix
             $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
             $mobilySender = $this->params['mobily_sender_eg'];
         }
@@ -43,11 +44,14 @@ class SmsService
             if(strlen($receiver) == 10)
                 $receiver = substr($receiver,1 ,strlen($receiver)-1);
         }
+        // for testing
+        $receiver_mob = $receiver;
+        $receiver = '966583847092';
         $msgID  = rand(1, 9999);
         $delKey = rand(1, 9999);
         //iconv ( "UTF-8", "windows-1256", $message );
         //$messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
-        $messageFormatted = urlencode($message);
+        $messageFormatted = urlencode($message.$receiver_mob);
 
         $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
         $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;
@@ -135,6 +139,8 @@ class SmsService
             if(strlen($receiver) == 10)
                 $receiver = substr($receiver,1 ,strlen($receiver)-1);
         }
+        // for testing
+        $receiver_mob = $receiver;
         $msgID  = rand(1, 9999);
         $delKey = rand(1, 9999);
         //$messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));

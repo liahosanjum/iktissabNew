@@ -618,7 +618,7 @@ class AccountController extends Controller
                 $this->get('session')->set('new_value', $data['update_email']['newemail']['first']);
 
                 // here we will check if the email is already registered on website or not
-                $email_val = $this->checkEmail($data['update_email']['newemail']['first'],$Country_id);
+                $email_val = $this->checkEmail($data['update_email']['newemail']['first'],$Country_id , $iktCardNo);
                 // print_r($email_val);
                 // exit;
 
@@ -633,7 +633,7 @@ class AccountController extends Controller
 
 
 
-                    if ($email_val['success']) {
+                    if ($email_val['success'] == true) {
 
                         if ($email_val['result']['email']) {
                             $errorcl = 'alert-danger';
@@ -779,6 +779,7 @@ class AccountController extends Controller
                 $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
                 // echo $data['update_fields'];
                 // var_dump($data);
+                //
                 // exit;
                 // sohail:todo
                 // $data["success"] = 'true';
@@ -790,6 +791,7 @@ class AccountController extends Controller
                         // $this->get('session')->set('iktUserData', $data['user']);
 
                         $update_email_status = $this->updateEmailOffline($request, $this->get('session')->get('new_value'));
+
                         if($update_email_status == true) {
                             $email_val = $this->updateEmail($this->get('session')->get('new_value'), $Country_id, $iktCardNo);
                         }
@@ -821,7 +823,7 @@ class AccountController extends Controller
                         }
                         elseif ($email_val == '0')
                         {
-                            $message = $this->get('translator')->trans('Your email is not updated.Please try again');
+                            $message = $this->get('translator')->trans('Unable to update record');
                             $errorcl = 'alert-danger';
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                             return $this->render('account/sendsmssuccess.html.twig',
@@ -865,7 +867,7 @@ class AccountController extends Controller
                         {
                             // in else status is zero means validation errors
                             // redirect to email
-                            $message = $this->get('translator')->trans('Your email address is not updated.Please try again');
+                            $message = $this->get('translator')->trans('Unable to update record');
                             $message = $data['message'];
                             $errorcl = 'alert-danger';
                             $email   = $this->get('session')->get("new_value");
@@ -916,7 +918,7 @@ class AccountController extends Controller
         }
     }
 
-    private function checkEmail($email,$Country_id)
+    private function checkEmail($email,$Country_id, $C_id)
     {
         try
         {
@@ -926,9 +928,9 @@ class AccountController extends Controller
             $conn = $em->getConnection();
             $queryBuilder = $conn->createQueryBuilder();
             $country_id   = strtolower($Country_id);
-            $stm = $conn->prepare('SELECT * FROM   user  WHERE   email = ? AND country = ?  ');
+            $stm = $conn->prepare('SELECT * FROM   user  WHERE   email = ? AND ikt_card_no != ?   ');
             $stm->bindValue(1, $email);
-            $stm->bindValue(2, $country_id);
+            $stm->bindValue(2, $C_id);
             $stm->execute();
             $result = $stm->fetch();
             if($result) {
@@ -946,32 +948,51 @@ class AccountController extends Controller
         }
     }
 
-
-    private function updateEmail( $email , $Country_id, $C_id )
+    
+    private function updateEmail( $email , $Country_id, $C_id   )
     {
         try
         {
-            // $em = $this->getDoctrine()->getEntityManager();
             $em = $this->getDoctrine()->getManager();
             $conn = $em->getConnection();
             $email = $email;
             $Country_id = $Country_id;
             $C_id = $C_id;
 
-            $queryBuilder = $conn->createQueryBuilder();
             if ($Country_id == 'EG') {
                 $tbl_suffix = "_EG";
             } else {
                 $tbl_suffix = "";
             }
-            // $data_values = array($email = $email, $C_id = $C_id);
-            $data_values = array($email , $C_id );
-            $stm = $conn->executeUpdate('UPDATE user SET email = ? WHERE ikt_card_no = ?   ', $data_values);
-            return $stm;
+            $user = $em->getRepository("AppBundle:User")->find($C_id);
+
+
+
+            if ($user->getEmail() != "" && $user->getEmail() != null) {
+
+
+                $date_now = date('Y-m-d H:i:s');
+                $date_current = explode(' ', $date_now );
+                $date_current_days   = explode('-', $date_current[0] );
+                $date_current_hours  = explode(':' ,$date_current[1]);
+                $current_time =  mktime($date_current_hours[0], $date_current_hours[1], $date_current_hours[2],
+                    $date_current_days[1], $date_current_days[2] , $date_current_days[0]);
+                $data_values = array($current_time,$email , $C_id );
+                $stm = $conn->executeUpdate('UPDATE user SET reg_date = ? , email = ? WHERE ikt_card_no = ?   ', $data_values);
+                if($stm == true){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
         catch (\Exception $e)
         {
-            return '0';
+            return false;
         }
     }
 
@@ -2344,6 +2365,7 @@ class AccountController extends Controller
      * @Route("/{_country}/{_locale}/change/passwordoffline", name="change_passwordoffline")
      *
      */
+    
     public function updatePasswordOffline(Request $request , $password)
     {
         try
@@ -2373,7 +2395,7 @@ class AccountController extends Controller
                 $postData = json_encode($form_data);
 
                 $request->get('_country');
-                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => 'sa'));
+                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
 
                 if($data['status'] == 1)
                 {
@@ -2391,7 +2413,7 @@ class AccountController extends Controller
 
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             return false;
         }
@@ -2432,7 +2454,6 @@ class AccountController extends Controller
                 $postData = json_encode($form_data);
                 $request->get('_country');
                 $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
-
                 if($data['status'] == 1)
                 {
                     if($data['success'] == 1)
