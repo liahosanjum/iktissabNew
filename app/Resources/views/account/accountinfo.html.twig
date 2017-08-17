@@ -3,16 +3,16 @@
 
 
     <tr>
-        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Personal Information'|trans }}</td>
+        <td colspan="3" class="col-lg-12 eservice-content-company-title">{{ 'Card Information'|trans }}</td>
     </tr>
     <tr>
         <td class="col-lg-4">
             <div class="ikt-info-wrapper">
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/11.svg')}}"></div>
                 <div class="ikt-info-price">
-                    <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
+                    <div class="ikt-info-price-title">111{{ 'Total Balance'|trans }}</div>
                     <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used']|round(2, 'floor') }}</div>
-                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                    <div class="ikt-info-price-currency"> ("Currency-"~ app.request.get('_country'))|trans }}</div>
                 </div>
 
             </div>
@@ -21,9 +21,9 @@
             <div class="ikt-info-wrapper">
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
                 <div class="ikt-info-price">
-                    <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
+                    <div class="ikt-info-price-title">{{ 'Used Balance'|trans }} </div>
                     <div class="ikti-info-price-details orange-color">{{ iktData['balance_used']|round(2, 'floor') }}</div>
-                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                    <div class="ikt-info-price-currency">{{ ("Currency-"~ app.request.get('_country'))|trans }}</div>
                 </div>
 
             </div>
@@ -34,7 +34,7 @@
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
                     <div class="ikti-info-price-details light-red-color">{{ iktData['balance']|round(2, 'floor') }}</div>
-                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                    <div class="ikt-info-price-currency"> ("Currency-"~ app.request.get('_country'))|trans }}</div>
                 </div>
 
             </div>
@@ -85,7 +85,7 @@
 </table>
 <div style="  float: right; width: 100%; margin-left:30px !important;" class="">
     {% if message != '' %}
-        <div class="alert-success-forms formMessage alert  fade in alert-dismissable">
+        <div class="alert-success-forms formMessage alert-danger  fade in alert-dismissable">
             {{ message }}
         </div>
     {% endif %}

@@ -3,6 +3,8 @@
     padding-left: 30px !important;
 }
 .login-passreset{ float: left; text-align: left; }
+.inq-form{ margin-top:13px !important;}
+.mobile-ext-enq-lbl{ margin-top:11px; margin-bottom:5px; font-weight:600; }
 #FormCaptcha_CaptchaDiv{ float: right; }
 .navbar-right .dropdown-menu { right: -42px; }
 .navbar-collapse { padding-left: 0px !important;  }
@@ -352,10 +354,10 @@ label.error{
 .top-lang-wrapper .navbar-nav > li.langSelected > a { font-family: 'DroidKufiRegular' ;border-right: none !important; padding-left: 10px !important; padding-right: 0px !important; }
 .top-contact-wrapper .navbar-nav > li:first-child > a {  border-right: none !important ; }
 .titleForm_main{ font-size: 20px; font-weight: normal; padding-left: 15px;  }
-.titleForm_sub { font-size: 16px; font-weight: normal;  padding-left: 15px;}
+.titleForm_sub { font-size: 16px; font-weight: normal;  padding-left: 15px; margin-top: 8px; margin-bottom: 10px;}
 
 .titleForm_main_missingcard{ font-size: 20px; font-weight: normal;   }
-.titleForm_sub_missingcard { font-size: 16px; font-weight: normal;  }
+.titleForm_sub_missingcard { font-size: 16px; font-weight: normal; margin-top: 8px; margin-bottom: 10px; }
 .formMessage { margin-top: 34px; }
 #preLoaders {left: 40%;  z-index: 1;  position: absolute;  border-radius: 12px;  top: 40%;  }
 .formControl-mobile { width: 200px; }
@@ -616,8 +618,8 @@ select#ikt_update_maritial_status  {
 #update_password_new_password_first-error{ width: 100%; }
 
 
-.mobile-ext-wraper{ margin-top:10px; padding-right: 15px; width: 110px;  float: left;   }
-.mobile-number-wraper{ margin-top:10px;      float: left;   }
+.mobile-ext-wraper{padding-right: 15px; width: 110px;  float: left;margin-top:0px;   }
+.mobile-number-wraper{ margin-top:0px;      float: left;   }
 
 
 .mobile-ext-wraper-mobile{ margin-top:10px; padding-left: 15px;    }
@@ -991,7 +993,7 @@ body{
 .home-title { font-size: 22px; font-family: cairo; line-height: 22px; padding-left: 10px; font-weight: 700;   }
 .slick-products { float: right; width: 100%; }
 /** sohailo h320**/
-.Product-wrapper{ float: right; text-align: center; height: 320px  }
+.Product-wrapper{ float: right; text-align: center; height: 300px;  }
 .se-iktitem-brand .Product-wrapper{ float: right; text-align:center; height: 130px; }
 .se-iktitem-brand .Product-Details .Product-img img {
     margin: 0 auto;
@@ -1024,7 +1026,7 @@ body{
 }
 
 .se-iktitem .Product-Details .Product-img {
-    height:220px;
+    height:183px;
 }
 
 .se-iktitem .Product-Details .Product-price {
@@ -1042,7 +1044,7 @@ body{
     font-size: 15px;
     font-weight: normal;
     margin: 5px 0 0;
-    max-height: 45px;
+    height: 55px;
     font-family: Arial;
     overflow: hidden;
 }
@@ -1061,7 +1063,7 @@ body{
     margin-top: calc(0.14em / 2 * -1);
     position: absolute;
     right: 0;
-    top: 50%;
+    top: 53%;
 }
 .header-contact-text{ font-size: 16px; font-weight: 700;  }
 .ikt-save-img{ padding-right: 17px; float: right; }
@@ -1603,7 +1605,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
     padding-left: 5px;
     width: 100%;
 }
-.activation-description{ margin-top:50px;border: 2px solid #dddddd; background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px; padding-bottom: 20px; }
+.activation-description{ margin-top:48px;border: 2px solid #dddddd; background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px; padding-bottom: 20px; }
 .activation-description .sno { padding-right: 9px;direction: rtl; float: left; width: 4%; line-height: 20px;  }
 .activation-description .desc-list { float: left; text-align: right; font-size: 15px; font-weight: 600; width: 100%;}
 .iktissab-activation-step2{margin-left: 30%; font-family: Verdana;float: left; width: 100%; font-size: 16px; font-weight: 900; direction: ltr; padding-top: 10px;}
@@ -1621,7 +1623,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .aboutus-wrapper .col-lg-12{  padding-left: 0px;}
 .aboutus-wrapper .title-contents { color: #008b40; font-size: 20px; font-weight:600;  text-align: left; margin-bottom: 6px; padding-top: 10px; }
 .aboutus-wrapper .title-contents-top { color: #008b40; font-size: 20px; font-weight:600;
-    text-align: left; margin-bottom: 6px; padding-top: 10px; }
+    text-align: left; margin-bottom: 6px;   }
 
 .whyus-list-wrapper {float: right; text-align: right;}
 .whyus-wrapper {  margin-bottom: 50px; direction: ltr;  }
@@ -1667,8 +1669,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 .user-details{ border-top:none !important;  border-right: none;  }
 #myTabContent .user-details { padding: 0px; border-left: 0px !important; }
-#myTabContent .user-details-date { border-left:0px !important; }
-#myTabContent .user-details-istikhdam { border-right: 0px !important; }
+#myTabContent .user-details-date { border-left:0px !important; padding-top:15px; padding-bottom:15px; width: 50%;  }
+#myTabContent .user-details-istikhdam { border-right: 0px !important; padding-top:15px; padding-bottom:15px; }
 table.user-details { margin-bottom: 0px !important; }
 
 
@@ -1681,9 +1683,9 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper .panel-heading h4 { font-size: 14px; font-weight: 700; color: #FFFFFF;  }
 .eservices-wrapper .panel-heading a { text-decoration: none; }
 .eservices-wrapper .panel-heading a:hover { text-decoration: none; }
-.eservices-wrapper .eservice-content-company-title{ color: #347F5B; font-size: 22px; font-weight: 700;margin-bottom: 22px; line-height: 17px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;   }
-.eservices-wrapper .eservice-content-personal-title{ padding-bottom:20px;color: #347F5B; font-size: 20px; border-bottom: 1px solid #dddddd; font-weight: 900;margin-bottom: 22px;
-    text-align: left; line-height: 17px; padding-left: 15px; padding-top: 20px; font-family: Verdana;  }
+.eservices-wrapper .eservice-content-company-title{ color: #347F5B; font-size: 22px; font-weight: 700;margin-bottom: 22px; line-height: 17px; padding-left: 20px; padding-top: 15px; padding-bottom: 15px;   }
+.eservices-wrapper .eservice-content-personal-title{ padding-bottom:16px;color: #347F5B; font-size: 20px; border-bottom: 1px solid #dddddd; font-weight: 900;margin-bottom: 22px;
+    text-align: left; line-height: 17px; padding-left: 15px; padding-top: 16px; font-family: Verdana;  }
 .eservices-wrapper .eservice-content-personal-description{   padding-bottom:20px ;line-height: 25px; font-size: 14px; font-weight: 700; padding-left: 66px; float: left; }
 
 .eservices-wrapper .eservice-content-company-description{   line-height: 25px; margin-bottom: 20px;
@@ -1695,7 +1697,7 @@ table.user-details { margin-bottom: 0px !important; }
 .eservices-wrapper li.active .fa{ color:#008b40 !important;  }
 .eservices-wrapper .eservice-heading-title { font-size: 18px; font-weight: 600; }
 .account-all { border-top: 1px solid #adadad; border-left: 1px solid #adadad;border-bottom: 1px solid #adadad;   }
-.eservices-wrapper .slide-section { font-size:14px; background-color: #008B40; padding-top: 10px; font-weight: 700; padding-bottom: 10px; margin-top: 2px solid #FFFFFF; margin-top: 5px; }
+.eservices-wrapper .slide-section { font-size:14px; background-color: #008B40; padding-top: 10px; font-weight: 700; padding-bottom: 10px; margin-top: 5px; }
 .eservices-wrapper .slide-section .fa-minus-square { color: #347f5b; padding-right: 10px;   }
 .eservices-wrapper li.slide-section:first-child{ margin-top: 0px; }
 .eservices-wrapper .slide-section-end{ border-bottom: 1px solid #adadad; }
@@ -1711,12 +1713,12 @@ table.user-details { margin-bottom: 0px !important; }
 .column-data-wrapper { border: 1px solid #4e4e4e;  }
 .orange-color{ color: #F29100; padding-right: 5px; }
 .table-bordered-custom { border-top:none;  border-right:none;  }
-.ikt-info-wrapper{ float: left; width: 100%; padding-right:30px; padding-top: 10px; padding-bottom: 10px;  }
-.img-ikt-info { float: right; width:20%;  }
+.ikt-info-wrapper{ float: right; width: 100%; padding-left:30px; padding-top: 10px; padding-bottom: 10px;  }
+.img-ikt-info { float: left; width:20%;  }
 .ikt-info-price { float: left ; width: 80%; }
-.ikt-info-price-title{ float: left; width: 100%; font-size: 18px; font-weight: 700;line-height: 20px;
-    padding-right: 10px; color: #575757; }
-.ikti-info-price-details{ float: left; text-align: right; width: 65%; font-size: 28px; padding-right: 13px; line-height: 25px; font-family: Cairo; }
+.ikt-info-price-title{ float: right; width: 100%; font-size: 18px; font-weight: 700;line-height: 20px;
+    padding-left: 25px; color: #575757; text-align: left; }
+.ikti-info-price-details{ font-weight: normal; float: left; text-align: center; width: 65%; font-size: 28px; padding-left: 30px; line-height: 25px; font-family: Cairo; }
 .color-blue { color: #29ABE2; }
 .light-red-color {color:#EF5350; }
 
@@ -1740,12 +1742,12 @@ table.user-details { margin-bottom: 0px !important; }
     color: #343434;
 }
 
-.ikt-info-price-currency { float: left; font-size: 15px; padding-top: 10px; }
+.ikt-info-price-currency { float: left; font-size: 15px; padding-top: 10px; font-weight:normal; padding-left:3px; }
 
-.ikt-date-info{ margin: 0 auto; width: 50%; }
+.ikt-date-info{ margin: 0 auto; width: 52%; }
 .ikt-date-icon-o{ float:  left; padding-right: 7px; font-size: 12px; color: #EE524F; font-weight: bold; padding-top: 3px; }
 .ikt-date-icon-r{ float:  left; padding-right: 7px; font-size: 12px; color: #FF0000; font-weight: bold; padding-top: 3px; }
-.ikt-date-date{ float:  left; padding-right: 1px; padding-left: 7px; color: #0F935D;}
+.ikt-date-date{ float:  left; padding-right: 1px; padding-left: 7px; color: #0F935D; font-size:16px; font-weight:normal; }
 .ikt-date-title{ float: left; color: #575757;  }
 .memeberemailwrapper  { direction: ltr;}
 .memebersendpwdwrapper{ direction: ltr;}

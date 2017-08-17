@@ -110,7 +110,7 @@
             } else {
                 $('#div_dg').hide();
                 $('#div_dh').show();
-                $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                $('#btn_dob_h').val('{{ 'Gregorian'|trans }}');
                 $('#ikt_update_dob_month option:nth-child(1)').prop("selected", "selected");
                 $('#ikt_update_dob_day option:nth-child(1)').prop("selected", "selected");
                 $('#ikt_update_dob_year option:nth-child(1)').prop("selected", "selected");
@@ -129,7 +129,7 @@
                     // change to hijri now
                     $('#div_dh').show();
                     $('#div_dg').hide();
-                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#btn_dob_h').val('{{ 'Gregorian'|trans }}');
                     $('#ikt_update_date_type').val('h');
 
                 } else {
@@ -154,7 +154,7 @@
                     // change to hijri now
                     $('#div_dh').show();
                     $('#div_dg').hide();
-                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#btn_dob_h').val('{{ 'Gregorian'|trans }}');
                     $('#ikt_update_date_type').val('h');
 
                 }

@@ -607,7 +607,7 @@ class DefaultController extends Controller
                             );
 
                         if ($this->container->get('mailer')->send($message)) {
-                            $message = $this->get('translator')->trans('Further instructions have been sent to your e-mail address');
+                            $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a link to reset your password');
                             $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $user_id, array('iktissab_card_no' => $user_id, 'message' => $message, 'session' => serialize($result)));
                             $errorcl = 'alert-success';
                             return $this->render('default/login.html.twig', array(
@@ -625,9 +625,11 @@ class DefaultController extends Controller
 
                     }
                 } else {
-                    $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    //$message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a link to reset your password');
+
                     $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 'unknownuser ' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
-                    $errorcl = 'alert-danger';
+                    $errorcl = 'alert-success';
                     return $this->render('default/login.html.twig', array(
                         'message' => $message, 'error' => $error, 'errorcl' => $errorcl
                     ));
@@ -903,7 +905,7 @@ class DefaultController extends Controller
 
 
             $data_form['show_form'] = 1;
-            if ($user && $user != null) {
+            if ($id != ""  && $id != null) {
                 $data = unserialize($user->getData());
                 $currentPassword = $user->getPassword();
                 if (strtotime('+1 day', $data['time']) > time()) {
@@ -920,18 +922,41 @@ class DefaultController extends Controller
                                 'errorcl' => $errorcl
 
                             ));
-                        } else {
-                            $user->setPassword(md5($formData['password']));
-                            $user->setData('');
-                            $em->persist($user);
-                            $em->flush();
-                            $message = $this->get('translator')->trans('Your password has been reset successfully');
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
-                            $errorcl = 'alert-success';
-                            return $this->render('front/resetpassword.html.twig', array(
-                                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
-                                'errorcl' => $errorcl
-                            ));
+                        } else
+                        {
+                            /*****************/
+                            $C_id = $id;
+                            $reset_password = $this->resetPasswordOffline($request, md5($formData['password']) , $C_id);
+                            /*****************/
+                            if($reset_password == true)
+                            {
+                                $user->setPassword(md5($formData['password']));
+                                $user->setData('');
+                                $em->persist($user);
+                                $em->flush();
+                                $message = $this->get('translator')->trans('Your password has been reset successfully');
+                                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                                $errorcl = 'alert-success';
+                                return $this->render('front/resetpassword.html.twig', array(
+                                    'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                    'errorcl' => $errorcl
+                             
+                                ));
+                            }
+                            else{
+                                $message = $this->get('translator')->trans('Your password has not been reset successfully');
+                                $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
+                                $errorcl = 'alert-success';
+                                return $this->render('front/resetpassword.html.twig', array(
+                                    'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                    'errorcl' => $errorcl
+
+                                ));  
+
+                            }
+
+
+
                         }
                     } else {
                         $message = $this->get('translator')->trans('Please reset your password');
@@ -1087,14 +1112,14 @@ class DefaultController extends Controller
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
 
-                'attr' => array('placeholder'=> '0524747474' , 'maxlength'=> ($request->get('country') == 'sa') ? 9 : 14),
+                'attr' => array('placeholder'=> ($country == 'sa' ? '0xxxxxxxxx' : '00201xxxxxxxxx' ) , 'maxlength'=> ($request->get('country') == 'sa') ? 10 : 14),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
                             'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^([0-9]){14}$/',
                             'match' => true,
-                            'message' => "Mobile Number Must be ".($country == 'sa' ? '9' : '14' )." digits")
+                            'message' => "Mobile Number Must be ".($country == 'sa' ? '10' : '14' )." digits")
                     ),
 
                 )
@@ -1291,7 +1316,7 @@ class DefaultController extends Controller
         }
     }
 
-    
+
 
     function base64url_encode($s) {
         return str_replace(array('+', '/'), array('-', '_'), base64_encode($s));
@@ -1299,6 +1324,53 @@ class DefaultController extends Controller
 
     function base64url_decode($s) {
         return base64_decode(str_replace(array('-', '_'), array('+', '/'), $s));
+    }
+
+
+
+
+
+    public function resetPasswordOffline(Request $request , $password , $C_id)
+    {
+        try
+        {
+            $country_id  = $request->get('_country');
+            $restClient  = $this->get('app.rest_client');
+            if(!empty($password))
+            {
+                /************************/
+
+                $url = $request->getLocale() . '/api/reset_password.json';
+                $form_data   =   array(
+                    'secret' =>  $password ,
+                    'C_id'   =>    $C_id
+                );
+                $postData = json_encode($form_data);
+                //dump($postData);
+                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
+                //dump($data);die('---');
+                if($data['status'] == 1)
+                {
+                    if($data['success'] == 1){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
+        catch (AccessDeniedException $ad)
+        {
+            return false;
+        }
     }
 
 

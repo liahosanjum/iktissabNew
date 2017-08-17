@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
-{% block headerhome %}
-
-    {{ parent() }}
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-{% endblock %}
 
 {% block body %}
-
+{% if  app.request.get('_country') == 'eg' %}
+{% set ext = '0020' %}
+{% else %}
+{% set ext = '966' %}
+{%  endif %}
     <div class="container breadcrum-wrapper">
         <div class="row">
             <div class="breadcrumb">
@@ -79,8 +78,20 @@
 
 
 
+                        <div class="row">
 
-                        {{ form_row(form.mobile) }}
+                            <div class="col-lg-2 mobile-ext-enq" style="padding-right: 0px;">
+                                <div class="mobile-ext-enq-lbl">
+                                    {{ 'Country-Code:'|trans }}
+                                </div>
+                                <div id="mobile-ext-enq">
+                                    <input readonly="readonly" type="text" value="{{ ext }}"  class="mobile-ext-enq col-lg-2 form-control formLayout" />
+                                </div>
+                            </div>
+                            <div class="col-lg-10 mobile-number-enq">
+                                {{ form_row(form.mobile) }}
+                            </div>
+                        </div>
                         {{ form_row(form.comments) }}
                         <div class="captcha-code">
                           <div class="row">
@@ -113,16 +124,16 @@
             </div>
 
             <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'PO Box'|trans }}</div>
+                <div class="sub-title">{{ 'PO BOX'|trans }}</div>
                 <div class="sub-other-info">41700 {{ 'Riyadh'|trans }}  11531 </div>
             </div>
 
             <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'Telephone'|trans }}</div>
+                <div class="sub-title">{{ 'Telephone' }}</div>
                 <div class="sub-other-info">00966-112547000 </div>
             </div>
             <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'Fax'|trans }}</div>
+                <div class="sub-title">{{ 'Fax' }}</div>
                 <div class="sub-other-info">00966-112547000 </div>
             </div>
             <div class="other-info-wrapper">
@@ -166,7 +177,7 @@
 </section>
 {% endblock %}
 {% block javascripts %}
-<script src="{{ asset('js/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
 <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
 <script type="text/javascript">
     $(document).ready(function () {

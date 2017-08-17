@@ -144,7 +144,7 @@
                                             <div class="textZoom" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
                                                 <img src="{{asset('img/zoom_03.jpg')  }}">
                                             </div>
-                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}'')">
+                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
                                                 <a href=""><i class="fa fa-eye" aria-hidden="true">
 
                                                 </i></a>
@@ -154,11 +154,12 @@
                                     </div>
 
                                 </div>
+                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
                                 <div class="Product-price">
                                     <span class="price-beforedesc">{{ 'SAR'|trans }}{{ DataPromo[i].Price|round(2, 'floor') }} </span>
                                     <span class="price-afterdesc">{{ 'SAR'|trans }}{{ DataPromo[i].SpecialPrice|round(2, 'floor') }} </span>
                                 </div>
-                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
+
                             </span>
                         </div>
                             {% set i = i + 1 %}
@@ -213,7 +214,7 @@
                     <div class="row">
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/17/">
                                 <div class="sq-icon" onmouseover="changeImage('iktissab','iktissab')" onmouseout="changeImageOver('iktissab','iktissab')">
                                     <div><img alt="iktissab-img" id="iktissab" src="{{ asset('img/iktissab.svg')}}"></div>
                                     <div class="sq-title">{{ 'about us'|trans }}</div>
@@ -223,7 +224,7 @@
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
+                            <a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">
                                 <div class="sq-icon"  onmouseover="changeImage('asdaar','asdaar')" onmouseout="changeImageOver('asdaar','asdaar')">
                                     <div><img id="asdaar" alt="asdaar-img" src="{{ asset('img/asdaar.svg')}}"></div>
                                     <div class="sq-title">{{ 'Used Balance'|trans }}</div>
@@ -245,7 +246,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="#">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/21/">
                                 <div class="sq-icon" onmouseover="changeImage('shariayah','shariayah')" onmouseout="changeImageOver('shariayah','shariayah')">
                                     <div><img alt="shariayah-img" id="shariayah" src="{{ asset('img/shariayah.svg')}}"></div>
                                     <div class="sq-title">{{ 'sharia complient'|trans }}</div>
@@ -256,7 +257,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="#">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">
                                 <div class="sq-icon" onmouseover="changeImage('khdmat','khdmat-maj')" onmouseout="changeImageOver('khdmat','khdmat-maj')">
                                     <div><img alt="khdmat-img" id="khdmat" src="{{ asset('img/khdmat-maj.svg')}}"></div>
                                     <div class="sq-title">{{ 'Community Services'|trans }}</div>
@@ -267,7 +268,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="#">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/faqlist">
                                 <div class="sq-icon" onmouseover="changeImage('faqs','faqs')" onmouseout="changeImageOver('faqs','faqs')" >
                                     <div><img  id="faqs" alt="faqs-img" src="{{ asset('img/faqs.svg')}}"></div>
                                     <div class="sq-title">{{ 'faqs'|trans }}</div>
@@ -386,8 +387,8 @@
                 </div>
             </div>
         </div>
-        <div id="myModal" class="modal">
-            <span class="close" >&times;</span>
+        <div id="myModal1" class="modal">
+            <span class="close"  style="color:#FFFFFF;">Close</span>
             <img class="modal-content" id="img01">
             <div id="caption"></div>
         </div>
@@ -395,7 +396,7 @@
     </section> <!-- /.slick Section -->
     <script type="text/javascript">
         // Get the modal
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById('myModal1');
         function show(image) {
             var img = document.getElementById(image);
             var modalImg = document.getElementById("img01");

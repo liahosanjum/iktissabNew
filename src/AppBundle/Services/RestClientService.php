@@ -279,11 +279,11 @@ class RestClientService
             }
             else if($result->getStatusCode() == Response::HTTP_FORBIDDEN )
             {
-                throw new Exception('Unable to process your request at this time.Please try later');
+                throw new Exception('Unable to process your request at this time.Please try later'.'222');
             }
             else
             {
-                throw new Exception('Unable to process your request at this time.Please try later');
+                throw new Exception('Unable to process your request at this time.Please try later'.'22233');
             }
 
 
@@ -291,7 +291,7 @@ class RestClientService
         catch (CurlException $e)
         {
 
-            throw new Exception('Unable to process your request at this time.Please try later');
+            throw new Exception('Unable to process your request at this time.Please try later'.$e->getMessage());
         }
     }
 

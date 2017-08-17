@@ -42,13 +42,30 @@ class IktissabSuccessHandler implements AuthenticationSuccessHandlerInterface
             $card = $user->getIktCardNo();
             $acrivityLog = $this->containerInterface->get('app.activity_log');
             $acrivityLog->logLoginEvent($card);
-
-
+            $user->getCountry();
+            $card_country = substr($card, 0,1);
+            $user_country = $request->get('_country');
             //header('Location: ' . $this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => $user->getCountry())));
+            if($card_country == '9' && $user_country != 'sa'  ) {
 
-            $response = new RedirectResponse($this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => $user->getCountry())));
-            $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $user->getCountry(), time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
-            $response->sendHeaders();
+                $response = new RedirectResponse($this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => 'sa')));
+                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, 'sa', time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                $response->sendHeaders();
+
+            }
+            else if($card_country == '5' && $user_country != 'eg'  ) {
+
+                $response = new RedirectResponse($this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => 'eg')));
+                $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, 'eg', time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+                $response->sendHeaders();
+
+            }else{
+                $response = new RedirectResponse($this->router->generate('account_home', array('_locale' => $request->getLocale(), '_country' => $request->get('_country'))));
+
+            }
+
+
+
         }
         return $response;
     }

@@ -11,7 +11,6 @@
 'Invalid number': 'رقم غير صحيح'
 'CAPTCHA validation failed, try again.': 'الكود غير مطابق ، حاول مرة أخرى'
 'Please enter a valid email address.': 'بريد الكتروني غير صحيح'
-'Mobile Number Must be 9 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 9 أرقام ويبدأ بـ 5'
 'Mobile Number Must be 14 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 14 رقم ويبدأ بـ 0'
 'Invalid captcha code': 'لكلمة التحقق غير صحيحة'
 "Password and confirm password must match": "لا يسمح باستخدام تأكيد كلمة المرورة ككلمة مرور جديدة"
@@ -37,3 +36,5 @@
 'Invalid Code Please try again': 'Invalid Code Please try again ar'
 "Iqama/SSN fields must matchsa": "رقم الهوية/الإقامة غير مطابقة"
 "Iqama/SSN fields must matcheg": "الرقم القومي غير مطابقة"
+'Mobile Number Must be 9 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 9 أرقام ويبدأ بـ 5'
+'Mobile Number Must be 10 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 10 رقم ويبدأ بـ 1'

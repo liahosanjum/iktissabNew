@@ -87,7 +87,9 @@
 .slick-slide img
 {
     display: block;
+
 }
+.se-iktitem .Product-Details .Imgcontainer .Product-img img{ height: 170px; }
 .slick-slide.slick-loading img
 {
     display: none;

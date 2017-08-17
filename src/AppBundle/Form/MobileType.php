@@ -51,10 +51,10 @@ class MobileType extends AbstractType
                             'pattern' => ($country_id == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
                             'match' => true,
                             'message' =>  ($country_id == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 10 digits mobile number starting with 1")
-                    ),
+                    ),)))
 
-                )
-            ))
+           
+            
             ->add('comment_mobile', TextareaType::class, array('label' => 'Comments',
                 'label_attr' => ['class' => 'formControl  form_labels'],
 
