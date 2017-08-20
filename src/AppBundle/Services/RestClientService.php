@@ -9,12 +9,11 @@ namespace AppBundle\Services;
 
 use AppBundle\AppConstant;
 use AppBundle\Exceptions\RestServiceFailedException;
-use Circle\RestClientBundle\Exceptions\CurlException;
-use Circle\RestClientBundle\Services\RestClient;
+
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -27,7 +26,7 @@ class RestClientService
     private $isAuthorized;
     private $isAdmin;
     private $container;
-    public function __construct(RestClient $restClient, JsonEncoder $jsonEncoder, ContainerInterface $container)
+    public function __construct(FOpenWrapper $restClient, JsonEncoder $jsonEncoder, ContainerInterface $container)
     {
         $this->restClient = $restClient;
         $this->jsonEncoder = $jsonEncoder;
@@ -122,7 +121,7 @@ class RestClientService
         $headerFormatted['x-wsse'] = 'x-wsse:'. $this->GetXWSSETEST();
         if ($headerFormatted) {
             //if (!empty($headerFormatted)) {
-            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+            $options =  $headerFormatted;
         }
         try
         {
@@ -151,7 +150,7 @@ class RestClientService
                 throw new AccessDeniedException('Unable to process your request.Please try later11');
             }
 
-        } catch (CurlException $e) {
+        } catch (\Exception $e) {
             throw new AccessDeniedException('Unable to process your request.Please try later11');
         }
     }
@@ -168,7 +167,7 @@ class RestClientService
         $headerFormatted['x-wsse'] = 'x-wsse:'. $this->GetXWSSE();
         if ($headerFormatted) {
             //if (!empty($headerFormatted)) {
-            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+            $options = $headerFormatted;
         }
         try
         {
@@ -197,7 +196,7 @@ class RestClientService
                 throw new AccessDeniedException('Unable to process your request.Please try later');
             }
 
-        } catch (CurlException $e) {
+        } catch (\Exception $e) {
             throw new AccessDeniedException('Unable to process your request.Please try later');
         }
     }
@@ -215,7 +214,7 @@ class RestClientService
         }
         $headerFormatted['x-wsse'] = 'x-wsse:'. $this->GetXWSSE();
         if (!empty($headerFormatted)) {
-            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+            $options = $headerFormatted;
         }
 
         try
@@ -241,7 +240,7 @@ class RestClientService
             {
                 throw new AccessDeniedException('Unable to process your request.Please try later');
             }
-        } catch (CurlException $e) {
+        } catch (\Exception $e) {
             return $returnFailure;
         }
     }
@@ -257,7 +256,7 @@ class RestClientService
         }
         $headerFormatted['x-wsse'] = 'x-wsse:'. $this->GetXWSSE();
         if (!empty($headerFormatted)) {
-            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+            $options = $headerFormatted;
         }
 
         try
@@ -288,7 +287,7 @@ class RestClientService
 
 
         }
-        catch (CurlException $e)
+        catch (\Exception $e)
         {
 
             throw new Exception('Unable to process your request at this time.Please try later');
@@ -339,7 +338,7 @@ class RestClientService
                 throw new AccessDeniedException('Unable to process your request at this time.Please try later');
             }
         }
-        catch (CurlException $e)
+        catch (\Exception $e)
         {
             throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
@@ -359,7 +358,7 @@ class RestClientService
         $headerFormatted['x-wsse'] = 'x-wsse:'. $this->GetXWSSE();
         if ($headerFormatted) {
             // if (!empty($headerFormatted)) {
-            $options = array(CURLOPT_HTTPHEADER => $headerFormatted);
+            $options =  $headerFormatted;
         }
         try
         {
@@ -387,7 +386,7 @@ class RestClientService
                 throw new AccessDeniedException('Unable to process your request at this time.Please try later');
             }
         }
-        catch (CurlException $e)
+        catch (\Exception $e)
         {
             throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
@@ -437,7 +436,7 @@ class RestClientService
 
 
         }
-        catch (CurlException $e)
+        catch (\Exception $e)
         {
             throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }

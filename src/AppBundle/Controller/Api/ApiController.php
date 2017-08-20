@@ -1105,4 +1105,10 @@ class ApiController extends FOSRestController
         return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
     }
 
+    public function getSalemkhanAction(){
+
+        $card = $this->get('app.services.iktissab_card_service');
+        $data = $card->isSSNUsed('2326864655');
+        return $this->handleView($this->view(ApiResponse::Response(true, 1, $data), Response::HTTP_OK));
+    }
 }

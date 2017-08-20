@@ -37,7 +37,7 @@ services:
         arguments: ["@router", "@service_container","@session"]
     app.rest_client:
         class: AppBundle\Services\RestClientService
-        arguments: ["@circle.restclient","@serializer.encoder.json", "@service_container"]
+        arguments: ["@app.services.fopen_wrapper","@serializer.encoder.json", "@service_container"]
     app.userlang_extension:
         class: AppBundle\Twig\UserlangExtension
         public: false
@@ -53,9 +53,11 @@ services:
     app.api_authenticator:
         class: AppBundle\Security\ApiAuthenticator
         arguments: ["@security.password_encoder"]
+    app.services.fopen_wrapper:
+        class: AppBundle\Services\FOpenWrapper
     app.services.iktissab_rest_service:
         class: AppBundle\Services\IktissabRestService
-        arguments: ['@security.token_storage', '@circle.restclient', '@serializer.encoder.json', '@request_stack', '@service_container']
+        arguments: ['@security.token_storage', '@app.services.fopen_wrapper', '@serializer.encoder.json', '@request_stack', '@service_container']
     app.services.iktissab_card_service:
         class: AppBundle\Services\IktissabCardService
         arguments: ['@doctrine.orm.entity_manager', '@service_container']
