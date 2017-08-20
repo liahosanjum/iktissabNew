@@ -130,7 +130,7 @@ class ApiController extends FOSRestController
     {
         $code = rand(111111, 999999);
         //return $this->handleView($this->view(["Value"=>$code], Response::HTTP_OK));
-        $message = $this->get('translator')->trans("Please insert this temporary code to continue with Iktissab Card registration:".$code.'test2');
+        $message = $this->get('translator')->trans("Please use this temporary code to continue with Iktissab Card registration: {code}", $code);
         $is_sms_sended = $this->get("app.sms_service")->sendSms($mobile, $message, $request->get("_country") );
         if($is_sms_sended){
             return $this->handleView($this->view(["Value"=>sha1($code . $mobile . md5($code))], Response::HTTP_OK));
@@ -143,27 +143,6 @@ class ApiController extends FOSRestController
 
     }
 
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getSalem_khanAction(Request $request){
-        $statuses = array(
-            'INVALID_DATA'=>0,
-            'PENDING'=>1,
-            'SERVICE_CONNECTION'=>2
-        );
-
-        if($request->headers->get('ApiResp', 'false') == 'true'){
-
-            return $this->handleView(
-                $this->view(array('ResponseTemplate'=>array('success'=>'false/true', 'status'=>'null/0/1/2'), 'status'=>$statuses)));
-
-        }
-
-        return $this->handleView(
-            $this->view());
-    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
