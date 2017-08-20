@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    <section class="container memebersendpwdwrapper" >
+    <section class="container memebersendpwdwrapper form-pwd" >
         <div class="row">
             <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                 <div><h1> {{ 'Iktissab password Recovery'|trans}}</h1></div>
@@ -35,10 +35,48 @@
                     {{ error.message }}
                 </div>
             {% endif %}
+
             {{ form_start(form) }}
 
-               {{ form_row(form.iktCardNo) }}
-               {{ form_row(form.iqama) }}
+            <div class="title-cardactivation-form">
+                {{ form_label(form.iktCardNo) }}
+            </div>
+
+            <div class="cardactivationForm">
+                {{ form_widget(form.iktCardNo) }}
+            </div>
+
+            <div class="title-cardactivation-form-captcha">
+                {{ form_errors(form.iktCardNo) }}
+            </div>
+
+
+            <div class="title-cardactivation-form">
+                {{ form_label(form.iqama) }}
+            </div>
+
+            <div class="cardactivationForm">
+                {{ form_widget(form.iqama) }}
+            </div>
+
+            <div class="title-cardactivation-form-captcha">
+                {{ form_errors(form.iqama) }}
+            </div>
+
+
+
+            <div class="title-cardactivation-form">
+                {{ form_label(form.captchaCode) }}
+            </div>
+
+            <div class="cardactivationForm">
+                {{ form_widget(form.captchaCode) }}
+            </div>
+
+            <div class="title-cardactivation-form-captcha">
+                {{ form_errors(form.captchaCode) }}
+            </div>
+
 
             {{ form_end(form) }}
         </div>

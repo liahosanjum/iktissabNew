@@ -41,7 +41,8 @@ class ActivationController extends Controller
             ));
         $form->handleRequest($request);
         $pData = $form->getData();
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             try {
 
                 $this->checkOnline($pData);
@@ -67,8 +68,6 @@ class ActivationController extends Controller
                 } else {
                     echo "inside else";
                 }
-
-
             }
             catch (Exception $e)
             {
@@ -140,9 +139,9 @@ class ActivationController extends Controller
     {
         // check referal
         // to do: uncomment below
-//        if (!$this->isReferalValid('card_activation')) {
-          //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
-//        }
+        // if (!$this->isReferalValid('card_activation')) {
+        // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+        // }
         $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $smsService = $this->get('app.sms_service');
         // get existing user data
@@ -393,7 +392,7 @@ class ActivationController extends Controller
     public function enterOtpAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
-        echo $this->get('session')->get('otp');
+        $this->get('session')->get('otp');
         $error = array('success' => true);
         $form = $this->createForm(EnterOtpType::class);
         $form->handleRequest($request);
@@ -408,9 +407,8 @@ class ActivationController extends Controller
                         $form->get('otp')->addError(new FormError($this->get('translator')->trans('Please enter correct verification code')));
                     } else {
                         //try catch adde by sohail
-                        try {
-
-
+                        try
+                        {
                             $user = new User();
                             $user->setEmail($this->get('session')->get('email'));
                             $user->setIktCardNo($this->get('session')->get('iktCardNo'));

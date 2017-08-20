@@ -4,7 +4,7 @@ namespace AppBundle\Form;
 
 
 use AppBundle\Entity\EnquiryAndSuggestion;
-use AppBundle\Entity\FormSetting;
+use AppBundle\Entity\FormSettings;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 use Symfony\Component\Form\AbstractType;
@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 class EnquiryAndSuggestionType extends AbstractType
 {
@@ -31,37 +31,34 @@ class EnquiryAndSuggestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $country = $options['extras']['country'];
-        if( $country == 'sa'){ $ext = '966';} else { $ext = '0020'; }
+
 
 
         $builder ->add('name', TextType::class, array('label' => 'Full name',
-                    'label_attr' => ['class' => 'required formLayout form_labels inq-form'],
-                    'attr' => array('class' => 'col-lg-8 form-control formLayout'),
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' =>  'This field is required'))
+            'label_attr' => ['class' => 'required inq-form  formLayout form_labels'],
+            'attr' => array('class' => 'col-lg-8  form-control formLayout'),
+            'constraints' => array(
+                new NotBlank(array('message' =>  'This field is required'))
 
-                    )
+            )
         ))
 
+            ->add('job', TextType::class, array('label' => 'Job' ,
+                'label_attr' => ['class' => 'formLayout inq-form inq_form_job form_labels'],
+                'attr' => array('class' => 'col-lg-4 inq_form_job form-control-modified  formLayout'),
 
+            ))
 
-        ->add('job', TextType::class, array('label' => 'Job' ,
-            'label_attr' => ['class' => 'formLayout inq_form_job form_labels inq-form'],
-        'attr' => array('class' => 'col-lg-4 inq_form_job form-control-modified  formLayout '),
-
-        ))
-
-          
-        ->add('mobile', TextType::class, array(
+            ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-            'label_attr' => ['class' => 'required formLayout form_labels inq-form'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout ','maxlength'=> ($country == 'sa') ? 9 : 10   )  ,
+                'label_attr' => ['class' => 'required inq-form formLayout form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout','maxlength'=> ($country == 'sa') ? 9 : 10   )  ,
                 'constraints' => array(
 
-                    new Assert\NotBlank(array('message' => 'This field is required')),
-                    new Assert\Regex(
+                    new NotBlank(array('message' => 'This field is required')),
+                    new Regex(
                         array(
-                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
+                            'pattern' => ($country == 'sa') ? '/^([0-9]){9}$/' : '/^([0-9]){10}$/',
                             'match' => true,
                             'message' => "Mobile Number Must be ".($country == 'sa' ? '9' : '10' )." digits")
                     ),)))
@@ -69,51 +66,59 @@ class EnquiryAndSuggestionType extends AbstractType
 
 
             ->add('email', EmailType::class, array('label' => 'Email' ,
-                'label_attr' => ['class' => 'required formLayout form_labels inq-form'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout '),
-                    'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Email(array('message' => 'Invalid email address'))
-                    )))
-            ->add('reason', ChoiceType::class, array('label'=>"Reason",
-                'label_attr' => ['class' => 'required formLayout inq_form_reason form_labels inq-form'],
-                'attr' => array('class' => 'col-lg-4 inq_form_reason form-control-modified  formLayout' ),
-
-                "choices"=>array(
-                        "Complaint" => EnquiryAndSuggestion::COMPLAINT,
-                        "Enquiry"=> EnquiryAndSuggestion::ENQUIRY,
-                        "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
-                        "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
-            )))
-         
-
-
-            ->add('comments', TextareaType::class, array(
-                'label_attr' => ['class' => 'required formLayout form_labels'],
-                'label' => 'Comments',
+                'label_attr' => ['class' => 'required inq-form formLayout form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required'))),
+                    new NotBlank(array('message' => 'This field is required')),
+                    new Email(array('message' => 'Invalid email address'))
+                )))
+
+
+            ->add('reason', ChoiceType::class, array('label'=>"Reason",
+                'label_attr' => ['class' => 'required formLayout inq-form inq_form_reason form_labels'],
+                'attr' => array('class' => 'col-lg-4 inq_form_reason form-control-modified  formLayout'),
+
+                "choices"=>array(
+                    "Complaint" => EnquiryAndSuggestion::COMPLAINT,
+                    "Enquiry"=> EnquiryAndSuggestion::ENQUIRY,
+                    "Suggestion"=>EnquiryAndSuggestion::SUGGESTION,
+                    "Technical Support"=>EnquiryAndSuggestion::TECHNICAL_SUPPORT
+                )))
+
+
+            ->add('comments', TextareaType::class, array('label'=>"Comments",
+                'label_attr' => ['class' => 'required formLayout inq-form form_labels'],
+                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+                'constraints' => array(
+                    new NotBlank(array('message' => 'This field is required')),
+                )
 
 
             ))
 
             ->add('captchaCode', CaptchaType::class, array(
-                'label_attr' => ['class' => 'required formLayout form_labels'],
+                'label_attr' => ['class' => 'required formLayout inq-form-captcha form_labels'],
                 'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
-                'attr' => array('class' => 'col-lg-8 form-control formLayout inq-form'),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required'))),
-                
+                    new NotBlank(array('message' => 'This field is required')),
+                    new ValidCaptcha(array("message"=>"Invalid captcha code"))),
+
 
             ));
 
+        //->add('country', TextType::class, array('label'=>"Country"))
+       
 
-            $builder->add('source', HiddenType::class, array('label' => 'Source' ,
-                    'attr' =>array('value' => 'W'),))
+        $builder->add('source', HiddenType::class, array('label' => 'Source' ,
+            'attr' =>array('value' => 'W'),))
+
+
+
+
+
             ->add('submit', SubmitType::class, array('label'=>"Submit" , 'attr' => array('class' => 'btn btn-primary')));
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -291,16 +291,17 @@ class FaqsController extends Controller
             $data = $restClient->restGet(AppConstant::WEBAPI_URL.$url, array('Country-Id' => strtoupper($request->get('_country'))));
 
             if(count($data) > 0) {
-                return $this->render('front/faqslist.html.twig', array('message' => '', 'data' => $data['data']));
+
+                return $this->render('front/faqslist.html.twig', array('message' => '', 'data' => $data['data']  ));
             }else{
-                return $this->render('front/faqslist.html.twig', array('message' => 'No record found', 'data' => $data ));
+                return $this->render('front/faqslist.html.twig', array('message' => $this->get('translator')->trans('No record found'), 'data' => $data ));
 
             }
 
         }
         catch (\Exception $e)
         {
-            return $this->render( 'front/faqslist.html.twig', array('message' => $e->getMessage()));
+            return $this->render( 'front/faqslist.html.twig', array('message' => $e->getMessage(), 'data' => null));
         }
     }
 

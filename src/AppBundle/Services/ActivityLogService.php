@@ -27,8 +27,12 @@ class ActivityLogService
     public function logEvent($actionType, $iktCardNo, $data)
     {
         $activityLog = new ActivityLog();
+
         $activityLog->setActionType($actionType);
         $activityLog->setActionData(serialize($data));
+        if($iktCardNo == "" || $iktCardNo == null){
+            $iktCardNo = 0;
+        }
         $activityLog->setIktCardNo($iktCardNo);
         $activityLog->setActionDate(time());
         $this->em->persist($activityLog);

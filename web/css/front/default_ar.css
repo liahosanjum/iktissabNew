@@ -1,5 +1,12 @@
-﻿.login-inner-contents-wrapper { border-left: 1px solid #DDDDDD; padding-left: 25px; padding-bottom: 5px;  }
+﻿.form-pwd .pwd-send-account {padding-top:20px;}
+.forgot-email .captchaCode { padding-top:20px; }
+.forgot-email .forgot-email-captcha { padding-top:20px; }
+.forgot-email .FormCaptcha_CaptchaImage { padding-top:20px; }
+
+.login-inner-contents-wrapper { border-left: 1px solid #DDDDDD; padding-left: 25px; padding-bottom: 5px;  }
 .topMenu .col-lg-5 { padding-right: 0px;  }
+
+.inq-form-captcha { margin-top:13px !important; padding-bottom:5px;}
 .inq-form{ margin-top:13px !important;}
 #mobile-ext-enq{ float: left; }
 .mobile-number-enq{ float:right !important; }

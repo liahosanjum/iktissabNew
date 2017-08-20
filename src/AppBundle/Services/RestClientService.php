@@ -235,11 +235,11 @@ class RestClientService
             }
             else if($result->getStatusCode() == Response::HTTP_FORBIDDEN )
             {
-                throw new AccessDeniedException('Unable to process your request.Please try later22');
+                throw new AccessDeniedException('Unable to process your request.Please try later');
             }
             else
             {
-                throw new AccessDeniedException('Unable to process your request.Please try later11');
+                throw new AccessDeniedException('Unable to process your request.Please try later');
             }
         } catch (CurlException $e) {
             return $returnFailure;
@@ -279,11 +279,11 @@ class RestClientService
             }
             else if($result->getStatusCode() == Response::HTTP_FORBIDDEN )
             {
-                throw new Exception('Unable to process your request at this time.Please try later'.'222');
+                throw new Exception('Unable to process your request at this time.Please try later');
             }
             else
             {
-                throw new Exception('Unable to process your request at this time.Please try later'.'22233');
+                throw new Exception('Unable to process your request at this time.Please try later');
             }
 
 
@@ -291,7 +291,7 @@ class RestClientService
         catch (CurlException $e)
         {
 
-            throw new Exception('Unable to process your request at this time.Please try later'.$e->getMessage());
+            throw new Exception('Unable to process your request at this time.Please try later');
         }
     }
 

@@ -45,13 +45,13 @@ class SmsService
                 $receiver = substr($receiver,1 ,strlen($receiver)-1);
         }
         // for testing
-        $receiver_mob = $receiver;
-        $receiver = '966583847092';
+        // $receiver_mob = $receiver;
+        //
         $msgID  = rand(1, 9999);
         $delKey = rand(1, 9999);
         //iconv ( "UTF-8", "windows-1256", $message );
         //$messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
-        $messageFormatted = urlencode($message.$receiver_mob);
+        $messageFormatted = urlencode($message);
 
         $payload = "mobile=" . $mobilyUser . "&password=" . $mobilyPass . "&numbers=" . $countryPrefix . $receiver . "&sender=" . $mobilySender . "&msg=" . $messageFormatted . "&timeSend=0&dateSend=0&applicationType=" . $this->params['mobily_app_type'] . "&domainName=" . $this->params['mobily_app_type'] . "&msgId=" . $msgID . "&deleteKey=" . $delKey . "&lang=3";
         $url = 'http://www.mobily.ws/api/msgSend.php?' . $payload;

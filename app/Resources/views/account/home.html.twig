@@ -397,7 +397,15 @@
         <section class="container ">
             <div class="row">
                 <div class="col-lg-12 text-center home-no-data">
-                   <div class="alert-success-forms formMessage alert-danger alert fade in alert-dismissable"> {{ 'No record found'|trans }} </div><br />
+                   <div class="alert-success-forms formMessage alert-danger alert fade in alert-dismissable">
+                    {% if message != "" %}
+                       {{ message }}
+                       {% else %}
+                       {{ 'No record found'|trans }}
+
+                       {% endif %}
+
+                   </div><br />
                 </div>
             </div>
         </section>

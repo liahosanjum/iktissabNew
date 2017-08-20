@@ -2,6 +2,7 @@
 
 // BotDetect PHP Captcha configuration options
 
+
 return [
     'FormCaptcha' => [
         'UserInputID' => 'captchaCode',
@@ -14,8 +15,9 @@ return [
         'ReloadEnabled' =>false,
         'ImageStyle' => [
             ImageStyle::BlackOverlap
-            ]
         ]
+    ]
 
 ];
+
 
