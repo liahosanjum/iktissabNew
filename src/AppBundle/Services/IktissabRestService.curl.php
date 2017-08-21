@@ -9,8 +9,10 @@ namespace AppBundle\Services;
 
 use AppBundle\AppConstant;
 use AppBundle\Exceptions\RestServiceFailedException;
+use Circle\RestClientBundle\Exceptions\CurlException;
+use Circle\RestClientBundle\Services\RestClient;
 
-
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +20,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
-class IktissabRestService
+class IktissabRestService_curl
 {
     private $restClient;
     private $tokenStorage;
@@ -27,16 +29,15 @@ class IktissabRestService
     private $isAuthorized = false;
     private $isAdmin = false;
     private $container;
-
     /**
      * IktissabRestService constructor.
      * @param TokenStorage $tokenStorage
-     * @param FOpenWrapper $restClient
+     * @param RestClient $restClient
      * @param JsonEncoder $jsonEncoder
      * @param RequestStack $requestStack
      * @param ContainerInterface $container
      */
-    public function __construct(TokenStorage $tokenStorage, FOpenWrapper $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack, ContainerInterface $container )
+    public function __construct(TokenStorage $tokenStorage, RestClient $restClient, JsonEncoder $jsonEncoder, RequestStack $requestStack, ContainerInterface $container )
     {
         $this->tokenStorage = $tokenStorage;
         $this->restClient = $restClient;
@@ -58,7 +59,7 @@ class IktissabRestService
         return $headers;
     }
     private function GetWebServiceUrl($path){
-        if(empty($path) || $path == null) throw new \Exception("Invalid Uri Path");
+        if(empty($path) || $path == null) throw new Exception("Invalid Uri Path");
         return sprintf(AppConstant::IKTISSAB_API_URL, $this->request->getLocale(), $path );
     }
     private function GetXWSSE(){
@@ -115,9 +116,10 @@ class IktissabRestService
      */
     public function Get( $path)
     {
+        $options = [CURLOPT_HTTPHEADER => $this->GetHeaders()];
         $uri = $this->GetWebServiceUrl($path);
         try {
-            $result = $this->restClient->get($uri, $this->GetHeaders());
+            $result = $this->restClient->get($uri, $options);
             if($result->getStatusCode() == Response::HTTP_FORBIDDEN){
                 throw new AccessDeniedException();
             }
@@ -128,7 +130,7 @@ class IktissabRestService
                 return $result->getContent();
             }
 
-        } catch (\Exception $e) {
+        } catch (CurlException $e) {
             throw new RestServiceFailedException(404, $e);
         }
     }
@@ -157,7 +159,7 @@ class IktissabRestService
                 return $result->getContent();
             }
 
-        } catch (\Exception $e) {
+        } catch (CurlException $e) {
             throw new RestServiceFailedException(404, $e);
         }
     }
