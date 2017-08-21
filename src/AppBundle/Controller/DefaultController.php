@@ -286,6 +286,7 @@ class DefaultController extends Controller
                 }
             }
 
+
             /********/
             // get all news from db
             if ($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
@@ -323,7 +324,7 @@ class DefaultController extends Controller
                 $postData, array('input-content-type' => "text/json", 'output-content-type' => "text/json",
                     'language' => $locale
                 ));
-
+            
             $data_dec = json_decode($data, true);
             $data_dec['success'];
             $listing="";

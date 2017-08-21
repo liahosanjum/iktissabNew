@@ -143,7 +143,7 @@ class AccountController extends Controller
                             }
                             else{
                                 // no data is presenet on the services
-                                $message = $data['message'].'cc';
+                                $message = $data['message'];
                             }
                         }
                         else{
@@ -1850,7 +1850,6 @@ class AccountController extends Controller
                 /************************/
                 if($data['missing_card']['new_iktissab_id']['first'] == $iktCardNo) {
                     $message = $this->get('translator')->trans('New Iktissab id and old Iktissab id must not be same');
-
                     $error = 'alert-danger';
                     return $this->render('account/missingcard.html.twig',
                         array('form' => $form->createView(), 'message' => $message, 'errorcl' => $error)
@@ -1923,6 +1922,7 @@ class AccountController extends Controller
         }
         catch(\Exception $e)
         {
+            $message = $e->getMessage();
             $message = $this->get('translator')->trans('Unable to process your request.Please try later') ;
             $error = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, 0 , array('iktissab_card_no' => '', 'message' => $e->getMessage(), 'session' => '' ));
@@ -2206,10 +2206,11 @@ class AccountController extends Controller
                     }
 
                 } catch (\Exception $e) {
+                    //$e->getMessage();
                     $error['success'] = false;
                     $acrivityLog = $this->get('app.activity_log');
                     $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage() , 'session' => $logged_user_data));
-                    $error['message'] = $this->get('translator')->trans('Unable to process your request.Please try later'); //$e->getMessage();
+                    $error['message'] = $e->getMessage();
                 }
             }
 

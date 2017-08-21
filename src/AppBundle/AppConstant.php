@@ -91,7 +91,7 @@ class AppConstant
 
 
     const IKT_SA_PREFIX = '966';
-    const IKT_EG_PREFIX = '002';
+    const IKT_EG_PREFIX = '0020';
 
 
     const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
