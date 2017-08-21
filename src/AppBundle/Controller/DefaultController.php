@@ -320,7 +320,7 @@ class DefaultController extends Controller
 
             $postData = "{\"service\":\"IktissabPromotions\"} ";
             $data = $restClient->restPostForm($url,
-                $postData, array('input-content-type' => "text/json", 'output-content-type' => "text/json",
+                $postData, array('Content-Type'=>'application/x-www-form-urlencoded','input-content-type' => "text/json", 'output-content-type' => "text/json",
                     'language' => $locale
                 ));
 

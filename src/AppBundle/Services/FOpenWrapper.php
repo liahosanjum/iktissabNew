@@ -39,14 +39,15 @@ class FOpenWrapper
     private function getStreamContext(array $headers=array(), $method='GET', $content=''){
         $opt = [ 'http'=>['method'=>$method]];
         $h = '';
-        if(!in_array('Content-Type', $headers)){
+
+        if( 'POST' === $method && !in_array('Content-Type', $headers)){
             $headers['Content-Type'] = 'application/json';
         }
 
         foreach ($headers as $header=>$value){
             $colonPos = strpos($value, ":");
             if($colonPos !== false){
-                $h .= "$header: " . trim(substr($value, $colonPos, strlen($value))) ."\r\n";
+                $h .= "$header: " . trim(substr($value, $colonPos+1, strlen($value))) ."\r\n";
             }
             else{
                 $h .= "$header: $value\r\n";
@@ -61,7 +62,7 @@ class FOpenWrapper
             $opt['http']['content'] = $content;
         }
 
-        return stream_context_create($opt);
+        return @stream_context_create($opt);
     }
 
     /**

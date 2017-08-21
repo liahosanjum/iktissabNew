@@ -289,6 +289,7 @@ class RestClientService
         }
         catch (\Exception $e)
         {
+            dump($e);die(1);
 
             throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
