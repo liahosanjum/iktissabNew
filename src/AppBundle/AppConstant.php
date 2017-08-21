@@ -75,8 +75,7 @@ class AppConstant
     const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/';
 
     const OTHAIM_WEBSERVICE_URL = "http://www.othaimmarkets.com/webservices/api/v2";
-
-
+    
     const IKTISSAB_API_URL    = 'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/%s/api/%s.json';
     const IKTISSAB_API_USER   = '1eaf95a1-4e8c-11e7-9833-842b2b4da8dd';
 

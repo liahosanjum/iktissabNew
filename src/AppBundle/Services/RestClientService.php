@@ -291,7 +291,7 @@ class RestClientService
         catch (CurlException $e)
         {
 
-            throw new Exception('Unable to process your request at this time.Please try later');
+            throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
     }
 

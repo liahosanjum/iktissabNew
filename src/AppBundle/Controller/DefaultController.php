@@ -326,6 +326,7 @@ class DefaultController extends Controller
 
             $data_dec = json_decode($data, true);
             $data_dec['success'];
+            $listing="";
             if ($data_dec['success'] == true) {
                 $products = json_decode($data);
                 // var_dump(json_decode($data));

@@ -34,6 +34,10 @@ class ActivationController extends Controller
      */
     public function cardActivationAction(Request $request)
     {
+        // if user is logged in send hiemto home page
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
+        }
         $error = array('success' => true);
         $country_id  = $request->get('_country');
         $form = $this->createForm(ActivateCardoneType::class, array() ,
@@ -139,9 +143,9 @@ class ActivationController extends Controller
     {
         // check referal
         // to do: uncomment below
-        // if (!$this->isReferalValid('card_activation')) {
-        // return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
-        // }
+        if (!$this->isReferalValid('card_activation')) {
+         return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+        }
         $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $smsService = $this->get('app.sms_service');
         // get existing user data

@@ -1,11 +1,15 @@
 ﻿.form-pwd .pwd-send-account {padding-top:20px;}
+.dropdown-menu { min-width: 100px !important; }
 .forgot-email .captchaCode { padding-top:20px; }
 .forgot-email .forgot-email-captcha { padding-top:20px; }
 .forgot-email .FormCaptcha_CaptchaImage { padding-top:20px; }
 
 .login-inner-contents-wrapper { border-left: 1px solid #DDDDDD; padding-left: 25px; padding-bottom: 5px;  }
 .topMenu .col-lg-5 { padding-right: 0px;  }
+.priceBedoreDescount { pflaot:left; direction: rtl; width:100px; }
 
+.priceAfterDescount { float: right; direction: rtl; width:100px; }
+.priceBeforeDescount{ float:  right; direction: rtl; width:100px; }
 .inq-form-captcha { margin-top:13px !important; padding-bottom:5px;}
 .inq-form{ margin-top:13px !important;}
 #mobile-ext-enq{ float: left; }
@@ -512,6 +516,7 @@ label.error{
     min-height: unset;
     border-bottom: 1px solid #e9e9e9;
 }
+
 .dropdown-menu > li > a{ text-align: right; border-bottom: 1px solid #dddddd; }
 
 .topMenu .navbar-nav > li.langSelected > a {
@@ -839,11 +844,19 @@ label.error{
     text-decoration:none;
 }
 
+.current-after{ padding-right:2px;}
+
+
+.current-after{ padding-right:2px;}
+
+
+
 .se-iktitem .Product-Details .Product-img {
     height:183px;
 }
 .se-iktitem .Product-Details .Product-price {
     padding-bottom: 5px;
+    width: 200px;
 }
 .se-iktitem .Product-price .price-afterdesc {
     color: #333;
@@ -1133,7 +1146,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .faq-list-wrapper{ float: right;}
 .faqs-question { color: #008b40; font-size: 17px;  text-align: right; font-weight: 900; margin-bottom: 10px; }
 .faqs-answer { color: #343434; font-size: 14px; text-align: right;
-    margin-bottom: 18px; line-height: 22px; font-weight: 600; border-bottom: dotted  1px #ADADAD; padding-bottom:15px; }
+    margin-bottom: 18px; line-height: 22px; font-weight: 600; border-bottom: dotted  1px #ADADAD; padding-bottom:23px; }
 .faqs-wrapper .col-lg-12 {  padding-right: 0px;  }
 .breadcrumb .in-active-link{ color: #008b40; font-size: 14px; font-weight: 600; }
 .faq-list-separator{ border-bottom: 2px dotted #dddddd; font-size: 9px; margin-bottom: 20px; margin-top: 25px;  }

@@ -76,7 +76,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'Egypt'|trans }}    &nbsp;&nbsp;  <img class="country-fl" alt="saudia" src="{{ asset('img/eg.jpg')}}"  height="13px" /></a>
                             <ul class="dropdown-menu right">
-                                <li><a href="{{ path('setCountry', {'_country': 'sa', '_locale':local_language_url }|merge({'ccid': 'sa' })) }}">{{ 'Saudia'|trans }}</a></li>
+                                <li>
+
+                                  <a href="{{ path('setCountry', {'_country': 'sa', '_locale':local_language_url }|merge({'ccid': 'sa' })) }}"> {{ 'Saudia'|trans }}
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         {% else %}
@@ -84,7 +88,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'Saudia'|trans }}    &nbsp;&nbsp;  <img alt="saudia" src="{{ asset('img/ksa.jpg')}}"  height="13px" /></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path('setCountry', {'_country': 'eg', '_locale':local_language_url }|merge({'ccid': 'eg' })) }}">{{ 'Egypt'|trans }}</a></li>
+                                <li>   <a href="{{ path('setCountry', {'_country': 'eg', '_locale':local_language_url }|merge({'ccid': 'eg' })) }}">{{ 'Egypt'|trans }}</a></li>
                             </ul>
                         </li>
                         {% endif %}
