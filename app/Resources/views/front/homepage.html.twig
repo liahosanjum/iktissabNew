@@ -35,7 +35,9 @@
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
                 <div class="message-promo">
                     <div class="row">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow"><img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" /></div></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow">
+                                <!--<img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" />-->
+                            </div></div>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8">
                             <div class="mid-arrow-content">
                                 <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
@@ -51,7 +53,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow"><img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" /></div></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow">
+                                <!--<img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" />-->
+                            </div></div>
                         <div class="claerfix"></div>
                     </div>
                 </div>
@@ -156,8 +160,17 @@
                                 </div>
                                 <div class="Product-name">{{ DataPromo[i].Name }}</div>
                                 <div class="Product-price">
-                                    <span class="price-beforedesc">{{ 'SAR'|trans }}{{ DataPromo[i].Price|round(2, 'floor') }} </span>
-                                    <span class="price-afterdesc">{{ 'SAR'|trans }}{{ DataPromo[i].SpecialPrice|round(2, 'floor') }} </span>
+                                    <div class="priceBeforeDescount">
+                                        <span class="price-beforedesc">
+                                             <span class="current-price-before">{{ DataPromo[i].Price|round(2, 'floor') }}</span><span class="current-before">{{ 'SAR'|trans }}</span>
+                                        </span>
+                                    </div>
+                                    <div class="priceAfterDescount">
+                                        <span class="price-afterdesc">
+                                             <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >{{ 'SAR'|trans }}</span>
+                                        </span>
+                                    </div>
+                                    <div class="claerfix"></div>
                                 </div>
 
                             </span>
@@ -224,10 +237,10 @@
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="{{ path('account_home', {'_country': local_country_url, '_locale':local_language_url }) }}">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/">
                                 <div class="sq-icon"  onmouseover="changeImage('asdaar','asdaar')" onmouseout="changeImageOver('asdaar','asdaar')">
                                     <div><img id="asdaar" alt="asdaar-img" src="{{ asset('img/asdaar.svg')}}"></div>
-                                    <div class="sq-title">{{ 'Used Balance'|trans }}</div>
+                                    <div class="sq-title">{{ 'Credit Cash'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>

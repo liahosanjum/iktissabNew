@@ -6,6 +6,11 @@
 #email { background: rgba(0, 0, 0, 0) url("../../img/mail.jpg") no-repeat scroll 2% 50%;
     padding-left: 30px !important;
 }
+.priceBedoreDescount { flaot:right; direction: ltr; width:100px; }
+
+.priceAfterDescount { float: left; direction: ltr; width:100px; }
+.priceBeforeDescount{ float:  left; direction: ltr; width:100px; }
+
 .title-cardactivation-form-captcha {  float: right; width:100%; text-align: left; }
 .login-passreset{ float: left; text-align: left; }
 .inq-form{ margin-top:13px !important;}
@@ -1030,12 +1035,18 @@ body{
     text-decoration:none;
 }
 
+.current-after{ padding-left:2px;}
+
+
+.current-after{ padding-left:2px;}
+
 .se-iktitem .Product-Details .Product-img {
     height:183px;
 }
 
 .se-iktitem .Product-Details .Product-price {
     padding-bottom: 5px;
+    width: 200px;
 }
 .se-iktitem .Product-price .price-afterdesc {
     color: #333;
@@ -1276,7 +1287,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .faqs-question { color: #008b40; font-size: 16px;
     font-family: 'verdana';  text-align: justify; font-weight: 600; margin-bottom: 10px; }
 .faqs-answer { color: #343434; font-size: 14px; text-align: justify; margin-bottom: 18px; line-height: 20px;
-    font-family: Verdana;border-bottom: dotted  1px #ADADAD; padding-bottom:15px;  }
+    font-family: Verdana;border-bottom: dotted  1px #ADADAD; padding-bottom:23px;  }
 .faqs-wrapper .col-lg-12 {  padding-left: 0px;  }
 .breadcrumb .in-active-link{ color: #008b40; font-size: 14px; font-weight: 600; }
 .faq-list-separator{ border-bottom: 2px dotted #dddddd; font-size: 9px; margin-bottom: 20px; margin-top: 25px;  }

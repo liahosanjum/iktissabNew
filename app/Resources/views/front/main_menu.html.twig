@@ -9,7 +9,13 @@
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 header-contact-wrap ">
             <div class="header-contactno">
                 <div class="header-contact-text">{{ 'Customer Services'|trans }}</div>
-                <div class="header-contact-number">920000702</div>
+                <div class="header-contact-number">
+                    {% if app.request.cookies.get('c_country') == 'eg' %}
+                    19279
+                    {% else %}
+                    920000702
+                    {%  endif %}
+                </div>
                 <div class="claerfix"></div>
             </div>
             <div class="header-img"><img alt="phone" width="40" height="40" src="{{ asset('img/phone.svg') }}"></div>
