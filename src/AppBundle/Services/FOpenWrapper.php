@@ -46,7 +46,7 @@ class FOpenWrapper
         foreach ($headers as $header=>$value){
             $colonPos = strpos($value, ":");
             if($colonPos !== false){
-                $h .= "$header: " . substr($value, $colonPos, strlen($value)) ."\r\n";
+                $h .= "$header: " . trim(substr($value, $colonPos, strlen($value))) ."\r\n";
             }
             else{
                 $h .= "$header: $value\r\n";
