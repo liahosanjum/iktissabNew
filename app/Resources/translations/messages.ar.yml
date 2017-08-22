@@ -370,6 +370,7 @@
 'link': 'رابط'
 'update lost card': 'تحديث '
 'Unable to process your request.Please try later': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
+'Unable to process your request at this time.Please try later': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
 'You will recieve sms on your mobile number **** %s': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ **** %s'
 'Signup': 'تسجيل'
 'Dear customer, your account has been created you can login now': 'عزيزنا العميل، لقد تم إنشاء حسابكم ويمكنكم تسجيل الدخول والاطلاع عليه الآن'

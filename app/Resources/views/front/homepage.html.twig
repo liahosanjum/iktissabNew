@@ -130,6 +130,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="main-wrapper-products">
+                 {% if DataPromo != '' and DataPromo != null %}
                     <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
                         {% set i = 0 %}
@@ -180,6 +181,7 @@
                     </div> <!-- /.Item -->
                     <div class="claerfix"></div>
                 </div>
+                {% endif %}
             </div>
         </div>
 

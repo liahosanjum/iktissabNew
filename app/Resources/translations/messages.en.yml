@@ -318,7 +318,7 @@
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
-'An invalid exception occurred': 'Unable to process your request.Please try later'
+'An invalid exception occurred': 'Unable to process your request at this time.Please try latter'
 'Information': 'Information'
 'Iktissab password Recovery': 'Iktissab password recovery'
 'Enter Iktissab ID': 'Enter Iktissab ID'
@@ -370,7 +370,8 @@
 'Question': 'Question'
 'link': 'link'
 'update lost card': 'Update lost card'
-'Unable to process your request.Please try later': 'Unable to process your request.Please try later'
+'Unable to process your request.Please try later': 'Unable to process your request at this time.Please try later'
+'Unable to process your request at this time.Please try later': 'Unable to process your request at this time.Please try later'
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number **** %s'
 'Signup': 'Signup'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now'
