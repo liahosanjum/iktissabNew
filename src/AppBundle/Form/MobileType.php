@@ -2,20 +2,15 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-// use Symfony\Component\Form\Extension\Core\Type\EmailType;
-// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-// use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-// use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\Validator\Constraints\NotBlank;
-// use Symfony\Component\Validator\Constraints\Email;
-// use Symfony\Component\Validator\Constraints\Regex;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-// use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+
 
 class MobileType extends AbstractType
 {
@@ -24,7 +19,7 @@ class MobileType extends AbstractType
 
         $iktID_no   = $options['extras']['iktID_no'];
         $country_id = $options['extras']['country'];
-        if($country_id == 'sa'){ $ext = '966';}else{$ext = '0020'; }
+        if($country_id == 'sa'){ $ext = '+966';}else{$ext = '0020'; }
 
         $builder->add('iqamaid_mobile', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN'.$country_id,'label_attr' => ['class' => 'formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
@@ -42,7 +37,7 @@ class MobileType extends AbstractType
 
             ))
             ->add('mobile', TextType::class, array(
-                'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext  formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'attr' => array('class' => 'formControl form-control formLayout  col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 10),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -56,9 +51,9 @@ class MobileType extends AbstractType
            
             
             ->add('comment_mobile', TextareaType::class, array('label' => 'Comments',
-                'label_attr' => ['class' => 'formControl  form_labels'],
+                'label_attr' => ['class' => 'formControl formLayout  form_labels'],
 
-                'attr' =>array('class' => 'formControl col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
+                'attr' =>array('class' => 'formControl  col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')))))
             ->add( 'Update', SubmitType::class ,array(

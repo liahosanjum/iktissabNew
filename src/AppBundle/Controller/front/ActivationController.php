@@ -58,7 +58,7 @@ class ActivationController extends Controller
                 $this->get('session')->set('email', $pData['email']);
                 $acrivityLog = $this->get('app.activity_log');
                 $this->checkInStagging($pData['iktCardNo']);
-                //exit;
+
                 if ($this->get('session')->get('scenerio') == AppConstant::IKT_REG_SCENERIO_1) {
                     // make log
                     $acrivityLog->logEvent(AppConstant::ACTIVITY_NEW_CARD_REGISTRATION, 1, array('ikt_card' => $pData['iktCardNo'], 'email' => $pData['email']));
@@ -115,12 +115,15 @@ class ActivationController extends Controller
 
     public function checkScenerio($iktCardNo)
     {
-            $restClient = $this->get('app.rest_client')->IsAdmin(true);
+            try
+            {
+            $restClient = $this->get('app.rest_client');
             $request = $this->container->get('request_stack')->getCurrentRequest();
             $locale = $request->getLocale();
             $url = $request->getLocale() . '/api/' . $iktCardNo . '/card_status.json';
             // todo: adding admin previleges
             $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
                 if ($data['success'] != true) {
                     Throw new Exception($this->get('translator')->trans('Invalid Iktissab Card Number'), 1);
                     // Throw new Exception($this->get('translator')->trans($data['message']), 1);
@@ -131,6 +134,10 @@ class ActivationController extends Controller
                         return AppConstant::IKT_REG_SCENERIO_1;
                     }
                 }
+            }
+            catch(\Exception $e){
+                Throw new Exception($this->get('translator')->trans('Unable to process your request at this time.Please try later'), 1);
+            }
 
         return true;
 
@@ -144,7 +151,7 @@ class ActivationController extends Controller
         // check referal
         // to do: uncomment below
         if (!$this->isReferalValid('card_activation')) {
-         return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+         //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
         $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $smsService = $this->get('app.sms_service');
@@ -418,7 +425,7 @@ class ActivationController extends Controller
                             $user->setIktCardNo($this->get('session')->get('iktCardNo'));
                             $user->setRegDate(time());
                             $user->setPassword($this->get('session')->get('pass'));
-                            $user->setStatus('0');
+                            $user->setStatus('1');
                             $user->setActivationSource(User::ACTIVATION_SOURCE_CALL_CENTER);
                             $user->setCountry($request->get('_country'));
                             $em->persist($user);
@@ -556,7 +563,7 @@ class ActivationController extends Controller
         $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $url = $request->getLocale() . '/api/' . $iktCardNo . '/is_in_stagging.json';
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-        // print_r($data);
+
         // $data['status'] == true indicates that
         // from the webservice return response is 200
 
@@ -566,6 +573,7 @@ class ActivationController extends Controller
             {
                 Throw New Exception($this->get('translator')->trans($data['message']));
             }
+             
         } else {
             Throw New Exception($this->get('translator')->trans('An invalid exception occurred'));
         }

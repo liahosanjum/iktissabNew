@@ -54,7 +54,6 @@ class EnquiryAndSuggestion
      *
      * @ORM\Column(name="mobile", type="string", length=16)
      * @Assert\NotBlank(message="This Field is required")
-     * @Assert\Regex(pattern="/^\d{9,16}$/", message="Invalid mobile number")
      */
     private $mobile;
 

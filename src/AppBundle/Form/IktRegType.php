@@ -52,11 +52,11 @@ class IktRegType extends AbstractType
 
             ->add('fullName', TextType::class, array('label' => 'Full name',
                     'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('maxlength' => 100,'class' => 'col-lg-8 form-control formLayout'),
+                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control formLayout'),
 
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array('min' => 5, 'max'=>100, 'minMessage'=> "Length is too small", 'maxMessage' => "Length is too big"))
+                        new Assert\Length(array('min' => 4, 'max'=>100, 'minMessage'=> "Full name must be of atleast two parts"))
                     )
                 )
             )

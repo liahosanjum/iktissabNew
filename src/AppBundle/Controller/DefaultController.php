@@ -78,7 +78,7 @@ class DefaultController extends Controller
                         $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             ]);
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             return $this->render('default/index.html.twig', [
                 'base_dir' => realpath(
                         $this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
@@ -316,15 +316,15 @@ class DefaultController extends Controller
             /********/
 
             $restClient = $this->get('app.rest_client');
+
             $url = AppConstant::OTHAIM_WEBSERVICE_URL;
-
-
             $postData = "{\"service\":\"IktissabPromotions\"} ";
+
             $data = $restClient->restPostForm($url,
                 $postData, array('Content-Type'=>'application/x-www-form-urlencoded','input-content-type' => "text/json", 'output-content-type' => "text/json",
                     'language' => $locale
                 ));
-            
+
             $data_dec = json_decode($data, true);
             $data_dec['success'];
             $listing="";
@@ -353,18 +353,28 @@ class DefaultController extends Controller
                     }
                     // var_dump($listing);
                     return $this->render('front/homepage.html.twig', array('DataPromo' => $listing, 'data_news' => $data_news));
+
+
+
                 } else {
                     return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
                 }
             } else {
+
                 return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
             }
         }
-        catch(Exception $e){
-            $message = $this->get('translator')->trans('An invalid exception occurred');
 
+        catch(\Exception $e)
+        {
+            $message = $this->get('translator')->trans('An invalid exception occurred');
             return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
         }
+        catch(AccessDeniedException $ad){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
+        }
+
         /********/
 
         // return $this->render('front/homepage.html.twig');
@@ -401,7 +411,6 @@ class DefaultController extends Controller
      */
     public function getCmsContent(Request $request , $id)
     {
-
         try
         {
             $response = new Response();
@@ -460,7 +469,7 @@ class DefaultController extends Controller
             if ($commFunct->checkSessionCookies($request) == false) {
                 return $this->redirect($this->generateUrl('landingpage'));
             }
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $cmspages = $this->getDoctrine()
                 ->getRepository('AppBundle:CmsPages')
                 ->findOneBy(array('id' => $id, 'status' => 1, 'type' => 'CMS',
@@ -480,30 +489,28 @@ class DefaultController extends Controller
                     'Data' => array('id' => $cmspages->getId(), 'Atitle' => $cmspages->getAtitle(), 'Adesc' => $cmspages->getAdesc(), 'Edesc' => $cmspages->getEdesc(), 'Etitle' => $cmspages->getEtitle())));
             }
         }
-        catch(Exception $e){
+        catch(\Exception $e){
             $error = 'alert-danger';
-            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
             return $this->render('front/cms/contents.html.twig', array('Data' => "", 'message' => $message,
                 'errorcl' => $error
                 ));
         }
         catch (AccessDeniedException $ed)
         {
-            $message = $ed->getMessage();
-            $error['success'] = false;
-            $error['message'] = $this->get('translator')->trans($ed->getMessage());
-            return $this->render('/default/send_pwd.twig',
-                array(
-                    'form'    => $form->createView(),
-                    'error'   => $error
-                )
-            );
+            $error = 'alert-danger';
+            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
+            return $this->render('front/cms/contents.html.twig', array('Data' => "", 'message' => $message,
+                'errorcl' => $error
+            ));
         }
 
 
 
 
     }
+
+
 
 
     /**
@@ -643,7 +650,15 @@ class DefaultController extends Controller
                 'message' => $message, 'error' => $error, 'errorcl' => $errorcl
             ));
         }
-        catch(Exception $e){
+        catch(\Exception $e){
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+
+            $errorcl = 'alert-danger';
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
+        }
+        catch(AccessDeniedException $ad){
             $message = $this->get('translator')->trans('An invalid exception occurred');
 
             $errorcl = 'alert-danger';
@@ -822,17 +837,7 @@ class DefaultController extends Controller
         return $locale = $request->getLocale();
     }
 
-    public function encrypt($data, $key)
-    {
-        return base64_encode(
-            mcrypt_encrypt(MCRYPT_RIJNDAEL_128,
-                $key,
-                $data,
-                MCRYPT_MODE_CBC,
-                "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-            )
-        );
-    }
+
 
     /**
      * @Route("/{_country}/{_locale}/resetpassword/{time}/{token}", name="resetpassword")
@@ -988,7 +993,7 @@ class DefaultController extends Controller
                 ));
             }
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             $message = $this->get('translator')->trans('An invalid exception occurred');
             $data_form['show_form'] = 0;

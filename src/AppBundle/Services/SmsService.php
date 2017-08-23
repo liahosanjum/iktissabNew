@@ -32,6 +32,11 @@ class SmsService
             // for EG we store the countrycode in with mobile number
             // so no need to add prefix
             $countryPrefix = '';  //AppConstant::IKT_EG_PREFIX;
+            if(strlen($receiver) == 10){
+                $receiver = "0020".$receiver;
+            }
+
+
             $mobilySender = $this->params['mobily_sender_eg'];
         }
         else

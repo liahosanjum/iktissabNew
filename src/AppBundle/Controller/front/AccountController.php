@@ -197,7 +197,7 @@ class AccountController extends Controller
                                             }
                                         } else {
                                             $data_array = "";
-                                            $message = $this->get('translator')->trans('An invalid exception occurred');
+                                            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                                         }
                                     } else {
                                         $data_array = "";
@@ -207,7 +207,7 @@ class AccountController extends Controller
 
                                 } else {
                                     $data_array = "";
-                                    $message = $this->get('translator')->trans('An invalid exception occurred');
+                                    $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
 
                                 }
 
@@ -217,7 +217,7 @@ class AccountController extends Controller
                             }
                         } else {
                             $data_array = "";
-                            $message = $this->get('translator')->trans('An invalid exception occurred');
+                            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                         }
                     }
                     else
@@ -697,7 +697,7 @@ class AccountController extends Controller
                                     array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                                 );
                             } else {
-                                $message = $this->get('translator')->trans('Unable to process your request.Please try later');
+                                $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                                 $errorcl = 'alert-danger';
                                 $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                                 return $this->render('account/email.html.twig',
@@ -728,6 +728,7 @@ class AccountController extends Controller
         }
         catch (\Exception $e)
         {
+
             $errorcl = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, 0 , array('iktissab_card_no' => 0, 'message' => $e->getMessage(), 'session' => $iktUserData));
 
@@ -1124,7 +1125,7 @@ class AccountController extends Controller
 
 
                     $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                    // print_r($data); exit;
+
                     if (!empty($data)) {
                         if ($data['success'] == true) {
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
@@ -1552,9 +1553,9 @@ class AccountController extends Controller
                             array('form1' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl));
                     }else
                     {
-                        $messageLog = $this->get('translator')->trans('Unable to update your information');
+                        $messageLog = $this->get('translator')->trans('Unable to update record');
                         $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
-                        $message = $this->get('translator')->trans('Your password is updated successfully');
+                        $message = $this->get('translator')->trans('Unable to update record');
                         // update password in the offline database
 
                         $errorcl = 'alert-danger';
@@ -1565,7 +1566,7 @@ class AccountController extends Controller
                 }
                 else
                 {
-                    $message = $this->get('translator')->trans('Unable to update your information');
+                    $message = $this->get('translator')->trans('Unable to update record');
                     $errorcl = 'alert-danger';
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                     return $this->render('account/updatepassword.html.twig',
@@ -1868,7 +1869,7 @@ class AccountController extends Controller
                 $postData = json_encode($form_data);
                 $request->get('_country');
                 $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                // print_r($data); exit;// return data fromt the webservice
+                //dump($data); exit;// return data fromt the webservice
                 if(!empty($data)) {
                     if ($data['success'] == true) {
                         // posted array is emty to clear the form after successful transction
@@ -1923,7 +1924,7 @@ class AccountController extends Controller
         catch(\Exception $e)
         {
             $message = $e->getMessage();
-            $message = $this->get('translator')->trans('Unable to process your request.Please try later') ;
+            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later') ;
             $error = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, 0 , array('iktissab_card_no' => '', 'message' => $e->getMessage(), 'session' => '' ));
             return $this->render('account/missingcard.html.twig',
@@ -1932,7 +1933,7 @@ class AccountController extends Controller
         }
         catch(AccessDeniedException $ed)
         {
-            $message =  $this->get('translator')->trans($ed->getMessage());
+            $message =  $this->get('translator')->trans('Unable to process your request at this time.Please try later');
             $errorcl = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, 0 , array('iktissab_card_no' => '', 'message' => $ed->getMessage(), 'session' => '' ));
             return $this->render('account/missingcard.html.twig',
@@ -2186,7 +2187,7 @@ class AccountController extends Controller
                         $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
                         // echo AppConstant::WEBAPI_URL.$url;
                         $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                        //print_r($data_user);exit;
+                        // print_r($data_user);exit;
                         if (!empty($data_user)) {
                             if ($data_user['success'] == true) {
                                 $message = $data_user['message'];
@@ -2201,16 +2202,16 @@ class AccountController extends Controller
                             }
                         } else {
                             $error['success'] = false;
-                            $error['message'] = $this->get('translator')->trans('Unable to process your request.Please try later');
+                            $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                         }
                     }
 
                 } catch (\Exception $e) {
-                    //$e->getMessage();
+                    $e->getMessage();
                     $error['success'] = false;
                     $acrivityLog = $this->get('app.activity_log');
-                    $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage() , 'session' => $logged_user_data));
-                    $error['message'] = $e->getMessage();
+                    $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage(), 'session' => $logged_user_data));
+                    $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                 }
             }
 
@@ -2287,6 +2288,7 @@ class AccountController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
 
+
                     if( $request->get('_country') == 'sa') {
                         $validate_Iqama = $this->validateIqama($data['forgot_email']['iqama']);
                         if ($validate_Iqama == false) {
@@ -2327,7 +2329,7 @@ class AccountController extends Controller
                                 }else{
                                     $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_EMAIL_SMS, 0, array('message' => $message, 'session' => $data['user']));
                                     $error['success'] = true;
-                                    $error['message'] = $this->get('translator')->trans('Unable to process your request.Please try later');
+                                    $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
 
                                 }
                             }

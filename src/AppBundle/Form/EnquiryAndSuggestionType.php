@@ -16,10 +16,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+
+
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 class EnquiryAndSuggestionType extends AbstractType
@@ -38,7 +41,7 @@ class EnquiryAndSuggestionType extends AbstractType
             'label_attr' => ['class' => 'required inq-form  formLayout form_labels'],
             'attr' => array('class' => 'col-lg-8  form-control formLayout'),
             'constraints' => array(
-                new NotBlank(array('message' =>  'This field is required'))
+                new Assert\NotBlank(array('message' =>  'This field is required'))
 
             )
         ))
@@ -49,18 +52,18 @@ class EnquiryAndSuggestionType extends AbstractType
 
             ))
 
+
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'label_attr' => ['class' => 'required inq-form formLayout form_labels'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout','maxlength'=> ($country == 'sa') ? 9 : 10   )  ,
+                'label_attr' => ['class' => 'inq-form formControl-ext formLayout    form_labels'],
+                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 10),
                 'constraints' => array(
-
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                     new Regex(
                         array(
-                            'pattern' => ($country == 'sa') ? '/^([0-9]){9}$/' : '/^([0-9]){10}$/',
+                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
                             'match' => true,
-                            'message' => "Mobile Number Must be ".($country == 'sa' ? '9' : '10' )." digits")
+                            'message' =>  ($country == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 10 digits mobile number starting with 1")
                     ),)))
 
 
@@ -69,7 +72,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label_attr' => ['class' => 'required inq-form formLayout form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                     new Email(array('message' => 'Invalid email address'))
                 )))
 
@@ -90,7 +93,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label_attr' => ['class' => 'required formLayout inq-form form_labels'],
                 'attr' => array('class' => 'col-lg-8 form-control formLayout'),
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                 )
 
 
@@ -100,7 +103,7 @@ class EnquiryAndSuggestionType extends AbstractType
                 'label_attr' => ['class' => 'required formLayout inq-form-captcha form_labels'],
                 'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
                 'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required')),
                     new ValidCaptcha(array("message"=>"Invalid captcha code"))),
 
 
