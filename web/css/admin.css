@@ -1,8 +1,9 @@
 /*Reset*/
+
 body {
     font-family: 'Cairo', Tahoma, Arial;
 }
-
+.form-control{ padding-top:0px; }
 *:focus {outline:none;}
 .nomargin {margin:0;}
 .nopadding {padding: 0;}

@@ -322,6 +322,10 @@ class AccountController extends Controller
     public function accountInfoAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
         try {
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
@@ -471,6 +475,10 @@ class AccountController extends Controller
     public function personalInfoAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
 
         try
         {
@@ -2264,6 +2272,64 @@ class AccountController extends Controller
     public function forgotEmailAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
+        /***********/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***********/
+
+        $userLang = '';
+        $locale = $request->getLocale();
+        if($request->query->get('lang')) {
+            $userLang = trim($request->query->get('lang'));
+        }
+        if ($userLang != '' && $userLang != null) {
+            // we will only modify cookies if the both the params are same for the langauge
+            // this means that the query is modified from the change language link
+            if($userLang == $locale)
+            {
+                $commFunct->changeLanguage($request, $userLang);
+                $locale = $request->getLocale();
+            }
+            else
+            {
+                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
+                    return $this->redirect($this->generateUrl('account_home',
+                        array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
+                            '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        $userCountry = '';
+        if($request->query->get('ccid')) {
+            $userCountry = $request->query->get('ccid');
+        }
+        $country = $request->get('_country');
+        if ($userCountry != '' && $userCountry != null) {
+            if($userCountry == $country) {
+                $commFunct->changeCountry($request, $userCountry);
+                $country = $request->get('_country');}
+            else {
+                if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        if($request->cookies->get(AppConstant::COOKIE_LOCALE))
+        {
+            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+            if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+        }
+
+        /***********/
+
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             // do not show this form to user when user is logged in
             return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
@@ -2595,6 +2661,8 @@ class AccountController extends Controller
             //return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }
+
+
 
 
 

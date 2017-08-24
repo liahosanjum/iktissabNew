@@ -847,7 +847,7 @@ class AdminController extends Controller
     public function formDisplaySettingAction(Request $request)
     {
         $displayList = $this->getDoctrine()
-            ->getRepository('AppBundle:FormSettings')
+            ->getRepository('AppBundle:FormSetting')
             ->findAll();
         $data = array();
         $i = 0;

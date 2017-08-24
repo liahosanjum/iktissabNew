@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Front;
 
 
 use AppBundle\AppConstant;
+use AppBundle\Controller\Common\FunctionsController;
 use AppBundle\Entity\User;
 use AppBundle\Form\ActivateCardoneType;
 use AppBundle\Form\EnterOtpType;
@@ -38,6 +39,66 @@ class ActivationController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
         }
+
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***********/
+
+        $userLang = '';
+        $locale = $request->getLocale();
+        if($request->query->get('lang')) {
+            $userLang = trim($request->query->get('lang'));
+        }
+        if ($userLang != '' && $userLang != null) {
+            // we will only modify cookies if the both the params are same for the langauge
+            // this means that the query is modified from the change language link
+            if($userLang == $locale)
+            {
+                $commFunct->changeLanguage($request, $userLang);
+                $locale = $request->getLocale();
+            }
+            else
+            {
+                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
+                    return $this->redirect($this->generateUrl('account_home',
+                        array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
+                            '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        $userCountry = '';
+        if($request->query->get('ccid')) {
+            $userCountry = $request->query->get('ccid');
+        }
+        $country = $request->get('_country');
+        if ($userCountry != '' && $userCountry != null) {
+            if($userCountry == $country) {
+                $commFunct->changeCountry($request, $userCountry);
+                $country = $request->get('_country');}
+            else {
+                if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        if($request->cookies->get(AppConstant::COOKIE_LOCALE))
+        {
+            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+            if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+        }
+
+
+        /***************/
+
         $error = array('success' => true);
         $country_id  = $request->get('_country');
         $form = $this->createForm(ActivateCardoneType::class, array() ,
@@ -153,6 +214,13 @@ class ActivationController extends Controller
         if (!$this->isReferalValid('card_activation')) {
          //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***************/
+
         $restClient = $this->get('app.rest_client')->IsAdmin(true);
         $smsService = $this->get('app.sms_service');
         // get existing user data
@@ -238,13 +306,73 @@ class ActivationController extends Controller
         if (!$this->isReferalValid('card_activation')) {
             //return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
         }
+        if($this->get('session')->get('iktCardNo') == "" || $this->get('session')->get('iktCardNo') == null){
+            return $this->redirectToRoute('front_card_activation',array('_locale'=> $request->getLocale(),'_country' => $request->get('_country')));
+        }
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+
+        /***********/
+
+        $userLang = '';
+        $locale = $request->getLocale();
+        if($request->query->get('lang')) {
+            $userLang = trim($request->query->get('lang'));
+        }
+        if ($userLang != '' && $userLang != null) {
+            // we will only modify cookies if the both the params are same for the langauge
+            // this means that the query is modified from the change language link
+            if($userLang == $locale)
+            {
+                $commFunct->changeLanguage($request, $userLang);
+                $locale = $request->getLocale();
+            }
+            else
+            {
+                if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
+                    return $this->redirect($this->generateUrl('account_home',
+                        array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY),
+                            '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        $userCountry = '';
+        if($request->query->get('ccid')) {
+            $userCountry = $request->query->get('ccid');
+        }
+        $country = $request->get('_country');
+        if ($userCountry != '' && $userCountry != null) {
+            if($userCountry == $country) {
+                $commFunct->changeCountry($request, $userCountry);
+                $country = $request->get('_country');}
+            else {
+                if($request->cookies->get(AppConstant::COOKIE_COUNTRY)) {
+                    return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                }
+            }
+        }
+        if($request->cookies->get(AppConstant::COOKIE_LOCALE))
+        {
+            $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+            $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+            if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+            if(isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country) {
+                return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+            }
+        }
+        /***************/
         // get all cities
         $restClient = $this->get('app.rest_client');
         $smsService = $this->get('app.sms_service');
         $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
         // todo: adding admin previleges
         $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-//        var_dump($cities_jobs_area); die('---');
+        // var_dump($cities_jobs_area); die('---');
         $cities = $cities_jobs_area['cities'];
         $citiesArranged = array();
         foreach ($cities as $key => $value) {
@@ -403,6 +531,12 @@ class ActivationController extends Controller
     public function enterOtpAction(Request $request)
     {
         $activityLog = $this->get('app.activity_log');
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***************/
         $this->get('session')->get('otp');
         $error = array('success' => true);
         $form = $this->createForm(EnterOtpType::class);
@@ -573,7 +707,7 @@ class ActivationController extends Controller
             {
                 Throw New Exception($this->get('translator')->trans($data['message']));
             }
-             
+
         } else {
             Throw New Exception($this->get('translator')->trans('An invalid exception occurred'));
         }
@@ -631,6 +765,12 @@ class ActivationController extends Controller
      */
     function activationThanksAction(Request $request)
     {
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***************/
         $success = $request->getSession()->getFlashBag()->get('ikt_success');
         // code added by sohail
         $ikt_card_no    = $this->get('session')->get('iktCardNo');

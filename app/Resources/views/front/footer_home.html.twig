@@ -68,7 +68,11 @@
 
                     <div class="list-wrapper">
                         <div class="icon-list">&nbsp;&nbsp;&nbsp;</div>
-                        <div class="title-list-phone">920000702 &nbsp;&nbsp;&nbsp;</div>
+                        <div class="title-list-phone">  {% if app.request.cookies.get('c_country') == 'eg' %}
+                                19279
+                            {% else %}
+                                920000702
+                            {%  endif %} &nbsp;&nbsp;&nbsp;</div>
                         <div class="claerfix"></div>
                     </div>
 

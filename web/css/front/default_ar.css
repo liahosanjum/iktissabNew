@@ -1504,7 +1504,7 @@ select#ikt_update_dob_h_year  {
 select#ikt_update_maritial_status  {
     -moz-appearance: none;
     -webkit-appearance: none;
-    background: rgba(0, 0, 0, 0) url("../../img/dd-arrow.jpg") no-repeat scroll 1% 33%;
+    /*background: rgba(0, 0, 0, 0) url("../../img/dd-arrow.jpg") no-repeat scroll 1% 33%;*/
     border: none;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
@@ -1591,7 +1591,7 @@ select#ikt_update_maritial_status  {
 .contactUsForm select {
     -moz-appearance: none;
     -webkit-appearance: none;
-    background: rgba(0, 0, 0, 0) url("../img/dd-arrow.jpg") no-repeat scroll 3% 33%;
+    background: rgba(0, 0, 0, 0) url("../../img/dd-arrow.jpg") no-repeat scroll 3% 33%;
     border: none;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;

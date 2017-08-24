@@ -106,6 +106,8 @@ class DefaultController extends Controller
             $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
             $response->sendHeaders();
             return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
+        }else{
+            return $this->redirect($this->generateUrl('homepage', array('_country'=> $country,'_locale'=> $locale)));
         }
     }
 
@@ -368,10 +370,12 @@ class DefaultController extends Controller
         catch(\Exception $e)
         {
             $message = $this->get('translator')->trans('An invalid exception occurred');
+            $data_news = '';
             return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
         }
         catch(AccessDeniedException $ad){
             $message = $this->get('translator')->trans('An invalid exception occurred');
+            $data_news = '';
             return $this->render('front/homepage.html.twig', array('DataPromo' => "", 'data_news' => $data_news));
         }
 
@@ -1119,7 +1123,7 @@ class DefaultController extends Controller
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
 
-                'attr' => array('placeholder'=> ($country == 'sa' ? '0xxxxxxxxx' : '00201xxxxxxxxx' ) , 'maxlength'=> ($request->get('country') == 'sa') ? 10 : 14),
+                'attr' => array('placeholder'=> ($country == 'sa' ? '05xxxxxxxx' : '0020xxxxxxxxxx' ) , 'maxlength'=> ($request->get('country') == 'sa') ? 10 : 14),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -1278,6 +1282,11 @@ class DefaultController extends Controller
     {
         $response = new Response();
 
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            echo 'asd';
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
 
         $userLang  =  trim($request->query->get('lang'));
         $id  =  trim($request->query->get('id'));
@@ -1285,7 +1294,9 @@ class DefaultController extends Controller
         //print_r($extra_param);
         $url  =  trim($request->query->get('url'));
         $commFunct = new FunctionsController();
+
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+
         $commFunct->changeLanguage($request, $userLang);
 
 
@@ -1309,6 +1320,12 @@ class DefaultController extends Controller
     public function setCountryAction(Request $request)
     {
         $response = new Response();
+        /***************/
+        $commFunct = new FunctionsController();
+        if ($commFunct->checkSessionCookies($request) == false) {
+            return $this->redirect($this->generateUrl('landingpage'));
+        }
+        /***************/
         $tokenStorage = $this->get('security.token_storage');
         $userCountry  =  trim($request->query->get('ccid'));
         $commFunct = new FunctionsController();

@@ -96,7 +96,7 @@ class UserController extends Controller
         }
         // echo AppConstant::WEBAPI_URL.$url;
         $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($country)));
-//        var_dump($data);
+        //var_dump($data);exit;
 
         if ($data['success'] == "true") {
             return $this->render('/admin/cms/userdetails.html.twig',
