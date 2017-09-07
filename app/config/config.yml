@@ -12,16 +12,20 @@ parameters:
     app_countries: eg|sa
     images_directory: '%kernel.root_dir%/../web/banners/img'
     sms_parameters:
-        mobily_url: "http://www.mobily.ws/api/msgSend.php"
-        mobily_user: "Othaim"
-        mobily_pass: "0557554443"
-        mobily_sender: "Iktissab"
-        mobily_app_type: "68"
-        mobily_domain: "othaimmarkets.com"
-        mobily_user_eg: "Iktissab.eg"
-        mobily_pass_eg: "Iktissab.eg*2016"
-        mobily_sender_eg: "Iktissab.eg"
-        mobily_domain: "othaimmarkets.com"
+        url: "http://www.mobily.ws/api/msgSend.php"
+        application_type: "68"
+        domain_name: "othaimmarkets.com"
+        country:
+            sa:
+                user: "Othaim"
+                pass: "0557554443"
+                sender: "Iktissab"
+                prefix: "00966"
+            eg:
+                user: "Iktissab.eg"
+                pass: "Iktissab.eg*2016"
+                sender: "Iktissab.eg"
+                prefix: "0020"
 
 framework:
     #esi:             ~

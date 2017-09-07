@@ -90,7 +90,7 @@ class IktissabCardService
      */
     public function saveCard($data)
     {
-        $client = $this->container->get('app.services.iktissab_rest_service');
+        $client = $this->container->get('app.services.iktissab_rest_service')->IsAdmin(true);
         $result = $client->Post('add_new_user', json_encode($data));
 
         return $result;
@@ -99,12 +99,17 @@ class IktissabCardService
     /**
      * this method return user information from offline iktissab databse
      * @param $card
+     * @param $isAdmin
      * @return mixed|string
      * @throws RestServiceFailedException
      */
-    public function getUserInfo($card){
+    public function getUserInfo($card, $isAdmin =false){
+
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $result = $client->IsAuthorized(true)->Get($card . '/userinfo');
+        if($isAdmin) $client->IsAdmin($isAdmin);
+        else $client->IsAuthorized(true);
+
+        $result = $client->Get($card . '/userinfo');
         return $result;
     }
     public function saveUser($data){
@@ -169,9 +174,17 @@ class IktissabCardService
         return $client->IsAuthorized(true)->Post('', $post);
     }
 
+    /**
+     * @param $post
+     * @return mixed|string
+     */
     public function changePassword($post){
         $client = $this->container->get('app.services.iktissab_rest_service');
         return $client->IsAuthorized(true)->Post('change_password', $post);
+    }
+    public function resetPassword($post){
+        $client = $this->container->get('app.services.iktissab_rest_service');
+        return $client->IsAdmin(true)->Post('reset_password', $post);
     }
     public function changeEmail($post){
         $client = $this->container->get('app.services.iktissab_rest_service');
