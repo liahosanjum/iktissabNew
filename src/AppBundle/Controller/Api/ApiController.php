@@ -30,6 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,7 +70,13 @@ class ApiController extends FOSRestController
             if($user){
                 //echo md5($user->getPassword() . md5($email)) ." --- " . $secret;die();
                 if(md5($user->getPassword() . md5($email)) == $secret){
-                    $view = $this->view(['Success'=>true, 'Value' =>$user->getIktCardNo()], Response::HTTP_OK);
+                    if($user->getStatus() == 0){
+                        $view = $this->view(['Success'=>true, 'Value' =>"NotActive"], Response::HTTP_OK);
+                    }
+                    else{
+                        $view = $this->view(['Success'=>true, 'Value' =>$user->getIktCardNo() . "|" . $user->getCountry()], Response::HTTP_OK);
+                    }
+
                 }
 
             }
@@ -130,7 +137,7 @@ class ApiController extends FOSRestController
     {
         $code = rand(111111, 999999);
         //return $this->handleView($this->view(["Value"=>$code], Response::HTTP_OK));
-        $message = $this->get('translator')->trans("Please use this temporary code to continue with Iktissab Card registration: {code}", $code);
+        $message = $this->get('translator')->trans("Please use this temporary code to continue with Iktissab Card registration: {code}", ['{code}'=>$code]);
         $is_sms_sended = $this->get("app.sms_service")->sendSms($mobile, $message, $request->get("_country") );
         if($is_sms_sended){
             return $this->handleView($this->view(["Value"=>sha1($code . $mobile . md5($code))], Response::HTTP_OK));
@@ -149,6 +156,7 @@ class ApiController extends FOSRestController
      */
     public function postFirst_time_registerationAction(Request $request)
     {
+
         $responseCodes = array(
             'INVALID_DATA'=>0,
             'PENDING'=>1,
@@ -253,6 +261,7 @@ class ApiController extends FOSRestController
             $user->setRegDate(time());
             $user->setPassword(md5($parameters['password']['first']));
             $user->setActivationSource(User::ACTIVATION_SOURCE_MOBILE);
+            $user->setStatus(0);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -618,22 +627,35 @@ class ApiController extends FOSRestController
 
         $cardService = $this->get('app.services.iktissab_card_service');
         $parameters = $request->request->all();
-        $parameters['C_id'] = $user->getIktCardNo();
+        $parameters['C_id'] = $user->getId();
         $parameters['field'] = 'email';
         $parameters['comment'] = '';
         $view = null;
         try{
             $logData = ["old_value"=>$parameters["old_value"], "new_value"=>$parameters["new_value"]];
             $response = $cardService->updateEmail(json_encode($parameters));
-            if($response["success"] && $response["status"] == 1){
-                $em = $this->getDoctrine()->getManager();
-                $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
-                $currentUser->setEmail($parameters["new_value"]);
-                $em->persist($currentUser);
-                $em->flush();
-                $view = $this->view(ApiResponse::Response(true, 1, null), Response::HTTP_OK);
-                $logData["message"] = $response["message"];
-                $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $parameters['C_id'], $logData);
+
+            if($response["success"] && $response["status"] == 1 ){
+
+                $result = $cardService->changeEmail(sprintf('{"email":"%s"}', $parameters['new_value']));
+
+                if($result["success"] && $result["status"] == 1) {
+
+                    $em = $this->getDoctrine()->getManager();
+                    $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
+                    $currentUser->setEmail($parameters["new_value"]);
+                    $em->persist($currentUser);
+                    $em->flush();
+                    $view = $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans('Your account email is changed successfully.')), Response::HTTP_OK);
+                    $logData["message"] = $response["message"];
+                    $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $parameters['C_id'], $logData);
+                }
+                else{
+                    $view = $this->view(ApiResponse::Response(false, 2, $result["message"]), Response::HTTP_OK);
+                    $logData["message"] = $result["message"];
+                    $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $parameters['C_id'], $logData);
+                }
+
             }
             else{
                 $view = $this->view(ApiResponse::Response(false, 2, $response["message"]), Response::HTTP_OK);
@@ -642,11 +664,11 @@ class ApiController extends FOSRestController
             }
 
         }
-        catch (RestServiceFailedException $ex){
-            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
+        catch(RestServiceFailedException $ex){
+            $view = $this->view(ApiResponse::Response(false, 3, $ex), Response::HTTP_OK);
         }
-        catch (Exception $e){
-            $view = $this->view(ApiResponse::Response(false, 3, null), Response::HTTP_OK);
+        catch(Exception $e){
+            $view = $this->view(ApiResponse::Response(false, 3, $e), Response::HTTP_OK);
         }
 
         return $this->handleView($view);
@@ -673,11 +695,21 @@ class ApiController extends FOSRestController
                 $view = $this->view(ApiResponse::Response(false, 2, $this->get('translator')->trans("New Password and old password must not be the same")), Response::HTTP_OK);
             }
             else{
-                $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
-                $currentUser->setPassword(md5($parameters["password"]));
-                $em->persist($currentUser);
-                $em->flush();
-                $view = $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans("Password updated successfully")), Response::HTTP_OK);
+                $md5Password = md5($parameters['password']);
+                $result = $this->get('app.services.iktissab_card_service')->changePassword(sprintf('{"secret":"%s"}', $md5Password ));
+
+                if($result['success'] && $result['status'] == 1){
+                    $currentUser = $em->getRepository("AppBundle:User")->find($user->getId());
+                    $currentUser->setPassword(md5($parameters["password"]));
+                    $em->persist($currentUser);
+                    $em->flush();
+                    $view = $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans("Password updated successfully")), Response::HTTP_OK);
+                }
+                else{
+                    $view = $this->view(ApiResponse::Response(false, 3, ""), Response::HTTP_OK);
+                }
+
+
             }
 
 
@@ -735,13 +767,13 @@ class ApiController extends FOSRestController
 
             if ($webUser != null) {
 
-                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo());
+                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo(), true);
 
                 $code = rand(111111, 999999);
                 $sh1 = sha1($code . $userinfo['user']['mobile'] . md5($code));
                 $this->get('app.sms_service')->sendSms(
                     $userinfo['user']['mobile'],
-                    $this->get('translator')->trans("Forgot Password Verification Code %code", array("%code"=>$code))
+                    $this->get('translator')->trans("Forgot Password Verification Code {code}", array("{code}"=>$code))
                     , $request->get("_country"));
                 $this->get("app.activity_log")->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_SUCCESS, $webUser->getIktCardNo(), array('session' => serialize($webUser)));
 
@@ -781,12 +813,12 @@ class ApiController extends FOSRestController
 
             if ($webUser != null) {
 
-                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo());
+                $userinfo = $this->get('app.services.iktissab_card_service')->getUserInfo($webUser->getIktCardNo(), true);
 
                 $sh1 = sha1($code . $userinfo['user']['mobile'] . md5($code));
                 $md5Password = md5($password);
                 if($sh1 == $secret && strlen($password)>=6){
-                    $result = $this->get('app.services.iktissab_card_service')->changePassword('{"secret":"'.$md5Password.'"}');
+                    $result = $this->get('app.services.iktissab_card_service')->resetPassword(sprintf('{"secret":"%s","C_id":"%s"}', $md5Password, $userinfo['user']['C_id']));
                     if($result['success'] == true && $result['status']==1) {
                         $webUser->setPassword($md5Password);
                         $em->persist($webUser);
@@ -979,16 +1011,17 @@ class ApiController extends FOSRestController
     }
 
     /**
-     * @param $card
      * @param $ssn
      * @return Response
      */
-    public function getSendPwdAction($card, $ssn){
+    public function getSend_pwdAction($ssn){
         try {
 
+            $card = $this->get('security.token_storage')->getToken()->getUser()->getId();
 
             $service = $this->get('app.services.iktweb_service');
             $result = $service->Get('send_pwd', ['c_id' => $card, 'id_no' => $ssn]);
+            echo $result;die();
             if (trim($result) == 'تم إرسال كلمة السر بنجاح The Customer Password is sent successfully') {
                 return $this->handleView(
                     $this->view(ApiResponse::Response(true, 1, $this->get('translator')->trans('The Customer Password is sent successfully')), Response::HTTP_OK)
@@ -1000,6 +1033,7 @@ class ApiController extends FOSRestController
             }
         }
         catch (Exception $ex){
+            var_dump($ex);die();
             return $this->handleView(
                 $this->view(ApiResponse::Response(true, 3, null), Response::HTTP_OK)
             );
@@ -1105,7 +1139,15 @@ class ApiController extends FOSRestController
         return $this->handleView($this->view(ApiResponse::Response(true, 2, null), Response::HTTP_OK));
     }
 
-    public function getSalemkhanAction(){
+    /**
+     * Todo: Delete it
+     * @param Request $request
+     * @param $mobile
+     * @return Response
+     */
+    public function getSalemkhanAction(Request $request, $mobile){
+        return;
+        $this->get('app.sms_service')->sendSms($mobile, '', $request->get('_country'));
 
         $card = $this->get('app.services.iktissab_card_service');
         $data = $card->isSSNUsed('2326864655');

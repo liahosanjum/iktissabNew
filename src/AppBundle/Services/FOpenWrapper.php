@@ -95,6 +95,9 @@ class FOpenWrapper
      */
     private function send($context){
         $fp = fopen($this->uri, 'r', false, $context);
+        if($fp === false){
+            throw new \Exception("Unable to connect to the remote host");
+        }
         $metadata = stream_get_meta_data($fp);
 
 

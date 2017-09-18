@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\EnquiryAndSuggestion;
-use AppBundle\Entity\FormSettings;
+use AppBundle\Entity\FormSetting;
 use AppBundle\Form\EnquiryAndSuggestionType;
 use AppBundle\HttpCode;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -28,7 +28,7 @@ class EnquiryAndSuggestionController extends FOSRestController
         //stat 1= allowed, 2=not allowed
         $country = $request->get("_country");
         $em = $this->getDoctrine()->getManager();
-        $formSetting = $em->getRepository("AppBundle:FormSettings")->findByCountryAndType($country, FormSettings::Inquiries_And_Suggestion);
+        $formSetting = $em->getRepository("AppBundle:FormSetting")->findByCountryAndType($country, FormSetting::Inquiries_And_Suggestion);
 
         $currentDate = new \DateTime("now");
         $currentDate->sub(new \DateInterval("PT".$formSetting->getSubmissions()."H"));
@@ -66,7 +66,7 @@ class EnquiryAndSuggestionController extends FOSRestController
                 $fieldTechnicalOROther = $postData["reason"] == "T"?"technical":"other";
 
                 $em = $this->getDoctrine()->getManager();
-                $formSetting = $em->getRepository("AppBundle:FormSettings")->findByCountryAndType($country, FormSettings::Inquiries_And_Suggestion);
+                $formSetting = $em->getRepository("AppBundle:FormSetting")->findByCountryAndType($country, FormSetting::Inquiries_And_Suggestion);
 
                 $currentDate = new \DateTime("now");
                 $currentDate->sub(new \DateInterval("PT".$formSetting->getSubmissions()."H"));
@@ -75,8 +75,8 @@ class EnquiryAndSuggestionController extends FOSRestController
 
                 if(count($submissions) < $formSetting->getLimitto()){
 
-                    $emailSetting = $em->getRepository("AppBundle:Settings")
-                        ->findBy(["country"=>$country, $fieldTechnicalOROther=>1, "type"=>FormSettings::Inquiries_And_Suggestion ]);
+                    $emailSetting = $em->getRepository("AppBundle:EmailSetting")
+                        ->findBy(["country"=>$country, $fieldTechnicalOROther=>1, "type"=>FormSetting::Inquiries_And_Suggestion ]);
                     $es = $emailSetting[0];
                     $data = array( 'success' => true , 'result'  => [
                         ["id"=>$es->getId(),"email"=>$es->getEmail(), "type"=>$es->gettype(), "country"=>$es->getCountry(), "technical"=>$es->getTechnical(), "other"=>$es->getOther()]

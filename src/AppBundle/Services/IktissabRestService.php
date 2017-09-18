@@ -141,7 +141,7 @@ class IktissabRestService
      */
     public function Post($path, $payload)
     {
-        $options = [CURLOPT_HTTPHEADER => $this->GetHeaders()];
+        $options = $this->GetHeaders();
         $uri = $this->GetWebServiceUrl($path);
         try {
             $result = $this->restClient->post($uri, $payload, $options);
