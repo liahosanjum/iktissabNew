@@ -45,6 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use AppBundle\Form\IqamassnType;
+use AppBundle\Form\EnterOtpType;
 
 
 class AccountController extends Controller
@@ -555,28 +556,31 @@ class AccountController extends Controller
         $activityLog      = $this->get('app.activity_log');
         try
         {
-
-            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+            {
                 return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
             }
             $restClient       = $this->get('app.rest_client')->IsAuthorized(true);
-            $commFunct = new FunctionsController();
-            $locale_cookie  = $request->getLocale();
-            $country_cookie = $request->get('_country');
-            $userLang = trim($request->query->get('lang'));
-            if ($userLang != '' && $userLang != null) {
+            $commFunct        = new FunctionsController();
+            $locale_cookie    = $request->getLocale();
+            $country_cookie   = $request->get('_country');
+            $userLang         = trim($request->query->get('lang'));
+            if ($userLang != '' && $userLang != null)
+            {
                 if($userLang == $locale_cookie) {
                     $request->getLocale();
                     $commFunct->changeLanguage($request, $userLang);
                     $locale_cookie = $request->getLocale();
-                } else {
+                } else
+                {
                     if($request->cookies->get(AppConstant::COOKIE_LOCALE)){
                         return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                     }
                 }
             }
 
-            if($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+            if($request->cookies->get(AppConstant::COOKIE_LOCALE))
+            {
                 $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
                 $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
                 if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale_cookie) {
@@ -587,29 +591,19 @@ class AccountController extends Controller
                     return $this->redirect($this->generateUrl('account_home', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
                 }
             }
-
-
             $Country_id       = strtoupper($this->getCountryId($request));
             $iktUserData      = $this->get('session')->get('iktUserData');
             $posted           = array();
             $iktCardNo        = $iktUserData['C_id'];
             $iktID_no         = $iktUserData['ID_no'];
-            //get current email of the user
             $currentEmail     = $iktUserData['email'];
-            $mobile  = $iktUserData['mobile'];
-
-
-            $form = $this->createForm(UpdateEmailType::class, array() ,array(
+            $mobile           = $iktUserData['mobile'];
+            $form = $this->createForm(UpdateEmailType::class, array() , array(
                     'extras'  => array('email'   => $currentEmail)));
-            // form posted data
             $data = $request->request->all();
             //For logged in user infomation
-            $tokenStorage = $this->get('security.token_storage');
-            $user_email_online = $tokenStorage->getToken()->getUser()->getUsername();
-
-
-
-            // print_r($data); exit;
+            $tokenStorage       = $this->get('security.token_storage');
+            $user_email_online  = $tokenStorage->getToken()->getUser()->getUsername();
             if(!empty($data))
             {
                 // here we will add validation to the form
@@ -626,26 +620,16 @@ class AccountController extends Controller
                 );
                 // print_r($form_data[0]);exit;
                 $this->get('session')->set('new_value', $data['update_email']['newemail']['first']);
-
                 // here we will check if the email is already registered on website or not
                 $email_val = $this->checkEmail($data['update_email']['newemail']['first'],$Country_id , $iktCardNo);
-                // print_r($email_val);
-                // exit;
-
-
-                //print_r($email_val);echo $email_val['result']['email'];exit;
-                /****/
-                //check email exist
-                /****/
-
-
-                if(!empty($email_val)) {
-
-
-
-                    if ($email_val['success'] == true) {
-
-                        if ($email_val['result']['email']) {
+                if(!empty($email_val) && $email_val != null )
+                {
+                    // print_r($email_val);
+                    // check email exist
+                    if ($email_val['success'] == true)
+                    {
+                        if ($email_val['result']['email'] == true)
+                        {
                             $errorcl = 'alert-danger';
                             $message = $this->get('translator')->trans('The new email is already registered before , please enter a valid email');
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
@@ -653,18 +637,16 @@ class AccountController extends Controller
                                 array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                             );
                         }
-                    } else {
-                        // check online email before sendin sms
-                        // current logged in user iktissab id
-                        $iktCardNo = $iktUserData['C_id'];
-                        $iktID_no = $iktUserData['ID_no'];
-                        // get current email of the user
-                        $currentEmail = $iktUserData['email'];
+                    }
+                    else
+                    {
+                        $iktCardNo      = $iktUserData['C_id'];
+                        $iktID_no       = $iktUserData['ID_no'];
+                        $currentEmail   = $iktUserData['email'];
                         // form posted data
-
-                        $data = $request->request->all();
-                        $form_data = array('email' => $data['update_email']['newemail']['first']);
-                        $postData = json_encode($form_data);
+                        $data           = $request->request->all();
+                        $form_data      = array('email' => $data['update_email']['newemail']['first']);
+                        $postData       = json_encode($form_data);
                         // print_r($data);
                         $url = $request->getLocale() . '/api/checkmail.json';
                         $chk_email = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
@@ -672,35 +654,113 @@ class AccountController extends Controller
                         if ($chk_email['success'] == true) {
                             $message = $this->get('translator')->trans('The new email is already registered before , please enter a valid email');
                             $errorcl = 'alert-danger';
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                            // $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                             return $this->render('account/email.html.twig',
                                 array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                             );
-                        } elseif ($chk_email['success'] == false && $chk_email['status'] == 0) {
+                        }
+                        elseif ($chk_email['success'] == false && $chk_email['status'] == 0)
+                        {
                             $message = $chk_email['message'];
                             $errorcl = 'alert-danger';
-                            $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                            // $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                             return $this->render('account/email.html.twig',
                                 array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                             );
-                        } else {
-                            // sending sms
+                        }
+                        else
+                        {
+                            // 1. GET CURRENT USER PASSWORD
+                            // 2. MATCH WITH USER ENTER PASSWORD
+                            // 3. WHEN PASSWORD IS MATCHED CHANGE EMAIL ADDRESS
+                            $iktUserData      = $this->get('session')->get('iktUserData');
+                            $iktCardNo        = $iktUserData['C_id'];
+                            $iktID_no         = $iktUserData['ID_no'];
+                            $em               = $this->getDoctrine()->getManager();
+                            $userInfoLoggedIn = $em->getRepository('AppBundle:User')->find($iktCardNo);
+                            $email            = $userInfoLoggedIn->getEmail();
+                            $form->handleRequest($request);
+                            // print_r($userInfoLoggedIn);
+                            $postData = $request->request->all();
+                            // dump($postData);exit;
+                            // var_dump($objUser);
+                            // current is the logged in user password
+                            $objUser = $this->getUser();
+                            // print_r($objUser);exit;
+                            $password_current   = $userInfoLoggedIn->getPassword();
+                            $old_password = md5(trim($postData['update_email']['old_password']));
+                            if($form->isValid())
+                            {
+                                if ($password_current != $old_password) {
+                                    $message = $this->get('translator')->trans('Please enter correct password');
+                                    $errorcl = 'alert-danger';
+                                    return $this->render('account/email.html.twig',
+                                        array('form' => $form->createView(), 'message' => $message , 'errorcl' => $errorcl));
+                                }
+                                else
+                                {
+                                    $newemail = $data['update_email']['newemail']['first'];
+                                    // here when the offline db password is update then udate online
+                                    $email_changed = $this->accountSMSVerification($request , $newemail);
+                                    if($email_changed == true)
+                                    {
+                                        // $userInfoLoggedIn->setEmail($newemail);
+                                        // $em = $this->getDoctrine()->getManager();
+                                        // $em->persist($userInfoLoggedIn);
+                                        // $em->flush();
+                                        // onlly update token here
+                                        $tokenStorage->getToken()->getUser()->setUsername($newemail);
+                                        if ($request->getLocale() == 'ar') {
+                                            $first = 'تم تحديث بريدكم الإلكتروني. نأمل استخدام البريد';
+                                            $last = 'عند الدخول إلى الموقع مرة أخرى';
+                                            $message = $first . '( ' . $this->get('session')->get("new_value") . ' )' . $last;
+                                            // todo:enable it
+                                            // $message = $this->get('translator')->trans('Your email is updated. Next time, please use the ( ' . $this->get('session')->get("new_value") . ') address for signing to the website  ');
+                                        } else {
+                                            $message = $this->get('translator')->trans('Your email is updated. Next time, please use the ( ' . $this->get('session')->get("new_value") . ') address for signing to the website  ');
+                                        }
+
+                                        $errorcl = 'alert-success';
+                                        return $this->render('account/email.html.twig',
+                                            array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl));
+                                    }
+                                    else
+                                    {
+                                        // $messageLog = $this->get('translator')->trans('Unable to update record');
+                                        // $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData));
+                                        $message = $this->get('translator')->trans('Unable to update record');
+                                        // update password in the offline database
+                                        $errorcl = 'alert-danger';
+                                        return $this->render('account/email.html.twig',
+                                            array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $message = $this->get('translator')->trans('Unable to update record');
+                                $errorcl = 'alert-danger';
+                                // $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                                return $this->render('account/email.html.twig',
+                                    array('form' => $form->createView(), 'message' => $message , 'errorcl' => $errorcl));
+                            }
+                            /***********/
+                            // OLD CODE FOR REPLACING THE USERS SMS VERIFICATION WITH THE USER PASSWORD VERIFICATION
+                            /*
                             $otp = rand(111111, 999999);
                             $this->get('session')->set('smscode', $otp);
                             $message = $this->get('translator')->trans("Please enter the verification code you received on your mobile number ******"). substr($mobile, 6, 10);
                             $smsmessage = $this->get('translator')->trans("Verification code:") . $otp . $this->get('translator')->trans("Changing account email");
                             $smsService = $this->get('app.sms_service');
                             $MsgID = rand(1, 99999);
-                            $msg = $message;  //$this->get('translator')->trans('test_message'); //"welcome to you in mobily.ws ,testing sms service";
+                            $msg = $message;
                             $smsResponse = $smsService->sendSmsEmail($mobile, $smsmessage, $request->get('_country'));
-                            // revert this code
-                            // sohail:todo
-                            //$smsResponse = 1;
-                            // exit;
                             if ($smsResponse == 1) {
                                 $message_sms = $this->get('translator')->trans('SMS sent successfully');
                                 $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message_sms, 'session' => $iktUserData));
                                 $errorcl = 'alert-success';
+
+
                                 return $this->render('account/sendsms.html.twig',
                                     array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                                 );
@@ -711,37 +771,46 @@ class AccountController extends Controller
                                 return $this->render('account/email.html.twig',
                                     array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                                 );
-                            }
+                            }*/
+
                         }
                     }
-                }else{
-
-                    $message = $this->get('translator')->trans('The given email is not a registered email');
+                }
+                else
+                {
+                    $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
                     $errorcl = 'alert-danger';
-                    $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
+                    // $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
                     return $this->render('account/email.html.twig',
                         array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                     );
                 }
-
             }
             else
             {
                 $message = $this->get('translator')->trans('');
                 $errorcl = 'alert-danger';
                 return $this->render('account/email.html.twig',
-                    array('form' => $form->createView(),'message' => '' , 'errorcl' => $errorcl)
+                    array('form' => $form->createView(), 'message' => $message, 'errorcl' => $errorcl)
                 );
             }
         }
         catch (\Exception $e)
         {
-
+            // echo 'tested NO-I ERROR';
             $errorcl = 'alert-danger';
             $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, 0 , array('iktissab_card_no' => 0, 'message' => $e->getMessage(), 'session' => $iktUserData));
-
             return $this->render('account/email.html.twig',
-                array('form' => $form->createView(),  'message' => $this->get('translator')->trans($e->getMessage()) , 'errorcl' => $errorcl )
+                array('form' => $form->createView(),  'message' => $this->get('translator')->trans('Unable to process your request at this time.Please try later') , 'errorcl' => $errorcl )
+            );
+        }
+        catch (AccessDeniedException $ed)
+        {
+            // echo 'tested NO-I ERROR';
+            $errorcl = 'alert-danger';
+            $activityLog->logEvent(AppConstant::ACTIVITY_EMAIL_UPDATE_SMS_ERROR, 0 , array('iktissab_card_no' => 0, 'message' => $ed->getMessage(), 'session' => $iktUserData));
+            return $this->render('account/email.html.twig',
+                array('form' => $form->createView(),  'message' => $this->get('translator')->trans('Unable to process your request at this time.Please try later') , 'errorcl' => $errorcl )
             );
         }
 
@@ -749,46 +818,32 @@ class AccountController extends Controller
 
 
     /**
+     *
      * @Route("/{_country}/{_locale}/account/smsverification", name="front_account_sms_verification")
      * 
      */
-    public function accountSMSVerificationAction(Request $request)
+    public function accountSMSVerification(Request $request, $newemail)
     {
         $activityLog  = $this->get('app.activity_log');
-        try
-        {
-            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
-            }
-
-            $restClient   = $this->get('app.rest_client')->IsAuthorized(true);
-            $Country_id   = strtoupper($this->getCountryId($request));
-            $iktUserData  = $this->get('session')->get('iktUserData');
-            //current logged in user iktissab id
-            $iktCardNo    = $iktUserData['C_id'];
-            $iktID_no     = $iktUserData['ID_no'];
-            // get current email of the user
-            $currentEmail = $iktUserData['email'];
-            // form posted data
-
-            $data = $request->request->all();
-            // print_r($data);
-            $url  = $request->getLocale() . '/api/update_user_email.json';
-            $code = $this->get('session')->get('smscode');
-            if(isset($data['smsverify'])){
-                $val  = $data['smsverify'];
-            }
-            else
-            {
-                $val = "";
-            }
-            if(isset($data['smsverify']) && $data['smsverify'] != null)
-            {
-
-
-            if($val == $code && $val != "") {
-                $comments = '';
-                $form_data   =  array(
+        try {
+                if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
+                }
+                // $data_form['smsverify'];exit;
+                $restClient   = $this->get('app.rest_client')->IsAuthorized(true);
+                $Country_id   = strtoupper($this->getCountryId($request));
+                $iktUserData  = $this->get('session')->get('iktUserData');
+                //current logged in user iktissab id
+                $iktCardNo    = $iktUserData['C_id'];
+                $iktID_no     = $iktUserData['ID_no'];
+                // get current email of the user
+                $currentEmail = $iktUserData['email'];
+                // form posted data
+                $data_form    = "";
+                $data_form    = $request->request->all();
+                $url          = $request->getLocale() . '/api/update_user_email.json';
+                $comments     = '';
+                $form_data = array(
                     'C_id'      => $iktCardNo,
                     'field'     => 'email',
                     'new_value' => $this->get('session')->get('new_value'),
@@ -796,157 +851,63 @@ class AccountController extends Controller
                     'comments'  => $comments
                 );
                 $postData = json_encode($form_data);
-
-                //print_r($postData);
+                // print_r($postData);
                 // exit;
-                //echo '<br>';
-
+                // echo '<br>';
                 $data = array();
                 $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-                // echo $data['update_fields'];
-                // var_dump($data);
-                //
-                // exit;
-                // sohail:todo
-                // $data["success"] = 'true';
-                    if($data["success"] == true)
+                if ($data["success"] == true)
+                {
+                    // $this->get('session')->set('iktUserData', $data['user']);
+                    $update_email_status = $this->updateEmailOffline($request, $newemail);
+                    if ($update_email_status == true)
                     {
-                        
-                        
-                        
-                        // $this->get('session')->set('iktUserData', $data['user']);
-
-                        $update_email_status = $this->updateEmailOffline($request, $this->get('session')->get('new_value'));
-
-                        if($update_email_status == true) {
-                            $email_val = $this->updateEmail($this->get('session')->get('new_value'), $Country_id, $iktCardNo);
-                        }
-                        else
-                        {
-                            $email_val = 0;
-                        }
-                        if ($email_val == '1') {
-
-
-                            if ($request->getLocale() == 'ar') {
-                                $first = 'تم تحديث بريدكم الإلكتروني. نأمل استخدام البريد';
-                                $last  = 'عند الدخول إلى الموقع مرة أخرى';
-                                $message = $first . '( ' . $this->get('session')->get("new_value") . ' )' . $last;
-                                // todo:enable it
-                                // $message = $this->get('translator')->trans('Your email is updated. Next time, please use the ( ' . $this->get('session')->get("new_value") . ') address for signing to the website  ');
-                            } else {
-                                $message = $this->get('translator')->trans('Your email is updated. Next time, please use the ( ' . $this->get('session')->get("new_value") . ') address for signing to the website  ');
-                            }
-                            $tokenStorage = $this->get('security.token_storage');
-                            $tokenStorage->getToken()->getUser()->setUsername($this->get('session')->get("new_value"));
-                            $errorcl = 'alert-success';
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_SUCCESS, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
-                            return $this->render('account/sendsmssuccess.html.twig',
-                                array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message,
-                                'errorcl' => $errorcl
-                                )
-                            );
-                        }
-                        elseif ($email_val == '0')
-                        {
-                            $message = $this->get('translator')->trans('Unable to update record');
-                            $errorcl = 'alert-danger';
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                            return $this->render('account/sendsmssuccess.html.twig',
-                            array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message ,
-                                'errorcl' => $errorcl
-                            ));
-                        }
-                        else
-                        {
-                            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
-                            $errorcl = 'alert-danger';
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                            return $this->render('account/sendsmssuccess.html.twig',
-                                array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message,
-                                'errorcl' => $errorcl
-                                )
-                            );
-                        }
-
-                        // $message = $this->get('translator')->trans($data['message']);
-                        // return $this->render('account/email.html.twig',
-                        //    array(  'message' => $message)
-                        // );
-
-                    }
-                    elseif($data['success'] == false)
-                    {
-                        // $this->get('session')->set('iktUserData', $data['user']);
-                        if($data['status'] == 1 )
-                        {
-                            $message = $data['message'];
-                            $errorcl = 'alert-danger';
-                            $email = $this->get('session')->get("new_value");
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                            return $this->render('account/sendsmssuccess.html.twig', array( 'message' => $message ,
-                                'errorcl' => $errorcl
-
-                            ));
-                        }
-                        else
-                        {
-                            // in else status is zero means validation errors
-                            // redirect to email
-                            $message = $this->get('translator')->trans('Unable to update record');
-                            $message = $data['message'];
-                            $errorcl = 'alert-danger';
-                            $email   = $this->get('session')->get("new_value");
-                            $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                            return $this->render('account/sendsmssuccess.html.twig', array( 'message' => $email.' '.$message ,
-                                'errorcl' => $errorcl
-                                ));
-                        }
+                        $email_val = $this->updateEmail($this->get('session')->get('new_value'), $Country_id, $iktCardNo);
                     }
                     else
                     {
-                        $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
-                        $errorcl = 'alert-danger';
-                        return $this->render('account/sendsmssuccess.html.twig',
-                            array('message' => $message , 'errorcl' => $errorcl )
-                        );
+                        $email_val = 0;
+                    }
+                    if ($email_val == '1')
+                    {
+                       return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                elseif ($data['success'] == false)
+                {
+                    // $this->get('session')->set('iktUserData', $data['user']);
+                    if ($data['status'] == 1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                       return false;
                     }
                 }
                 else
                 {
-                    $message = $this->get('translator')->trans('Please enter correct verification code');
-                    $errorcl = 'alert-danger';
-                    //$activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_EMAIL_ERROR, $iktUserData['C_id'] , array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData));
-                    return $this->render('account/sendsms.html.twig',
-                        array('message' => $message , 'errorcl' => $errorcl )
-                    );
+                    return false;
                 }
-            }else
-            {
-                return $this->redirectToRoute('homepage',array('_locale' => $request->getLocale(), '_country' => $request->get('_country')));
-            }
         }
         catch (\Exception $e )
         {
-            $message = $e->getMessage();
-            $errorcl = 'alert-danger';
-            return $this->render('account/sendsmssuccess.html.twig',
-                array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message,
-                    'errorcl' => $errorcl
-                    )
-            );
+            return false;
         }
         catch (AccessDeniedException $ed)
         {
-            $message =  $ed->getMessage();
-            $errorcl =  'alert-danger';
-            return $this->render('account/sendsmssuccess.html.twig',
-                array('userNewEmail' => $this->get('session')->get('new_value'), 'message' => $message,
-                    'errorcl' => $errorcl
-                )
-            );
+            return false;
         }
+
     }
+
+
+
+
 
     private function checkEmail($email,$Country_id, $C_id)
     {
@@ -954,7 +915,6 @@ class AccountController extends Controller
         {
             // $em = $this->getDoctrine()->getEntityManager();
             $em = $this->getDoctrine()->getManager();
-
             $conn = $em->getConnection();
             $queryBuilder = $conn->createQueryBuilder();
             $country_id   = strtolower($Country_id);
@@ -991,16 +951,14 @@ class AccountController extends Controller
 
             if ($Country_id == 'EG') {
                 $tbl_suffix = "_EG";
-            } else {
+            }
+            else
+            {
                 $tbl_suffix = "";
             }
             $user = $em->getRepository("AppBundle:User")->find($C_id);
-
-
-
-            if ($user->getEmail() != "" && $user->getEmail() != null) {
-
-
+            if ($user->getEmail() != "" && $user->getEmail() != null)
+            {
                 $date_now = date('Y-m-d H:i:s');
                 $date_current = explode(' ', $date_now );
                 $date_current_days   = explode('-', $date_current[0] );
@@ -1009,9 +967,12 @@ class AccountController extends Controller
                     $date_current_days[1], $date_current_days[2] , $date_current_days[0]);
                 $data_values = array($current_time,$email , $C_id );
                 $stm = $conn->executeUpdate('UPDATE user SET reg_date = ? , email = ? WHERE ikt_card_no = ?   ', $data_values);
-                if($stm == true){
+                if($stm == true)
+                {
                     return true;
-                }else{
+                }
+                else
+                {
                     return false;
                 }
             }
@@ -1050,8 +1011,6 @@ class AccountController extends Controller
         $activityLog = $this->get('app.activity_log');
         try
         {
-
-
             // check user
             // var_dump($this->get('session'));
             $country_id = $request->get('_country');
@@ -1061,7 +1020,8 @@ class AccountController extends Controller
             $iktUserData = $this->get('session')->get('iktUserData');
             // print_r($iktUserData);exit;
             $data = $request->request->all();
-            if($country_id == 'eg') {
+            if($country_id == 'eg')
+            {
                 $country_id = 'eg';
             }
             else{
@@ -1091,6 +1051,7 @@ class AccountController extends Controller
                 /************************/
                 if($country_id == 'sa')
                 {
+                    //
                     $extension = '0';
                     if($iktID_no != $iqamaid_mobile)
                     {
@@ -1130,10 +1091,7 @@ class AccountController extends Controller
                 $postData = json_encode($form_data);
                 $request->get('_country');
                 try {
-
-
                     $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => strtoupper($request->get('_country'))));
-
                     if (!empty($data)) {
                         if ($data['success'] == true) {
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_SUCCESS, $iktUserData['C_id'], array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData));
@@ -1584,7 +1542,7 @@ class AccountController extends Controller
             else
             {
                 $message = '';
-                $errorcl = '';
+                $errorcl = 'alert-danger';
                 return $this->render('account/updatepassword.html.twig',
                     array('form1' => $form->createView(), 'message' => $message , 'errorcl' => $errorcl));
             }
@@ -2124,11 +2082,14 @@ class AccountController extends Controller
     }
 
 
+   
+
+
     /**
-     * @Route("/{_country}/{_locale}/account/sendpassword", name="send_password")
+     * @Route("/{_country}/{_locale}/account/sendpassword_14_sept", name="send_password_14_sept")
      * Request $request
      */
-    public function sendPwdAction(Request $request)
+    public function sendPwd_14_septAction(Request $request)
     {
         // Iktissab pincode recovery
         // we need to be logged in first
@@ -2137,8 +2098,8 @@ class AccountController extends Controller
             return $this->redirectToRoute('homepage',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
         }
         $form = $this->createForm(SendPwdType::class, array(), array(
-            'additional' => array(
-                'locale' => $request->getLocale(),
+            'additional'  => array(
+                'locale'  => $request->getLocale(),
                 'country' => $request->get('_country'),
             )));
 
@@ -2155,15 +2116,13 @@ class AccountController extends Controller
                 )));
             $form->handleRequest($request);
             $pData = $form->getData();
-            $data = $request->request->all();
+            $data  = $request->request->all();
             $logged_user_data = $this->get('session')->get('iktUserData');
-
             if ($form->isSubmitted() && $form->isValid()) {
                 try
                 {
-                    if($request->get('_country') == 'sa') {
-
-
+                    if($request->get('_country') == 'sa')
+                    {
                         $validate_Iqama = $this->validateIqama($data['send_pwd']['iqama']);
                         if ($validate_Iqama == false) {
                             $message = "";
@@ -2507,31 +2466,27 @@ class AccountController extends Controller
             }
             $activityLog = $this->get('app.activity_log');
             $country_id  = $request->get('_country');
-
             $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-
             $iktUserData = $this->get('session')->get('iktUserData');
             $iktCardNo   = $iktUserData['C_id'];
-
             if(!empty($password))
             {
                 /************************/
-
                 $url = $request->getLocale() . '/api/change_password.json';
                 $form_data   =   array(
                     'secret' =>  $password
                 );
-
                 $postData = json_encode($form_data);
-
                 $request->get('_country');
-                $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
-
+                $data     = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
                 if($data['status'] == 1)
                 {
-                    if($data['success'] == 1){
+                    if($data['success'] == 1)
+                    {
                         return true;
-                    }else{
+                    }
+                    else
+                    {
                         return false;
                     }
                 }
@@ -2540,8 +2495,6 @@ class AccountController extends Controller
                     return false;
                 }
             }
-
-
         }
         catch (\Exception $e)
         {
@@ -2568,25 +2521,21 @@ class AccountController extends Controller
             $country_id  = $request->get('_country');
             $this->getUser()->getIktCardNo();
             $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-
             $iktUserData = $this->get('session')->get('iktUserData');
             $iktCardNo   = $iktUserData['C_id'];
-
             if(!empty($email))
             {
                 /************************/
-
                 $url = $request->getLocale() . '/api/change_email.json';
                 $form_data   =   array(
                     'email' =>  $email
                 );
-
                 $postData = json_encode($form_data);
                 $request->get('_country');
                 $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $request->get('_country')));
                 if($data['status'] == 1)
                 {
-                    if($data['success'] == 1)
+                    if($data['success'] == true)
                     {
                         return true;
                     }
@@ -2600,17 +2549,13 @@ class AccountController extends Controller
                     return false;
                 }
             }
-
-
         }
         catch (\Exception $e)
         {
-
             return false;
         }
         catch (AccessDeniedException $ad)
         {
-
             return false;
         }
     }

@@ -19,7 +19,6 @@ services:
     app.iktissabadmin_authenticator:
             class: AppBundle\Security\IktissabAdminAuthenticator
             arguments: ["@security.password_encoder"]
-
     app.activity_log:
         class: AppBundle\Services\ActivityLogService
         arguments: ["@doctrine.orm.entity_manager","@service_container"]

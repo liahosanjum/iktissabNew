@@ -6,35 +6,33 @@
 
 
         <div class="col-lg-12  col-md-12 col-sm-12 ">
+            {%  if message != "" %}
+            <div class="cmsForm alert-success">
 
-            <div class="cmsForm">
                 {{ message }}
+
             </div>
+            {% endif %}
             {{ form_start(form) }}
 
 
             <div class="cmsForm">
-                {{ form_label(form.atitle) }}
-                {{ form_errors(form.atitle) }}
-                {{ form_widget(form.atitle) }}
+                {{ form_label(form.page_title) }}
+                {{ form_errors(form.page_title) }}
+                {{ form_widget(form.page_title) }}
             </div>
 
             <div class="cmsForm">
-                {{ form_label(form.etitle) }}
-                {{ form_errors(form.etitle) }}
-                {{ form_widget(form.etitle) }}
+                {{ form_label(form.url_path) }}
+                {{ form_errors(form.url_path) }}
+                {{ form_widget(form.url_path) }}
+            </div>
+            <div class="cmsForm">
+                {{ form_label(form.page_content) }}
+                {{ form_errors(form.page_content) }}
+                {{ form_widget(form.page_content) }}
             </div>
 
-            <div class="cmsForm">
-                {{ form_label(form.adesc) }}
-                {{ form_errors(form.adesc) }}
-                {{ form_widget(form.adesc) }}
-            </div>
-            <div class="cmsForm">
-                {{ form_label(form.edesc) }}
-                {{ form_errors(form.edesc) }}
-                {{ form_widget(form.edesc) }}
-            </div>
             <div class="cmsForm">
                 {{ form_label(form.country) }}
                 {{ form_errors(form.country) }}
@@ -42,10 +40,22 @@
             </div>
 
             <div class="cmsForm">
+                {{ form_label(form.language) }}
+                {{ form_errors(form.language) }}
+                {{ form_widget(form.language) }}
+            </div>
+            <div class="cmsForm">
+                {{ form_label(form.type) }}
+                {{ form_errors(form.type) }}
+                {{ form_widget(form.type) }}
+            </div>
+
+            <div class="cmsForm">
                 {{ form_label(form.status) }}
 
                 {{ form_widget(form.status) }}
             </div>
+
             <div class="cmsFormBrochure">
                 {{ form_label(form.brochure) }}
                 {{ form_errors(form.brochure) }}

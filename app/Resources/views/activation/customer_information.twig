@@ -28,7 +28,7 @@
         <div class="row">
 
             {% if(error.success == false) %}
-                <div class="activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center alert alert-danger">
+                <div class="activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-12 text-center alert alert-danger">
                     {{ error.message }}
                 </div>
             {% endif %}
@@ -168,7 +168,7 @@
                                                         <div class="cardactivationForm">
                                                         {{ form_row(form.dob_h) }}
                                                             <div class="btn_dob_h_wrappper">
-                                                                <input type="button" id="btn_dob_h" value="Gregorian"/>
+                                                                <input type="button" id="btn_dob_h" value="{{ 'Gregorian'|trans}}"/>
                                                             </div>
                                                         </div>
 
@@ -275,7 +275,7 @@
                                                 <div class="cardactivationForm">
                                                     <div class="extension-mob">
                                                     {% if app.request.cookies.get('c_country') == 'eg' %}
-                                                        <input class="mob-ex" type="text" value="0020" readonly disabled>
+                                                        <input class="mob-ex" type="text" value="002" readonly disabled>
                                                         {% else %}
                                                         <input class="mob-ex" type="text" value="966" readonly disabled>
                                                         {%  endif %}

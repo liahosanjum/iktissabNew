@@ -19,7 +19,7 @@ class MobileType extends AbstractType
 
         $iktID_no   = $options['extras']['iktID_no'];
         $country_id = $options['extras']['country'];
-        if($country_id == 'sa'){ $ext = '+966';}else{$ext = '0020'; }
+        if($country_id == 'sa'){ $ext = '+966';}else{$ext = '002'; }
 
         $builder->add('iqamaid_mobile', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN'.$country_id,'label_attr' => ['class' => 'formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
@@ -38,14 +38,14 @@ class MobileType extends AbstractType
             ))
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext  formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' => array('class' => 'formControl form-control formLayout  col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 10),
+                'attr' => array('class' => 'formControl form-control formLayout  col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' => ($country_id == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
+                            'pattern' => ($country_id == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[0]([0-9]){10}$/',
                             'match' => true,
-                            'message' =>  ($country_id == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 10 digits mobile number starting with 1")
+                            'message' =>  ($country_id == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 11 digits mobile number starting with 0")
                     ),)))
 
            

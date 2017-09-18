@@ -7,8 +7,7 @@
                 <div class="footer-murasilat">
                     <ul>
                         <li>{{ 'Subscribe to our Newsletter and Messages Services to receive the latest offers'|trans }}</li>
-
-                        {{ render(url('subscription', {'_country':local_country_url, '_locale':local_language_url })) }}
+                            {{ render(url('subscription', {'_country':local_country_url, '_locale':local_language_url })) }}
                     </ul>
                 </div>
             </div>
@@ -17,14 +16,12 @@
                 <div class="footer-title">{{ 'about iktissab'|trans }}</div>
                 <div class="footer-about-iktissab">
                     <ul>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/">{{ 'Credit Cash'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/17/">{{ 'Mission and Vission'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/credit-cash">{{ 'Credit Cash'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/why-us">{{ 'Mission and Vission'|trans }}</a></li>
                         <li><a href="http://www.othaimmarkets.com//othaim-promotions?pid=1">{{ 'Promotions'|trans }}</a></li>
-
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'Participating Stores'|trans }}</a></li>
-
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'community services'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/20/">{{ 'Participating Stores'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/compatible-with-shariah">{{ 'sharia complient'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/community-services">{{ 'community services'|trans }}</a></li>
                     </ul>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 {% block body %}
 {% if  app.request.get('_country') == 'eg' %}
-{% set ext = '0020' %}
+{% set ext = '002' %}
 {% else %}
 {% set ext = '+966' %}
 {%  endif %}
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8  col-xs-12  contactus-list-wrapper">
+        <div class="col-lg-8 col-md-8 col-sm-12  col-xs-12  contactus-list-wrapper">
             {% if message == "" %}
             <div class="contactus-inner-contents">
 
@@ -42,7 +42,7 @@
 
             {% if show_form == true %}
                 <div class="row">
-                    <div class="col-lg-12 ">
+                    <div class="col-lg-12 col-md-8 col-sm-12  col-xs-12 ">
 
 
                         {{ form_start(form) }}
@@ -51,7 +51,7 @@
                             {{ form_row(form.email) }}
 
                         <div class="row">
-                             <div class="col-lg-6">
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
                                     {{ form_label(form.job) }}  </div>
                                 <div class="cardactivationForm">
@@ -61,7 +61,7 @@
                                     {{ form_errors(form.job) }}
                                 </div>
                               </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
                                     {{ form_label(form.reason) }}
                                 </div>
@@ -78,7 +78,7 @@
 
                         <div class="row">
 
-                            <div class="col-lg-2 mobile-ext-enq" style="padding-right: 0px;">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-5 mobile-ext-enq" style="padding-right: 0px;">
                                 <div class="mobile-ext-enq-lbl">
                                     {{ 'Country-Code:'|trans }}
                                 </div>
@@ -86,8 +86,7 @@
                                     <input readonly="readonly" type="text" value="{{ ext }}"  class="mobile-ext-enq col-lg-2 form-control formLayout" />
                                 </div>
                             </div>
-                            <div class="col-lg-10 mobile-number-enq">
-
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-7  mobile-number-enq">
                                 <div class="">
                                     {{ form_label(form.mobile) }}
                                 </div>
@@ -101,7 +100,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        {{ form_row(form.comments) }}
+                                {{ form_row(form.comments) }}
                             </div>
                         </div>
                         <div class="captcha-code">
@@ -114,11 +113,7 @@
                             <div class="title-cardactivation-form">
                                 {{ form_errors(form.captchaCode) }}
                             </div>
-
-
-
-
-                            </div>
+                        </div>
                         {{ form_end(form) }}
 
                     </div>

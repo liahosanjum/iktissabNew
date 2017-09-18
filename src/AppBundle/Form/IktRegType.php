@@ -106,7 +106,7 @@ class IktRegType extends AbstractType
             ->add('gender', ChoiceType::class, array(
                     'label' => 'Gender',
                     'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
+                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 '),
                     'choices' => array('Gender' => '', 'Male' => 'M', 'Female' => 'F'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -117,7 +117,7 @@ class IktRegType extends AbstractType
             ->add('nationality', EntityType::class, array(
                     'class' => 'AppBundle\Entity\Nationality',
                     'choice_label' => ($lookupData['locale'] == 'en') ? 'adesc' : 'edesc',
-                    'label' => 'Nationality','attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 formLayout'),
+                    'label' => 'Nationality','attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10'),
                     'label_attr' => ['class' => 'formLayout    form_labels'],
                     'empty_data' => null,
                     'placeholder' => 'Select Nationality',
@@ -227,14 +227,14 @@ class IktRegType extends AbstractType
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'label_attr' => ['class' => 'formLayout    form_labels'],
-                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 10),
+                'attr' => array('maxlength'=> ($lookupData['country'] == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
+                            'pattern' => ($lookupData['country'] == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[0]([0-9]){10}$/',
                             'match' => true,
-                            'message' => "Mobile Number Must be ".($lookupData['country'] == 'sa' ? '9' : '10' )." digits")
+                            'message' => "Mobile Number Must be ".($lookupData['country'] == 'sa' ? '9' : '11' )." digits")
                     ),
 
                 )

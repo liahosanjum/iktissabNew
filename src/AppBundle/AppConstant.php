@@ -111,7 +111,8 @@ class AppConstant
     
     const PROMOTIONS_PATH = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
     const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';
-    
+
+    const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
 
 
     

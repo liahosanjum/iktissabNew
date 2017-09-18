@@ -14,6 +14,7 @@
 'Iktissab Card No': 'Iktissab Card No'
 'Area': 'Area'
 'House Number': 'House Number'
+'Username could not be found': 'Username could not be found'
 'PO Box': 'PO Box'
 'Zip Code': 'Zip Code'
 'City': 'City'
@@ -118,6 +119,7 @@
 'New Password': 'New Password'
 'Confirm New Password': 'Confirm New Password'
 'Please enter correct old password': 'Please enter correct old password'
+'Please enter correct password': 'Please enter correct password'
 "Select City": "Select City"
 "Select Job": "Select Job"
 "Select Area": "Select Area"
@@ -139,12 +141,16 @@
 "is not recognized as a user name or an e-mail address": " is not recognized as a user name or an e-mail address"
 "Forgot Password": "Forgot Password"
 "Dear Iktissab Customer": "Dear Iktissab Customer"
+
 "To change your password click here": "لقد طلبت إعادة ضبط كلمة المرور الخاصة بك على موقع اكتساب ، لإعادة ضبط كلمة المرور أنقر هنا"
 "forgot password template 2": "لكي يتم توجيه متصفحك وبشكل تلقائي إلى صفحة إعادة ضبط كلمة المرور"
 "forgot password template 3": "إذا لم يكن المتصفح الخاص بك يدعم خاصية التوجيه التلقائي فعليك بنسخ الرابط آعلاه"
 "forgot password template 4": "مع ملاحظة أنه هذا الرابط صالح للاستخدام مرة واحد فقط وتنتهي صلاحيته بعد يوم واحد فقط"
 "forgot password template 5": "نشكركم على زيارتكم لموقعنا"
 "forgot password template 6": "مع تحيات شركة اسواق العثيم"
+"Dear Our IKTISSAB Customer": "Dear Our IKTISSAB Customer,"
+"For changing your IKTISSAB account password Please use the activation code": "For changing your IKTISSAB account password Please use the activation code"
+"thank you for visiting our website": "thank you for visiting our website"
 "Further instructions have been sent to your e-mail address": "Further instructions have been sent to your e-mail address."
 "Email has not been sent": "Email has not been sent"
 "New Password and old password must not be the same": "New Password and old password must not be the same"
@@ -195,7 +201,7 @@
 "Your new mobile number and old mobile number must not be same": "Your new mobile number and old mobile number must not be same"
 "Your email address is not updated.Please try again": "Your email address is not updated.Please try again"
 "about iktissab": "About Iktissab"
-"about us": "About Us"
+"why us": "Why Us"
 "sharia complient": "Complient with Sharia"
 "Customer Service": "Customer Service"
 "Promotions": "Promotions"
@@ -354,7 +360,7 @@
 'Invalid Iktissab Card Number': 'Please provide valid Iktissab Id'
 'Invalid captcha code': 'Invalid captcha code'
 'Please enter 9 digits mobile number starting with 5': 'Please enter 9 digits mobile number starting with 5'
-'Please enter 10 digits mobile number starting with 1': 'Please enter 10 digits mobile number starting with 1'
+'Please enter 10 digits mobile number starting with 1': 'Please enter 11 digits mobile number starting with 0'
 'Invalid Credentials': 'Please provide valid account information'
 'birthdate': 'birthdate'
 'Please enter the sms code': 'Please enter sms code you received on your mobile'
@@ -391,6 +397,11 @@
 "C": "Complaint"
 "E": "Inquiry"
 "S": "Suggestion"
-"If there is an account associated with this E-mail then you will receive an email with a link to reset your password": "If there is an account associated with this E-mail then you will receive an email with a link to reset your password."
+"If there is an account associated with this E-mail then you will receive an email with a code to reset your password": "If there is an account associated with this E-mail then you will receive an email with a code to reset your password."
+"EGP": "EGP"
+"Dear Our IKTISSAB Customer": "Our Dear IKTISSAB Customer"
+"For changing your IKTISSAB account password Please use the activation code": "For changing your IKTISSAB account password Please use the activation code"
+"thank you for visiting our website": "thank you for visiting our website"
+"You can get only three temporary code per day": "You can get only three temporary code per dayً"
 
 

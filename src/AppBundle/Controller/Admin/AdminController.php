@@ -26,6 +26,7 @@ use AppBundle\Form\GalleryType;
 use AppBundle\Form\EmailSettingType;
 use AppBundle\Form\FormSettingType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use AppBundle\Entity\CmsPages;
 
@@ -41,7 +42,8 @@ class AdminController extends Controller
     {
         // url = /admin/index
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            //return $this->redirectToRoute('cmslistall');
+            return $this->redirectToRoute('cmslistall');
+
         }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -57,9 +59,8 @@ class AdminController extends Controller
      */
     public function cmsListAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('homepage', array('_country' => 'sa', '_locale' => 'en' ));
-
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
         }
 
 
@@ -71,10 +72,9 @@ class AdminController extends Controller
         $cmsData = $form->getData();
         if ($form->isValid() && $form->isSubmitted())
         {
-            $cmsPage->setAtitle($form->get('atitle')->getData());
-            $cmsPage->setEtitle($form->get('etitle')->getData());
-            $cmsPage->setAdesc($form->get('adesc')->getData());
-            $cmsPage->setEdesc($form->get('edesc')->getData());
+            $cmsPage->setpageTitle($form->get('page_title')->getData());
+            $cmsPage->setpageContent($form->get('page_content')->getData());
+            $cmsPage->seturlPath($form->get('url_path')->getData());
             $cmsPage->setStatus($form->get('status')->getData());
             $cmsPage->setType('cms');
             $em = $this->getDoctrine()->getManager();
@@ -86,7 +86,6 @@ class AdminController extends Controller
                     'form' => $form->createView(),'message' => $message,
                 ));
             }
-            //return new Response('Content page added');
         }
         return $this->render('admin/cms/cms.html.twig', array(
             'form' => $form->createView(),'message' => '',
@@ -99,12 +98,13 @@ class AdminController extends Controller
     public function newsListAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('homepage', array('_country' => 'sa', '_locale' => 'en' ));
+            return $this->redirectToRoute('admin_admin');
         }
 
 
         $cmsPage = new CmsPages();
         $form = $this->createForm(CmsPagesType::class, $cmsPage);
+
         // print_r($form);
         $form->handleRequest($request);
         $request->request->get('adesc');
@@ -128,10 +128,9 @@ class AdminController extends Controller
             // instead of its contents
             $cmsPage->setBrochure($fileName);
 
-            $cmsPage->setAtitle($form->get('atitle')->getData());
-            $cmsPage->setEtitle($form->get('etitle')->getData());
-            $cmsPage->setAdesc($form->get('adesc')->getData());
-            $cmsPage->setEdesc($form->get('edesc')->getData());
+            $cmsPage->setpageTitle($form->get('page_title')->getData());
+            $cmsPage->setpageContent($form->get('page_content')->getData());
+
             $cmsPage->setStatus($form->get('status')->getData());
             $cmsPage->setType('news');
             $em = $this->getDoctrine()->getManager();
@@ -159,7 +158,7 @@ class AdminController extends Controller
     public function cmsListAllAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-          return $this->redirectToRoute('homepage', array('_country' => 'sa', '_locale' => 'en' ));
+          return $this->redirectToRoute('admin_admin');
 
         }
 
@@ -173,8 +172,7 @@ class AdminController extends Controller
         foreach($cmspages as $cmspage)
         {
             $data[$i]['id']     =  $cmspage->getId();
-            $data[$i]['Atitle'] =  $cmspage->getAtitle();
-            $data[$i]['Etitle'] =  $cmspage->getEtitle();
+            $data[$i]['title'] =  $cmspage->getpageTitle();
             $data[$i]['Status'] =  $cmspage->getStatus();
             $i++;
         }
@@ -198,7 +196,7 @@ class AdminController extends Controller
     public function newsListAllAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('homepage', array('_country' => 'sa', '_locale' => 'en' ));
+            return $this->redirectToRoute('admin_admin');
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -211,8 +209,7 @@ class AdminController extends Controller
         {
             $cmspage;
             $data[$i]['id']     =  $cmspages[$i]->getId();
-            $data[$i]['Atitle'] =  $cmspages[$i]->getAtitle();
-            $data[$i]['Etitle'] =  $cmspages[$i]->getEtitle();
+            $data[$i]['Atitle'] =  $cmspages[$i]->getpageTitle();
             $data[$i]['Status'] =  $cmspages[$i]->getStatus();
             $i++;
         }
@@ -260,17 +257,15 @@ class AdminController extends Controller
         }
 
         $form->handleRequest($request);
-        $request->get('adesc');
+        $request->get('page_content');
         $cmsData = $form->getData();
         $adesc = $form->get('status')->getData();
 
 
         if ($form->isValid() && $form->isSubmitted())
         {
-            $cmsPage->setAtitle($form->get('atitle')->getData());
-            $cmsPage->setEtitle($form->get('etitle')->getData());
-            $cmsPage->setAdesc($form->get('adesc')->getData());
-            $cmsPage->setEdesc($form->get('edesc')->getData());
+            $cmsPage->setpageTitle($form->get('page_title')->getData());
+            $cmsPage->setpageContent($form->get('page_content')->getData());
             $cmsPage->setStatus($form->get('status')->getData());
             $em = $this->getDoctrine()->getManager();
             //$em->persist($cmsPage);
@@ -284,7 +279,7 @@ class AdminController extends Controller
         }
         else
         {
-            $em = $this->getDoctrine()->getManager();
+
             return $this->render('admin/cms/cmsedit.html.twig', array(
                 'form' => $form->createView(),'message' => '',
             ));
@@ -304,7 +299,7 @@ class AdminController extends Controller
         $cmsPage = $em->getRepository('AppBundle:CmsPages')
         ->findOneBy(array( 'type' => 'news' , 'id' => $page));
         $status = $cmsPage->getStatus();
-        $form = $this->createForm(CmsPagesType::class, $cmsPage);
+        $form   = $this->createForm(CmsPagesType::class, $cmsPage);
         /*
          * this set the value field in the form by passing the values retrieved from the data
         $status = $form->get('atitle')->setData("testing1234");
@@ -321,26 +316,23 @@ class AdminController extends Controller
         $form->handleRequest($request);
         $request->get('adesc');
         $cmsData = $form->getData();
-        $adesc = $form->get('status')->getData();
-
-
+        $adesc   = $form->get('status')->getData();
         if ($form->isValid() && $form->isSubmitted())
         {
-            $Atitle  = $form->get('atitle')->getData();
-            $Etitle  = $form->get('etitle')->getData();
-            $Adesc   = $form->get('adesc')->getData();
-            $Edesc   = $form->get('edesc')->getData();
-            $status  = $form->get('status')->getData();
-            $country = $form->get('country')->getData();
-            $type    = 'news';
+            $title    = $form->get('page_title')->getData();
+            $content  = $form->get('page_content')->getData();
+            $url_path = $form->get('url_path')->getData();
+            $status   = $form->get('status')->getData();
+            $country  = $form->get('country')->getData();
+            $type     = 'news';
 
             $em = $this->getDoctrine()->getManager();
             //$em->persist($cmsPage);
-            if($form->get('brochure')->getData() ) {
+            if($form->get('brochure')->getData() )
+            {
                 $file = $cmsPage->getBrochure(); //$form->get('image')->getData(); //$cmsPage->getImage();
                 // Generate a unique name for the file before saving it
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
                 // Move the file to the directory where brochures are stored
                 $file->move(
                     $this->getParameter('images_directory'),
@@ -350,16 +342,16 @@ class AdminController extends Controller
                 // Update the 'brochure' property to store the PDF file name
                 // instead of its contents
                 $cmsPage->getBrochure($fileName);
-                $em = $this->getDoctrine()->getManager();
+                $em   = $this->getDoctrine()->getManager();
                 $conn = $em->getConnection();
 
                 // $data_values = array($email = $email, $C_id = $C_id);
                 $status = $form->get("status")->getData();
-                $data_values = array($Adesc , $Edesc ,
-                    $Atitle , $Etitle  , $status , $country , $type , $fileName  , $page  );
+                $data_values = array($content ,
+                    $title , $status , $country , $type , $fileName  , $url_path ,$page  );
 
-                $stm = $conn->executeUpdate('UPDATE cms_pages SET  adesc= ?  , edesc= ? ,
-                atitle = ? , etitle= ?  , status = ?  , country = ? , type = ?  , brochure = ? 
+                $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content= ?  , 
+                page_title = ?   , status = ?  , country = ? , type = ?  , brochure = ? , url_path = ? 
                  
                 WHERE id = ?   ', $data_values);
 
@@ -382,13 +374,13 @@ class AdminController extends Controller
 
                 // $data_values = array($email = $email, $C_id = $C_id);
                 $status = $form->get("status")->getData();
-                $data_values = array($Adesc , $Edesc ,
-                    $Atitle , $Etitle  , $status , $country , $type , $page  );
+                $data_values = array($content ,
+                    $title , $status , $country , $type ,  $url_path , $page   );
 
-                $stm = $conn->executeUpdate('UPDATE cms_pages SET  adesc= ?  , edesc= ? ,
-                atitle = ? , etitle= ?  , status = ?  , country = ? , type = ?  
+                $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content = ?  ,  
+                page_title = ? ,  status = ?  , country = ? , type = ?  , url_path = ? 
                  
-                WHERE id = ?   ', $data_values);
+                WHERE id = ? ', $data_values);
 
                 $stm;
                 if($stm == 1){
@@ -424,7 +416,7 @@ class AdminController extends Controller
 
 
             return $this->render('admin/news/newsedit.html.twig', array(
-                'form' => $form->createView(),'message' => '',
+                'form' => $form->createView(),'message' => 'ss',
             ));
         }
     }
@@ -592,7 +584,6 @@ class AdminController extends Controller
         $em->flush();
         // route to listing
         return $this->redirectToRoute('cmslistall');
-
     }
 
     /**
@@ -742,7 +733,7 @@ class AdminController extends Controller
             }
         }
         return $this->render('admin/settings/settings.html.twig',
-        array(
+        array (
             'form' => $form->createView(),'message' => '',
         ));
     }
@@ -800,11 +791,11 @@ class AdminController extends Controller
         $i = 0;
         foreach($settingsList as $list)
         {
-            $data[$i]['Id']     =  $settingsList[$i]->getId();
-            $data[$i]['Email'] =  $settingsList[$i]->getEmail();
-            $data[$i]['Type'] =  $settingsList[$i]->getType();
+            $data[$i]['Id']        =  $settingsList[$i]->getId();
+            $data[$i]['Email']     =  $settingsList[$i]->getEmail();
+            $data[$i]['Type']      =  $settingsList[$i]->getType();
             $data[$i]['Technical'] =  $settingsList[$i]->getTechnical();
-            $data[$i]['Other'] =  $settingsList[$i]->getOther();
+            $data[$i]['Other']     =  $settingsList[$i]->getOther();
             // country id is sa and eg
             if($settingsList[$i]->getCountry() == 'sa')
             {
@@ -965,7 +956,20 @@ class AdminController extends Controller
         $em->flush();
         // route to listing
         return $this->redirectToRoute('admin_formdisplaysettings');
+    }
 
+    /**
+     * @Route("/admin/loogout", name="admin_loogout")
+     *
+     */
+    public function loogoutAction(Request $request){
+
+        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $acrivityLog = $this->get('app.activity_log');
+        $acrivityLog->logLogoutEvent($user,'admin');
+        $this->get('security.token_storage')->setToken(null);
+        $response = new RedirectResponse($this->generateUrl('admin_admin'));
+        return $response;
     }
 
 

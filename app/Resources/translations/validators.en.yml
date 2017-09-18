@@ -7,7 +7,7 @@
 'Invalid mobile number': 'Invalid mobile number'
 'Please Approve Terms and conditions': 'Please Approve Terms and conditions'
 'Please select title': 'Please select title'
-'Invalid number': 'Invalid number'
+'Invalid number': 'Please enter valid integer'
 'CAPTCHA validation failed, try again.': 'CAPTCHA validation failed, try again.'
 'Please enter a valid email address.': 'Please enter a valid email address'
 'Mobile Number Must be 14 digits': 'Mobile Number Must be 14 digits'
@@ -18,7 +18,7 @@
 "Iqama/SSN fields must matchsa": "Iqama Id/SSN fields must match"
 "Iqama/SSN fields must matcheg": "Natinal Number fields must match"
 "New email and confirm email fields must match": "New Email and Confirm new email must be same"
-"Please enter 10 digits mobile number starting with 1": "Please enter 10 digits mobile number starting with 1"
+"Please enter 11 digits mobile number starting with 0": "Please enter 11 digits mobile number starting with 0"
 "Please enter 10 digits mobile number starting with 5": "Please enter 10 digits mobile number starting with 5"
 "Country-Code:": "Country-Code:"
 'Invalid Iqama Id/SSN Numbersa': 'Invalid Iqama Id/SSN Number asdf'
@@ -31,7 +31,8 @@
 'Please enter valid iktissab id starting with 5': 'Please enter valid iktissab id starting with 5'
 'Your new Iktissab card is invalid': 'Your new Iktissab card is invalid'
 'Password must be greater then 6 characters': 'Password must be greater then 6 characters'
+'Invalid Code Please try again': 'Invalid code please try again'
 "Iqama/SSN fields must matchsa": "Iqama Id/SSN fields must match"
 "Iqama/SSN fields must matcheg": "Natinal Number fields must match"
 'Mobile Number Must be 9 digits': 'Mobile Number Must be 9 digits starting with 5'
-'Mobile Number Must be 10 digits': 'Mobile Number Must be 10 digits starting with 1'
+'Mobile Number Must be 11 digits': 'Mobile Number Must be 11 digits starting with 0'

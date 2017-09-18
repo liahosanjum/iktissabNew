@@ -168,7 +168,13 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Total Balance'|trans }}</div>
                                                     <div class="ikti-info-price-details color-blue">{{ iktData['balance'] + iktData['balance_used']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                                                    <div class="ikt-info-price-currency">
+                                                        {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                            {{ 'EGP'|trans }}
+                                                        {% else %}
+                                                            {{ 'SAR'|trans }}
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -179,7 +185,13 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Used Balance'|trans }}</div>
                                                     <div class="ikti-info-price-details orange-color">{{ iktData['balance_used']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                                                    <div class="ikt-info-price-currency">
+                                                        {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                            {{ 'EGP'|trans }}
+                                                        {% else %}
+                                                            {{ 'SAR'|trans }}
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -190,7 +202,13 @@
                                                 <div class="ikt-info-price">
                                                     <div class="ikt-info-price-title">{{ 'Current Balance'|trans }} </div>
                                                     <div class="ikti-info-price-details light-red-color">{{ iktData['balance']|round(2, 'floor') }}</div>
-                                                    <div class="ikt-info-price-currency">{{ 'SAR'|trans }}</div>
+                                                    <div class="ikt-info-price-currency">
+                                                        {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                            {{ 'EGP'|trans }}
+                                                        {% else %}
+                                                            {{ 'SAR'|trans }}
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
 
                                             </div>

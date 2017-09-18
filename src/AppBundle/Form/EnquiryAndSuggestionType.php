@@ -56,14 +56,14 @@ class EnquiryAndSuggestionType extends AbstractType
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'label_attr' => ['class' => 'inq-form formControl-ext formLayout    form_labels'],
-                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 10),
+                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Regex(
                         array(
-                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
+                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[0]([0-9]){10}$/',
                             'match' => true,
-                            'message' =>  ($country == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 10 digits mobile number starting with 1")
+                            'message' =>  ($country == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 11 digits mobile number starting with 0")
                     ),)))
 
 

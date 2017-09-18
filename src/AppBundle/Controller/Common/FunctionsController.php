@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller\Common;
 
+use AppBundle\Entity\User;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 use AppBundle\AppConstant;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
-class FunctionsController
+class FunctionsController extends Controller
 {
     Public function getIP()
     {
@@ -40,9 +42,10 @@ class FunctionsController
             //$response->sendHeaders();
         }
         $request->setLocale($langauge);
-        //sohail: todo
-        //$request->getSession()->set('_locale', $langauge);
+        // sohail: todo
+        // $request->getSession()->set('_locale', $langauge);
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_LOCALE, $locale, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+        //
         $response->sendHeaders();
         return $request->cookies->get(AppConstant::COOKIE_LOCALE);
     }
@@ -58,6 +61,7 @@ class FunctionsController
         }
         $country = $request->get('_country');
         $response->headers->setCookie(new Cookie(AppConstant::COOKIE_COUNTRY, $country, time() + AppConstant::COOKIE_EXPIRY, '/', null, false, false));
+        //
         $response->sendHeaders();
         return $country;
     }
@@ -89,6 +93,48 @@ class FunctionsController
         else{
             return true;
         }
+    }
+
+    function iktExist($ikt)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $checkIktCard = $em->getRepository('AppBundle:User')->find($ikt);
+        if (is_null($checkIktCard)) {
+            Throw new Exception($this->get('translator')->trans('Card is not registered on website'), 1);
+        } else {
+            return $checkIktCard->getEmail();
+        }
+    }
+
+    public function validateIqama($iqama)
+    {
+        $evenSum = 0;
+        $oddSum  = 0;
+        $entireSum = 0;
+        for ($i = 0; $i < strlen($iqama); $i++) {
+            $temp = '';
+            if ($i % 2) { // odd number
+
+                $oddSum = $oddSum + $iqama[$i];
+
+            } else {
+                //even
+                $multE = $iqama[$i] * 2;
+                if (strlen($multE) > 1) {
+                    $temp = (string)$multE;
+                    $evenSum = $evenSum + ($temp[0] + $temp[1]);
+                } else {
+                    $evenSum = $evenSum + $multE;
+                }
+            }
+        }
+        $entireSum = $evenSum + $oddSum;
+        if (($entireSum % 10) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
    
