@@ -57,7 +57,7 @@ class EnquiryAndSuggestionController extends FOSRestController
         $enquiryAndSuggestion = new EnquiryAndSuggestion();
 
         $form = $this->createForm(EnquiryAndSuggestionType::class, $enquiryAndSuggestion, ['extras' =>['country' => $country, "mobile"=>true]]);
-
+        $form->remove('captchaCode');
         $view = null;
         try{
             $form->submit($postData);
@@ -86,7 +86,7 @@ class EnquiryAndSuggestionController extends FOSRestController
                     $enquiryService = $this->get("app.services.enquiry_and_suggestion");
 
                     if($enquiryService->save($enquiryAndSuggestion, $data)){
-                        $view = $this->view(ApiResponse::Response(true, 1, $formSetting), HttpCode::HTTP_OK);
+                        $view = $this->view(ApiResponse::Response(true, 1, null), HttpCode::HTTP_OK);
                     }
                     else{
                         $view = $this->view(ApiResponse::Response(false, 3, null), HttpCode::HTTP_OK);
