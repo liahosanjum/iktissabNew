@@ -22,7 +22,7 @@
                 <div class="top-contact-wrapper">
                     <ul class="nav navbar-nav navbar-right nomargin">
                         <li style="border-left:none; "><a style="border-left:none; "  href="{{ path('front_enquiry_and_suggestion_add', {'_country': local_country_url, '_locale':local_language_url }) }}"> {{ 'Inquiry and Suggestions'|trans }} </a></li>
-                        <li><a class="top-menu-links" href="{{ path('front_faqlist', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'faqs'|trans }}</a></li>
+                        <li><a class="top-menu-links" href="{{ path('front_faqs', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'faqs'|trans }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,19 +63,14 @@
                                     {{ 'Signup'|trans }} </a>
                         </li>
                         {% endif %}
-
-
-
-
-
                         {% if app.request.cookies.get('c_country') == 'eg' %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {{ 'Egypt'|trans }}  <img class="country-fl" alt="saudia" src="{{ asset('img/eg.jpg')}}"  height="13px" /></a>
+                                 {{ 'Egypt'|trans }} <img class="country-fl" alt="saudia" src="{{ asset('img/eg.jpg')}}"  height="13px" /></a>
                             <ul class="dropdown-menu right">
                                 <li>
-
-                                  <a href="{{ path('setCountry', {'_country': 'sa', '_locale':local_language_url }|merge({'ccid': 'sa' })) }}"> {{ 'Saudia'|trans }}
+                                    <a href="{{ path('setCountry', {'_country': 'sa', '_locale':local_language_url }|merge({'ccid': 'sa' })) }}"> {{ 'Saudia'|trans }}
+                                      <span class="country-flg"><img class="country-fl" alt="saudia" src="{{ asset('img/ksa.jpg')}}"  height="13px" /></span>
                                     </a>
                                 </li>
                             </ul>
@@ -85,7 +80,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{ 'Saudia'|trans }}   <img alt="saudia" src="{{ asset('img/ksa.jpg')}}"  height="13px" /></a>
                             <ul class="dropdown-menu">
-                                <li>   <a href="{{ path('setCountry', {'_country': 'eg', '_locale':local_language_url }|merge({'ccid': 'eg' })) }}">{{ 'Egypt'|trans }}</a></li>
+                                <li>   <a class="eg-fl-eg" href="{{ path('setCountry', {'_country': 'eg', '_locale':local_language_url }|merge({'ccid': 'eg' })) }}">{{ 'Egypt'|trans }}
+                                        <span class="country-flg"><img class="country-fl" alt="saudia" src="{{ asset('img/eg.jpg')}}"  height="13px" /></span>
+                                    </a></li>
                             </ul>
                         </li>
                         {% endif %}

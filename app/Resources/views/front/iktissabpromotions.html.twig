@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
     {% if app.request.cookies.get('c_locale') == "en" %}
         {%  set side = 'right'  %}
@@ -12,32 +11,121 @@
         <div class="row">
             <div class="breadcrumb">
                 <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
-
                 <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
-                <a href="#" class="last-breadcrumb">{{ 'FAQs'|trans}}</a>
+                <a href="#" class="last-breadcrumb">{{ 'IKTISSAB PROMOTIONS'|trans}}</a>
             </div>
         </div>
     </section>
-    <section class="container">
+
+    <section class="container se-iktitem-detail-info">
         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="main-wrapper-products-detail-info">
+                    {% if DataPromo != '' and DataPromo != null %}
+                    <div class="ikt-offer home-title-detail-info">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
+                    <div class="  slick-products-detail-info">
 
-            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                <div><h1>{{ 'FAQs'|trans}}</h1></div>
-            </div>
+                        {% set i = 0 %}
+                        <div class="row">
 
-            {% if message != "" %}
-                <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable  col-lg-8 col-md-8 col-sm-12 col-xs-12 faqs-wrapper">
-                    {{ message|trans }}
-                    <img style="border: 1px solid #4e4e4e" src="{{ asset('/img/ikt22.png') }}" alt="test" />
+                                {% for items in DataPromo %}
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
+                                        <div class="Product-wrapper-detail-info" id="{{ DataPromo[i].ID }}">
+                                        <span target="#"  class="Product-Details-detail-info" >
+                                        <div class="Product-img-detail-info">
+                                            <div class="Imgcontainer-detail-info">
+                                                <div class="Product-img-detail-info"> <a target="_blank" href="{{ DataPromo[i].URL }}"> <img id="" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" alt="Avatar"   ></a></div>
+                                                <div class="middle-detail-info">
+                                                        <div class="textZoom-detail-info" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
+                                                            <img height="17" width="19" src="{{asset('img/zoom_03.png')  }}">
+                                                        </div>
+                                                        <div class="textView-detail-info" id="{{ DataPromo[i].ID }}" >
+                                                            <a target="_blank" href="{{ DataPromo[i].URL }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        </div>
+                                                    </div>
+                                                <div class="Product-name-detail-info "><a target="_blank" href="{{ DataPromo[i].URL }}">{{ DataPromo[i].Name }}</a></div>
+                                                <div class="Product-price-detail-info">
+                                                    <div class="priceBeforeDescount-detail-info">
+                                                        <span class="price-beforedesc-detail-info">
+                                                             <span class="current-price-before">{{ DataPromo[i].Price|round(2, 'floor') }}</span><span class="current-before">
+                                                                {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                                    {{ 'EGP'|trans }}
+                                                                {% else %}
+                                                                    {{ 'SAR'|trans }}
+                                                                {% endif %}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="priceAfterDescount-detail-info">
+                                                        <span class="price-afterdesc-detail-info">
+                                                             <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >
+                                                                {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                                    {{ 'EGP'|trans }}
+                                                                {% else %}
+                                                                    {{ 'SAR'|trans }}
+                                                                {% endif %}
+
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="claerfix"></div>
+                                                </div>
+                                                <div class="claerfix"></div>
+                                            </div>
+                                            <div class="claerfix"></div>
+                                        </div>
+                                    </span>
+                                    </div>
+                                        {% set i = i + 1 %}
+                                    </div>
+                                {%  endfor %}
+                        </div>
+                    </div> <!-- /.Item -->
+                    <div class="claerfix"></div>
                 </div>
-            {% endif %}
-</div>
+                {% else %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-danger iktissab-promotions">
+                        {{ 'No record found'|trans }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
     </section>
+    <div id="myModal1" class="modal">
+        <span class="close"  style="color:#FFFFFF;">Close</span>
+        <img class="modal-content" id="img01">
+
+    </div>
 
 {% endblock %}
     {% block javascripts %}
 
+        <script type="text/javascript">
+            // Get the modal
+            var modal = document.getElementById('myModal1');
+            function show(image) {
+                var img = document.getElementById(image);
+                var modalImg = document.getElementById("img01");
+
+                modal.style.display = "block";
+                modalImg.src = image;
+
+            }
+
+            // Get the <span> element that closes the modal
+
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            // span.onclick = function() {
+            modal.onclick = function() {
+                modal.style.display = "none";
+            }
+
+        </script>
 
 
-        </div>
     {% endblock %}

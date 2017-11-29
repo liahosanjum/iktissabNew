@@ -28,31 +28,15 @@
             {% if message != "" %}
                 <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable  col-lg-8 col-md-8 col-sm-12 col-xs-12 faqs-wrapper">
                     {{ message|trans }}
-            </div>
+                    <img style="border: 1px solid #4e4e4e" src="{{ asset('/img/ikt22.png') }}" alt="test" />
+                </div>
             {% endif %}
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 faqs-wrapper">
-
-                {{ form(form) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.mobile) }}
-                {{ form_row(form.captchaCode) }}
-                {{ form_end(form) }}
-
-            </div>
-        </div>
+</div>
     </section>
 
 {% endblock %}
     {% block javascripts %}
 
-
-        <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                {{ form_jquery_validation(form) }}
-            });
-        </script>
 
 
         </div>
