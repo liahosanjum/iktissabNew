@@ -108,6 +108,7 @@
 'Update Your Name': 'تحديث الاسم'
 'Full Name': 'الاسم بالكامل'
 'Name must be in two parts': 'فضلاً أدخل الاسم كاملاً'
+'Full name must be of atleast two parts': 'فضلاً أدخل الاسم كاملاً'
 'Update Missing Card': 'بدل فاقد'
 'New Iktissab Number': 'رقم بطاقة إكتساب الجديدة'
 'Confirm Iktissab Number': 'تأكيد رقم بطاقة اكتساب'
@@ -243,6 +244,7 @@
 "Weekly Promotions": "العروض الترويجية"
 "Exclusive offers only for Ikitssab card holders": "عروض حصرية فقط لحاملي بطاقة اكتساب"
 "IKTISSAB PROMOTIONS": "عـروض اكتســاب"
+"Iktissab Promotions": "عـروض اكتســاب"
 "Iktissab": "اكتساب"
 "Save More": "توفير وإدخار"
 "One of the Biggest Loyalty Program in KSA": "برنامج الولاء الرائد في المملكة"
@@ -330,10 +332,12 @@
 'Participating Stores': 'المتاجر المشاركـة'
 'Activation Date': 'تاريخ التفعيل'
 'Last Used': 'أخر استخدام'
-'You will recieve sms on your mobile number **** ': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ ****'
+'You will recieve sms on your mobile number ****': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ ****'
 'SAR': 'ريال'
 'Currency-sa': 'ريال'
 'Currency-eg': 'جنيه'
+"Freez": "Freez ar"
+"Unfreez": "Unfreez ar"
 'Sorry! The page your requesting is not available': 'عفواً المحتوى المطلوب غير متوفرة حالياً'
 'SMS sent successfully': 'تم إرسال الرسالة بنجاح'
 'SMS not sent.Please try again': 'نأسف، لقد تعذر أرسال الرسالة إلى جوالك'
@@ -397,4 +401,5 @@
 "For changing your IKTISSAB account password Please use the activation code": "لإعادة تعيين رقمك السري الخاص بحسابك بموقع اكتساب برجاء استخدام كود التفعيل التالي"
 "thank you for visiting our website": "نشكركم على زيارتكم لموقعنا"
 "You can get only three temporary code per day": "يمكنك الحصول على الكود المؤقت ثلاث مرات يومياً"
-
+"More Items": "المزيد من الأصناف"
+"Close": "مغلق"

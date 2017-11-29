@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set title =  'Card Activation'|trans   %}
 {% block body %}
 
 
@@ -29,16 +29,17 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-        <div class="row">
-            <div class="row">
-                {% if(error.success == false) %}
-                    <div class="col-lg-12 text-center alert alert-danger">
-                        {{ error.message }}
-                    </div>
-                {% endif %}
-            </div>
 
+
+        <div class="activation-form-wrapper  cardactivation-list-title-wrapper col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
+            {% if(error.success == false) %}
+                <div class="col-lg-12 text-center alert alert-danger">
+                    {{ error.message }}
+                </div>
+            {% endif %}
         </div>
+
+
     </section>
     <section class="container cardactivation-form-wrapper">
         <div class="row">

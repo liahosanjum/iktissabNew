@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set title = 'Customer Information'|trans %}
 {% block body %}
 
     <section class="container breadcrum-wrapper">
@@ -26,18 +26,7 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-        <div class="row">
 
-            {% if(error.success == false) %}
-                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 activation-form-wrapper ">
-                    <div class="text-center alert alert-danger">
-                        {{ error.message }}
-
-                    </div>
-                </div>
-            {% endif %}
-
-        </div>
     </section>
 
     <section class="container cardactivation-form-wrapper register-activation">
@@ -85,57 +74,60 @@
 
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    {{ form_start(form) }}
+
+                                    {% if(error.success == false) %}
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 activation-form-wrapper activation-msg-wrapper ">
+                                            <div class="text-center alert alert-danger">
+                                                {{ error.message }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                                {{ form_start(form) }}
+                                <div class="row">
+
 
                                         <div class="form-cardactivation-wrapper     col-lg-10 col-md-10  col-sm-10 col-xs-10">
                                             <div class="title-cardactivation-form">
                                                 {{ form_label(form.iktCardNo) }}
                                             </div>
                                             <div class="cardactivationForm">
-
-
                                                 {{ form_widget(form.iktCardNo) }}
-
                                             </div>
                                             <div class="title-cardactivation-form">
                                                 {{ form_errors(form.iktCardNo) }}
                                             </div>
-
                                             <div class="title-cardactivation-form">
-                                                {{ form_label(form.email) }}  </div>
+                                                {{ form_label(form.email) }}
+                                            </div>
                                             <div class="cardactivationForm">
-
-
                                                 {{ form_widget(form.email) }}
                                             </div>
                                             <div class="title-cardactivation-form">
                                                 {{ form_errors(form.email) }}
                                             </div>
 
-                                            <div class="captcha-code">
-
-                                            <div class="title-cardactivation-form">
-                                                {{ form_label(form.captchaCode) }}
+                                            <div class="row">
+                                                <div class="captcha-code">
+                                                    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
+                                                        <div class="title-cardactivation-form">
+                                                            {{ form_label(form.captchaCode) }}
+                                                        </div>
+                                                        <div class="cardactivationForm">
+                                                            {{ form_widget(form.captchaCode) }}
+                                                        </div>
+                                                        <div class="title-cardactivation-form">
+                                                            {{ form_errors(form.captchaCode) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="captcha-image-reg col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                                                        <img  style="border: 1px solid #4e4e4e" src="{{ asset('/img/' ~ data ) }}" alt="test" />
+                                                    </div>
+                                                    <div class="claerfix"></div>
+                                                </div>
                                             </div>
-
-                                            <div class="cardactivationForm">
-                                                {{ form_widget(form.captchaCode) }}
-                                            </div>
-
-                                            <div class="title-cardactivation-form-captcha">
-                                                {{ form_errors(form.captchaCode) }}
-                                            </div>
-
-
-
-                                            </div>
-
-
-
-
-
 
                                             <div class="claerfix"></div>
                                         </div>
@@ -161,9 +153,7 @@
 
                                             <div class="desc-list">
                                                 <div class="sno listing-height"> - 4</div>
-                                                <div class="desc">{{
-                                                        'With every purchase with 100 riyals you will get 2 riyals in your card balance. Except for the promotion products'|trans
-                                                    }}
+                                                <div class="desc">{{'With every purchase with 100 riyals you will get 2 riyals in your card balance. Except for the promotion products'|trans }}
                                                 </div>
                                             </div>
 
@@ -209,20 +199,24 @@
                                         </div>
                                         <div class="chk-agree-desc">{{ "Accept terms and conditions"|trans }}</div>
                                         <div class="title-cardactivation-form-captcha" id="status_id">
+                                            <div class="title-cardactivation-form">
+                                                {{ form_errors(form.status) }}
+                                            </div>
                                             <label id="captchaCode-error" class="error" for="captchaCode">{{ 'This field is required'|trans }}</label>
-                                        </div>
+</div>
                                         <div class="claerfix"></div>
                                     </div>
                                     </div>
                                 <div class="row">
                                     <div class="chk-wrapper-submit col-lg-pull-4 col-md-pull-4 col-sm-pull-4 col-xs-pull-3 col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                         <div class="cardActivationSubmit">
-                                            {{ form_end(form) }}
+
                                         </div>
 
                                     </div>
                                     <div class="claerfix"></div>
                                 </div>
+                                {{ form_end(form) }}
                             </div>
                         </div>
                     </div>
@@ -235,16 +229,14 @@
 {% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-<script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
         $("#status_id").hide();
         {{ form_jquery_validation(form) }}
-
-
-    $('#activate_cardone_submit').click(function (event) {
+    $('#activate_cardone_submit').click(function (event)
+    {
 
         if($("#activate_cardone_status").is(':checked')){
                 $("#status_id").hide();

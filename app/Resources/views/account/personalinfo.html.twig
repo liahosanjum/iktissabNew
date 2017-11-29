@@ -21,13 +21,24 @@
         <div class="eservice-content-personal-description">
             <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
             <div class="account-info-detail-wrapper">
-                <div class="account-info-column">{{ 'House Number'|trans }}</div>
-                <div class="account-info-value">{{ iktData['houseno'] }}</div>
+                <div class="account-info-column">{{ 'Card Status'|trans }}</div>
+                <div class="account-info-value">{{  (iktData['card_status'])|trans }}</div>
                 <div class="claerfix"></div>
             </div>
             <div class="claerfix"></div>
         </div>
     </div>
+    <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+        <div class="eservice-content-personal-description">
+            <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+            <div class="account-info-detail-wrapper">
+                <div class="account-info-column">{# {{ 'House Number'|trans }} #}</div>
+                <div class="account-info-value">{# {{ iktData['houseno'] }} #}</div>
+                <div class="claerfix"></div>
+            </div>
+            <div class="claerfix"></div>
+        </div>
+    </div>-->
     <div class="claerfix"></div>
 </div>
 
@@ -170,47 +181,6 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-            <div class="eservice-content-personal-description">
-                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                <div class="account-info-detail-wrapper">
-                    <div class="account-info-column">{{ 'Card Status'|trans }}</div>
-                    <div class="account-info-value">{{ iktData['card_status'] }}</div>
-                    <div class="claerfix"></div>
-                </div>
-                <div class="claerfix"></div>
-            </div>
-        </div>
-        <div class="claerfix"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-            <div class="eservice-content-personal-description">
-                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                <div class="account-info-detail-wrapper">
-                    <div class="account-info-column">{{ 'Zip Code'|trans }}</div>
-                    <div class="account-info-value">{{ iktData["pobox"] }}</div>
-                    <div class="claerfix"></div>
-                </div>
-                <div class="claerfix"></div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-            <div class="eservice-content-personal-description">
-                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
-                <div class="account-info-detail-wrapper">
-                    <div class="account-info-column">{{ 'Telephone (Office)'|trans }}</div>
-                    <div class="account-info-value">{{ iktData['tel_office'] }}</div>
-                    <div class="claerfix"></div>
-                </div>
-                <div class="claerfix"></div>
-            </div>
-        </div>
-        <div class="claerfix"></div>
-    </div>
-
-    <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
             <div class="eservice-content-personal-description">
                 <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
@@ -222,8 +192,35 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-
+        <div class="claerfix"></div>
     </div>
+
+    <!--<div class="row">
+       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{# {{ 'Zip Code'|trans }} #}</div>
+                    <div class="account-info-value">{# {{ iktData["pobox"] }} #}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div>-->
+        <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+            <div class="eservice-content-personal-description">
+                <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
+                <div class="account-info-detail-wrapper">
+                    <div class="account-info-column">{# {{ 'Telephone (Office)'|trans }} #}</div>
+                    <div class="account-info-value">{# {{ iktData['tel_office'] }}  #}</div>
+                    <div class="claerfix"></div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+        </div><div class="claerfix"></div>
+    </div>-->
+
+
 
 
 

@@ -34,7 +34,7 @@
 'Iktissab ID': 'Iktissab ID'
 'Full name': 'Full name'
 'Password': 'Password'
-'Repeat password': 'confirm password'
+'Repeat password': 'Confirm password'
 'Gender': 'Gender'
 'Job': 'Job'
 'Preffered Language': 'Preferred Language'
@@ -105,6 +105,7 @@
 'Update Your Name': 'Update Your Name'
 'Full Name': 'Full Name'
 'Name must be in two parts': 'Full name must be of atleast two parts'
+'Full name must be of atleast two parts': 'Full name must be of atleast two parts'
 'Update Missing Card': 'Update Missing Card'
 'New Iktissab Number': 'New Iktissab Id'
 'Confirm Iktissab Number': 'Confirm Iktissab Id'
@@ -242,6 +243,8 @@
 "Saudia": "Saudi Arabia"
 "Egypt": "Egypt"
 "Activate Cards": "Activate Cards"
+"Freez": "Freez"
+"Unfreez": "Unfreez"
 "Get free iktissab card and start collecting money": "Get free iktissab card and start collecting money"
 "Weekly Promotions": "Weekly Promotions"
 "Exclusive offers only for Ikitssab card holders": "Exclusive offers only for Ikitssab card holders"
@@ -320,7 +323,7 @@
 "Please enter activation code": "Please enter activation code"
 "Please enter 6 digits code you received on your mobile": "Please enter 6 digits code you received on your mobile"
 "Thank you. Your activation request has been received successfully": "Thank you. Your activation request has been received successfully"
-"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account"
+"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number in 48 hours, also we have sent you an email containing a link to confirm & activate your Iktissab Account"
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
@@ -335,7 +338,7 @@
 'Participating Stores': 'Participating Stores'
 'Activation Date': 'Activation Date'
 'Last Used': 'Last Used'
-'You will recieve sms on your mobile number **** ': 'You will recieve sms on your mobile number **** '
+'You will recieve sms on your mobile number ****': 'You will recieve sms on your mobile number **** '
 'SAR': 'SAR'
 'Currency-sa': 'SR'
 'Currency-eg': 'EGP'
@@ -403,5 +406,7 @@
 "For changing your IKTISSAB account password Please use the activation code": "For changing your IKTISSAB account password Please use the activation code"
 "thank you for visiting our website": "thank you for visiting our website"
 "You can get only three temporary code per day": "You can get only three temporary code per dayً"
-
+"Iktissab Promotions": "Iktissab Promotions"
+"More Items": "More Items"
+"Close": "Close"
 

@@ -16,7 +16,7 @@
                     {% endif %}
                     <div id="preLoadersSSN"></div>
 
-                        {{ form(form) }}
+                        {{ form(form, { 'attr': {'autocomplete': 'off'} }) }}
                             {{ form_row(form.iqamassn_registered) }}
                             {{ form_row(form.iqamassn_new) }}
                             {{ form_row(form.comment_iqamassn) }}
@@ -30,8 +30,8 @@
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
 
-
         $('form[name="iqamassn"]').on('submit', function (event) {
+
             if($( "#iqamassn_iqamassn_new_first" ).hasClass( "valid" )) {
                 if ($("#iqamassn_iqamassn_new_second").hasClass("valid")) {
                     if ($("#iqamassn_comment_iqamassn").hasClass("valid")) {
@@ -71,11 +71,7 @@
 
         });
     </script>
-<script type="text/css">
-    style{
-    #myTabContent .col-lg-6, #myTabContent .col-md-4, #myTabContent .col-sm-6, #myTabContent .col-xs-12 { padding-left:10px; padding-right:10px; }
-    }
-</script>
+
 {% endblock %}
 
 

@@ -21,7 +21,7 @@
 
                     <div id="preLoadersFull"></div>
 
-                        {{ form(form) }}
+                        {{ form(form, { 'attr': {'autocomplete': 'off'} }) }}
                             {{ form_row(form.fullname) }}
                             {{ form_row(form.fullname_registered_iqamaid) }}
                             {{ form_row(form.comment_fullname) }}

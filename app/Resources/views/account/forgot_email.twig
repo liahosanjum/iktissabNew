@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set title =  'Retrieve account email'|trans   %}
 {% block body %}
 
     <div class="container breadcrum-wrapper">
@@ -17,77 +17,79 @@
                 <div><h1> {{ 'Retrieve account email'|trans}}</h1></div>
             </div>
         </div>
+        <div class="row  offset-layout">
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+
+                    {% if(error.success == false) %}
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-danger ">
+                            {{ error.message }}
+                        </div>
+                    {% endif %}
+                    {% if(error.success == true and error.message != '') %}
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  alert alert-success">
+                            {{ error.message }}
+                        </div>
+                    {% endif %}
+                    {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+                    <div class="title-cardactivation-form">
+                        {{ form_label(form.iktCardNo) }}
+                    </div>
+
+                    <div class="cardactivationForm">
+                        {{ form_widget(form.iktCardNo) }}
+                    </div>
+
+                    <div class="title-cardactivation-form-captcha">
+                        {{ form_errors(form.iktCardNo) }}
+                    </div>
 
 
 
+                    <div class="title-cardactivation-form">
+                        {{ form_label(form.iqama) }}
+                    </div>
 
+                    <div class="cardactivationForm">
+                        {{ form_widget(form.iqama) }}
+                    </div>
 
+                    <div class="title-cardactivation-form-captcha">
+                        {{ form_errors(form.iqama) }}
+                    </div>
 
-
-        <div class="row forgot-email-account offset-layout">
-            {% if(error.success == false) %}
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  alert alert-danger ">
-                    {{ error.message }}
-                </div>
-            {% endif %}
-            {% if(error.success == true and error.message != '') %}
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  alert alert-success">
-                    {{ error.message }}
-                </div>
-            {% endif %}
-
-
-            {{ form_start(form) }}
-
-
-
-
-
-
-            <div class="title-cardactivation-form">
-                {{ form_label(form.iktCardNo) }}
             </div>
 
-            <div class="cardactivationForm">
-                {{ form_widget(form.iktCardNo) }}
-            </div>
-
-            <div class="title-cardactivation-form-captcha">
-                {{ form_errors(form.iktCardNo) }}
-            </div>
-
-
-
-            <div class="title-cardactivation-form">
-                {{ form_label(form.iqama) }}
-            </div>
-
-            <div class="cardactivationForm">
-                {{ form_widget(form.iqama) }}
-            </div>
-
-            <div class="title-cardactivation-form-captcha">
-                {{ form_errors(form.iqama) }}
-            </div>
-
-
-
-            <div class="title-cardactivation-form">
-                {{ form_label(form.captchaCode) }}
-            </div>
-
-            <div class="cardactivationForm">
-                {{ form_widget(form.captchaCode) }}
-            </div>
-
-            <div class="title-cardactivation-form-captcha">
-                {{ form_errors(form.captchaCode) }}
-            </div>
-
-
-            {{ form_end(form) }}
         </div>
+        <div class="row offset-layout">
+            <div class="captcha-code col-lg-12 col-md-8 col-sm-8 col-xs-12">
+                <div class="row ">
+                    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-7">
+                        <div class="title-cardactivation-form">
+                            {{ form_label(form.captchaCode) }}
+                        </div>
+                        <div class="cardactivationForm">
+                            {{ form_widget(form.captchaCode) }}
+                        </div>
+                        <div class="title-cardactivation-form">
+                            {{ form_errors(form.captchaCode) }}
+                        </div>
+                        <div class="claerfix"></div>
+                    </div>
+                    <div class="captcha-image-forgotemail col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                        <div class="">
+                            <img  class="captcha-style" src="{{ asset('/img/' ~ data ) }}" alt="captcha" />
+                        </div>
+                    </div>
+                    <div class="claerfix"></div>
 
+
+                </div>
+
+
+                <div class="claerfix"></div>
+            </div>
+        </div>
+            {{ form_end(form) }}
         <div class="claerfix"></div>
     </section>
 
