@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Common\FunctionsController;
+use AppBundle\Controller\Front\CaptchaController;
 use AppBundle\Entity\EnquiryAndSuggestion;
 use AppBundle\Form\EnquiryAndSuggestionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\AppConstant;
- 
+
 
 class EnquiryAndSuggestionController extends Controller
 {
@@ -24,6 +25,7 @@ class EnquiryAndSuggestionController extends Controller
         $response = new Response();
         $activityLog  = $this->get('app.activity_log');
         $comFunction = new FunctionsController();
+        $comFunction->setContainer($this->container);
         if($comFunction->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
         }
@@ -80,15 +82,35 @@ class EnquiryAndSuggestionController extends Controller
         $display_settings = $this->getFormSubmissionSettings($request, 'Inquiries And Suggestion');
         $show_form = true;
         $form->handleRequest($request);
+        /*****************/
+        $captcha      = new FunctionsController();
+        $response      = new Response();
+        $captcha->setContainer($this->container);
+        $form->get('captchaCode')->getData();
+        $this->get('session')->get('_CAPTCHA');
+        /*****************/
         if(isset($display_settings) && $display_settings != null) {
             if ($form->isValid())
             {
+                $captchaCode           = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
+                $captchaCodeSubmitted  = trim(strtoupper($form->get('captchaCode')->getData()));
+                if($captchaCodeSubmitted != $captchaCode)
+                {
+                    $config        = array();
+                    $filename      = $captcha->saveTextAsImage($config);
+
+
+                    $response->setContent($filename['filename']);
+                    $captcha_image = $filename['image_captcha'];
+                    $error_cl      = 'alert-danger';
+                    return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
+                        array('form' => $form->createView(),'message' => $this->get('translator')->trans('Invalid captcha code'),
+                            'show_form' => $show_form , 'data' => $captcha_image , 'error_cl'=> $error_cl ));
+                }
                 try {
                     $data = $this->getEmailList($request, 'Inquiries And Suggestion', $form->get('reason')->getData());
                     if ($data['success'])
                     {
-
-                        $enquiryAndSuggestion->setCountry($request->get('_country'));
                         /*
                         if($request->get('_country') == 'sa'){
                             $ext = '966';
@@ -98,38 +120,61 @@ class EnquiryAndSuggestionController extends Controller
                         }
                         $enquiryAndSuggestion->setMobile($ext.$form->get('mobile')->getData());
                         */
-
-
                         $enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
-
                         $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
                         if ($rest) {
-                            
+                            $config       = array();
+                            $filename     = $captcha->saveTextAsImage($config);
+
+
+                            $response->setContent($filename['filename']);
+                            $captcha_image = $filename['image_captcha'];
                             $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, 0, array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
 
-                            return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Form is submitted Successfully') ,'show_form' => $show_form));
+                            return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Form is submitted Successfully') ,'show_form' => $show_form, 'data' => $captcha_image));
                         }
                     } else {
-                        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('') ,'show_form' => $show_form));
-                    }
-                } catch (\Exception $e) {
-                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => ''));
+                        $config       = array();
+                        $filename     = $captcha->saveTextAsImage($config);
 
-                    return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage() ,'show_form' => $show_form));
+
+                        $response->setContent($filename['filename']);
+                        $captcha_image = $filename['image_captcha'];
+                        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('') ,'show_form' => $show_form , 'data' => $captcha_image));
+                    }
+                }
+                catch (\Exception $e)
+                {
+                    $error_cl = 'alert-danger';
+                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => '' , 'data' => $file_name));
+                    return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage() ,'show_form' => $show_form , 'data' => $file_name ,'error_cl'=> $error_cl));
                 }
             } else {
-                return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form ));
+                $config        = array();
+                $filename      = $captcha->saveTextAsImage($config);
+
+
+                $response->setContent($filename['filename']);
+                $captcha_image = $filename['image_captcha'];
+                $error_cl      = 'alert-danger';
+                return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form , 'data' => $captcha_image));
             }
         } else {
             if($form->isSubmitted()) {
                 $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'), 'Data' => ''));
-
+                $error_cl     = 'alert-danger';
                 $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
-            } else {   $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');}
-            $show_form  = false;
-            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $message , 'show_form' => $show_form ));
+            } else {
+                $error_cl     = 'alert-danger';
+                $message      = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');}
+            $show_form        = false;
+            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $message , 'show_form' => $show_form , 'data' => '' ,'error_cl'=> $error_cl));
         }
-        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form ));
+        $config        = array();
+        $filename      = $captcha->saveTextAsImage($config);
+        $response->setContent($filename['filename']);
+        $captcha_image = $filename['image_captcha'];
+        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form , 'data' => $captcha_image ));
     }
 
 

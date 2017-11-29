@@ -41,9 +41,9 @@ class AdminController extends Controller
     public function adminAction()
     {
         // url = /admin/index
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            return $this->redirectToRoute('cmslistall');
-
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+           return $this->redirectToRoute('cmslistall');
         }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();

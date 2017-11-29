@@ -31,6 +31,22 @@ class FunctionsController extends Controller
         return $locale = $request->getLocale();
     }
 
+    Public function getOthaimServiceURL(Request $request)
+    {
+        $country_code = $this->getCountryCode($request);
+        if($country_code == 'eg') {
+            $url = AppConstant::OTHAIM_WEBSERVICE_URL_EG;
+        }
+        else if($country_code == 'sa') {
+            $url = AppConstant::OTHAIM_WEBSERVICE_URL;
+        }
+        else{
+            // default
+            $url = AppConstant::OTHAIM_WEBSERVICE_URL;
+        }
+        return $url;
+    }
+
 
     public function changeLanguage(Request $request, $langauge)
     {
@@ -87,10 +103,11 @@ class FunctionsController extends Controller
     {
         $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        if((!isset($cookieLocale)) && ($cookieLocale == '') && (!isset($cookieCountry)) && ($cookieCountry == '')){
+        // if((!isset($cookieLocale)) || ($cookieLocale == '') || (!isset($cookieCountry)) || ($cookieCountry == ''))
+
+        if (((!isset($cookieLocale) || ($cookieLocale == '')) || (!isset($cookieCountry) || ($cookieCountry == '')))) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
@@ -137,7 +154,94 @@ class FunctionsController extends Controller
 
     }
 
-   
+    /**
+     * Method convert given text to PNG image and returs
+     * file name
+     * @param type $text Text
+     * @return string File Name
+     */
+     function saveTextAsImage($config = array()) {
+        // Create the image
+
+        $bg_path   = ""; // $this->get('kernel')->getRootDir()  . '/../web/backgrounds/';
+        $font_path = $this->get('kernel')->getRootDir()  . '/../fonts/captcha-fonts/';
+        // Default values
+        $captcha_config = array(
+            'code'        => '',
+            'min_length'  => 4,
+            'max_length'  => 4,
+            'backgrounds' => array(
+                $bg_path . '45-degree-fabric.png',
+                $bg_path . 'cloth-alike.png',
+                $bg_path . 'grey-sandbag.png',
+                $bg_path . 'kinda-jean.png',
+                $bg_path . 'polyester-lite.png',
+                $bg_path . 'stitched-wool.png',
+                $bg_path . 'white-carbon.png',
+                $bg_path . 'white-wave.png'
+            ),
+            'fonts'     => array(
+                $font_path . 'times_new_yorker.ttf'
+            ),
+            'characters' => 'ABCDEFGHJKLMNPRSTUVWXYZabcdefghjkmnprstuvwxyz23456789',
+            'min_font_size' => 10,
+            'max_font_size' => 12,
+            'color' => '#666',
+            'angle_min' => 0,
+            'angle_max' => 10,
+            'shadow' => true,
+            'shadow_color' => '#FF0000',
+            'shadow_offset_x' => -1,
+            'shadow_offset_y' => 1
+        );
+
+        // Overwrite defaults with custom config values
+        if( is_array($config) ) {
+            foreach( $config as $key => $value ) $captcha_config[$key] = $value;
+        }
+
+        // Restrict certain values
+        if( $captcha_config['min_length'] < 1 ) $captcha_config['min_length'] = 1;
+        if( $captcha_config['angle_min'] < 0 ) $captcha_config['angle_min'] = 0;
+        if( $captcha_config['angle_max'] > 10 ) $captcha_config['angle_max'] = 10;
+        if( $captcha_config['angle_max'] < $captcha_config['angle_min'] ) $captcha_config['angle_max'] = $captcha_config['angle_min'];
+        if( $captcha_config['min_font_size'] < 10 ) $captcha_config['min_font_size'] = 10;
+        if( $captcha_config['max_font_size'] < $captcha_config['min_font_size'] ) $captcha_config['max_font_size'] = $captcha_config['min_font_size'];
+
+        // Generate CAPTCHA code if not set by user
+        if( empty($captcha_config['code']) ) {
+            $captcha_config['code'] = '';
+            $length = mt_rand($captcha_config['min_length'], $captcha_config['max_length']);
+            while( strlen($captcha_config['code']) < $length ) {
+                $captcha_config['code'] .= substr($captcha_config['characters'], mt_rand() % (strlen($captcha_config['characters'])), 1);
+            }
+        }
+        $imageCreator = imagecreatetruecolor(100, 30);
+        // Create some colors
+        $white        = imagecolorallocate($imageCreator, 239, 239, 239);
+        $grey         = imagecolorallocate($imageCreator, 128, 128, 128);
+        $black        = imagecolorallocate($imageCreator, 0, 0, 0);
+        imagefilledrectangle($imageCreator, 0, 0, 399, 29, $white);
+        $this->get('session')->set('_CAPTCHA', $captcha_config['code']);
+
+        $font = $captcha_config['fonts'][0];
+        // Add some shadow to the text
+        imagettftext($imageCreator, 20, 0, 11, 21, $grey, $font, $captcha_config['code']);
+        // Add the text
+        imagettftext($imageCreator, 20, 0, 10, 20, $black, $font, $captcha_config['code']);
+        $file_name   = $this->get('kernel')->getRootDir() .'/../img/'.$captcha_config['backgrounds'][0];
+        $captcha_config['backgrounds'][0];
+        $file_config = array(
+            'filename'      => $file_name ,
+            'image_captcha' => $captcha_config['backgrounds'][0],
+        );
+
+        imagepng($imageCreator, $file_name);
+        imagedestroy($imageCreator);
+        return $file_config;
+    }
+
+
 
 
 

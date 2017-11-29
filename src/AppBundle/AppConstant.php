@@ -6,6 +6,7 @@
  * Time: 1:09 PM
  */
 namespace AppBundle;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class AppConstant
 {
     //Activity Log Constants
@@ -74,7 +75,8 @@ class AppConstant
     // const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
     const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/';
 
-    const OTHAIM_WEBSERVICE_URL = "http://www.othaimmarkets.com/webservices/api/v2";
+    const OTHAIM_WEBSERVICE_URL     = "http://www.othaimmarkets.com/webservices/api/v2";
+    const OTHAIM_WEBSERVICE_URL_EG  = "http://www.othaimmarkets.com/eg/webservices/api/v2";
     
     const IKTISSAB_API_URL    = 'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/%s/api/%s.json';
     const IKTISSAB_API_USER   = '1eaf95a1-4e8c-11e7-9833-842b2b4da8dd';
@@ -109,11 +111,11 @@ class AppConstant
     const DATE_TIME_FORMAT = "Y-m-d h:i:m a";
 
     
-    const PROMOTIONS_PATH = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
+    const PROMOTIONS_PATH    = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
     const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';
+    // const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
 
-    const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
-
+    const BASE_URL = "http://localhost/iktissabNew/index.php";
 
     
 

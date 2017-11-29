@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle;
 // This class Convert Hijri date to Gregorian Date & vise versa, made by Layth A. Ibraheeim - 24-2-2011
-// to test if the results are ok, please visit (http://www.oriold.uzh.ch/static/hegira.html)..
 
 class HijriGregorianConvert
 {

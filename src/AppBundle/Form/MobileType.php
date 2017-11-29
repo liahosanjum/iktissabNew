@@ -53,7 +53,7 @@ class MobileType extends AbstractType
             ->add('comment_mobile', TextareaType::class, array('label' => 'Comments',
                 'label_attr' => ['class' => 'formControl formLayout  form_labels'],
 
-                'attr' =>array('class' => 'formControl  col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
+                'attr' =>array('class' => 'form-control formLayout  col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')))))
             ->add( 'Update', SubmitType::class ,array(

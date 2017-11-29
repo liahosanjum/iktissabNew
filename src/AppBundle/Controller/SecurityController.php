@@ -57,8 +57,6 @@ class SecurityController extends Controller
         }
 
 
-
-
         $userCountry = '';
         if($request->query->get('ccid')) {
             $userCountry = $request->query->get('ccid');

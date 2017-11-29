@@ -62,14 +62,14 @@ class SendPwdType extends AbstractType
                 )
             ))
 
-            ->add('captchaCode', CaptchaType::class, array(
+            ->add('captchaCode', TextType::class, array(
 
                 'label' => 'Captcha',
                 'label_attr' => [  'class' => 'pwd-send-account'  ],
-                'captchaConfig' => 'FormCaptcha',
+                
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
-                    new ValidCaptcha(array("message"=>"Invalid captcha code"))
+
                     ),
             ))
 

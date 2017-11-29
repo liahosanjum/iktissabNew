@@ -71,7 +71,7 @@ class IktissabRestService
         $secret = "";
         if($this->isAdmin){
             $area = "admin";
-            $email = $this->container->getParameter('admin_user_email');
+            $email  = $this->container->getParameter('admin_user_email');
             $secret = md5($this->container->getParameter('admin_user_password'));
         }
         else if($this->isAuthorized){

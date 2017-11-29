@@ -56,7 +56,7 @@ class IktRegType extends AbstractType
 
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
-                        new Assert\Length(array('min' => 4, 'max'=>100, 'minMessage'=> "Full name must be of atleast two parts"))
+                        new Assert\Length(array('min' => 4, 'max'=>100, 'minMessage'=> "Name must be in two parts"))
                     )
                 )
             )

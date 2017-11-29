@@ -34,15 +34,11 @@ class EnquiryAndSuggestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $country = $options['extras']['country'];
-
-
-
         $builder ->add('name', TextType::class, array('label' => 'Full name',
             'label_attr' => ['class' => 'required inq-form  formLayout form_labels'],
             'attr' => array('class' => 'col-lg-8  form-control formLayout'),
             'constraints' => array(
                 new Assert\NotBlank(array('message' =>  'This field is required'))
-
             )
         ))
 
@@ -99,17 +95,14 @@ class EnquiryAndSuggestionType extends AbstractType
 
             ))
 
-            ->add('captchaCode', CaptchaType::class, array(
+            ->add('captchaCode', TextType::class, array(
                 'label_attr' => ['class' => 'required formLayout inq-form-captcha form_labels'],
-                'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
+                'label' => 'Captcha',
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),
-                    new ValidCaptcha(array("message"=>"Invalid captcha code"))),
-
-
+                    new Assert\NotBlank(array('message' => 'This field is required')), ),
             ));
 
-        //->add('country', TextType::class, array('label'=>"Country"))
+         
        
 
         $builder->add('source', HiddenType::class, array('label' => 'Source' ,

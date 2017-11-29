@@ -38,7 +38,7 @@ class CmsPagesType extends AbstractType
     {
 
         $builder
-            ->add('page_title' , TextType::class, array('label' => 'Page Title','required' => true,
+            ->add('page_title' , TextType::class, array('label' => 'Title','required' => true,
                 'attr' => array(
                     'class' => 'form-control'
                 ),
@@ -53,6 +53,7 @@ class CmsPagesType extends AbstractType
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )))
+            
             ->add('url_path'  , TextType::class, array('label' => 'Enter url separated by hypen i.e ( about-us ) ','required' => true,'attr' => array(
                 'class' => 'form-control'
             ),
