@@ -1,9 +1,8 @@
 
 
             <div class="row">
-                <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
-                </div>
-                <div class="col-lg-12 col-md-10 col-sm-10 col-xs-10">
+
+                <div class="col-lg-12 col-md-12 col-sm-10 col-xs-12">
                     <div class="titleForm_main_missingcard">
                         {{ 'Dear customer'|trans}}
                     </div>
@@ -11,30 +10,28 @@
                         {{ 'You can update your information through the following form'|trans }}
                     </div>
                     {% if message != '' %}
-                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable">
+                        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
                             {{ message }}
                         </div>
                     {% endif %}
-                    <div id="preLoadersSSN">
-                    </div>
-                    <div class="form-wrapper-inner">
-                        {{ form(form) }}
+                    <div id="preLoadersSSN"></div>
+
+                        {{ form(form, { 'attr': {'autocomplete': 'off'} }) }}
                             {{ form_row(form.iqamassn_registered) }}
                             {{ form_row(form.iqamassn_new) }}
                             {{ form_row(form.comment_iqamassn) }}
                         {{ form_end(form) }}
-                     </div>
+
+                    <div class="claerfix"></div>
                 </div>
             </div>
-            <style type="text/css">#preLoadersSSN {  border-radius: 12px;  left: 40%;  position: absolute;  top: 40%;  z-index: 1;  }</style>
-
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
 
-
         $('form[name="iqamassn"]').on('submit', function (event) {
+
             if($( "#iqamassn_iqamassn_new_first" ).hasClass( "valid" )) {
                 if ($("#iqamassn_iqamassn_new_second").hasClass("valid")) {
                     if ($("#iqamassn_comment_iqamassn").hasClass("valid")) {

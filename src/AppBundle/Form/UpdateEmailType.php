@@ -3,6 +3,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,7 @@ class UpdateEmailType extends AbstractType
 
         $builder->add('currentemail', EmailType::class, array(
             'label' => 'Current Email',
-            'label_attr' => ['class' => 'formLayout col-lg-8 col-md-8 col-sm-8 col-xs-13   form_labels'],
+            'label_attr' => ['class' => 'formLayout col-lg-8 col-md-8 col-sm-8 col-xs-12   form_labels'],
             'attr' =>array('value' => $email_current , 'readonly' => 'readonly', 'class' => 'form-control  col-lg-8 col-md-8 col-sm-8 col-xs-13 required'),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
@@ -39,6 +40,15 @@ class UpdateEmailType extends AbstractType
                     new Assert\Email(array('message' => 'Invalid email address'))
                 )
             ])
+            ->add('old_password', PasswordType::class, array('label' => 'Enter Current Password',
+                    'label_attr' => ['class' => 'formLayout    form_labels'],
+                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control formLayout'),
+                    'constraints' => array(
+                        new Assert\NotBlank(array('message' => 'This field is required'))
+                    )
+                )
+            )
+
 
 
 

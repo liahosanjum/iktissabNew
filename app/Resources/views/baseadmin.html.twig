@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="login-area">
-                                <a href="{{ path('admin_logout', {'_country': 'sa', '_locale':'en' }) }}">logout</a>
+                                <a href="{{ app.request.getBaseURL()  }}/admin/loogout">logout</a>
                             </div>
                         </div>
                         <div class="clearfix"></div>

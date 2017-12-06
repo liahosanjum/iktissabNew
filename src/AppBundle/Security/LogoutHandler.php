@@ -41,11 +41,13 @@ class LogoutHandler implements LogoutSuccessHandlerInterface
     public function onLogoutSuccess(Request $request)
     {
 
-            if ($this->containerInterface->get('security.token_storage')->getToken() != '') {
+          
+        if ($this->containerInterface->get('security.token_storage')->getToken() != '') {
                 $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getIktCardNo();
                 $acrivityLog = $this->containerInterface->get('app.activity_log');
                 $acrivityLog->logLogoutEvent($user);
             }
+
             if ($this->session->get('IktUserData')) {
                 $this->session->remove('iktUserData');
             }

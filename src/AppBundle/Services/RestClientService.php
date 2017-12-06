@@ -143,11 +143,11 @@ class RestClientService
             {
                 // this is for handling unauthorized access
                 // status code HTTP_INTERNAL_SERVER_ERROR
-                throw new AccessDeniedException('Unable to process your request.Please try later22');
+                throw new AccessDeniedException('Unable to process your request.Please try later');
             }
             else
             {
-                throw new AccessDeniedException('Unable to process your request.Please try later11');
+                throw new AccessDeniedException('Unable to process your request.Please try later');
             }
 
         } catch (\Exception $e) {
@@ -291,7 +291,7 @@ class RestClientService
         catch (\Exception $e)
         {
 
-            throw new AccessDeniedException('Unable to process your request at this time.Please try later');
+            throw new AccessDeniedException('Unable to process your request at this time.Please try later'.$e->getMessage());
         }
     }
 

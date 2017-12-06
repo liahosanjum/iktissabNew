@@ -37,11 +37,14 @@ class IktissabUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
+        $status = 1;
         $user = $this->em->createQueryBuilder()
             ->select('u')
             ->from('AppBundle:User', 'u')
             ->where('u.email = :email')
+            ->andWhere('u.status = :status')
             ->setParameter('email', $username)
+            ->setParameter('status', $status)
             ->getQuery()
             ->getOneOrNullResult();
             //  echo $user->getQuery()->getSQL();

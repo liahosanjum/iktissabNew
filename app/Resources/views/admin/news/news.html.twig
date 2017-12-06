@@ -15,38 +15,46 @@
 
 
             <div class="cmsForm">
-                {{ form_label(form.atitle) }}
-                {{ form_errors(form.atitle) }}
-                {{ form_widget(form.atitle) }}
+                {{ form_label(form.page_title) }}
+                {{ form_errors(form.page_title) }}
+                {{ form_widget(form.page_title) }}
             </div>
 
-            <div class="cmsForm">
-                {{ form_label(form.etitle) }}
-                {{ form_errors(form.etitle) }}
-                {{ form_widget(form.etitle) }}
-            </div>
+
+
+
 
             <div class="cmsForm">
-                {{ form_label(form.adesc) }}
-                {{ form_errors(form.adesc) }}
-                {{ form_widget(form.adesc) }}
+                {{ form_label(form.page_content) }}
+                {{ form_errors(form.page_content) }}
+                {{ form_widget(form.page_content) }}
             </div>
-            <div class="cmsForm">
-                {{ form_label(form.edesc) }}
-                {{ form_errors(form.edesc) }}
-                {{ form_widget(form.edesc) }}
-            </div>
+
+
             <div class="cmsForm">
                 {{ form_label(form.country) }}
                 {{ form_errors(form.country) }}
                 {{ form_widget(form.country) }}
             </div>
+            <div class="cmsForm">
+                {{ form_label(form.language) }}
+                {{ form_errors(form.language) }}
+                {{ form_widget(form.language) }}
+            </div>
+
+
 
             <div class="cmsForm">
                 {{ form_label(form.status) }}
 
                 {{ form_widget(form.status) }}
             </div>
+            <div class="cmsForm col-lg-8">
+                {{ form_label(form.brochure) }}
+                {{ form_errors(form.brochure) }}
+                {{ form_widget(form.brochure) }}
+            </div>
+
 
             <div class="cmsFormSaveBtn">
                 {{ form_label(form.save) }}
@@ -54,7 +62,7 @@
                 {{ form_widget(form.save) }}
             </div>
             <div class="claerfix"></div>
-            {{ form_end(form) }}
+            {{ form_end(form ,{'render_rest': false}) }}
         </div>
     </div>
 {% endblock %}

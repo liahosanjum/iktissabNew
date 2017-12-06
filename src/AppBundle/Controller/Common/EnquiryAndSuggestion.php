@@ -47,6 +47,7 @@ class EnquiryAndSuggestion
     {
         $this->container->get('swiftmailer.mailer');
         $request = new Request();
+
         $entity->setUser_ip($this->getIP($request));
         $this->em->persist($entity);
         $this->em->flush();
@@ -73,7 +74,7 @@ class EnquiryAndSuggestion
             }
             $message->addFrom($this->container->getParameter('mailer_user'))
             ->setSubject(AppConstant::EMAIL_SUBJECT)
-            ->setBody(
+            ->setBody (
                 $this->container->get('templating')->render(':email-templates/enquiries:enquiries_and_suggestions_en.html.twig', ['name' => $entity->getName()
                     , 'email'    => $entity->getEmail()
                     , 'job'      => $entity->getJob()

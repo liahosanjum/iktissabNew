@@ -82,5 +82,5 @@ border-bottom: 1px solid #FFFFFF;
 .input-admin{ font-size: 17px; font-weight: normal; color: #FFFFFF; padding-top: 20px; }
 .login-admin-conts{ float: left; margin-top: 10px; width: 100%; border-bottom: 1px solid #FFFFFF; padding-bottom: 40px; }
 .login-admin-btn{ border: 1px solid #4e4e4e; height: 35px; width: 205px; margin-top: 30px;  }
- .cmsForm{ float: left; width: 100%;  }
+ .cmsForm{ float: left; width: 100%; border-radius: 5px; padding: 15px;   }
 

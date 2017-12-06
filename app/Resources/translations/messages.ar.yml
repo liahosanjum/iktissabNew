@@ -108,6 +108,7 @@
 'Update Your Name': 'تحديث الاسم'
 'Full Name': 'الاسم بالكامل'
 'Name must be in two parts': 'فضلاً أدخل الاسم كاملاً'
+'Full name must be of atleast two parts': 'فضلاً أدخل الاسم كاملاً'
 'Update Missing Card': 'بدل فاقد'
 'New Iktissab Number': 'رقم بطاقة إكتساب الجديدة'
 'Confirm Iktissab Number': 'تأكيد رقم بطاقة اكتساب'
@@ -122,6 +123,7 @@
 'New Password': 'كلمة المرور الجديدة'
 'Confirm New Password': 'تأكيد كلمة المرور'
 'Please enter correct old password': 'كلمة المرور الحالية غير صحيحة، فضلاً أدخل كلمة المرور الصحيحة'
+'Please enter correct password': 'كلمة المرور الحالية غير صحيحة، فضلاً أدخل كلمة المرور الصحيحة'
 "Select City": "أختر المدينة"
 "Select Job": "أختر المهنة"
 "Select Area": "أخترالحي"
@@ -197,7 +199,7 @@
 "Your new mobile number and old mobile number must not be same": "لا يسمح بإستخدام رقم الجوال الحالي كرقم جوال جديد"
 "Your email address is not updated.Please try again": "نأسف، تعذر تحديث البريد الإلكتروني برجاء إعادة المحاولة"
 "about iktissab": "عن اكتساب"
-"about us": "لماذا نحن"
+"why us": "لماذا نحن"
 "sharia complient": "متوافق مع الشريعة"
 "Customer Service": "خدمة العمل"
 "Promotions": "العروض الترويجية"
@@ -242,6 +244,7 @@
 "Weekly Promotions": "العروض الترويجية"
 "Exclusive offers only for Ikitssab card holders": "عروض حصرية فقط لحاملي بطاقة اكتساب"
 "IKTISSAB PROMOTIONS": "عـروض اكتســاب"
+"Iktissab Promotions": "عـروض اكتســاب"
 "Iktissab": "اكتساب"
 "Save More": "توفير وإدخار"
 "One of the Biggest Loyalty Program in KSA": "برنامج الولاء الرائد في المملكة"
@@ -329,10 +332,12 @@
 'Participating Stores': 'المتاجر المشاركـة'
 'Activation Date': 'تاريخ التفعيل'
 'Last Used': 'أخر استخدام'
-'You will recieve sms on your mobile number **** ': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ ****'
+'You will recieve sms on your mobile number ****': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ ****'
 'SAR': 'ريال'
 'Currency-sa': 'ريال'
 'Currency-eg': 'جنيه'
+"Freez": "Freez ar"
+"Unfreez": "Unfreez ar"
 'Sorry! The page your requesting is not available': 'عفواً المحتوى المطلوب غير متوفرة حالياً'
 'SMS sent successfully': 'تم إرسال الرسالة بنجاح'
 'SMS not sent.Please try again': 'نأسف، لقد تعذر أرسال الرسالة إلى جوالك'
@@ -355,6 +360,7 @@
 'Please enter 9 digits mobile number starting with 5': 'فضلاً ادخل رقم جوال صحيح مكون من 9 أرقام ويبدأ بـ 5'
 'Please enter 11 digits mobile number starting with 0': 'فضلاً ادخل رقم جوال صحيح مكون من 11 رقم ويبدأ بـ 0'
 'Invalid Credentials': 'عنوان بريد إلكتروني أو كلمة المرور غير صحيحة تأكد من أن البريد الإلكتروني وكلمة المرور صحيحين'
+'Username could not be found': 'لم استطع العثور على اسم الدخو'
 'birthdate': 'تاريخ الميلاد'
 'Please enter the sms code': 'فضلاً أدخل رمز التأكيد'
 'Gregorian': 'ميلادي'
@@ -389,5 +395,11 @@
 "C": "شكوى"
 "E": "استفسار"
 "S": "مقترح"
-"If there is an account associated with this E-mail then you will receive an email with a link to reset your password": "إذا كان عنوان البريد الإلكتروني الذي قمت بإدخاله مرتبط بحسابك فسوف نقوم بإرسال بريد إلكتروني يحتوى على رابط لإعادة تعيين كلمة المرور"
-
+"If there is an account associated with this E-mail then you will receive an email with a code to reset your password": "إذا كان عنوان البريد الإلكتروني الذي قمت بإدخاله مرتبط بحسابك فسوف نقوم بإرسال بعض التعليمات اليك وذلك لإعادة تعيين كلمة المرور الخاصة بك"
+"EGP": "جنيه"
+"Dear Our IKTISSAB Customer": "عزيزي عميل اكتساب"
+"For changing your IKTISSAB account password Please use the activation code": "لإعادة تعيين رقمك السري الخاص بحسابك بموقع اكتساب برجاء استخدام كود التفعيل التالي"
+"thank you for visiting our website": "نشكركم على زيارتكم لموقعنا"
+"You can get only three temporary code per day": "يمكنك الحصول على الكود المؤقت ثلاث مرات يومياً"
+"More Items": "المزيد من الأصناف"
+"Close": "مغلق"

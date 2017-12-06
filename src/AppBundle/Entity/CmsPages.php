@@ -24,30 +24,16 @@ class CmsPages
     /**
      * @var string
      *
-     * @ORM\Column(name="adesc", type="text",  nullable=true)
+     * @ORM\Column(name="page_content", type="text",  nullable=true)
      */
-    private $adesc;
+    private $page_content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="edesc", type="text",  nullable=true)
+     * @ORM\Column(name="page_title", type="string", length=255, nullable=true)
      */
-    private $edesc;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="atitle", type="string", length=255, nullable=true)
-     */
-    private $atitle;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etitle", type="string", length=255, nullable=true)
-     */
-    private $etitle;
+    private $page_title;
 
     /**
      * @var int
@@ -73,6 +59,24 @@ class CmsPages
     /**
      * @var string
      *
+     * @ORM\Column(name="language", type="string", nullable=false)
+     */
+
+
+    private $language;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url_path", type="string", length=255, nullable=false)
+     */
+    private $url_path;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="brochure", type="string", nullable=true)
      * @Assert\Image(mimeTypes={ "image/png","image/jpg","image/jpeg" })
      */
@@ -90,100 +94,57 @@ class CmsPages
     }
 
     /**
-     * Set adesc
+     * Set pageContent
      *
-     * @param string $adesc
+     * @param string $page_content
      *
      * @return CmsPages
      */
-    public function setAdesc($adesc)
+    public function setpageContent($page_content)
     {
-        $this->adesc = $adesc;
+        $this->page_content = $page_content;
 
         return $this;
     }
 
     /**
-     * Get adesc
+     * Get page_content
      *
      * @return string
      */
-    public function getAdesc()
+    public function getpageContent()
     {
-        return $this->adesc;
+        return $this->page_content;
     }
 
+
+
     /**
-     * Set edesc
+     * Set pageTitle
      *
-     * @param string $edesc
+     * @param string $page_title
      *
      * @return CmsPages
      */
-    public function setEdesc($edesc)
+    public function setpageTitle($page_title)
     {
-        $this->edesc = $edesc;
+        $this->page_title = $page_title;
 
         return $this;
     }
 
     /**
-     * Get edesc
+     * Get pageTitle
      *
      * @return string
      */
-    public function getEdesc()
+    public function getpageTitle()
     {
-        return $this->edesc;
+        return $this->page_title;
     }
 
-    /**
-     * Set atitle
-     *
-     * @param string $atitle
-     *
-     * @return CmsPages
-     */
-    public function setAtitle($atitle)
-    {
-        $this->atitle = $atitle;
 
-        return $this;
-    }
 
-    /**
-     * Get atitle
-     *
-     * @return string
-     */
-    public function getAtitle()
-    {
-        return $this->atitle;
-    }
-
-    /**
-     * Set etitle
-     *
-     * @param string $etitle
-     *
-     * @return CmsPages
-     */
-    public function setEtitle($etitle)
-    {
-        $this->etitle = $etitle;
-
-        return $this;
-    }
-
-    /**
-     * Get etitle
-     *
-     * @return string
-     */
-    public function getEtitle()
-    {
-        return $this->etitle;
-    }
 
     /**
      * Set status
@@ -207,6 +168,31 @@ class CmsPages
     public function getStatus()
     {
         return $this->status;
+    }
+
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     *
+     * @return CmsPages
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 
     /**
@@ -256,6 +242,31 @@ class CmsPages
     {
         return $this->country;
     }
+
+    /**
+     * Set urlPath
+     *
+     * @param string $url_path
+     *
+     * @return CmsPages
+     */
+    public function seturlPath($url_path)
+    {
+        $this->url_path = $url_path;
+        return $this;
+    }
+
+    /**
+     * Get urlPath
+     *
+     * @return string
+     */
+    public function geturlPath()
+    {
+        return $this->url_path;
+    }
+
+
 
     /**
      * Get brochure

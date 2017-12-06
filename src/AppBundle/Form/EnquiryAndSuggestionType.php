@@ -34,15 +34,11 @@ class EnquiryAndSuggestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $country = $options['extras']['country'];
-
-
-
         $builder ->add('name', TextType::class, array('label' => 'Full name',
             'label_attr' => ['class' => 'required inq-form  formLayout form_labels'],
             'attr' => array('class' => 'col-lg-8  form-control formLayout'),
             'constraints' => array(
                 new Assert\NotBlank(array('message' =>  'This field is required'))
-
             )
         ))
 
@@ -56,14 +52,14 @@ class EnquiryAndSuggestionType extends AbstractType
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
                 'label_attr' => ['class' => 'inq-form formControl-ext formLayout    form_labels'],
-                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 10),
+                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Regex(
                         array(
-                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[1]([0-9]){9}$/',
+                            'pattern' => ($country == 'sa') ? '/^[5]([0-9]){8}$/' : '/^[0]([0-9]){10}$/',
                             'match' => true,
-                            'message' =>  ($country == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 10 digits mobile number starting with 1")
+                            'message' =>  ($country == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 11 digits mobile number starting with 0")
                     ),)))
 
 
@@ -99,17 +95,14 @@ class EnquiryAndSuggestionType extends AbstractType
 
             ))
 
-            ->add('captchaCode', CaptchaType::class, array(
+            ->add('captchaCode', TextType::class, array(
                 'label_attr' => ['class' => 'required formLayout inq-form-captcha form_labels'],
-                'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
+                'label' => 'Captcha',
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),
-                    new ValidCaptcha(array("message"=>"Invalid captcha code"))),
-
-
+                    new Assert\NotBlank(array('message' => 'This field is required')), ),
             ));
 
-        //->add('country', TextType::class, array('label'=>"Country"))
+         
        
 
         $builder->add('source', HiddenType::class, array('label' => 'Source' ,

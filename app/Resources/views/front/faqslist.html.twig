@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set title =  'FAQs'|trans   %}
 {% block body %}
   {% if app.request.cookies.get('c_locale') == "en" %}
       {%  set side = 'right'  %}

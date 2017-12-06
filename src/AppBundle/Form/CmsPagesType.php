@@ -38,7 +38,7 @@ class CmsPagesType extends AbstractType
     {
 
         $builder
-            ->add('atitle' , TextType::class, array('label' => 'Title Arabic','required' => true,
+            ->add('page_title' , TextType::class, array('label' => 'Title','required' => true,
                 'attr' => array(
                     'class' => 'form-control'
                 ),
@@ -46,35 +46,51 @@ class CmsPagesType extends AbstractType
                     new Assert\NotBlank(array('message' => 'This field is required')),)
 
             ))
-            ->add('etitle' , TextType::class, array('label' => 'Title English','required' => true,'attr' => array(
-                'class' => 'form-control'
-            ),
-                'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),)
 
-                ))
-            ->add('adesc'  , TextareaType::class, array('label' => 'Description Arabic','required' => true,'attr' => array(
+            ->add('page_content' , TextareaType::class, array('label' => 'Description','required' => true,'attr' => array(
                 'class' => 'form-control'
             ),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
-                )
-                ))
-            ->add('edesc'  , TextareaType::class, array('label' => 'Description English',
-                'required' => true,
-                'attr' => array(
+                )))
+            
+            ->add('url_path'  , TextType::class, array('label' => 'Enter url separated by hypen i.e ( about-us ) ','required' => true,'attr' => array(
                 'class' => 'form-control'
             ),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),)
-                ))
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )))
 
             ->add('brochure', FileType::class, array('label' => 'Image' ,'data_class' => null))
 
 
             ->add('country', ChoiceType::class, array(
+                'attr' => array(
+                    'class' => 'form-control col-lg-3'
+                ),
                 'label' => 'Select Country:',
                 'choices' => array('Select Country ' => '', 'Saudi Arabia' => 'sa', 'Egypt ' => 'eg'),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+            ))
+            ->add('language', ChoiceType::class, array(
+                'attr' => array(
+                    'class' => 'form-control col-lg-3'
+                ),
+                'label' => 'Select language:',
+                'choices' => array('Select language ' => '', 'English' => 'en', 'Arabic ' => 'ar'),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+            ))
+
+            ->add('type', ChoiceType::class, array(
+                'attr' => array(
+                    'class' => 'form-control col-lg-3'
+                ),
+                'label' => 'Select Type:',
+                'choices' => array('Select Type ' => '', 'cms' => 'cms', 'news' => 'news'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -85,9 +101,9 @@ class CmsPagesType extends AbstractType
                 'mapped'   => false,
                 'required' => false,
             ))
-            
+
             ->add('save', SubmitType::class, array('label' => 'Create Page','attr' => array(
-                'class' => 'form-control cms-button' , 
+                'class' => 'form-control cms-button' ,
             )));
     }
 

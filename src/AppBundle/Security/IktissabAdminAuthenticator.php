@@ -36,7 +36,7 @@ class IktissabAdminAuthenticator implements SimpleFormAuthenticatorInterface
 
 //        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_member_area']));
 //        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_admin_area']));die();
-        var_dump($user);
+        //var_dump($user);exit;
 //        echo "<hr />";
 //        var_dump($token->getRoles());
 

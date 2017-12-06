@@ -16,9 +16,9 @@ security:
             iterations: 0
             encode_as_base64: false
         AppBundle\Security\Admin\IktissabAdmin:
-                    algorithm: md5
-                    iterations: 0
-                    encode_as_base64: false
+            algorithm: md5
+            iterations: 0
+            encode_as_base64: false
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -59,6 +59,7 @@ security:
             simple_form:
               success_handler: app.iktadmin_success_handler
 #             default_target_path: homepage
+              always_use_default_target_path: true
               login_path: /admin/admin
               check_path: /admin/admin
               authenticator: app.iktissabadmin_authenticator

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -43,6 +44,7 @@ class ActivateCardoneType extends AbstractType
 
         )
         ))
+
             ->add('iktCardNo',TextType::class, array('label' => 'Iktissab ID',
                 'attr' =>array( 'maxlength' => 8),
                 'constraints' => array(
@@ -56,23 +58,29 @@ class ActivateCardoneType extends AbstractType
             ))
 
 
-
-            ->add('captchaCode', CaptchaType::class, array(
-
-                'label' => 'Captcha', 'captchaConfig' => 'FormCaptcha',
-                'constraints' => array(
-                    new NotBlank(array('message' => 'This field is required')),
-                    new ValidCaptcha(array("message"=>"Invalid captcha code"))
-                ),
+            ->add('captchaCode', TextType::class, array(
+                'label'                          => 'Captcha',
+                'constraints'                    =>  array (
+                    new NotBlank(array('message' => 'This field is required'))),
             ))
 
             ->add('status', CheckboxType::class, array(
-                'label'    => 'Status',
-                'mapped' => false,
-                'required' => true,
+                'label'                          => 'Status',
+                'constraints'                    =>  array (
+                    new NotBlank(array('message' => 'This field is required'))
+                ),
+            ))
+
+
+            ->add('status', CheckboxType::class, array(
+                'label'       => 'Status',
+                'mapped'      => false,
+                'required'    => true,
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required'))),
             ))
+            
+
 
             ->add('submit', SubmitType::class, array('label'=>"Step One", 'attr' => array('class' => 'btn btn-primary button-2x')) );
     }

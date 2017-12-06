@@ -28,7 +28,7 @@
         <div class="row">
 
             {% if(error.success == false) %}
-                <div class="activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center alert alert-danger">
+                <div class="activation-msg-wrapper activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center alert alert-danger">
                     {{ error.message }}
                 </div>
             {% endif %}
@@ -129,7 +129,7 @@
                                                 </div>
                                                 <div class="claerfix"></div>
                                             </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.maritial_status) }}   </div>
                                                 <div class="cardactivationForm">
@@ -143,7 +143,7 @@
                                         </div>
 
                                         <div class="row form-cardactivation-inner">
-                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 cust_info_dates">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 cust_info_dates">
 
                                                     <div id="div_dg">
 
@@ -168,7 +168,7 @@
                                                         <div class="cardactivationForm">
                                                         {{ form_row(form.dob_h) }}
                                                             <div class="btn_dob_h_wrappper">
-                                                                <input type="button" id="btn_dob_h" value="Gregorian"/>
+                                                                <input type="button" id="btn_dob_h" value="{{ 'Gregorian'|trans}}"/>
                                                             </div>
                                                         </div>
 
@@ -176,7 +176,7 @@
 
                                                 <div class="claerfix"></div>
                                             </div>
-                                            <div class="col-lg-3 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.pur_group) }}
                                                 </div>
@@ -188,7 +188,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.language) }}
                                                 </div>
@@ -202,7 +202,7 @@
                                         </div>
 
                                         <div class="row form-cardactivation-inner">
-                                            <div class="col-lg-3 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.gender) }}
                                                 </div>
@@ -213,7 +213,7 @@
                                                     {{ form_errors(form.gender) }}
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.city_no) }}
                                                 </div>
@@ -224,10 +224,10 @@
                                                     {{ form_errors(form.city_no) }}
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
 
                                             </div>
-                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="title-cardactivation-form">
                                                     {{ form_label(form.job_no) }}
                                                 </div>
@@ -243,7 +243,7 @@
 
                                         </div>
                                         <div class="row form-cardactivation-inner cust_info_mobile">
-                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                                 <div id="area_no">
                                                     <div class="title-cardactivation-form">
                                                         {{ form_label(form.area_no) }}
@@ -275,7 +275,7 @@
                                                 <div class="cardactivationForm">
                                                     <div class="extension-mob">
                                                     {% if app.request.cookies.get('c_country') == 'eg' %}
-                                                        <input class="mob-ex" type="text" value="0020" readonly disabled>
+                                                        <input class="mob-ex" type="text" value="002" readonly disabled>
                                                         {% else %}
                                                         <input class="mob-ex" type="text" value="966" readonly disabled>
                                                         {%  endif %}

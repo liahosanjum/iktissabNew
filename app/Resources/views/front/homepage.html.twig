@@ -1,8 +1,16 @@
 {% extends '::base.html.twig' %}
 {% set title = 'Home'|trans %}
 
+
 {% block headerhome %}
+    <meta http-equiv="Link" content="<{{ asset('img/promo1.svg')}}>; rel=prefetch">
+    <meta http-equiv="Link" content="<{{ asset('img/promo1over.svg')}}>; rel=prefetch">
+    <meta http-equiv="Link" content="<{{ asset('img/cart.svg')}}>; rel=prefetch">
+    <meta http-equiv="Link" content="<{{ asset('img/cartover.svg')}}>; rel=prefetch">
+    <link rel="prefetch" href="{{ asset('img/promo1.svg')}}">
+    
     {{ parent() }}
+
     <script type="text/javascript">
         function changeImage(id , name)
         {
@@ -35,10 +43,10 @@
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
                 <div class="message-promo">
                     <div class="row">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow">
-                                <!--<img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" />-->
-                            </div></div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8">
+                        <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow">
+                                <img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" />
+                            </div></div>-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="mid-arrow-content">
                                 <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
                                 <span class="home-text-green">اكتساب Iktissab</span>
@@ -47,15 +55,12 @@
                                     {% for item_news in data_news %}
                                         {{ item_news.details|raw }}
                                     {%  endfor %}
-
-
-
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow">
-                                <!--<img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" />-->
-                            </div></div>
+                        <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow">
+                                <img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" />
+                            </div></div>-->
                         <div class="claerfix"></div>
                     </div>
                 </div>
@@ -65,7 +70,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3  col-sm-12  col-xs-12 ">
+            <div class="col-lg-3 col-md-4  col-sm-12  col-xs-12 ">
                 <div class="row">
                     <div class="promo-sec-wrapper">
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6">
@@ -92,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-9  col-sm-12  col-xs-12">
+            <div class="col-lg-9 col-md-8  col-sm-12  col-xs-12">
                 <div class="main-slider-wrapper">
                     <div class="slickitem slider">
                         <div class="home-page-slider">
@@ -125,12 +130,13 @@
             </div>
         </div>
     </div>
-
+{% if DataPromo != '' and DataPromo != null %}
     <section class="container se-iktitem">
-        <div class="row">
+
+        <div class="row ">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="main-wrapper-products">
-                 {% if DataPromo != '' and DataPromo != null %}
+
                     <div class="ikt-offer home-title">{{ 'IKTISSAB PROMOTIONS'|trans }}</div>
                     <div class="slick-item slider slick-products">
                         {% set i = 0 %}
@@ -139,36 +145,46 @@
                         <div class="Product-wrapper" id="{{ DataPromo[i].ID }}">
 
 
-                            <span target="#" href="#" class="Product-Details" >
+                            <span target="#" class="Product-Details" >
                                 <div class="Product-img">
 
 
                                     <div class="Imgcontainer">
-                                      <div class="Product-img">  <img id="" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" alt="Avatar"   ></div>
+                                      <div class="Product-img"><a target="_blank" href="{{ DataPromo[i].URL }}"><img id="" class="img-responsive" src="{{ DataPromo[i].SmallImage }}" alt="Avatar"></a></div>
                                         <div class="middle">
                                             <div class="textZoom" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
-                                                <img src="{{asset('img/zoom_03.jpg')  }}">
+                                                <img width="19" height="17" src="{{asset('img/zoom_03.png')  }}">
                                             </div>
-                                            <div class="textView" id="{{ DataPromo[i].ID }}" onclick="show('{{ DataPromo[i].SmallImage }}')">
-                                                <a href=""><i class="fa fa-eye" aria-hidden="true">
-
-                                                </i></a>
-
+                                            <div class="textView" id="{{ DataPromo[i].ID }}" >
+                                                <a target="_blank" href="{{ DataPromo[i].URL }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="Product-name">{{ DataPromo[i].Name }}</div>
+                                <div class="Product-name"><a target="_blank" href="{{ DataPromo[i].URL }}">{{ DataPromo[i].Name }}</a></div>
                                 <div class="Product-price">
                                     <div class="priceBeforeDescount">
                                         <span class="price-beforedesc">
-                                             <span class="current-price-before">{{ DataPromo[i].Price|round(2, 'floor') }}</span><span class="current-before">{{ 'SAR'|trans }}</span>
+                                             <span class="current-price-before">{{ DataPromo[i].Price|round(2, 'floor') }}</span><span class="current-before">
+                                                {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                    {{ 'EGP'|trans }}
+                                                {% else %}
+                                                    {{ 'SAR'|trans }}
+                                                {% endif %}
+                                            </span>
                                         </span>
                                     </div>
                                     <div class="priceAfterDescount">
                                         <span class="price-afterdesc">
-                                             <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >{{ 'SAR'|trans }}</span>
+                                             <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >
+                                                {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                {{ 'EGP'|trans }}
+                                                {% else %}
+                                                {{ 'SAR'|trans }}
+                                                {% endif %}
+
+                                            </span>
                                         </span>
                                     </div>
                                     <div class="claerfix"></div>
@@ -181,11 +197,22 @@
                     </div> <!-- /.Item -->
                     <div class="claerfix"></div>
                 </div>
-                {% endif %}
+
             </div>
         </div>
-
+        <div class="row detail-iktissab-promotional-items">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="ikt-promotions-detail-link">
+                    <div class="link-ikt-pro">
+                        <a class="button-link-ikt-promo" href="{{ path('front_iktissab_promotions', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'More Items'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="claerfix"></div>
     </section> <!-- /.slick Section -->
+    {% endif %}
+
 
     <section class="container ikt-savemore">
         <div class="row">
@@ -193,7 +220,7 @@
                 <div class="ikt-save-more-contents">
                     <div class="row">
 
-                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ikt-save-more-contents-inner-wrapper">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 ikt-save-more-contents-inner-wrapper">
                             <div class="ikt-save-more-contents-inner">
                                 <div class="ikt-save-more-title">
                                     <span class="title-big-green">{{ 'Iktissab'|trans }} </span>
@@ -206,7 +233,7 @@
                                 <div class="claerfix"></div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="ikt-save-img"><img alt="save-more" width="170" height="100" src="{{ asset('img/smore.svg')}}" /></div>
                         </div>
 
@@ -229,17 +256,17 @@
                     <div class="row">
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/17/">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/why-us">
                                 <div class="sq-icon" onmouseover="changeImage('iktissab','iktissab')" onmouseout="changeImageOver('iktissab','iktissab')">
                                     <div><img alt="iktissab-img" id="iktissab" src="{{ asset('img/iktissab.svg')}}"></div>
-                                    <div class="sq-title">{{ 'about us'|trans }}</div>
+                                    <div class="sq-title">{{ 'why us'|trans }}</div>
                                     <div class="claerfix"></div>
                                 </div>
                             </a>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/credit-cash">
                                 <div class="sq-icon"  onmouseover="changeImage('asdaar','asdaar')" onmouseout="changeImageOver('asdaar','asdaar')">
                                     <div><img id="asdaar" alt="asdaar-img" src="{{ asset('img/asdaar.svg')}}"></div>
                                     <div class="sq-title">{{ 'Credit Cash'|trans }}</div>
@@ -261,7 +288,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/21/">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/compatible-with-shariah">
                                 <div class="sq-icon" onmouseover="changeImage('shariayah','shariayah')" onmouseout="changeImageOver('shariayah','shariayah')">
                                     <div><img alt="shariayah-img" id="shariayah" src="{{ asset('img/shariayah.svg')}}"></div>
                                     <div class="sq-title">{{ 'sharia complient'|trans }}</div>
@@ -272,7 +299,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner">
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/community-services">
                                 <div class="sq-icon" onmouseover="changeImage('khdmat','khdmat-maj')" onmouseout="changeImageOver('khdmat','khdmat-maj')">
                                     <div><img alt="khdmat-img" id="khdmat" src="{{ asset('img/khdmat-maj.svg')}}"></div>
                                     <div class="sq-title">{{ 'Community Services'|trans }}</div>
@@ -283,7 +310,7 @@
 
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 square-inner" >
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/faqlist">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/faqs">
                                 <div class="sq-icon" onmouseover="changeImage('faqs','faqs')" onmouseout="changeImageOver('faqs','faqs')" >
                                     <div><img  id="faqs" alt="faqs-img" src="{{ asset('img/faqs.svg')}}"></div>
                                     <div class="sq-title">{{ 'faqs'|trans }}</div>
@@ -392,11 +419,6 @@
                                 <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}zad_c.png" /></div>
                             </a>
                         </div>
-
-
-
-
-
                     </div> <!-- /.Item -->
                     <div class="claerfix"></div>
                 </div>
@@ -405,7 +427,7 @@
         <div id="myModal1" class="modal">
             <span class="close"  style="color:#FFFFFF;">Close</span>
             <img class="modal-content" id="img01">
-            <div id="caption"></div>
+
         </div>
 
     </section> <!-- /.slick Section -->
@@ -415,11 +437,10 @@
         function show(image) {
             var img = document.getElementById(image);
             var modalImg = document.getElementById("img01");
-            var captionText = document.getElementById("caption");
 
             modal.style.display = "block";
             modalImg.src = image;
-            captionText.innerHTML = this.alt;
+
         }
 
         // Get the <span> element that closes the modal

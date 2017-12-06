@@ -1,4 +1,4 @@
-<div class="row">
+<div class="eservice-content-inner-wrapper row">
             <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
 
                 <div class="titleForm_main iqama-id-wrapper">
@@ -17,27 +17,29 @@
                 <div class="claerfix"></div>
             </div>
         </div>
-        {{ form_start(form) }}
+        {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
-                    <div class="row mobile-form-mags">
-                       {{ form_row(form.iqamaid_mobile) }}
-                     </div>
+
+                        <div class="row mobile-form-mags">
+                           {{ form_row(form.iqamaid_mobile) }}
+                         </div>
+
                 </div>
             </div>
             <div class="row">
 
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 mobile-form-mags">
-                    <div class="mobile-ext-wraper ">
+                    <div class="row">
+                        <div class="col-lg-10  col-md-10 col-sm-7 col-xs-7 mobile-number-wraper  " style="">
+                                {{ form_row(form.mobile) }}
+                         </div>
+                        <div class="mobile-ext-wraper col-lg-2  col-md-2 col-sm-5 col-xs-5">
                         {{ form_row(form.ext) }}
+                        </div>
                     </div>
-
-
-                     <div class="col-lg-10  col-md-10 col-sm-7 col-xs-7 mobile-number-wraper nopadding" style="">
-                            {{ form_row(form.mobile) }}
-                     </div>
-                        <div class="claerfix"></div>
-                    </div>
+                    <div class="claerfix"></div>
+                </div>
              </div>
 
             <div class="row">
@@ -60,7 +62,7 @@
 
 
 
-<style type="text/css">#preLoadersMob {  border-radius: 12px;  left: 40%;  position: absolute;  top: 40%;  z-index: 1;  }</style>
+<style type="text/css"></style>
 
 
 

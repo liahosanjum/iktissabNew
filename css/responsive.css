@@ -1,0 +1,235 @@
+﻿@media only screen and (max-width : 1233px) {
+    .donationreqwrapper  .file-custom-input{ width: 87%; }
+
+    .memberreqwrapper .member-req-fupload .btn { width: 25%; }
+    .memberreqwrapper .col-cust-mobile .btn { width: 25%; }
+    .memberreqwrapper .file-custom-input{  width: 75%; }
+}
+@media only screen and (min-width : 992px) {
+    .Main-navbar .navbar-nav > li {float: right;}
+    .Main-navbar .navbar-nav > li:not(:first-child):before {
+        content:'|';
+        font-size:13px;
+        font-weight:100;
+    }
+    .Main-navbar .dropdown-menu > li:not(:last-child)  {border-bottom:1px solid #B0985E}
+
+    .corporate .artical {
+        border-right:1px solid #E1E1E1;
+        padding-right:15px;
+    }
+
+
+     
+
+}
+
+
+@media (max-width: 991px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+    /* since 3.1.0 */
+    .navbar-collapse.collapse.in { 
+        display: block!important;
+    }
+    .collapsing {
+        overflow: hidden!important;
+    }
+    .foo .ul3 {
+        border:0;
+    }
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .donationreqwrapper .donation-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px; width: 22%;  }
+    .memberreqwrapper .member-req-content-rowdetail .btn{ padding-left: 5px; padding-right: 5px;  }
+    .donationreqwrapper .file-custom-input{ width: 78%; }
+    .memberreqwrapper .member-req-fupload .btn { width: 25%; }
+    .memberreqwrapper .col-cust-mobile .btn { width: 25%; }
+
+    .eservices-wrapper .eservice-content-company-description { padding-right: 0px; }
+    .eservices-wrapper #myTabContent { padding: 10px; }
+    .eservices-wrapper .nav > li > a{  padding: 6px 10px 6px 0;}
+    .eservices-wrapper .eservice-contents .fa-plus-square{ padding-left: 3px; }
+    .eservices-wrapper .slide-section .fa-plus-square { padding-right: 5px; }
+}
+
+@media (max-width: 767px) {
+
+    .foo .ul1 ,  .foo .ul3 {
+        border:0;
+    }
+
+    .corporate .carousel-inner h4.media-heading {
+        padding-top:15px;
+    }
+
+    
+    .small-Navbar ul li{
+        border:0 !important;
+    }
+    .logo-Navbar p.date {
+        font-size: 10px;
+    }
+
+    .foo .foo-end p {
+        font-size: 12px;
+    }
+    .trackswrapper .tracks-contents .col-xs-12{
+        padding-left: 0px;
+    }
+    .trackswrapper .tracks-list-contents { margin-top: 0px; }
+    .aboutus-wrapper .collapsed .fa-eye{ color: #000000; }
+    /*.aboutus-wrapper  .fa-eye {  color: #FFFFFF;}*/
+    .donationreqwrapper .donation-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px; width: 18%;  }
+    .donationreqwrapper .file-custom-input{ width: 82%; }
+
+    .memberreqwrapper .member-req-content-rowdetail .btn{ padding-left: 5px; padding-right: 5px;  }
+    .memberreqwrapper .member-req-fupload .btn { width: 19%; }
+    .memberreqwrapper .col-cust-mobile .btn { width: 19%; }
+    .memberreqwrapper .file-custom-input { width: 81%; }
+    .eservices-wrapper .eservice-list { padding-left: 15px; }
+    .eservices-wrapper .eservice-content-company-description { padding-right: 0px; }
+    .eservices-wrapper #myTabContent { padding: 1px; }
+    .eservices-wrapper .eservice-list-contents { min-height: 10px; }
+    .eservices-wrapper #myTabContent { border: none; }
+
+        
+}
+
+@media (max-width: 600px) {
+
+
+    .donationreqwrapper .donation-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px; width: 27%;  }
+    .donationreqwrapper .file-custom-input{ width: 73%; }
+
+    .donationreqwrapper  #uploadFile2{ width: auto; }
+
+    .memberreqwrapper .member-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px;  }
+    .memberreqwrapper .file-custom-input { width: 81%; }
+    .memberreqwrapper  #uploadFile{ width:100%; }
+    .memberreqwrapper  #uploadFile2{ width:100%; }
+    .memberreqwrapper .chk-wrapper-input{ width: 6%; }
+    .memberreqwrapper .chk-wrapper-lbl{ width: 83%;  }
+    .memberreqwrapper .member-req-content-rowdetail .btn{ padding-left: 5px; padding-right: 5px;  }
+    .memberreqwrapper .member-req-fupload .btn { width: 19%; }
+    .memberreqwrapper .col-cust-mobile .btn { width: 19%; }
+    .eservices-wrapper #myTabContent { border: none; }
+    .file-upload input.upload { width: 100%; }
+
+
+
+}
+@media (max-width: 430px) {
+
+    .donationreqwrapper .file-custom-input{  width: 73%; }
+    .donationreqwrapper #uploadFile{ width: 100%; }
+    .donationreqwrapper #uploadFile2{ width: 100%; }
+
+
+    /*.donationreqwrapper .donation-req-content-heading-info{ padding-left: 0px; }*/
+
+    .donationreqwrapper .plsu-sepera { padding-left: 15px; padding-right: 5px; font-size: 14px; }
+
+    .memberreqwrapper .file-custom-input{  width: 72%; }
+    .memberreqwrapper #uploadFile{ width: 100%; }
+    .memberreqwrapper #uploadFile2{ width: 100%; }
+
+    .member-req-more{ float: none; }
+
+     
+    .memberreqwrapper .col-custom-more { width: 120px; }
+
+    .memberreqwrapper .chk-wrapper-input{ width: 9%; }
+    .memberreqwrapper .chk-wrapper-lbl{ width: 83%;  }
+    .memberreqwrapper .member-req-content-rowdetail .btn{ padding-left: 5px; padding-right: 5px;  }
+    .memberreqwrapper .member-req-fupload .btn { width: 28%; }
+    .memberreqwrapper .col-cust-mobile .btn { width: 28%; }
+    .eservices-wrapper #myTabContent { border: none; }
+    .file-upload input.upload { width: 100%; }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .small-Navbar ul > li {
+        padding: 3px 1px;
+    }
+    .donationreqwrapper .donation-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px; width: 28%; height: 32px;   }
+
+    .donation-req-more{ float: right;/*none*/ }
+    .donationreqwrapper .file-custom-input{  width: 72%; }
+    .donationreqwrapper #uploadFile{ width:100%; }
+    .donationreqwrapper #uploadFile2{ width: 90%; }
+    /*.donationreqwrapper .donation-req-content-heading-info{ padding-left: 0px; }*/
+    .donationreqwrapper .col-cust-mobile {  width: 100%; }
+
+    .donationreqwrapper .plsu-sepera { padding-left: 1px; padding-right: 5px; font-size: 14px; }
+
+    .memberreqwrapper .member-req-content-heading-info .btn{ padding-left: 5px; padding-right: 5px;  }
+
+    .memberreqwrapper .member-req-content-rowdetail .btn{ padding-left: 5px; padding-right: 5px;    }
+
+    .member-req-more{ float: none; }
+    .memberreqwrapper .file-custom-input{  width: 73%; }
+
+    .memberreqwrapper #uploadFile{ width: 100%; }
+    .memberreqwrapper #uploadFile2{ width: 100%; }
+
+    .memberreqwrapper .col-cust-mobile { width: 100%; }
+    .memberreqwrapper .col-custom-more { width: 120px; }
+    .memberreqwrapper .plsu-sepera { padding-left: 15px; padding-right: 5px; font-size: 14px; }
+    .memberreqwrapper .chk-wrapper-input{ width: 9%; }
+    .memberreqwrapper .chk-wrapper-lbl{ width: 83%;  }
+    .memberreqwrapper .member-req-fupload .btn { width: 27%; }
+
+    .memberreqwrapper .col-cust-mobile .btn { width: 27%; }
+    .memberreqwrapper .col-cust-mobile .file-custom-input{  width: 73%; }
+    .donationreqwrapper .donation-req-more .btn-block { font-size: 12px; }
+    .eservices-wrapper .eservice-content-company-description{ padding-right: 0px; }
+    .file-upload input.upload { width: 100%; }
+    .small-Navbar ul a
+    {
+        display:block;
+        color:#333;
+        text-decoration:none;
+        line-height:32px;
+        padding:0px 2px;
+
+    }
+
+}

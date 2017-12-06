@@ -14,49 +14,49 @@
             </div>
             <div id="preLoadersUpd">
             </div>
-            {{ form_start(form) }}
+            {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
 
-            <div id="div_dg">
+            <div id="div_dg" class="update-form-user">
                 {{ form_row(form.dob) }}
                 <div class="btn_dob_wrappper">
                     <input type="button" id="btn_dob" value="Hijri"/>
                 </div>
             </div>
-            <div id="div_dh">
+            <div id="div_dh" class="update-form-user">
                 {{ form_row(form.dob_h) }}
                 <div class="btn_dob_h_wrappper">
                     <input type="button" id="btn_dob_h" value="Gregorian"/>
                 </div>
             </div>
 
-            <div class="account_maritial_status">
+            <div class="account_maritial_status update-form-user" >
             {{ form_row(form.maritial_status) }}
             </div>
-            <div class="account_update_dd">
+            <div class="account_update_dd update-form-user">
 
             {{ form_row(form.job_no) }}
             </div>
-            <div class="account_update_dd">
+            <div class="account_update_dd update-form-user">
 
             {{ form_row(form.language) }}
             </div>
-            <div class="account_update_dd">
+            <div class="account_update_dd update-form-user">
 
             {{ form_row(form.city_no) }}
             </div>
 
 
-            <div id="area_no" class="account_update_dd">
+            <div id="area_no" class="account_update_dd update-form-user">
                 {{ form_row(form.area_no) }}
             </div>
 
-            <div id="area_text" class="account_update_dd">
+            <div id="area_text" class="account_update_dd update-form-user">
                 {{ form_row(form.area_text) }}
             </div>
 
 
 
-            <div   class="account_update_dd">
+            <div   class="account_update_dd update-form-user">
             {{ form_row(form.pur_group) }}
             </div>
             {{ form_row(form.submit) }}
@@ -187,7 +187,7 @@
                     $.each(areas, function (index, el) {
                         if (city == el.city_no) {
                             city_count++;
-                            $('#ikt_update_area_no').append('<option value="' + el.name + '">' + el.name + '</option>');
+                            $('#ikt_update_area_no').append('<option value="'+el.name+'">'+el.name+'</option>');
                         }
                     });
 
@@ -237,9 +237,7 @@
         });
             </script>
 
-        <style>
-            #preLoadersUpd {  border-radius: 12px;  left: 40%;  position: absolute;  top: 40%;  z-index: 1;  }
-        </style>
+
 
     {% endblock %}
 

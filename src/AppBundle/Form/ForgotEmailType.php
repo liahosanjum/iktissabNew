@@ -65,14 +65,14 @@ class ForgotEmailType extends AbstractType
                 )
             ))
 
-            ->add('captchaCode', CaptchaType::class, array(
+            ->add('captchaCode', TextType::class, array(
 
                 'label' => 'Captcha',
                 'label_attr' => [  'class' => 'forgot-email-captcha form_labels'  ],
-                'captchaConfig' => 'FormCaptcha',
+
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
-                    new ValidCaptcha(array("message"=>"Invalid captcha code"))),
+                    ),
             ))
 
             ->add('submit', SubmitType::class, array(

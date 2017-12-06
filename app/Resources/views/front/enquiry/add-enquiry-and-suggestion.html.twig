@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
-
+{% set title =  'Inquiry and Suggestions'|trans%}
 {% block body %}
 {% if  app.request.get('_country') == 'eg' %}
-{% set ext = '0020' %}
+{% set ext = '002' %}
 {% else %}
 {% set ext = '+966' %}
 {%  endif %}
@@ -10,31 +10,27 @@
         <div class="row">
             <div class="breadcrumb">
                 <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
-
                 <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
                 <a href="#" class="last-breadcrumb">{{ 'Inquiry and Suggestions'|trans}}</a>
             </div>
         </div>
     </div>
-
 <section class="container contact-us-main-wrapper">
     <div class="row">
         <div class="contactus-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
             <div class="contact-heading"><h1>{{ 'Inquiry and Suggestions'|trans }}</h1></div>
-
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8  col-xs-12  contactus-list-wrapper">
-            {% if message == "" %}
-            <div class="contactus-inner-contents">
+        <div class="col-lg-8 col-md-12 col-sm-12  col-xs-12  contactus-list-wrapper">
 
+            <div class="contactus-inner-contents">
                 <div class="title-contents">{{ 'If you have any comments, suggestions or complaints, please send them to us'|trans }}</div>
                 <div class="sub-title-contents">{{ 'Please fill in the form below and a customer service staff will reply to you as soon as possible'|trans }}</div>
             </div>
-                {% else %}
+            {% if message != "" %}
             <div class="contactus-inner-contents-message">
-                <div class="">
+                <div class="alert-success-forms formMessage alert {{ error_cl }} fade in alert-dismissable">
                     {{ message }}
                 </div>
             </div>
@@ -42,16 +38,15 @@
 
             {% if show_form == true %}
                 <div class="row">
-                    <div class="col-lg-12 ">
+                    <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12 ">
 
 
                         {{ form_start(form) }}
                             {{ form_row(form.name) }}
 
                             {{ form_row(form.email) }}
-
-                        <div class="row">
-                             <div class="col-lg-6">
+                <div class="row">
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
                                     {{ form_label(form.job) }}  </div>
                                 <div class="cardactivationForm">
@@ -61,7 +56,7 @@
                                     {{ form_errors(form.job) }}
                                 </div>
                               </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
                                     {{ form_label(form.reason) }}
                                 </div>
@@ -78,7 +73,7 @@
 
                         <div class="row">
 
-                            <div class="col-lg-2 mobile-ext-enq" style="padding-right: 0px;">
+                            <div class="col-lg-2 col-md-3 col-sm-2 col-xs-5 mobile-ext-enq" style="padding-right: 0px;">
                                 <div class="mobile-ext-enq-lbl">
                                     {{ 'Country-Code:'|trans }}
                                 </div>
@@ -86,8 +81,7 @@
                                     <input readonly="readonly" type="text" value="{{ ext }}"  class="mobile-ext-enq col-lg-2 form-control formLayout" />
                                 </div>
                             </div>
-                            <div class="col-lg-10 mobile-number-enq">
-
+                            <div class="col-lg-10 col-md-9 col-sm-10 col-xs-7  mobile-number-enq">
                                 <div class="">
                                     {{ form_label(form.mobile) }}
                                 </div>
@@ -101,24 +95,29 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        {{ form_row(form.comments) }}
+                                {{ form_row(form.comments) }}
                             </div>
                         </div>
-                        <div class="captcha-code">
-                            <div class="">
-                                {{ form_label(form.captchaCode) }}
-                            </div>
-                            <div class="cardactivationForm">
-                                {{ form_widget(form.captchaCode) }}
-                            </div>
-                            <div class="title-cardactivation-form">
-                                {{ form_errors(form.captchaCode) }}
-                            </div>
+                        <div class="row">
+                            <div class="captcha-code">
+                                <div class="col-lg-10 col-md-10 col-sm-9 col-xs-7">
+                                    <div class="title-cardactivation-form">
+                                        {{ form_label(form.captchaCode) }}
+                                    </div>
+                                    <div class="cardactivationForm">
+                                        {{ form_widget(form.captchaCode) }}
+                                    </div>
+                                    <div class="title-cardactivation-form">
+                                        {{ form_errors(form.captchaCode) }}
+                                    </div>
+                                </div>
+                                <div class="captcha-image col-lg-2 col-md-2 col-sm-3 col-xs-5">
 
-
-
-
+                                    <img   class="captcha-style" src="{{ asset('/img/' ~ data ) }}" alt="test" />
+                                </div>
+                                <div class="claerfix"></div>
                             </div>
+                        </div>
                         {{ form_end(form) }}
 
                     </div>
@@ -127,66 +126,74 @@
             <div class="claerfix"></div>
     </div>
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 contact-other-info">
-            <div class="other-info-wrapper">
-                <div class="login-title"><h4>{{ 'Head Office'|trans }}</h4></div>
-                <div class="main-other-info">{{ 'Riyadh'|trans }} - {{ 'Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road'|trans }}</div>
-            </div>
-
-            <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'PO BOX'|trans }}</div>
-                <div class="sub-other-info">41700 {{ 'Riyadh'|trans }}  11531 </div>
-            </div>
-
-            <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'Telephone' }}</div>
-                <div class="sub-other-info">00966-112547000 </div>
-            </div>
-            <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'Fax' }}</div>
-                <div class="sub-other-info">00966-112547000 </div>
-            </div>
-            <div class="other-info-wrapper">
-                <div class="sub-title">{{ 'Customer Service'|trans }}</div>
-                <div class="sub-other-info">920000702 </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 contact-other-google">
-            <div class="other-info-wrapper">
-                <div class="main-title"> {{ 'Our site on Google'|trans }}</div>
-            </div>
-            <div class="google-map">
-                <div class="contact-map">
-
-
-
-
-                    <div class="gmap-contact">
-                        <div style="width:358px;height:227px" id="gmap"></div>
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 contact-other-info">
+            <div class="row">
+                <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                    <div class="other-info-wrapper">
+                        <div class="login-title"><h4>{{ 'Head Office'|trans }}</h4></div>
+                        <div class="main-other-info">{{ 'Riyadh'|trans }} - {{ 'Kingdom of Saudi Arabia - Rabwa - Eastern Ring Road'|trans }}</div>
                     </div>
-                    <script type="text/javascript">
 
-                        var map;
-                        function initMap() {
-                            map = new google.maps.Map(document.getElementById('gmap'), {
-                                center: {lat:24.689082, lng: 46.774843},
-                                zoom: 14
+                    <div class="other-info-wrapper">
+                        <div class="sub-title">{{ 'PO BOX'|trans }}</div>
+                        <div class="sub-other-info">41700 {{ 'Riyadh'|trans }}  11531 </div>
+                    </div>
 
-                            });
-                        }
-                    </script>
+                    <div class="other-info-wrapper">
+                        <div class="sub-title">{{ 'Telephone' }}</div>
+                        <div class="sub-other-info">00966-112547000 </div>
+                    </div>
+                    <div class="other-info-wrapper">
+                        <div class="sub-title">{{ 'Fax' }}</div>
+                        <div class="sub-other-info">00966-112547000 </div>
+                    </div>
+                    <div class="other-info-wrapper">
+                        <div class="sub-title">{{ 'Customer Service'|trans }}</div>
+                        <div class="sub-other-info">920000702 </div>
+                    </div>
+               </div>
 
+               <div class="col-lg-12 col-md-6 col-sm-6 d col-xs-12">
+                    <div class="contact-other-google">
+                <div class="other-info-wrapper">
+                    <div class="main-title"> {{ 'Our site on Google'|trans }}</div>
                 </div>
+                <div class="google-map">
+                    <div class="contact-map">
+
+
+
+
+                        <div class="gmap-contact">
+                            <div  id="gmap"></div>
+                        </div>
+                        <script type="text/javascript">
+
+                            var map;
+                            function initMap() {
+                                map = new google.maps.Map(document.getElementById('gmap'), {
+                                    center: {lat:24.689082, lng: 46.774843},
+                                    zoom: 14
+
+                                });
+                            }
+                        </script>
+
+                    </div>
+                </div>
+                <div class="claerfix"></div>
+            </div>
+               </div>
             </div>
             <div class="claerfix"></div>
         </div>
+
   </div>
 </section>
 {% endblock %}
 {% block javascripts %}
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDkO_3wGqh6OIgK4rTpWsQmXlNVD6ZesE&callback=initMap"
+<script src="{{ asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyDDkO_3wGqh6OIgK4rTpWsQmXlNVD6ZesE&callback=initMap') }} "
             async defer></script>
 <script type="text/javascript">
     $(document).ready(function () {

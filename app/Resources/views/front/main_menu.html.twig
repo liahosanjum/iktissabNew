@@ -1,6 +1,6 @@
 <div class="container wrapper-logo">
     <div class="row">
-        <div class="col-lg-3 col-md-2 col-sm-3 col-xs-12 header-logo-wrap">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 header-logo-wrap">
             <div class="logo-wrapper"><img alt="logo" class="img-responsive" src="{{ asset('img/logo.svg') }} "></div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mid-container">
@@ -30,28 +30,26 @@
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-collapse" aria-expanded="false">
-
                     <i class="fa fa-bars" aria-hidden="true"></i>
-
                 </button>
                 <div class="collapse navbar-collapse" id="bs-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="home-icon"><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
                         <li class="dropdown">
-                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/about-us" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {{  'about iktissab'|trans }}
                                 </a>
                             <ul class="dropdown-menu right">
-                                <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/17/">{{ 'about us'|trans }}</a></li>
-                                <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/21/">{{ 'sharia complient'|trans }}</a></li>
+                                <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/why-us">{{ 'why us'|trans }}</a></li>
+                                <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/compatible-with-shariah">{{ 'sharia complient'|trans }}</a></li>
                                 <li><a href="{{ path('front_enquiry_and_suggestion_add', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'Inquiry and Suggestions'|trans }}</a></li>
-                                <li><a target="_blank" href="http://www.othaimmarkets.com//othaim-promotions?pid=1">{{ 'Promotions'|trans }}</a></li>
+                                <li><a target="_blank" href="http://www.othaimmarkets.com/othaim-promotions?pid=1">{{ 'Promotions'|trans }}</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/">{{ 'Credit Cash'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/19/">{{ 'participation store'|trans }}</a></li>
-                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/list/20/">{{ 'community services'|trans }}</a></li>
-                        <li><a href="{{ path('front_faqlist', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'faqs'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/credit-cash">{{ 'Credit Cash'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/">{{ 'participation store'|trans }}</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/{{ local_country_url }}/{{ local_language_url }}/cms/community-services">{{ 'community services'|trans }}</a></li>
+                        <li><a href="{{ path('front_faqs', {'_country': local_country_url, '_locale':local_language_url }) }}">{{ 'faqs'|trans }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -61,6 +59,7 @@
                         <li class="twi-itter"><a target="_blank" href="https://twitter.com/OthaimMarkets"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="https://www.facebook.com/Othaim.Market"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="https://www.instagram.com/othaimmarkets/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="https://plus.google.com/+OthaimMarkets" target="_blank"><i aria-hidden="true" class="fa fa-google-plus"></i></a></li>
                         <li class="you-tube"><a target="_blank" href="https://www.youtube.com/user/othaimmarkets"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
@@ -73,5 +72,6 @@
 <style>
     ul.nav li.dropdown:hover > ul.dropdown-menu {
         display: block;
+
     }
 </style>

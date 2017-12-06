@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'right'  %}
+    {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'left'  %}
+    {% endif %}
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
+
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a href="#" class="last-breadcrumb">{{ 'FAQs'|trans}}</a>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="row">
+
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div><h1>{{ 'FAQs'|trans}}</h1></div>
+            </div>
+
+            {% if message != "" %}
+                <div class="alert-success-forms formMessage alert alert-success fade in alert-dismissable  col-lg-8 col-md-8 col-sm-12 col-xs-12 faqs-wrapper">
+                    {{ message|trans }}
+                    <img style="border: 1px solid #4e4e4e" src="{{ asset('/img/ikt22.png') }}" alt="test" />
+                </div>
+            {% endif %}
+</div>
+    </section>
+
+{% endblock %}
+    {% block javascripts %}
+
+
+
+        </div>
+    {% endblock %}
