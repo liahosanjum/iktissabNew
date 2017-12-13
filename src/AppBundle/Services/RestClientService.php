@@ -102,8 +102,8 @@ class RestClientService
         $nonce = md5($guid);
         $passwordHash = sha1(base64_encode($nonce) . $currentDate . AppConstant::IKTISSAB_API_SECRET);
         $passwordDigest =  base64_encode($passwordHash);
-        $digest = 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
-        $digest = sprintf($digest, AppConstant::IKTISSAB_API_USER, $passwordDigest, $nonce, $currentDate);
+        $digest = 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s"';
+        $digest = sprintf($digest, AppConstant::IKTISSAB_API_USER, $passwordDigest, $nonce);
         return $digest;
     }
 
