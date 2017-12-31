@@ -12,9 +12,10 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
-use Symfony\Component\Translation\Translator;
+
 
 class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
 {
@@ -28,31 +29,32 @@ class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         try{
+            /**
+             * Add Login Attempts feature
+             */
+            if(!$userProvider->canLogin()){
+                throw new UsernameNotFoundException(
+                    sprintf('Username or password is incorrect or account has been blocked due to many invalid login attempts')
+                );
+            }
 
             $user = $userProvider->loadUserByUsername($token->getUsername());
         }
         catch (UsernameNotFoundException $e){
-            throw new CustomUserMessageAuthenticationException('Invalid Credentials');
+            throw new CustomUserMessageAuthenticationException('Username or password is incorrect or account has been blocked due to many invalid login attempts');
         }
         $passwordValid = $this->encoder->isPasswordValid($user, $token->getCredentials());
         if($passwordValid)
         {
             //TODO: check member status here
+            $userProvider->clearLoginAttempts();
             return new UsernamePasswordToken($user, $user->getPassword(), $providerKey, $user->getRoles());
         }
         else
         {
+            $userProvider->incrementLoginAttempts();
             //$re = new Request();
-            throw new CustomUserMessageAuthenticationException('Invalid Credentials');
-//          if($re->cookies->get('c_locale') == 'ar' ){
-//              $message_error = 'Invalid Username or Password ar';
-//          }else
-//          {
-//              $message_error = 'Invalid Username or Password en';
-//          }
-//
-//            throw new CustomUserMessageAuthenticationException($message_error);
-            // throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
+            throw new CustomUserMessageAuthenticationException('Username or password is incorrect or account has been blocked due to many invalid login attempts');
         }
     }
 

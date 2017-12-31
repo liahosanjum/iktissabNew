@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.iktissab_user_provider:
         class: AppBundle\Security\User\IktissabUserProvider
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", '@request_stack']
     app.iktissab_admin_provider:
             class: AppBundle\Security\Admin\IktissabAdminProvider
             arguments: ["@doctrine.orm.entity_manager"]

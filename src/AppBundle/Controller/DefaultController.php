@@ -3,35 +3,28 @@
 namespace AppBundle\Controller;
 
 use AppBundle\AppConstant;
+use AppBundle\Controller\Common\FunctionsController;
 use AppBundle\Entity\Subscription;
 use AppBundle\Form\SendPwdType;
-use AppBundle\Entity\User;
-use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
-use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use AppBundle\Controller\Common\FunctionsController;
 
+// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 
 class DefaultController extends Controller
@@ -522,7 +515,115 @@ class DefaultController extends Controller
     /**
      * @Route("/{_country}/{_locale}/forgotpassword", name="forgotpassword")
      */
-    public function forgotPassword(Request $request)
+
+    public function forgotPassword(Request $request){
+        try{
+            $commFunct = new FunctionsController();
+            if($commFunct->checkSessionCookies($request) == false)
+            {
+                return $this->redirect($this->generateUrl('landingpage'));
+            }
+            // if user is logged in he should not see login page again
+            if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+            {
+                return $this->redirectToRoute('homepage', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
+            }
+            $error          = "";
+            $locale_cookie  = $request->getLocale();
+            $country_cookie = $request->get('_country');
+            $userLang       = trim($request->query->get('lang'));
+            if ($userLang   != '' && $userLang != null)
+            {
+                if ($userLang == $locale_cookie)
+                {
+                    $request->getLocale();
+                    $commFunct->changeLanguage($request, $userLang);
+                    $locale_cookie = $request->getLocale();
+                }
+                else
+                {
+                    if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                        return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+                    }
+                }
+            }
+            if ($request->cookies->get(AppConstant::COOKIE_LOCALE)) {
+                $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+                $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
+                if (isset($cookieLocale) && $cookieLocale <> '' && $cookieLocale != $locale_cookie) {
+                    // modify here if the language is to be changes forom the uprl
+                    return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+                if (isset($cookieCountry) && $cookieCountry <> '' && $cookieCountry != $country_cookie) {
+                    return $this->redirect($this->generateUrl('login', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
+                }
+            }
+            $activityLog = $this->get('app.activity_log');
+
+            $postData    = $request->request->all();
+            if ($postData)
+            {
+                // 1 get user password according to the email provided
+                $em      = $this->getDoctrine()->getManager();
+                $email   = $postData['email'];
+                $country_id = $this->getCountryCode($request);
+                $locale  = $this->getCountryLocal($request);
+                $result  = $em->getRepository("AppBundle:User")->findOneBy(array("email"=>$email));
+
+                if ($result) {
+                    // send email
+
+                    $user_id = $result->getIktCardNo();
+                    $time  = time();
+                    $token = uniqid() . sha1($email . $time. rand(111111, 999999) . $user_id);
+
+                    $code  = rand(111111, 999999);
+                    $this->get('session')->set('resetcode', $code);
+
+                    $data  = serialize(array('time' => $time, 'token' => $token ));
+                    $result->setData($data);
+                    $em->persist($result);
+                    $em->flush();
+
+                    $message = \Swift_Message::newInstance()
+                        ->addTo($email)
+                        ->addFrom($this->container->getParameter('mailer_user'))
+                        ->setSubject(AppConstant::EMAIL_SUBJECT);
+                    $message->setBody(
+                        $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
+                                'email' => $email,
+                                'link' => $code
+                        ]),
+                        'text/html'
+                    );
+
+                    $this->container->get('mailer')->send($message);
+
+
+                    return $this->redirect($this->generateUrl('verifycode', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token), UrlGenerator::ABSOLUTE_URL));
+
+                }
+                else
+                {
+                    $token = uniqid() . sha1(time(). rand(111111, 999999) . rand(11111,9999));
+                    $code  = rand(111111111111, 999999999999);
+                    $this->get('session')->set('resetcode', $code);
+                    return $this->redirect($this->generateUrl('verifycode', array('_country' => $country_id, '_locale' => $locale, 'time' => time(), 'token' => $token), UrlGenerator::ABSOLUTE_URL));
+                }
+            }
+            $message = "";
+            $errorcl = "";
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
+
+        }
+        catch (\Exception $e){
+
+        }
+    }
+
+    public function forgotPasswordSohail(Request $request)
     {
         try
         {
@@ -583,6 +684,8 @@ class DefaultController extends Controller
                 // $stm->bindValue(2, $country_id);
                 // here checking the others equal to 1.
                 $stm->execute();
+
+
                 $result = $stm->fetchAll();
                 if ($result) {
                     // send email
@@ -658,7 +761,7 @@ class DefaultController extends Controller
                     //$message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
                     $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a code to reset your password');
 
-                    $activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, '0' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
+                    //$activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, '0' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
                     $errorcl = 'alert-success';
                     return $this->render('default/login.html.twig', array(
                         'message' => $message, 'error' => $error, 'errorcl' => $errorcl
@@ -715,7 +818,6 @@ class DefaultController extends Controller
      * @param $time
      * @param $token
      */
-
     public function resetPasswordAction(Request $request, $time, $token)
     {
         try
@@ -1041,6 +1143,123 @@ class DefaultController extends Controller
      * @param $token
      */
     public function verifycodeAction(Request $request, $time, $token)
+    {
+        try
+        {
+            if($this->get('session')->get('resetcode', '') == "" ){
+                return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+            }
+            if($this->get('session')->get('resetcode_counter','') == '') {
+                $this->get('session')->set('resetcode_counter', 3);
+                $resetcode_counter = 3;
+            }
+            else {
+                $resetcode_counter = (integer)$this->get('session')->get('resetcode_counter');
+            };
+
+            $em          = $this->getDoctrine()->getManager();
+            $time        = (integer)$time;
+            $dataValue   = serialize(array('time' => $time, 'token' => $token));
+            $country_id = $this->getCountryCode($request);
+            $locale  = $this->getCountryLocal($request);
+
+            $user        = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue));
+            $id = ($user) ? $user->getIktCardNo():'';
+
+            $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate' , 'name' => 'myFormName')))
+                ->add('resetcode', TextType::class, array(
+                        'label' => 'Verification code:',
+                        'attr' => array('class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout' , 'maxlength'=> 9 ),
+                        'label_attr' => ['class' => 'required formLayout  form_labels'],
+                        'constraints' => array(
+                            new NotBlank(array('message' =>  'This field is required')) ,
+
+                            new Assert\Regex(
+                                array(
+                                    'pattern' => '/^[0-9]+$/',
+                                    'match' => true,
+                                    'message' => 'Invalid number')
+                            )))
+                )
+                ->add('submit', SubmitType::class, array('label' => 'Submit', 'attr' => array('class' => 'btn btn-primary')))
+                ->getForm();
+
+            $data_form['show_form'] = 1;
+            $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a code to reset your password');
+            $errorcl = 'alert-danger';
+
+            if($resetcode_counter == 0){
+                $data_form['show_form'] = 0;
+                return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
+            }
+
+            if($id != "" )
+            {
+                $data            = unserialize($user->getData());
+                if (strtotime('+1 day', $data['time']) > time())
+                {
+                    $form->handleRequest($request);
+                    if ($form->isSubmitted() && $form->isValid())
+                    {
+                        $resetcode_counter--;
+                        $formData = $form->getData();
+                        $resetcode_verification   = (integer)$this->get('session')->get('resetcode');
+                        $sub_code =  (integer)$formData['resetcode'];
+                        if ($sub_code == $resetcode_verification) {
+                            // this make sure resetpasswordcode is not called directly
+                            $this->get('session')->set('resetcode_reference' , "1");
+                            /*****************/
+                            $C_id = $id;
+                            /*****************/
+                            return $this->redirect($this->generateUrl('resetpasswordcode', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token), UrlGenerator::ABSOLUTE_URL));
+                        }
+                        else {
+                            $message = $this->get('translator')->trans('Please enter correct verification code');
+                        }
+
+                    }
+                    else {
+                        $errorcl = 'alert-success';
+                    }
+                }
+                else {
+                    $errorcl = 'alert-danger';
+                }
+            }
+            else {
+                $errorcl = 'alert-success';
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid())
+                {
+                    $resetcode_counter--;
+                    $message = $this->get('translator')->trans('Please enter correct verification code');
+
+                }
+            }
+
+            $this->get('session')->set('resetcode_counter', $resetcode_counter);
+
+            return $this->render('front/verifycode.html.twig', array(
+                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                'errorcl' => $errorcl
+            ));
+        }
+        catch(\Exception $e)
+        {
+            $message = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
+            $data_form['show_form'] = 0;
+            $errorcl = 'alert-danger';
+
+            return $this->render('front/verifycode.html.twig', array(
+                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                'errorcl' => $errorcl
+            ));
+
+        }
+
+
+    }
+    public function verifycodeActionSohail(Request $request, $time, $token)
     {
         try
         {
