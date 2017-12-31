@@ -1019,7 +1019,8 @@ class DefaultController extends Controller
                 ->add('password', RepeatedType::class, array(
                     'type' => PasswordType::class,
                     'constraints' => array(
-                        new NotBlank(array('message' =>  'This field is required'))
+                        new NotBlank(array('message' =>  'This field is required')),
+                        new Length(array('min'=>6, 'minMessage'=>'Password must be at least 6 characters'))
 
                     ),
                     'invalid_message' => 'Password and confirm password must match',
@@ -1149,7 +1150,7 @@ class DefaultController extends Controller
             if($this->get('session')->get('resetcode', '') == "" ){
                 return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
             }
-            if($this->get('session')->get('resetcode_counter','') == '') {
+            if($this->get('session')->get('resetcode_counter','') === '') {
                 $this->get('session')->set('resetcode_counter', 3);
                 $resetcode_counter = 3;
             }
@@ -1169,7 +1170,7 @@ class DefaultController extends Controller
             $form = $this->createFormBuilder(array('attr' => array('novalidate' => 'novalidate' , 'name' => 'myFormName')))
                 ->add('resetcode', TextType::class, array(
                         'label' => 'Verification code:',
-                        'attr' => array('class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout' , 'maxlength'=> 9 ),
+                        'attr' => array('class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout pass-reset-code' , 'maxlength'=> 6 ),
                         'label_attr' => ['class' => 'required formLayout  form_labels'],
                         'constraints' => array(
                             new NotBlank(array('message' =>  'This field is required')) ,
@@ -1190,6 +1191,7 @@ class DefaultController extends Controller
 
             if($resetcode_counter == 0){
                 $data_form['show_form'] = 0;
+                $this->get('session')->set('resetcode_counter', '');
                 return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
             }
 
@@ -1211,6 +1213,7 @@ class DefaultController extends Controller
                             /*****************/
                             $C_id = $id;
                             /*****************/
+                            $this->get('session')->set('resetcode_counter', '');
                             return $this->redirect($this->generateUrl('resetpasswordcode', array('_country' => $country_id, '_locale' => $locale, 'time' => $time, 'token' => $token), UrlGenerator::ABSOLUTE_URL));
                         }
                         else {
@@ -1229,7 +1232,7 @@ class DefaultController extends Controller
             else {
                 $errorcl = 'alert-success';
                 $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid())
+                if ($form->isSubmitted())
                 {
                     $resetcode_counter--;
                     $message = $this->get('translator')->trans('Please enter correct verification code');
