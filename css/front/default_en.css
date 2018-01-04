@@ -2127,7 +2127,12 @@ padding-left:26px !important;
     line-height: 30px;
 }
 
-
+.pass-reset-code{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bolder;
+    letter-spacing: 4px;
+}
 
 @media screen and (max-width: 1200px) {
     .activation-form-wrapper-step3 { margin-left:0px; }

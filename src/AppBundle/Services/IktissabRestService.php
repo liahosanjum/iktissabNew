@@ -63,8 +63,8 @@ class IktissabRestService
     }
     private function GetXWSSE(){
 
-        $d = new \DateTime("NOW");
-        $currentDate = $d->format("Y/m/d H:i:s");
+        //$d = new \DateTime("NOW");
+        //$currentDate = $d->format("Y/m/d H:i:s");
 
         $area = "anonymous";
         $email = "anonymous@gmail.com";
@@ -83,10 +83,10 @@ class IktissabRestService
         $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 
         $nonce = md5($guid);
-        $passwordHash = sha1(base64_encode($nonce) . $currentDate . $secret);
+        $passwordHash = sha1(base64_encode($nonce) . $secret);
         $passwordDigest =  base64_encode($passwordHash);
-        $digest = 'UsernameToken Username="%s", area="%s", PasswordDigest="%s", Nonce="%s", Created="%s"';
-        $digest = sprintf($digest, $email, $area, $passwordDigest, $nonce, $currentDate);
+        $digest = 'UsernameToken Username="%s", area="%s", PasswordDigest="%s", Nonce="%s"';
+        $digest = sprintf($digest, $email, $area, $passwordDigest, $nonce);
         return $digest;
 
     }

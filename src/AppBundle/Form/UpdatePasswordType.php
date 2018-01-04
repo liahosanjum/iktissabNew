@@ -34,6 +34,7 @@ class UpdatePasswordType extends AbstractType
             'options' => array('attr' => array('class' => 'form-control')),
             'constraints' => array(
                 new NotBlank(array('message' => 'This field is required')),
+                new Assert\Length(array("min"=>6, 'minMessage'=>'Password must be at least 6 characters'))
             )
         ])
         ->add('Update', SubmitType::class ,array(

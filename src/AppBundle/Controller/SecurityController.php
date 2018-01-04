@@ -111,6 +111,7 @@ class SecurityController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
         $message = "";
         $errorcl = 'alert-danger';
+        //dump($message);dump($error);die();
         return $this->render(':default:login.html.twig', array(
            'last_username' => $lastUsername, 'message' => $message,
             'error' => $error , 'errorcl' => $errorcl

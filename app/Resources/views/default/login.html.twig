@@ -32,10 +32,10 @@
                     <div>
                 <form id="login_form" name="login_form" action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
                         <div class="form-group">
-                            <input  type="text" class="form-control user-member" id="_username" name="_username"     placeholder="{{ 'User Name'|trans }}">
+                            <input  type="text" class="form-control user-member" id="_username" name="_username"  placeholder="{{ 'User Name'|trans }}">
                         </div>
                         <div class="form-group">
-                            <input type="password" id="_password" name="_password" type="text" class="form-control user-password"  placeholder="{{ 'Password'|trans }}">
+                            <input type="password" id="_password" name="_password" class="form-control user-password"  placeholder="{{ 'Password'|trans }}">
                         </div>
                         <div class="form-group">
                             <div class="row member-login-submit">

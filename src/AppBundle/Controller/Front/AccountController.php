@@ -189,6 +189,7 @@ class AccountController extends Controller
                                                 // $data_transactions['trans_date'];
                                                 $date_current = mktime(0, 0, 0, $data_transactions['Mnth'], 30, $data_transactions['YR']);
                                                 if ($date_current > $year_later) {
+                                                    $data_array = array();
                                                     $data_array[$i]['c_id'] = $data_transactions['c_id'];
                                                     $data_array[$i]['YR'] = $data_transactions['YR'];
                                                     //$data_array[$i]['Mnth'] = $data_transactions['Mnth'];
