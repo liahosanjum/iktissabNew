@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 // use Symfony\Component\Form\Extension\Core\Type\NumberType;
 // use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 // use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,9 +44,13 @@ class CmsPagesType extends AbstractType
                     'class' => 'form-control'
                 ),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),)
-
-            ))
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' =>  '/^[a-zA-Z ]*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
+                    )))
 
             ->add('page_content' , TextareaType::class, array('label' => 'Description','required' => true,'attr' => array(
                 'class' => 'form-control'
@@ -59,6 +64,11 @@ class CmsPagesType extends AbstractType
             ),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' =>  '/^[a-zA-Z-]*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )))
 
             ->add('brochure', FileType::class, array('label' => 'Image' ,'data_class' => null))
@@ -96,6 +106,12 @@ class CmsPagesType extends AbstractType
                 )
             ))
 
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+
+            ))
+
             ->add('status', CheckboxType::class, array(
                 'label'    => 'Status',
                 'mapped'   => false,
@@ -111,9 +127,10 @@ class CmsPagesType extends AbstractType
     {
         $resolver->setDefaults(array(
             'attr' => array(
-                'validate' => 'validate',
+                'novalidate' => 'novalidate',
                 'var' => null
             ),
+            'csrf_protection' => false,
         ));
         // $resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
         // $resolver->setAllowedTypes('additional', 'array');  // Validates the type(s) of option(s) passed.

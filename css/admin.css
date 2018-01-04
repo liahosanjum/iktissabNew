@@ -86,3 +86,6 @@ border-bottom: 1px solid #FFFFFF;
 #cms_pages_brochure { width: 100%; float: left; }
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th
 { text-align: center; }
+.error { color: #FF0000; }
+.required { width: 100%; }
+.form-control { color: #000000 !important; }

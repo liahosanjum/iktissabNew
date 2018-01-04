@@ -10,16 +10,22 @@
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="cmsForm">
-                {{ message }}
-            </div>
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}">
+
+                    {{ message }}
+
+                </div>
+            {% endif %}
+
+
             {{ form_start(form) }}
             <div class="cmsForm">
                 {{ form_label(form.page_title) }}
                 {{ form_errors(form.page_title) }}
                 {{ form_widget(form.page_title) }}
             </div>
-            <div class="cmsForm">
+            <div class="cmsForm"  style="display: none">
                 {{ form_label(form.url_path) }}
                 {{ form_errors(form.url_path) }}
                 {{ form_widget(form.url_path) }}
@@ -45,7 +51,7 @@
                 {{ form_errors(form.status) }}
                 {{ form_widget(form.status) }}
             </div>
-            <div class="cmsForm">
+            <div class="cmsForm"  style="display: none;">
                 {{ form_label(form.brochure) }}
                 {{ form_errors(form.brochure) }}
                 {{ form_widget(form.brochure) }}
@@ -56,7 +62,7 @@
                 {{ form_widget(form.type) }}
             </div>
 
-            {{ form_widget(form._token) }}
+
 
 
 
@@ -75,4 +81,15 @@
     .type_news{ display:none; }
 </style>
 {% endblock %}
+{% block javascripts2 %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
+
+{% endblock %}
+
 

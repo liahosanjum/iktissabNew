@@ -41,8 +41,14 @@
                 <div></div>
                 {% endfor %}
             </div>
-            <div class="cmsFormList">
+            <div class="cmsFormList" style="margin-top:50px;">
+                {%  if message != "" %}
+                    <div class="cmsForm alert-danger">
 
+                        {{ message }}
+
+                    </div>
+                {% endif %}
             </div>
     </div>
 

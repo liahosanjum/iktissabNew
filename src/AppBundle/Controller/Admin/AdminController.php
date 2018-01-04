@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use AppBundle\Entity\CmsPages;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 
@@ -70,26 +70,112 @@ class AdminController extends Controller
         $form->handleRequest($request);
         $request->request->get('adesc');
         $cmsData = $form->getData();
-        if ($form->isValid() && $form->isSubmitted())
-        {
-            $cmsPage->setpageTitle($form->get('page_title')->getData());
-            $cmsPage->setpageContent($form->get('page_content')->getData());
-            $cmsPage->seturlPath($form->get('url_path')->getData());
-            $cmsPage->setStatus($form->get('status')->getData());
-            $cmsPage->setType('cms');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cmsPage);
-            $em->flush();
-            if($cmsPage->getId()) {
-                $message = $this->get('translator')->trans('Record Added successfully');
+        // get csrf token
+        // $token = $request->get($form->getName())['_token'];
+        $form->get('token')->getData();
+        //$this->checkCsrfToken($form->get('token')->getData() , 'admin_cms_list');
+
+            if ($form->isSubmitted())
+            {
+                  if($form->isValid()) {
+                      if($this->checkCsrfToken($form->get('token')->getData() , 'admin_cms_list' ))
+                      {
+                          $title = trim($form->get('page_title')->getData());
+                          $language =$form->get('language')->getData();
+                          $url = trim($form->get('url_path')->getData());
+                          $type = 'cms';
+                          $rec_exits = $this->chkRcd($title , $language , $url , $type);
+                          if($rec_exits == false)
+                          {
+                              $cmsPage->setStatus($form->get('language')->getData());
+                              $cmsPage->setpageTitle($form->get('page_title')->getData());
+                              $content_data = $form->get('page_content')->getData();
+                              $page_content_striped = $this->strip_tags_content($content_data, '<script>', TRUE);
+                              $cmsPage->setpageContent($page_content_striped);
+                              $cmsPage->seturlPath($form->get('url_path')->getData());
+                              $cmsPage->setStatus($form->get('status')->getData());
+                              $cmsPage->setType('cms');
+                              $em = $this->getDoctrine()->getManager();
+                              $em->persist($cmsPage);
+                              $em->flush();
+                              if ($cmsPage->getId()) {
+                                  $response = new RedirectResponse($this->generateUrl('admin_home', array('param' => '1')));
+                                  return $response;
+                                  /*
+                                  $message = $this->get('translator')->trans('Record Added successfully');
+                                  return $this->render('admin/cms/cms.html.twig', array(
+                                      'form' => $form->createView(), 'message' => $message,
+                                  ));
+                                  */
+                              }
+                          }
+                          else
+                          {
+                              $message = $this->get('translator')->trans('Url identifier already exist');
+                              return $this->render('admin/cms/cms.html.twig', array(
+                                  'form' => $form->createView(), 'message' => $message,
+                                  'error_cl' => 'alert-danger',
+                              ));
+                          }
+
+
+                      }
+                      else
+                      {
+                          $this->get('security.token_storage')->setToken(null);
+                          $response = new RedirectResponse($this->generateUrl('landingpage'));
+                          return $response;
+                          //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
+                      }
+                  }
+                  else
+                  {
+                      $this->get('security.token_storage')->setToken(null);
+                      $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                      return $response;
+                      //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
+                  }
+            }
+            else
+            {
+                // $csrf = $this->get('security.csrf.token_manager'); //Symfony\Component\Security\Csrf\CsrfTokenManagerInterface
+                // echo $token = $csrf->refreshToken('asdfasdfasd');
+                $this->setCsrfToken('admin_cms_list');
+                $session = new Session();
+                $token = $session->get('admin_cms_list');
+                $form->get('token')->setData($token);
+                //$request = $this->getRequest();
+                $param = $request->query->get('param');
+                if($param == 1){
+                    $message = $this->get('translator')->trans('Record Added successfully');
+                } else {
+                    $message = '';
+                }
+
                 return $this->render('admin/cms/cms.html.twig', array(
-                    'form' => $form->createView(),'message' => $message,
+                    'form' => $form->createView(), 'message' => $message ,
+                    'error_cl' => 'alert-success',
                 ));
             }
+    }
+
+    public function strip_tags_content($text, $tags = '', $invert = FALSE) {
+
+        preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);
+        $tags = array_unique($tags[1]);
+
+        if(is_array($tags) AND count($tags) > 0) {
+            if($invert == FALSE) {
+                return preg_replace('@<(?!(?:'. implode('|', $tags) .')\b)(\w+)\b.*?>.*?</\1>@si', '', $text);
+            }
+            else {
+                return preg_replace('@<('. implode('|', $tags) .')\b.*?>.*?</\1>@si', '', $text);
+            }
         }
-        return $this->render('admin/cms/cms.html.twig', array(
-            'form' => $form->createView(),'message' => '',
-        ));
+        elseif($invert == FALSE) {
+            return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
+        }
+        return $text;
     }
 
     /**
@@ -109,44 +195,92 @@ class AdminController extends Controller
         $form->handleRequest($request);
         $request->request->get('adesc');
         $cmsData = $form->getData();
-        if ($form->isValid() && $form->isSubmitted())
+        echo $form->get('token')->getData();
+        if ($form->isSubmitted())
         {
-            // $file stores the uploaded PDF file
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $cmsPage->getBrochure();
 
-            // Generate a unique name for the file before saving it
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            if ($form->isValid())
+            {
+                if($this->checkCsrfToken($form->get('token')->getData() , 'admin_news_list' ))
+                {
+                    $file = $cmsPage->getBrochure();
+                    // Generate a unique name for the file before saving it
+                    if(!empty($file))
+                    {
+                        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                        // Move the file to the directory where brochures are stored
+                        $file->move(
+                            $this->getParameter('images_directory'),
+                            $fileName
+                        );
 
-            // Move the file to the directory where brochures are stored
-            $file->move(
-                $this->getParameter('images_directory'),
-                $fileName
-            );
+                        // Update the 'brochure' property to store the PDF file name
+                        // instead of its contents
+                        $cmsPage->setBrochure($fileName);
+                    }
+                    $cmsPage->setpageTitle($form->get('page_title')->getData());
 
-            // Update the 'brochure' property to store the PDF file name
-            // instead of its contents
-            $cmsPage->setBrochure($fileName);
+                    $content_data = $form->get('page_content')->getData();
+                    $page_content_striped_edit = $this->strip_tags_content($content_data, '<script>', TRUE);
+                    $cmsPage->setpageContent($page_content_striped_edit);
 
-            $cmsPage->setpageTitle($form->get('page_title')->getData());
-            $cmsPage->setpageContent($form->get('page_content')->getData());
+                    $cmsPage->seturlPath($form->get('url_path')->getData(''));
+                    //$form->get('url_path')->setData(' ');
+                    $cmsPage->setStatus($form->get('status')->getData());
+                    $cmsPage->setType('news');
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($cmsPage);
+                    $em->flush();
+                    if ($cmsPage->getId())
+                    {
+                        $message = $this->get('translator')->trans('Record Added successfully');
+                        return $this->render('admin/news/news.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                            'error_cl' => 'alert-success',
+                        ));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                }
 
-            $cmsPage->setStatus($form->get('status')->getData());
-            $cmsPage->setType('news');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cmsPage);
-            $em->flush();
-            if($cmsPage->getId()) {
-                $message = $this->get('translator')->trans('Record Added successfully');
-                return $this->render('admin/news/news.html.twig', array(
-                    'form' => $form->createView(),'message' => $message,
-                ));
+            }
+            else
+            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
             }
             //return new Response('Content page added');
         }
-        return $this->render('admin/news/news.html.twig', array(
-            'form' => $form->createView(),'message' => '',
-        ));
+        else
+        {
+            $this->setCsrfToken('admin_news_list');
+            $session = new Session();
+            $token = $session->get('admin_news_list');
+            $form->get('token')->setData($token);
+            $form->get('url_path')->setData('--');
+            $form->get('type')->setData('news');
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1)
+            {
+                $message = $this->get('translator')->trans('Record Added successfully');
+            }
+            else
+            {
+                $message = '';
+            }
+            return $this->render('admin/news/news.html.twig', array(
+                'form' => $form->createView(),'message' => $message,
+                'error_cl' => 'alert-success',
+            ));
+        }
+
+
     }
 
 
@@ -237,6 +371,10 @@ class AdminController extends Controller
 
     public function cmsListUpdateAction(Request $request,$page)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
+
         $em = $this->getDoctrine()->getManager();
         //$cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
         $cmsPage = $em->getRepository('AppBundle:CmsPages')
@@ -261,30 +399,118 @@ class AdminController extends Controller
         $cmsData = $form->getData();
         $adesc = $form->get('status')->getData();
 
+        // cms_pages__token
+        // exit;
 
-        if ($form->isValid() && $form->isSubmitted())
+
+        if ($form->isSubmitted())
         {
-            $cmsPage->setpageTitle($form->get('page_title')->getData());
-            $cmsPage->setpageContent($form->get('page_content')->getData());
-            $cmsPage->setStatus($form->get('status')->getData());
-            $em = $this->getDoctrine()->getManager();
-            //$em->persist($cmsPage);
-            $em->flush();
-            if($cmsPage->getId())
+            echo $form->get('token')->getData();
+            $this->checkCsrfToken($form->get('token')->getData(),'admin_cms_list_upd');
+            if($form->isValid()) {
+                if($this->checkCsrfToken($form->get('token')->getData(),'admin_cms_list_upd'))
+                {
+                    $cmsPage->setpageTitle($form->get('page_title')->getData());
+                    $content_data = $form->get('page_content')->getData();
+                    $page_content_striped_edit = $this->strip_tags_content($content_data, '<script>', TRUE);
+                    $cmsPage->setpageContent($page_content_striped_edit);
+                    $cmsPage->setStatus($form->get('status')->getData());
+                    $em = $this->getDoctrine()->getManager();
+                    //$em->persist($cmsPage);
+                    $em->flush();
+                    if ($cmsPage->getId()) {
+                        $response = new RedirectResponse($this->generateUrl('cmslistupdate', array('page' => $page, 'param' => '1')));
+                        return $response;
+
+                        /* return $this->render('admin/cms/cmsedit.html.twig', array(
+                            'form' => $form->createView(),
+                            'message' => $this->get('translator')->trans('Record is updated'),
+
+                        ));
+                        */
+                    }
+                    else
+                    {
+                        return $this->render('admin/cms/cmsedit.html.twig', array(
+                            'form' => $form->createView(),
+                            'message' => $this->get('translator')->trans('Nothing to update'),
+
+                        ));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                    //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
+                }
+            }
+            else
             {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
+                /*$message = $this->get('translator')->trans('Unable to update record  diabled');
                 return $this->render('admin/cms/cmsedit.html.twig', array(
-                    'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
-                ));
+                    'form' => $form->createView(),'message' => $message,
+                ));*/
             }
         }
         else
         {
-
+            // $csrf = $this->get('security.csrf.token_manager'); //Symfony\Component\Security\Csrf\CsrfTokenManagerInterface
+            // echo $token = $csrf->refreshToken('asdfasdfasd');
+            $this->setCsrfToken('admin_cms_list_upd');
+            $session = new Session();
+            $token = $session->get('admin_cms_list_upd');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1){
+                $message = $this->get('translator')->trans('Record is updated');
+            }
+            else
+            {
+                $message = '';
+            }
             return $this->render('admin/cms/cmsedit.html.twig', array(
-                'form' => $form->createView(),'message' => '',
+                'form' => $form->createView(),'message' => $message,
             ));
         }
     }
+
+    public function setCsrfToken($token_name){
+        $csrf = $this->get('security.csrf.token_manager');
+        $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 61535), mt_rand(0, 61535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+        $d = new \DateTime("NOW");
+        $currentDate = $d->format("Y/m/d H:i:s");
+        $nonce = md5($guid);
+        $passwordHash   = sha1(base64_encode($nonce) . $currentDate . AppConstant::IKTISSAB_API_SECRET);
+        $passwordDigest =  base64_encode($passwordHash);
+        $token = $csrf->refreshToken($passwordDigest);
+        $session = new Session();
+        $token_name = $token_name;
+        $session->set($token_name, $token);
+    }
+
+    public function checkCsrfToken($csf_token , $token_name){
+        $session = new Session();
+        $token_name = $token_name;
+        // csrf_admin_token
+        $token_val = $session->get($token_name);
+        if($token_val == $csf_token)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
 
     /**
      * @Route("/admin/newslistupdate/{page}", name="newslistupdate")
@@ -293,6 +519,10 @@ class AdminController extends Controller
 
     public function newsListUpdateAction(Request $request,$page)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
+        $error_cl = 'alert-success';
         $em = $this->getDoctrine()->getManager();
         //$cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
 
@@ -317,106 +547,143 @@ class AdminController extends Controller
         $request->get('adesc');
         $cmsData = $form->getData();
         $adesc   = $form->get('status')->getData();
-        if ($form->isValid() && $form->isSubmitted())
+        if ($form->isSubmitted())
         {
-            $title    = $form->get('page_title')->getData();
-            $content  = $form->get('page_content')->getData();
-            $url_path = $form->get('url_path')->getData();
-            $status   = $form->get('status')->getData();
-            $country  = $form->get('country')->getData();
-            $type     = 'news';
-
-            $em = $this->getDoctrine()->getManager();
-            //$em->persist($cmsPage);
-            if($form->get('brochure')->getData() )
+            if ($form->isValid())
             {
-                $file = $cmsPage->getBrochure(); //$form->get('image')->getData(); //$cmsPage->getImage();
-                // Generate a unique name for the file before saving it
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                // Move the file to the directory where brochures are stored
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-
-                // Update the 'brochure' property to store the PDF file name
-                // instead of its contents
-                $cmsPage->getBrochure($fileName);
-                $em   = $this->getDoctrine()->getManager();
-                $conn = $em->getConnection();
-
-                // $data_values = array($email = $email, $C_id = $C_id);
-                $status = $form->get("status")->getData();
-                $data_values = array($content ,
-                    $title , $status , $country , $type , $fileName  , $url_path ,$page  );
-
-                $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content= ?  , 
-                page_title = ?   , status = ?  , country = ? , type = ?  , brochure = ? , url_path = ? 
-                 
-                WHERE id = ?   ', $data_values);
-
-                $stm;
-                if($stm == 1){
-                    return $this->render('admin/news/newsedit.html.twig', array(
-                        'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
-                    ));
-                }else
+                if($this->checkCsrfToken($form->get('token')->getData(),'admin_news_list_upd'))
                 {
-                    return $this->render('admin/news/newsedit.html.twig', array(
-                        'form' => $form->createView(),'message' => $this->get('translator')->trans('Nothing to update'),
-                    ));
+                    $title = $form->get('page_title')->getData();
+                    $content_data = $form->get('page_content')->getData();
+                    $page_content_striped_edit = $this->strip_tags_content($content_data, '<script>', TRUE);
+
+
+                    $content = $page_content_striped_edit;
+                    $url_path = $form->get('url_path')->getData();
+                    $status = $form->get('status')->getData();
+                    $country = $form->get('country')->getData();
+                    $type = 'news';
+
+                    $em = $this->getDoctrine()->getManager();
+                    //$em->persist($cmsPage);
+                    if ($form->get('brochure')->getData()) {
+                        $file = $cmsPage->getBrochure(); //$form->get('image')->getData(); //$cmsPage->getImage();
+                        // Generate a unique name for the file before saving it
+                        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                        // Move the file to the directory where brochures are stored
+                        $file->move(
+                            $this->getParameter('images_directory'),
+                            $fileName
+                        );
+
+                        // Update the 'brochure' property to store the PDF file name
+                        // instead of its contents
+                        $cmsPage->getBrochure($fileName);
+                        $em = $this->getDoctrine()->getManager();
+                        $conn = $em->getConnection();
+
+                        // $data_values = array($email = $email, $C_id = $C_id);
+                        $status = $form->get("status")->getData();
+                        $data_values = array($content,
+                            $title, $status, $country, $type, $fileName, $url_path, $page);
+
+                        $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content= ?  , 
+                    page_title = ?   , status = ?  , country = ? , type = ?  , brochure = ? , url_path = ? 
+                     
+                    WHERE id = ?   ', $data_values);
+
+                        $stm;
+                        if ($stm == 1) {
+                            return $this->render('admin/news/newsedit.html.twig', array(
+                                'form' => $form->createView(), 'message' => $this->get('translator')->trans('Record is updated'),
+                            ));
+                        } else {
+                            return $this->render('admin/news/newsedit.html.twig', array(
+                                'form' => $form->createView(), 'message' => $this->get('translator')->trans('Nothing to update'),
+                            ));
+                        }
+                    } else {
+                        $em = $this->getDoctrine()->getManager();
+                        $conn = $em->getConnection();
+
+                        // $data_values = array($email = $email, $C_id = $C_id);
+                        $status = $form->get("status")->getData();
+                        $data_values = array($content,
+                            $title, $status, $country, $type, $url_path, $page);
+
+                        $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content = ?  ,  
+                    page_title = ? ,  status = ?  , country = ? , type = ?  , url_path = ? 
+                     
+                    WHERE id = ? ', $data_values);
+
+                        $stm;
+                        if ($stm == 1) {
+                            return $this->render('admin/news/newsedit.html.twig', array(
+                                'form' => $form->createView(),
+                                'message' => $this->get('translator')->trans('Record is updated'),
+                                'error_cl' => 'alert-success',
+                            ));
+                        } else {
+                            return $this->render('admin/news/newsedit.html.twig', array(
+                                'form' => $form->createView(),
+                                'message' => $this->get('translator')->trans('Nothing to update'),
+                                'error_cl' => 'alert-danger',
+                            ));
+                        }
+
+
+                    }
+                    $em->flush();
+                    if ($cmsPage->getId()) {
+                        return $this->render('admin/news/newsedit.html.twig', array(
+                            'form' => $form->createView(),
+                            'message' => $this->get('translator')->trans('Record is updated'),
+                            'error_cl' => 'alert-success',
+                        ));
+                    }
                 }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                    //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
+                }
+
             }
             else
             {
-                $em = $this->getDoctrine()->getManager();
-                $conn = $em->getConnection();
-
-                // $data_values = array($email = $email, $C_id = $C_id);
-                $status = $form->get("status")->getData();
-                $data_values = array($content ,
-                    $title , $status , $country , $type ,  $url_path , $page   );
-
-                $stm = $conn->executeUpdate('UPDATE cms_pages SET  page_content = ?  ,  
-                page_title = ? ,  status = ?  , country = ? , type = ?  , url_path = ? 
-                 
-                WHERE id = ? ', $data_values);
-
-                $stm;
-                if($stm == 1){
-                    return $this->render('admin/news/newsedit.html.twig', array(
-                        'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
-                    ));
-                }else
-                {
-                    return $this->render('admin/news/newsedit.html.twig', array(
-                        'form' => $form->createView(),'message' => $this->get('translator')->trans('Nothing to update'),
-                    ));
-                }
-
-
-
-            }
-
-
-
-
-
-            $em->flush();
-            if($cmsPage->getId())
-            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
+                /*
+                $message = $this->get('translator')->trans('Unable to update record');
                 return $this->render('admin/news/newsedit.html.twig', array(
-                    'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
-                ));
+                    'form' => $form->createView(),'message' => $message,
+                    'error_cl' => 'alert-danger',
+                ));*/
             }
         }
         else
         {
-
-
-
+            // $csrf = $this->get('security.csrf.token_manager'); //Symfony\Component\Security\Csrf\CsrfTokenManagerInterface
+            // echo $token = $csrf->refreshToken('asdfasdfasd');
+            $this->setCsrfToken('admin_news_list_upd');
+            $session = new Session();
+            $token = $session->get('admin_news_list_upd');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1){
+                $message = $this->get('translator')->trans('Record is updated');
+            }
+            else
+            {
+                $message = '';
+            }
             return $this->render('admin/news/newsedit.html.twig', array(
-                'form' => $form->createView(),'message' => 'ss',
+                'form' => $form->createView(),'message' => $message,
+                'error_cl' => 'alert-success',
             ));
         }
     }
@@ -594,6 +861,9 @@ class AdminController extends Controller
     public function newsListDeleteAction(Request $request,$page)
     {
         // delete the record
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
         $em = $this->getDoctrine()->getManager();
         $cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
         $em->remove($cmsPage);
@@ -706,6 +976,9 @@ class AdminController extends Controller
      */
     public function settingsAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
         $settings = new EmailSetting();
         // echo '====='.$cmsPage->getAdesc();
         $form = $this->createForm(EmailSettingType::class, $settings);
@@ -714,28 +987,74 @@ class AdminController extends Controller
         // $request->request->get('adesc');
         $cmsData = $form->getData();
         // echo $adesc = $form->getAdesc('adesc')->getData();
-        if ($form->isValid() && $form->isSubmitted())
+        if ($form->isSubmitted())
         {
-            $settings->setEmail($form->get('email')->getData());
-            $settings->setType($form->get('type')->getData());
-            $settings->setCountry($form->get('country')->getData());
-            $settings->setOther($form->get('technical')->getData());
-            $settings->setOther($form->get('other')->getData());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($settings);
-            $em->flush();
-            if($settings->getId())
+            if($form->isValid())
             {
-                $message = $this->get('translator')->trans('Record Added successfully');
-                return $this->render('admin/settings/settings.html.twig', array(
-                    'form' => $form->createView(),'message' => $message,
-                ));
+                if($this->checkCsrfToken($form->get('token')->getData() , 'admin_email_setting' ))
+                {
+
+                    $settings->setEmail($form->get('email')->getData());
+                    $settings->setType($form->get('type')->getData());
+                    $settings->setCountry($form->get('country')->getData());
+                    $settings->setOther($form->get('technical')->getData());
+                    $settings->setOther($form->get('other')->getData());
+
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($settings);
+                    $em->flush();
+                    if ($settings->getId()) {
+                        $message = $this->get('translator')->trans('Record Added successfully');
+                        return $this->render('admin/settings/settings.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                            'error_cl' => 'alert-success',
+                        ));
+                    }
+                    else
+                    {
+                        $message = $this->get('translator')->trans('Nothing to update');
+                        return $this->render('admin/settings/settings.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                            'error_cl' => 'alert-danger',
+                        ));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                }
+            }
+            else
+            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
             }
         }
-        return $this->render('admin/settings/settings.html.twig',
-        array (
-            'form' => $form->createView(),'message' => '',
-        ));
+        else
+        {
+            $this->setCsrfToken('admin_email_setting');
+            $session = new Session();
+            $token = $session->get('admin_email_setting');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1) {
+                $message = $this->get('translator')->trans('Record Added successfully');
+            } else {
+                $message = '';
+            }
+
+            return $this->render('admin/settings/settings.html.twig',
+            array(
+                'form' => $form->createView(), 'message' => $message,
+                'error_cl' => 'alert-success',
+            ));
+        }
+
     }
 
     /**
@@ -745,35 +1064,77 @@ class AdminController extends Controller
 
     public function settingsUpdateAction(Request $request,$id)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
+
         $em = $this->getDoctrine()->getManager();
-        $settings = $em->getRepository('AppBundle:Settings')->find($id);
+        $settings = $em->getRepository('AppBundle:EmailSetting')->find($id);
         $type = $settings->getType();
         $form = $this->createForm(EmailSettingType::class, $settings);
         $form->handleRequest($request);
         $settingsData = $form->getData();
         $type = $form->get('type')->getData();
-        if($form->isValid() && $form->isSubmitted())
+        if($form->isSubmitted())
         {
-            $settingsData->setEmail($form->get('email')->getData());
-            $settingsData->setType($form->get('type')->getData());
-            $settingsData->setTechnical($form->get('technical')->getData());
-            $settingsData->setOther($form->get('other')->getData());
-            $settingsData->setCountry($form->get('country')->getData());
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            if($settingsData->getId())
+            if($form->isValid())
             {
-                return $this->render('admin/settings/settingsedit.html.twig', array(
-                    'form' => $form->createView(),'message' => $this->get('translator')->trans('Record is updated'),
-                ));
+                if($this->checkCsrfToken($form->get('token')->getData() , 'admin_email_setting' ))
+                {
+                    
+                    $settingsData->setEmail($form->get('email')->getData());
+                    
+                    $settingsData->setType($form->get('type')->getData());
+                    $settingsData->setTechnical($form->get('technical')->getData());
+                    $settingsData->setOther($form->get('other')->getData());
+                    $settingsData->setCountry($form->get('country')->getData());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+
+                    if ($settingsData->getId()) {
+                        return $this->render('admin/settings/settingsedit.html.twig', array(
+                            'form' => $form->createView(), 'message' => $this->get('translator')->trans('Record is updated'),
+                            'error_cl' => 'alert-success',
+                        ));
+                    } else {
+                        return $this->render('admin/settings/settingsedit.html.twig', array(
+                            'form' => $form->createView(), 'message' => $this->get('translator')->trans('Unable to update'),
+                            'error_cl' => 'alert-danger',
+                        ));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                }
+            }
+            else
+            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
             }
         }
         else
         {
+            $this->setCsrfToken('admin_email_setting');
+            $session = new Session();
+            $token = $session->get('admin_email_setting');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1) {
+                $message = $this->get('translator')->trans('Record Added successfully');
+            } else {
+                $message = '';
+            }
+
             $em = $this->getDoctrine()->getManager();
             return $this->render('admin/settings/settingsedit.html.twig', array(
-                'form' => $form->createView(),'message' => '',
+                'form' => $form->createView(),'message' => $message,
+                'error_cl' => 'alert-success',
             ));
         }
     }
@@ -783,33 +1144,45 @@ class AdminController extends Controller
      */
     public function settingsListAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
+
+        $em = $this->getDoctrine()->getManager();
         $settingsList = $this->getDoctrine()
             ->getRepository('AppBundle:EmailSetting')
             ->findAll();
         $data = array();
         $i = 0;
-        foreach($settingsList as $list)
+        if(!empty($settingsList))
         {
-            $data[$i]['Id']        =  $settingsList[$i]->getId();
-            $data[$i]['Email']     =  $settingsList[$i]->getEmail();
-            $data[$i]['Type']      =  $settingsList[$i]->getType();
-            $data[$i]['Technical'] =  $settingsList[$i]->getTechnical();
-            $data[$i]['Other']     =  $settingsList[$i]->getOther();
-            // country id is sa and eg
-            if($settingsList[$i]->getCountry() == 'sa')
-            {
-                $data[$i]['Country'] =  "Saudi Arabia";
-            }
-            else
-            {
-                $data[$i]['Country'] =  "Egypt";
+            foreach ($settingsList as $list) {
+                $data[$i]['Id'] = $settingsList[$i]->getId();
+                $data[$i]['Email'] = $settingsList[$i]->getEmail();
+                $data[$i]['Type'] = $settingsList[$i]->getType();
+                $data[$i]['Technical'] = $settingsList[$i]->getTechnical();
+                $data[$i]['Other'] = $settingsList[$i]->getOther();
+                // country id is sa and eg
+                if ($settingsList[$i]->getCountry() == 'sa') {
+                    $data[$i]['Country'] = "Saudi Arabia";
+                } else {
+                    $data[$i]['Country'] = "Egypt";
+                }
+                $i++;
             }
 
-            $i++;
         }
+        else
+        {
+            return $this->render('admin/settings/settingslistall.html.twig', array(
+                'data' => $data, 'message' => $this->get('translator')->trans('No record found')
+            ));
+        }
+
         return $this->render('admin/settings/settingslistall.html.twig', array(
-        'data' => $data));
+        'data' => $data,'message' => '',
+
+        ));
 
     }
 
@@ -877,30 +1250,91 @@ class AdminController extends Controller
      */
     public function addFormDisplaySettingAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('admin_admin');
+        }
+
         $displaysettings = new FormSetting();
         $form = $this->createForm(FormSettingType::class, $displaysettings);
         $form->handleRequest($request);
-        if ($form->isValid() && $form->isSubmitted())
+        if ($form->isSubmitted())
         {
-            $displaysettings->setStatus($form->get('status')->getData());
-            $displaysettings->setFormType($form->get('formtype')->getData());
-            $displaysettings->setCountry($form->get('country')->getData());
-            $displaysettings->setSubmissions($form->get('submissions')->getData());
-            $displaysettings->setLimitto($form->get('limitto')->getData());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($displaysettings);
-            $em->flush();
-            if($displaysettings->getId())
+            if ($form->isValid())
             {
-                $message = 'Record Added successfully';
-                return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
-                    'form' => $form->createView(),'message' =>  $message ,
-                ));
+                if($this->checkCsrfToken($form->get('token')->getData() , 'admin_addformdisplay_setting' ))
+                {
+                    $displaysettings->setStatus($form->get('status')->getData());
+                    //
+                    $formtype_form = $form->get('formtype')->getData();
+                    $country_form = $form->get('country')->getData();
+
+                    $this->chkForm($country_form , $formtype_form);
+                    if($this->chkForm($country_form , $formtype_form) == false ) {
+                        $displaysettings->setFormType($form->get('formtype')->getData());
+                        $displaysettings->setCountry($form->get('country')->getData());
+                        $displaysettings->setSubmissions($form->get('submissions')->getData());
+                        $displaysettings->setLimitto($form->get('limitto')->getData());
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($displaysettings);
+                        $em->flush();
+                        if ($displaysettings->getId()) {
+                            $message = 'Record Added successfully';
+                            return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
+                                'form' => $form->createView(), 'message' => $message,
+                                'error_cl' => 'alert-success',
+                            ));
+                        } else {
+                            $message = 'Unable to update';
+                            return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
+                                'form' => $form->createView(), 'message' => $message,
+                                'error_cl' => 'alert-success',
+                            ));
+                        }
+                    }
+                    else
+                    {
+                        $message = 'Duplicate record found';
+                        return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
+                            'form' => $form->createView(), 'message' => $message,
+                            'error_cl' => 'alert-danger',
+                        ));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                    //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
+                }
+            }
+            else
+            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
+                //return $this->redirect(AppConstant::BASE_URL."/ar/sa/");
             }
         }
-        return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
-            'form' => $form->createView(),'message' => '',
-        ));
+        else
+        {
+            $this->setCsrfToken('admin_addformdisplay_setting');
+            $session = new Session();
+            $token = $session->get('admin_addformdisplay_setting');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1){
+                $message = $this->get('translator')->trans('Record Added successfully');
+            } else {
+                $message = '';
+            }
+            return $this->render('admin/settings/addformdisplaysettings.html.twig', array(
+                'form' => $form->createView(), 'message' => $message ,
+                'error_cl' => 'alert-success',
+            ));
+        }
+
     }
 
 
@@ -918,26 +1352,56 @@ class AdminController extends Controller
         $form->handleRequest($request);
         $settingsData = $form->getData();
         $type = $form->get('formtype')->getData();
-        if($form->isValid() && $form->isSubmitted())
+
+        if($form->isSubmitted())
         {
-            $settingsData->setStatus($form->get('status')->getData());
-            $settingsData->setFormType($form->get('formtype')->getData());
-            $settingsData->setCountry($form->get('country')->getData());
-            $settingsData->setSubmissions($form->get('submissions')->getData());
-            $settingsData->setLimitto($form->get('limitto')->getData());
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            if($settingsData->getId())
+            if($form->isValid())
             {
-                $message = $this->get('translator')->trans('Record is updated');
-                return $this->redirectToRoute('admin_formdisplaysettings' , array('message'=> $message ) );
+                if($this->checkCsrfToken($form->get('token')->getData() , 'admin_addformdisplay_setting_upd' ))
+                {
+                    $settingsData->setStatus($form->get('status')->getData());
+                    $settingsData->setFormType($form->get('formtype')->getData());
+                    $settingsData->setCountry($form->get('country')->getData());
+                    $settingsData->setSubmissions($form->get('submissions')->getData());
+                    $settingsData->setLimitto($form->get('limitto')->getData());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+                    if ($settingsData->getId())
+                    {
+                        $message = $this->get('translator')->trans('Record is updated');
+                        return $this->redirectToRoute('admin_formdisplaysettings', array('message' => $message));
+                    }
+                }
+                else
+                {
+                    $this->get('security.token_storage')->setToken(null);
+                    $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                    return $response;
+                }
+            }
+            else
+            {
+                $this->get('security.token_storage')->setToken(null);
+                $response = new RedirectResponse($this->generateUrl('admin_admin'));
+                return $response;
             }
         }
         else
         {
+            $this->setCsrfToken('admin_addformdisplay_setting_upd');
+            $session = new Session();
+            $token = $session->get('admin_addformdisplay_setting_upd');
+            $form->get('token')->setData($token);
+            //$request = $this->getRequest();
+            $param = $request->query->get('param');
+            if($param == 1) {
+                $message = $this->get('translator')->trans('Record is updated');
+            } else {
+                $message = '';
+            }
             $em = $this->getDoctrine()->getManager();
             return $this->render('admin/settings/updateformdisplaysettings.html.twig', array(
-                'form' => $form->createView(),'message' => '',
+                'form' => $form->createView(),'message' => $message ,
             ));
         }
     }
@@ -970,6 +1434,91 @@ class AdminController extends Controller
         $this->get('security.token_storage')->setToken(null);
         $response = new RedirectResponse($this->generateUrl('admin_admin'));
         return $response;
+    }
+
+
+    public function chkRcd($title , $language , $url , $type)
+    {
+        $title      =  $title;
+        $language   =  $language;
+        $url_path   =  $url;
+        $type       =  $type;
+        /*
+        $title      = 'test';
+        $language   =  'en'; //$language;
+        $url_path   =  'script-test' ;  //$url;
+        $type       =  'cms'; //$type;
+        */
+
+        $em = $this->getDoctrine()->getManager();
+        $cmspages = $this->getDoctrine()
+        ->getRepository('AppBundle:CmsPages')
+        ->findBy(array( 'type' => $type , 'url_path' => $url_path , 'language' => $language ));
+        if(!empty($cmspages))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+
+    /**
+     * @Route("/admin/test123", name="admin_test123")
+     *
+     */
+    public function test123Action()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $conn = $em->getConnection();
+        /****************/
+        $stm  = $conn->prepare("SELECT id FROM cms_pages WHERE  id != ? AND url_path = ?  ");
+        $stm->bindValue(1, 25);
+        $stm->bindValue(2, 'test-script2');
+        // $stm->bindValue(2, 'script-test');
+        $stm->execute();
+        $result  = $stm->fetchAll();
+        $num =  count($result);
+        if($num >= 2)
+        {
+            echo 'can not update';
+            return false;
+            // can updat
+        }
+        else
+        {
+            echo 'can  update';
+            return true;
+            // no update
+        }
+        // WXrjqnmXijodfi3NOMlO04hA8EuL6g_ro0j7Yv6NnJ0
+        // WXrjqnmXijodfi3NOMlO04hA8EuL6g_ro0j7Yv6NnJ0
+    }
+
+    /**
+     * @Route("/admin/chkform", name="admin_chkform")
+     *
+     */
+    public function chkForm($country , $formtype)
+    {
+        $country   =  $country;
+        $formtype       =  $formtype;
+        $em = $this->getDoctrine()->getManager();
+        $cmspages = $this->getDoctrine()
+            ->getRepository('AppBundle:FormSetting')
+            ->findBy(array( 'formtype' => $formtype , 'country' => $country ));
+        if(!empty($cmspages))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
 

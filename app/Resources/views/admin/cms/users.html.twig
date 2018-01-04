@@ -9,6 +9,13 @@
                     <h2>{{ 'Manage Users'|trans }}</h2>
                     <div class="clearfix"></div>
                 </div>
+                {%  if message != "" %}
+                    <div class="cmsForm alert-danger" style="padding-top: 20px; padding-bottom: 20px;">
+
+                        {{ message }}
+
+                    </div>
+                {% endif %}
                 <div class="x_content">
                     <fieldset title="search users">
                         <form action="">

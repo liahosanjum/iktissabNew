@@ -34,23 +34,55 @@ class UserController extends Controller
         $ikt = $request->query->get('ikt', '');
         $email = $request->query->get('email', '');
         $page = $request->query->get('page', 1);
-        $users = $em->getRepository('AppBundle:User')->searchUsers($ikt, $email);
-        $pager = new Pagerfanta(new DoctrineORMAdapter($users, true));
-        $pager->setMaxPerPage(User::NUM_ITEMS);
-        $routeGenerator = function ($page) {
-            return '?pager=' . $page . '&email=eg';
+        /***/
+        if($email != "" and $email != null) {
 
-        };
-        if ($pager->haveToPaginate())
-            $pager->setCurrentPage($page);
-        return $this->render(
-            '/admin/cms/users.html.twig',
-            array(
-                'users' => $pager,
-                'ikt'   => $ikt,
-                'email' => $email
-            )
-        );
+
+            if (!preg_match("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/", $email)) {
+                //Email address is invalid.
+                $email = "";
+                $message = 'invalid email address';
+            }
+            else{
+                $message = '';
+            }
+        }
+
+        else if($ikt != "") {
+            if (!preg_match("/^([0-9]){8}$/", $ikt)) {
+                $ikt = "";
+                $message = 'invalid iktissab number';
+            }
+             else{
+                 $message = '';
+             }
+        }
+
+
+
+            /***/
+
+            $users = $em->getRepository('AppBundle:User')->searchUsers($ikt, $email);
+            $pager = new Pagerfanta(new DoctrineORMAdapter($users, true));
+            $pager->setMaxPerPage(User::NUM_ITEMS);
+            $routeGenerator = function ($page) {
+                return '?pager=' . $page . '&email=eg';
+
+            };
+            if ($pager->haveToPaginate())
+                $pager->setCurrentPage($page);
+
+
+            return $this->render(
+                '/admin/cms/users.html.twig',
+                array(
+                    'users' => $pager,
+                    'ikt' => $ikt,
+                    'email' => $email,
+                    'message' => $message,
+                )
+            );
+
     }
 
     /**
@@ -117,6 +149,42 @@ class UserController extends Controller
 
     public function adminLogsController(Request $request)
     {
+        $ikt = $request->query->get('ikt', '');
+        $action = $request->query->get('action', '');
+        $email = $request->query->get('email', '');
+        if($email != "" and $email != null) {
+            if (!preg_match("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/", $email)) {
+                //Email address is invalid.
+                $email = "";
+                $message = 'invalid email address';
+            }
+            else{
+                $message = '';
+            }
+        }
+
+        else if($ikt != "") {
+            if (!preg_match("/^([0-9]){8}$/", $ikt)) {
+                $ikt = "";
+                $message = 'invalid iktissab number';
+            }
+            else{
+                $message = '';
+            }
+        }
+
+        else if($action != "") {
+            if (!preg_match("/^([a-zA-Z])*$/", $action)) {
+                $action = "";
+                $message = 'invalid action ';
+            }
+            else
+            {
+                $message = '';
+            }
+        }
+
+
         $em = $this->getDoctrine()->getManager();
         $ikt = $request->query->get('ikt', '');
         $action = $request->query->get('action', '');

@@ -4,15 +4,20 @@
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
+
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}"/>
         <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}"/>
 
     {% endblock %}
     {% block javascripts %}
+
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/validation.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
+        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
@@ -73,4 +78,5 @@
         <div class="claerfix"></div>
     </div>
 </body>
+{% block javascripts2 %}{% endblock %}
 </html>

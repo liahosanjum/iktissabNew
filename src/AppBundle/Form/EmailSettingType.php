@@ -8,9 +8,10 @@
 
 namespace AppBundle\Form;
 
-
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +28,12 @@ class EmailSettingType extends AbstractType
                     'class' => 'form-control'
                 ),'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Email(array('message' => 'Invalid email address')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' =>  '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )
             ))
             ->add('type', ChoiceType::class, array(
@@ -72,6 +79,12 @@ class EmailSettingType extends AbstractType
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
+            ))
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+
             ))
 
 

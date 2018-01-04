@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 
 // use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 // use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -82,12 +83,24 @@ class FormSettingType extends AbstractType
             ))
 
             ->add('limitto' , TextType::class, array('label' => 'Limit To',
-                'attr' => array(
+                'attr' => array(  'maxlength' => 8,
                     'class' => 'form-control'
                 ),'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' =>  '/^[1-9]([0-9])*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )
             ))
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+
+            ))
+
 
 
             ->add('save', SubmitType::class, array('label' => 'Submit','attr' => array(

@@ -7,10 +7,12 @@
 
         <div class="col-lg-12  col-md-12 col-sm-12 ">
 
-            <div class="cmsForm">
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}">
+                    {{ message }}
+                </div>
+            {% endif %}
 
-                {{ message }}
-            </div>
             {{ form_start(form) }}
             <div class="cmsForm">
                 {{ form_label(form.formtype) }}
@@ -53,5 +55,16 @@
     <style>
         .cmsForm .required { width: 200px; }
     </style>
+{% endblock %}
+
+{% block javascripts2 %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
+
 {% endblock %}
 

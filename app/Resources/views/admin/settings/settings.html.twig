@@ -7,10 +7,13 @@
 
         <div class="col-lg-12  col-md-12 col-sm-12 ">
             <div class="title-form">Add New Email</div>
-            <div class="cmsForm">
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}">
 
-                {{ message }}
-            </div>
+                    {{ message }}
+
+                </div>
+            {% endif %}
             {{ form_start(form) }}
 
 
@@ -57,3 +60,13 @@
     </style>
 {% endblock %}
 
+{% block javascripts2 %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
+
+{% endblock %}

@@ -63,7 +63,7 @@
                 {{ form_errors(form.status) }}
                 {{ form_widget(form.status) }}
             </div>
-            <div class="cmsForm">
+            <div class="cmsForm cmsFormBrochure">
                 {{ form_label(form.brochure) }}
                 {{ form_errors(form.brochure) }}
                 {{ form_widget(form.brochure) }}
@@ -81,5 +81,18 @@
         </div>
         <div class="claerfix"></div>
     </div>
+    <style type="text/css">
+        .cmsFormBrochure {
+            display: none; }
+    </style>
+{% endblock %}
+{% block javascripts2 %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //alert('asdf');
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
 {% endblock %}
 
