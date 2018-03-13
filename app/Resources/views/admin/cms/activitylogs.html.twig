@@ -6,15 +6,24 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ 'Users Activity Logs'|trans }}</h2>
+                    <h2>{{ 'Users Activity Logs' }}</h2>
                     <div class="clearfix"></div>
                 </div>
+                {%  if message != "" %}
+                    <div class="cmsForm alert-danger" style="padding-top: 20px; padding-bottom: 20px;">
+
+                        {{ message }}
+
+                    </div>
+                {% endif %}
+
                 <div class="x_content">
                     <fieldset title="search users">
-                        <form action="">
+                        <form action="activity-logs" autocomplete="off" name="ikt-search" >
                             <input type="text" name="ikt" placeholder="Iktissab Card" value="{{ ikt }}" />
                             <input type="text" name="email" placeholder="email" value="{{ email }}" />
                             <input type="text" name="action" placeholder="action" value="{{ action }}" />
+                            <input type="hidden" name="token"  value="{{ token }}" />
                             <input type="submit">
                         </form>
                     </fieldset>
@@ -24,11 +33,11 @@
                     <table class="table table-striped table-bordered jambo_table table-responsive">
                         <thead>
                         <tr>
-                            <th class="column-title">{{ 'Iktissab Id'|trans }}</th>
-                            <th class="column-title">{{ 'Email'|trans }}</th>
-                            <th class="column-title">{{ 'Action Date'|trans }}</th>
-                            <th class="column-title">{{ 'Action'|trans }}</th>
-                            <th class="column-title">{{ 'Details'|trans }}   </th>
+                            <th class="column-title">{{ 'Iktissab Id' }}</th>
+                            <th class="column-title">{{ 'Email' }}</th>
+                            <th class="column-title">{{ 'Action Date' }}</th>
+                            <th class="column-title">{{ 'Action' }}</th>
+                            <th class="column-title">{{ 'Details' }}   </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,14 +50,14 @@
                                 <td>{{ log.a_actionType }}</td>
                                 <td>
                                     <button class="viewDet" data-text="{{ log.a_actionData }}">
-                                    &nbsp;{{ 'View Details'|trans }}
+                                    &nbsp;{{ 'View Details' }}
                                     </button>
                                 </td>
                             </tr>
 
 
                         {% else %}
-                            <td colspan="4" align="center">{{ 'log.no_posts_found'|trans }}</td>
+                            <td colspan="4" align="center">{{ 'log.no_posts_found' }}</td>
                         {% endfor %}
                         </tbody>
                     </table>

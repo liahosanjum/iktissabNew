@@ -1,3 +1,5 @@
+{% extends '::baseadmin.html.twig' %}
+{% block body %}
 <div class="row">
     <div class="col-lg-12 profile-tabs">
         <div>
@@ -6,20 +8,24 @@
 
 
             <!-- Tab panes -->
+
+            {% if iktData !="" %}
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade active in" id="personal">
-                    <div class="row">
+
+
+                    <div class="row" style="padding-top: 30px;">
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Customer Name'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['cname'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6  admin-title">
                                 {{ 'Customer Status'|trans }}
                             </div>
                             <div class="col-lg-6">
@@ -30,53 +36,31 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Iktissab Card No'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['C_id'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Area'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['area'] }}
                             </div>
 
                         </div>
                         <!-- end of row -->
                         <!--row-->
-                        <div class="col-lg-6">
-                            <div class="col-lg-6">
-                                {{ 'House Number'|trans }}
-                            </div>
-                            <div class="col-lg-6">
-                                {{ iktData['houseno'] }}
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-6">
-                                {{ 'PO Box'|trans }}
-                            </div>
-                            <div class="col-lg-6">
-                                {{ iktData['pobox'] }}
-                            </div>
 
-                        </div>
+
                         <!-- end of row -->
                         <!--row-->
+
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
-                                {{ 'Zip Code'|trans }}
-                            </div>
-                            <div class="col-lg-6">
-                                {{ iktData['zip'] }}
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'City'|trans }}
                             </div>
                             <div class="col-lg-6">
@@ -87,18 +71,18 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Telephone (Home)'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['tel_home'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Telephone (Office)'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['tel_office'] }}
                             </div>
 
@@ -106,18 +90,18 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Mobile'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['mobile'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Email'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['email'] }}
                             </div>
 
@@ -125,7 +109,7 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Nationality'|trans }}
                             </div>
                             <div class="col-lg-6">
@@ -133,7 +117,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Marital Status'|trans }}
                             </div>
                             <div class="col-lg-6">
@@ -144,15 +128,15 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Birthdate'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['birthdate'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Job Title'|trans }}
                             </div>
                             <div class="col-lg-6">
@@ -163,18 +147,18 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Balance'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ iktData['balance'] }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Language'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ ('lang-'~'E')|trans }}
                             </div>
 
@@ -182,18 +166,18 @@
                         <!-- end of row -->
                         <!--row-->
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Gender:'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ ('gender-'~iktData['gender'])|trans }}
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-title">
                                 {{ 'Shoppers'|trans }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 admin-titledata">
                                 {{ ('pur_group-'~iktData['pur_grp'])|trans }}
                             </div>
 
@@ -202,8 +186,13 @@
                     </div>
 
                 </div>
+
             </div>
+                {% else %}
+                    <div class="alert-danger" style="border-radius:5px; margin-top: 30px;padding: 20px; font-size: 15px; ">No data found</div>
+                    {% endif %}
 
         </div>
     </div>
 </div>
+{% endblock %}

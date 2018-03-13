@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-12  col-md-12 col-sm-12 ">
 
-            {{ form_start(form) }}
+            {{ form(form, { 'attr': {'autocomplete': 'off'} }) }}
 
             {% for page in form.pages %}
                 <div class="cmsForm">

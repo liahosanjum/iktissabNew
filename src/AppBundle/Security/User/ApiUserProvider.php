@@ -29,7 +29,8 @@ class ApiUserProvider implements UserProviderInterface
         if($user != null)
         {
 
-            return new \AppBundle\Security\User\ApiUser($user->getIktCardNo(), $user->getEmail(), $user->getPassword(), null, $user->getRoles() );
+            return new \AppBundle\Security\User\ApiUser($user->getIktCardNo(), $user->getEmail(),
+                $user->getPassword(), null, $user->getRoles() );
             
         }
 

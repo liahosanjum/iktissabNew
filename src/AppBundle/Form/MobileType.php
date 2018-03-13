@@ -3,6 +3,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +24,7 @@ class MobileType extends AbstractType
 
         $builder->add('iqamaid_mobile', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN'.$country_id,'label_attr' => ['class' => 'formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
-            'attr' =>array('class' => 'form-control col-lg-9  col-md-10  col-sm-10 formLayout' ,  'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
+            'attr' =>array('class' => 'form-control col-lg-9  col-md-10  col-sm-10 ' ,  'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
@@ -33,12 +34,12 @@ class MobileType extends AbstractType
                         'message' => 'Invalid Iqama Id/SSN Number'.$country_id)),)))
             ->add('ext', TextType::class, array(
                 'label' => 'Country-Code:','label_attr' => ['class' => ' formControl-ext formLayout col-lg-6 col-md-6 col-sm-6 col-xs-2   form_labels'],
-                'attr' => array('class' => 'mobile_ext form-control-modified formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   ' , 'value'=> $ext , 'readonly' => 'readonly'),
+                'attr' => array('class' => 'mobile_ext form-control-modified  col-lg-12 col-md-12 col-sm-12 col-xs-12   ' , 'value'=> $ext , 'readonly' => 'readonly'),
 
             ))
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile','label_attr' => ['class' => 'formControl-ext  formLayout col-lg-9 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' => array('class' => 'formControl form-control formLayout  col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 11),
+                'attr' => array('class' => 'formControl form-control   col-lg-9 col-md-10 col-sm-10 col-xs-10   form_labels' , 'maxlength'=> ($country_id == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -48,14 +49,24 @@ class MobileType extends AbstractType
                             'message' =>  ($country_id == 'sa') ? "Please enter 9 digits mobile number starting with 5" : "Please enter 11 digits mobile number starting with 0")
                     ),)))
 
-           
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
             
             ->add('comment_mobile', TextareaType::class, array('label' => 'Comments',
                 'label_attr' => ['class' => 'formControl formLayout  form_labels'],
 
-                'attr' =>array('class' => 'form-control formLayout  col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
+                'attr' =>array('class' => 'form-control   col-lg-12 col-md-12 col-sm-12 col-xs-12 ' , 'maxlength' => 255),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')))))
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                    
+
+                )
+
+            ))
+
+
             ->add( 'Update', SubmitType::class ,array(
                 'attr' => array('class' => 'col-lg-3 btn btn-primary'),));
     }
@@ -63,7 +74,8 @@ class MobileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('extras');
     }

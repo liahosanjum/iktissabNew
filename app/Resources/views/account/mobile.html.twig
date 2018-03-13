@@ -1,4 +1,4 @@
-<div class="eservice-content-inner-wrapper row">
+<div class="row">
             <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
 
                 <div class="titleForm_main iqama-id-wrapper">
@@ -9,15 +9,16 @@
                     {{ 'You can update your information through the following form'|trans }}
                 </div>
                 {% if message != '' %}
-                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
+                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper-mobile">
                     {{ message }}
                 </div>
                 {% endif %}
                 <div id="preLoadersMob"></div>
                 <div class="claerfix"></div>
             </div>
-        </div>
+</div>
         {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
 
@@ -51,6 +52,8 @@
             </div>
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 iqama-id-wrapper-form">
+                    {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+
                     {{ form_end(form) }}
                 </div>
             </div>

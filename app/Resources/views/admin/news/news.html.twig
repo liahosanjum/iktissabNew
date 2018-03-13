@@ -15,7 +15,7 @@
                 </div>
             {% endif %}
 
-            {{ form_start(form) }}
+            {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
 
 
             <div class="cmsForm">
@@ -55,6 +55,8 @@
 
 
 
+
+
             <div class="cmsForm">
                 {{ form_label(form.status) }}
 
@@ -66,18 +68,19 @@
                 {{ form_widget(form.brochure) }}
             </div>
 
-            <div class="cmsForm col-lg-8">
-
-                {{ form_widget(form.token) }}
-            </div>
 
 
             <div class="cmsFormSaveBtn">
                 {{ form_label(form.save) }}
 
                 {{ form_widget(form.save) }}
+
+                {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
             </div>
+
             <div class="claerfix"></div>
+
+
             {{ form_end(form) }}
         </div>
     </div>

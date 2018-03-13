@@ -1,0 +1,71 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 page-heading ">
+
+            <div class="title-form">Update Resources </div>
+
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}">
+
+                    {{ message }}
+
+                </div>
+            {% endif %}
+
+            {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+
+
+            <div class="cmsForm">
+                {{ form_label(form.resource_name) }}
+                {{ form_errors(form.resource_name) }}
+                {{ form_widget(form.resource_name) }}
+            </div>
+
+            <div class="cmsForm">
+                {{ form_label(form.assigned_to) }}
+                {{ form_errors(form.assigned_to) }}
+                {{ form_widget(form.assigned_to) }}
+            </div>
+
+
+
+            <div class="cmsForm">
+                {{ form_label(form.status) }}
+                {{ form_errors(form.status) }}
+                {{ form_widget(form.status) }}
+            </div>
+
+
+
+
+            <div class="cmsFormSaveBtn">
+                {{ form_label(form.save) }}
+
+                {{ form_widget(form.save) }}
+            </div>
+            {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="claerfix"></div>
+    </div>
+    <style type="text/css">
+        .cmsFormBrochure {
+            display: none; }
+    </style>
+{% endblock %}
+{% block javascripts2 %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //alert('asdf');
+            {{ form_jquery_validation(form) }}
+        });
+    </script>
+
+{% endblock %}
+

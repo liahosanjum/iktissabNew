@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="container ">
+        {% if app.request.cookies.get('c_locale') == "en" %}
+            {%  set side = 'right'  %}
+        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+            {%  set side = 'left'  %}
+        {% else %}
+            {%  set side = 'left'  %}
+        {% endif %}
+        <div class="breadcrum-wrapper">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
+
+                    <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                    <a href="#" class="last-breadcrumb">{{ 'Reset Password'|trans}}</a>
+                </div>
+            </div>
+        </div>
+        </section>
+        <section class="container verify_reset_password_wrapper">
+        <div class="row">
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div><h1> testing</h1></div>
+            </div>
+        </div>
+
+
+            <div class="row">
+                <div class="  col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+
+                        <div style="float: left; width: 800px;">
+                            {% if data !="" %}
+                                {{ dump(data) }}
+                            {% endif %}
+                        <form id="testRS" name="testRS" action="testRS" method="post">
+                            <br><br><br>
+                            <input type="text" placeholder="datajson" height="100" style="height: 100px; margin-bottom: 20px;" class=" col-lg-12  col-md-12" id="data" name="data">
+                            <br><br><br>
+                            <input type="text" placeholder="url" style="height: 40px; margin-bottom: 20px;" class="  col-lg-12  col-md-12" id="url" name="url">
+                            <br><br><br>
+
+                            <input type="submit" id="check" name="check" />
+                            <br><br><br>
+
+                        </form>
+                        </div>
+                    </div>
+
+            </div>
+        </section>
+
+
+    {% endblock %}
+    {% block javascripts %}
+
+
+
+
+
+
+{% endblock %}

@@ -39,12 +39,12 @@ class LogoutAdminHandler implements LogoutSuccessHandlerInterface
      */
     public function onLogoutSuccess(Request $request)
     {
-        echo 'testing';exit;
-        /*$user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getId();
+        // echo 'testing';exit;
+        $user = $this->containerInterface->get('security.token_storage')->getToken()->getUser()->getId();
         $acrivityLog = $this->containerInterface->get('app.activity_log');
         $acrivityLog->logLogoutEvent($user,'admin');
         $this->containerInterface->get('security.token_storage')->setToken(null);
         $response = new RedirectResponse($this->router->generate('admin_admin'));
-        return $response;*/
+        return $response;
     }
 }

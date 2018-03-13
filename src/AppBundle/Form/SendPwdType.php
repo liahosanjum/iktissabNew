@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +35,6 @@ class SendPwdType extends AbstractType
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
                     array(
-                        //'pattern' => '/^[9,5]([0-9]){7}$/', basit code commented by sohail
                         'pattern' => ($country_id == 'sa') ? '/^[9]([0-9]){7}$/' : '/^[5]([0-9]){7}$/',
 
                         'match' => true,
@@ -43,6 +43,8 @@ class SendPwdType extends AbstractType
                 )
             )
         ))
+
+
             ->add('iqama', TextType::class, array(
                 'label'       => 'Registered Iqama ID/SSN'.$lookupData['country'],
                 'attr'        => array( 'class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout',
@@ -56,9 +58,7 @@ class SendPwdType extends AbstractType
                             'match' => true,
                             'message' => 'Invalid Iqama Id/SSN Number'.$lookupData['country'])
                     ),
-//                    new Assert\Callback([
-//                        'callback' => [$this, 'validateIqama']
-//                    ])
+
                 )
             ))
 
@@ -66,12 +66,18 @@ class SendPwdType extends AbstractType
 
                 'label' => 'Captcha',
                 'label_attr' => [  'class' => 'pwd-send-account'  ],
-                
+
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required')),
 
-                    ),
+                ),
             ))
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
+
+
 
 
             ->add('submit', SubmitType::class, array (
@@ -125,6 +131,7 @@ class SendPwdType extends AbstractType
                 'novalidate' => 'novalidate',
                 'var' => null
             ),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('additional'); // Requires that currentOrg be set by the caller.
         $resolver->setAllowedTypes('additional', 'array'); // Validates the type(s) of option(s) passed.

@@ -13,7 +13,7 @@
                 </div>
             {% endif %}
 
-            {{ form_start(form) }}
+            {{ form_start (form, { 'attr': {'autocomplete': 'off'} }) }}
             <div class="cmsForm">
                 {{ form_label(form.formtype) }}
                 {{ form_errors(form.formtype) }}
@@ -48,7 +48,7 @@
 
                 {{ form_widget(form.save) }}
             </div>
-
+            {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
             {{ form_end(form) }}
         </div>
     </div>

@@ -1,0 +1,560 @@
+{% extends 'base.html.twig' %}
+{% set title = 'Customer Information'|trans %}
+{% block body %}
+
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
+
+                <span class="breadcrumb-separator"><i class="fa fa-angle-{{ side }}" aria-hidden="true"></i></span>
+                <a  class="last-breadcrumb" >{{ 'Card Activation'|trans }}</a>
+            </div>
+        </div>
+    </section>
+    <section class="container cardactivation-wrapper">
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="title-contents">{{ 'Iktissab Card Activation'|trans }}  |  {{ 'Create an account for an activated card'|trans }} </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cardactivation-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="sub-title-contents grey-color">{{ 'Our Dear Customer'|trans }}</div>
+                <div class="activation-contents grey-color">{{ 'Iktissab card activaiton step benefits'|trans }}</div>
+                <div class="claerfix"></div>
+            </div>
+        </div>
+        <div class="row">
+
+            {% if(error.success == false) %}
+                <div class="activation-msg-wrapper activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="text-center alert alert-danger">
+                        {{ error.message }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <section class="container cardactivation-form-wrapper">
+        <div class="row">
+            <div class="cardactivation-form-inner   col-lg-12   col-md-12 col-sm-12 col-xs-12 ">
+                <div class="activation-contents grey-color" >
+                    <div class="row">
+                        <div class="activation-form-wrapper  col-lg-10   col-md-12 col-sm-12   col-xs-12" >
+                            <div class="form-activation-list" >
+                                <div class="row">
+                                    <div class="reg-steps">
+                                        <div class="steps-wrapper  col-lg-3 col-md-3 col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">{{ 'Card Information'|trans }}</div>
+                                            <div class="steps-circle">
+                                                <div class="badge active">1</div> <div class="badge-border-active ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Customer Information'|trans }}
+                                            </div>
+                                            <div class="steps-circle green-color">
+                                                <div class="badge active">2</div> <div class="badge-border ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Card Activation'|trans }}
+
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge">3</div> <div class="badge-border   ">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
+                                            <div class="steps-title">
+                                                {{ 'Verification'|trans }}
+                                            </div>
+                                            <div class="steps-circle">
+                                                <div class="badge">4</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{ form_start(form,{'attr': {'id': 'ikt_reg','autocomplete': 'off'}}) }}
+                                <div class="row">
+                                    <div class="col-lg-8   col-md-12 col-sm-12 col-xs-12">
+                                        <div class="iktissab-activation-step2">
+
+                                            <div class="ikt-activation-title grey-color"> {{ "Iktissab Card Id Activation"|trans }} </div>
+                                            <div class="ikt-activation-number green-color"> {{ iktCardNo }} </div>
+                                            <div class="claerfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-cardactivation-inner">
+                                    <div class="form-cardactivation-wrapper-step2   col-lg-10 col-md-10  col-sm-10 col-xs-10">
+                                        <div class="row form-cardactivation-inner">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="title-cardactivation-form">
+                                                {{ form_label(form.fullName) }}   </div>
+                                            <div class="cardactivationForm">
+                                                {{ form_widget(form.fullName) }}
+                                            </div>
+                                            <div class="title-cardactivation-form">
+                                                {{ form_errors(form.fullName) }}
+                                            </div>
+                                            <div class="claerfix"></div>
+                                        </div>
+
+                                        </div>
+
+                                        <div class="row form-cardactivation-inner">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.iqama) }}   </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.iqama) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.iqama) }}
+                                                </div>
+                                                <div class="claerfix"></div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.nationality) }}   </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.nationality) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.nationality) }}
+                                                </div>
+                                                <div class="claerfix"></div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.maritial_status) }}   </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.maritial_status) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.maritial_status) }}
+                                                </div>
+                                                <div class="claerfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-cardactivation-inner">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 cust_info_dates">
+
+                                                    <div id="div_dg">
+
+                                                        <div class="cardactivationForm">
+                                                            {{ form_row(form.dob) }}
+
+
+                                                        <div class="btn_dob_wrappper_step2">
+                                                            <input type="button" id="btn_dob" value="Hijri"/>
+                                                        </div>
+
+                                                        </div>
+
+                                                        <div class="claerfix"></div>
+                                                    </div>
+                                                    <div class="title-cardactivation-form">
+                                                        {{ form_errors(form.dob) }}
+                                                    </div>
+
+
+                                                    <div id="div_dh">
+                                                        <div class="cardactivationForm">
+                                                        {{ form_row(form.dob_h) }}
+                                                            <div class="btn_dob_h_wrappper">
+                                                                <input type="button" id="btn_dob_h" value="{{ 'Gregorian'|trans}}"/>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                <div class="claerfix"></div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.pur_group) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.pur_group) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.pur_group) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.language) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.language) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.language) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-cardactivation-inner">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.gender) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.gender) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.gender) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.city_no) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.city_no) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.city_no) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.job_no) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    {{ form_widget(form.job_no) }}
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.job_no) }}
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row form-cardactivation-inner cust_info_mobile">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                                <div id="area_no">
+                                                    <div class="title-cardactivation-form">
+                                                        {{ form_label(form.area_no) }}
+                                                    </div>
+                                                    <div class="cardactivationForm">
+                                                        {{ form_widget(form.area_no) }}
+                                                    </div>
+                                                    <div class="title-cardactivation-form">
+                                                        {{ form_errors(form.area_no) }}
+                                                    </div>
+                                                </div>
+
+                                                  <div id="area_text">
+                                                    <div class="title-cardactivation-form">
+                                                        {{ form_label(form.area_text) }}
+                                                    </div>
+                                                    <div class="cardactivationForm">
+                                                        {{ form_widget(form.area_text) }}
+                                                    </div>
+                                                    <div class="title-cardactivation-form">
+                                                        {{ form_errors(form.area_text) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_label(form.mobile) }}
+                                                </div>
+                                                <div class="cardactivationForm">
+                                                    <div class="extension-mob">
+                                                    {% if app.request.cookies.get('c_country') == 'eg' %}
+                                                        <input class="mob-ex" type="text" value="002" readonly disabled>
+                                                        {% else %}
+                                                        <input class="mob-ex" type="text" value="966" readonly disabled>
+                                                        {%  endif %}
+
+                                                        </div>
+                                                    <div class="mob">
+                                                    {{ form_widget(form.mobile) }}
+                                                        </div>
+                                                </div>
+                                                <div class="title-cardactivation-form">
+                                                    {{ form_errors(form.mobile) }}
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+                                        <div class="row form-cardactivation-inner">
+
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                                                <div class="cardactivationForm iktpass">
+                                                    {{ form_row(form.password) }}
+                                                </div>
+
+                                                <div class="claerfix"></div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                                                <div class="cardactivationForm iktpass">
+                                                    {{ form_row(form.email) }}
+
+                                                    {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+                                                </div>
+
+                                                <div class="claerfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-cardactivation-inner">
+
+
+                                                <div class="cardActivationSubmit">
+                                                    {{ form_row(form.submit) }}
+                                                    {{ form_end(form) }}
+                                                </div>
+
+                                                <div class="claerfix"></div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+    </section>
+
+
+
+
+
+
+    <script src="{{ asset('js/jquery.validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // for months in hijri
+            $('#ikt_reg_dob_month').empty().append('' +
+                    '<option value="">{{ 'Month'|trans }}</option>' +
+                    '<option value="1">{{ 'Jan'|trans }}</option>' +
+                    '<option value="2">{{ 'Feb'|trans }}</option>' +
+                    '<option value="3">{{ 'March'|trans }}</option>' +
+                    '<option value="4">{{ 'April'|trans }}</option>' +
+                    '<option value="5">{{ 'May'|trans }}</option>' +
+                    '<option value="6">{{ 'June'|trans }}</option>' +
+                    '<option value="7">{{ 'July'|trans }}</option>' +
+                    '<option value="8">{{ 'August'|trans }}</option>' +
+                    '<option value="9">{{ 'September'|trans }}</option>' +
+                    '<option value="10">{{ 'October'|trans }}</option>' +
+                    '<option value="11">{{ 'November'|trans }}</option>' +
+                    '<option value="12">{{ 'December'|trans }}</option>'
+            );
+
+            $('#ikt_reg_dob_h_month').empty().append('' +
+                    '<option value="">{{ 'Month'|trans }}</option>' +
+                    '<option value="1">{{ 'Muharram'|trans }}</option>' +
+                    '<option value="2">{{ 'Safar'|trans }}</option>' +
+                    '<option value="3">{{ 'Rabi ul Awwal'|trans }}</option>' +
+                    '<option value="4">{{ 'Rabi ul Akhir'|trans }}</option>' +
+                    '<option value="5">{{ 'Jumadal Awwal'|trans }}</option>' +
+                    '<option value="6">{{ 'Jumadal Akhira'|trans }}</option>' +
+                    '<option value="7">{{ 'Rajab'|trans }}</option>' +
+                    '<option value="8">{{ 'Shaban'|trans }}</option>' +
+                    '<option value="9">{{ 'Ramadan'|trans }}</option>' +
+                    '<option value="10">{{ 'Shawwal'|trans }}</option>' +
+                    '<option value="11">{{ 'Dhul Qaada'|trans }}</option>' +
+                    '<option value="12">{{ 'Dhul Hijja'|trans }}</option>'
+            );
+
+            $('#div_dh').hide();
+            if($('#ikt_reg_date_type').val() == 'g'){
+                $('#div_dg').show();
+                $('#div_dh').hide();
+                $('#btn_dob').val('{{ 'Hijri'|trans }}');
+                $('#ikt_reg_dob_h_month option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_h_day option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_h_year option:nth-child(2)').prop("selected", "selected");
+
+
+            }else{
+                $('#div_dg').hide();
+                $('#div_dh').show();
+                $('#btn_dob_h').val('{{ 'Gregorian'|trans }}');
+                $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
+                $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");
+
+
+            }
+            jQuery('#btn_dob').on('click', function () {
+
+                toggle_date();
+
+            });
+            jQuery('#btn_dob_h').on('click', function () {
+                toggle_date_h();
+
+            });
+
+
+            function toggle_date() {
+                if ($('#ikt_reg_date_type').val() == 'g') {
+                    // change to hijri now
+                    // select default value for dates in greg to bypass validation
+                    $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_h_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dh').show();
+                    $('#div_dg').hide();
+                    $('#btn_dob').val('{{ 'Gregorian'|trans }}');
+                    $('#ikt_reg_date_type').val('h');
+
+                } else {
+                    $('#ikt_reg_dob_h_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dh').hide();
+                    $('#div_dg').show();
+                    $('#btn_dob').val('{{ 'Hijri'|trans }}')
+                    $('#ikt_reg_date_type').val('g')
+                    //change to greg
+                }
+            }
+
+            function toggle_date_h() {
+                if ($('#ikt_reg_date_type').val() == 'h') {
+                    // change to hijri now
+                    // select default value for dates in greg to bypass validation
+                    $('#ikt_reg_dob_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_h_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dg').show();
+                    $('#div_dh').hide();
+                    $('#btn_dob').val('{{ 'Hijri'|trans }}');
+                    $('#ikt_reg_date_type').val('g');
+
+                } else {
+                    $('#ikt_reg_dob_h_month option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_day option:nth-child(2)').prop("selected", "selected");
+                    $('#ikt_reg_dob_h_year option:nth-child(2)').prop("selected", "selected");
+
+                    $('#ikt_reg_dob_month option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_day option:nth-child(1)').prop("selected", "selected");
+                    $('#ikt_reg_dob_year option:nth-child(1)').prop("selected", "selected");
+
+                    $('#div_dg').hide();
+                    $('#div_dh').show();
+                    $('#btn_dob').val('{{ 'Gregorian'|trans }}')
+                    $('#ikt_reg_date_type').val('h')
+                    //change to greg
+                }
+            }
+
+
+
+
+            // for city and areas
+            $('#area_no').hide();
+
+
+            var areas = {{ areas.content| raw }} ;
+            $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+            jQuery('#ikt_reg_city_no').on('change', function () {
+                manage_areas($(this).val())
+            });
+            // if form is submitted then manage the areas and cities
+            if($('#ikt_reg_city_no').val() != '') {
+                manage_areas($('#ikt_reg_city_no').val());
+            }
+
+            function manage_areas(city){
+                var city_count = 0;
+
+                $('#ikt_reg_area_no').empty().append('<option value="">{{ 'Select Area'|trans }}</option>');
+
+                if (city != '') {
+
+                    $.each(areas, function (index, el) {
+                        if (city == el.city_no) {
+                            city_count++;
+                            $('#ikt_reg_area_no').append('<option value="' + el.area_code + '">' + el.name + '</option>');
+                        }
+                    });
+
+                }
+                if (city_count > 0) {
+
+                    $('#ikt_reg_area_text').val('-1');
+                    jQuery('#area_no').show();
+                    jQuery('#area_text').hide();
+                }
+                else
+                {
+                    $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+                    $('#ikt_reg_area_text').val('');
+                    jQuery('#area_no').hide();
+                    jQuery('#area_text').show();
+                }
+
+            }
+//            $('#ikt_reg').submit(function (e) {
+//
+//            });
+            {{ form_jquery_validation(form) }}
+
+        });
+    </script>
+
+    <style>
+        .cardactivation-wrapper .alert-danger { font-size: 16px; }
+    </style>
+{% endblock %}

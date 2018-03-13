@@ -10,12 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class FunctionsController extends Controller
 {
+
+
+
     Public function getIP()
     {
         return $_SERVER['REMOTE_ADDR'];
@@ -222,13 +226,13 @@ class FunctionsController extends Controller
         $grey         = imagecolorallocate($imageCreator, 128, 128, 128);
         $black        = imagecolorallocate($imageCreator, 0, 0, 0);
         imagefilledrectangle($imageCreator, 0, 0, 399, 29, $white);
-        $this->get('session')->set('_CAPTCHA', $captcha_config['code']);
+        $this->get('session')->set('_CAPTCHA', strtoupper($captcha_config['code']));
 
         $font = $captcha_config['fonts'][0];
         // Add some shadow to the text
-        imagettftext($imageCreator, 20, 0, 11, 21, $grey, $font, $captcha_config['code']);
+        imagettftext($imageCreator, 20, 0, 11, 21, $grey, $font, strtoupper($captcha_config['code']));
         // Add the text
-        imagettftext($imageCreator, 20, 0, 10, 20, $black, $font, $captcha_config['code']);
+        imagettftext($imageCreator, 20, 0, 10, 20, $black, $font, strtoupper($captcha_config['code']));
         $file_name   = $this->get('kernel')->getRootDir() .'/../img/'.$captcha_config['backgrounds'][0];
         $captcha_config['backgrounds'][0];
         $file_config = array(
@@ -240,6 +244,323 @@ class FunctionsController extends Controller
         imagedestroy($imageCreator);
         return $file_config;
     }
+
+    public function EncDec( $string, $action = 'e' ) {
+        // you may change these values to your own
+        $secret_key = 'abc123abcnmkgk';
+        $secret_iv  = 'gfhjdkslwlsa';
+
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash( 'sha256', $secret_key );
+        $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+
+        if( $action == 'e' ) {
+            $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
+        }
+        else if( $action == 'd' ){
+            $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+        }
+        return $output;
+    }
+
+
+
+
+
+
+    public function checkAccessRole($roleName , $resourceNameRequested)
+    {
+
+
+
+        $resourceOfEditor = array('MANAGE_USER',
+             'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
+             'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
+             //'MANAGE_CMS', 'MANAGE_CMS_ADD','MANAGE_CMS_EDIT','MANAGE_CMS_DELETE',
+             //'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
+             'MANAGE_LOGS',
+        );
+
+        $resourceOfEditor2 = array('MANAGE_USER',
+            'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
+            'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
+            //'MANAGE_CMS', 'MANAGE_CMS_ADD','MANAGE_CMS_EDIT','MANAGE_CMS_DELETE',
+            //'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
+            //'MANAGE_LOGS',
+        );
+
+
+
+        /*
+         $resourceOfEditorViewer = a array('MANAGE_USER',
+             'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
+             'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
+             'MANAGE_CMS', 'MANAGE_CMS_ADD','MANAGE_CMS_EDIT','MANAGE_CMS_DELETE',
+             'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
+             'MANAGE_LOGS',
+        );
+        */
+
+
+
+        if($roleName == 'ADMIN_ROLE')
+        {
+            return true;
+        }
+        else
+        {
+            if($roleName == 'EDITOR_ROLE')
+            {
+                if(in_array($resourceNameRequested, $resourceOfEditor))
+                {
+                    return true;
+                }
+            }
+            elseif($roleName == 'EDITOR_ROLE2')
+            {
+                if (in_array($resourceNameRequested, $resourceOfEditor2))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public function checkAccessRole2($roleName='EDITOR_ROLE' , $resourceNameRequested='MANAGE_CMS_VIEW')
+    {
+        if($roleName == 'ADMIN_ROLE')
+        {
+            return true;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $resourceList = $this->getDoctrine()
+            ->getRepository('AppBundle:Resources')
+            ->findBy(array( 'status' => '1' , 'resourceName' => $resourceNameRequested , 'assignedTo' => $roleName ));
+
+        if(!empty($resourceList))
+        {
+            if($resourceList[0]->getId() != "" && $resourceList[0]->getId() != null)
+            {
+                return true;
+            }
+            return false;
+
+        } else {
+            return false;
+        }
+    }
+
+    public function isValidRule($resource){
+        $tokenStorage  = $this->get('security.token_storage');
+        $roleName = $tokenStorage->getToken()->getUser()->getRoleName();
+        if(!$this->checkAccessRole2($roleName , $resource))
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public function setCsrfToken($token_name){
+        $csrf = $this->get('security.csrf.token_manager');
+        $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 61535), mt_rand(0, 61535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+        $d = new \DateTime("NOW");
+        $currentDate = $d->format("Y/m/d H:i:s");
+        $nonce = md5($guid);
+        $passwordHash   = sha1(base64_encode($nonce) . $currentDate . AppConstant::IKTISSAB_API_SECRET);
+        $passwordDigest =  base64_encode($passwordHash);
+        $token = $csrf->refreshToken($passwordDigest);
+        $session = new Session();
+        $token_name = $token_name;
+        $session->set($token_name, $token);
+    }
+
+    public function checkCsrfToken($csf_token , $token_name){
+        $session = new Session();
+        $token_name = $token_name;
+        $token_val = $session->get($token_name);
+        if($token_val == $csf_token)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function validateDatabk ($data)
+    {
+        $count_errors = 0;
+        try
+        {
+            foreach ($data as $value)
+            {
+                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-@.]+$/u", $value))
+                {
+                    $count_errors++;
+                }
+            }
+            return $count_errors;
+        }
+        catch(\Exception $e)
+        {
+            $count_errors = 1;
+            return $count_errors;
+        }
+    }
+
+    public function validateData ($data)
+    {
+
+        $count_errors = 0;
+        try
+        {
+            foreach ($data as $value)
+            {
+                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-+ك؛،,َ ً ِ ٍ ُ ٌ ْ ّ ،!@#٪&*١٢٣٤٥٦٧٨٩٠._]*$/u", $value))
+                {
+                    echo $count_errors++;
+                }
+            }
+            return $count_errors;
+        }
+        catch(\Exception $e)
+        {
+            $count_errors = 1;
+            return $count_errors;
+        }
+    }
+
+
+
+    public function validateDataBK1 ($data)
+    {
+        $count_errors = 0;
+        try
+        {
+            foreach ($data as $value)
+            {
+                $specialCh = array(
+                    '>'   , '</script>' , '<javascript>' , '</javascript>' ,
+                    '<'   ,
+                    '&gt' , '&GT' ,
+                    '&lt' , '&LT' ,
+                    'script' , 'SCRIPT' ,
+                    '<script>' , '<SCRIPT>' ,
+                    '</>' ,
+                    '&gtscript&lt' ,
+                    '&gtjavascript&lt',
+
+                );
+
+                foreach ($specialCh as $ch){
+                    if (strpos($value, $ch) !== false) {
+                        //echo 'true'.$ch;
+                        //echo '<br>';
+                        $count_errors++;
+                    }
+                }
+            }
+            return $count_errors;
+        }
+        catch(\Exception $e)
+        {
+            $count_errors = 1;
+            return $count_errors;
+        }
+    }
+
+    public function validateSpecialCharacters ($data)
+    {
+        $count_errors = 0;
+        try
+        {
+            foreach ($data as $value)
+            {
+                $specialCh = array('!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-'
+                , '>' , '<' , ',' , '.' , '|' , ':' , '+' , '=' , '{' , '}','[',']', '/' , '_' , '§' , '±' , '~'
+                  ,  '?' , '؟' , ';' , '"' , '؛', '&gt' , '&lt' , '&GT' , '&LT'
+                );
+
+                foreach ($specialCh as $ch){
+                    if (strpos($value, $ch) !== false) {
+                        //echo 'true'.$ch;
+                        //echo '<br>';
+                        $count_errors++;
+                    }
+                }
+            }
+            return $count_errors;
+        }
+        catch(\Exception $e)
+        {
+            $count_errors = 1;
+            return $count_errors;
+        }
+    }
+
+
+
+
+
+
+    public function validateDataPassword ($data)
+    {
+        $count_errors = 0;
+        try
+        {
+            foreach ($data as $value)
+            {
+                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-@%&*@#$!^.-_+=]+$/u", $value))
+                {
+                    $count_errors++;
+                }
+            }
+            return $count_errors;
+        }
+        catch(\Exception $e)
+        {
+            $count_errors = 1;
+            return $count_errors;
+        }
+    }
+    
+    
+    
+
+
+
+    public function checkJSSecurity()
+    {
+
+        if(!isset($_SESSION['js'])||$_SESSION['js']==""){
+            echo "<noscript><meta http-equiv='refresh' content='0;url=/get-javascript-status.php&js=0'> </noscript>";
+            $js = true;
+
+        }elseif(isset($_SESSION['js'])&& $_SESSION['js']=="0"){
+            $js = false;
+            $_SESSION['js']="";
+
+        }elseif(isset($_SESSION['js'])&& $_SESSION['js']=="1"){
+            $js = true;
+            $_SESSION['js']="";
+        }
+
+        if ($js) {
+            echo 'Javascript is enabled';
+        } else {
+            echo 'Javascript is disabled';
+        }
+    }
+
+
+
+
 
 
 

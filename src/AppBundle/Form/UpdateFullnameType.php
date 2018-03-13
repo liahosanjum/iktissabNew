@@ -2,6 +2,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,12 +36,21 @@ class UpdateFullnameType extends AbstractType
             'constraints' => array(
              new Assert\NotBlank(array('message' => 'This field is required')))))
 
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
+
         ->add('comment_fullname', TextareaType::class, array('label' => 'Comments',
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
               
             'attr' =>array('class' => 'form-control formLayout','maxlength' => 255),
              'constraints' => array(
-             new Assert\NotBlank(array('message' => 'This field is required')))))
+             new Assert\NotBlank(array('message' => 'This field is required')),
+             
+                 )
+
+        ))
         ->add('Update', SubmitType::class ,array(
              'attr' => array('class' => 'btn btn-primary'),
         ));
@@ -49,7 +59,8 @@ class UpdateFullnameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('extras');
     }

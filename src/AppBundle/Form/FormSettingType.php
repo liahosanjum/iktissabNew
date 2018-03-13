@@ -115,6 +115,7 @@ class FormSettingType extends AbstractType
                 'validate' => 'validate',
                 'var' => null
             ),
+            'csrf_protection' => false,
         ));
         //$resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
         //$resolver->setAllowedTypes('additional', 'array');  // Validates the type(s) of option(s) passed.

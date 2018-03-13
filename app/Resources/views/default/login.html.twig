@@ -30,7 +30,7 @@
                     <div class="contents-cms">{{ 'Please enter your username and password and click the Sign in button'|trans }}</div>
                 </div>
                     <div>
-                <form id="login_form" name="login_form" action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
+                <form id="login_form" name="login_form" action="{{ path('login',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post" autocomplete="off">
                         <div class="form-group">
                             <input  type="text" class="form-control user-member" id="_username" name="_username"  placeholder="{{ 'User Name'|trans }}">
                         </div>
@@ -52,26 +52,30 @@
                 <div class="memberlogin-emailarea">
                     <h4>{{ 'Did you forgot your password'|trans }}</h4>
                     <h3>{{ 'if you have forgotten your password, you can reset a new password by sending some instructions to our registered email'|trans }}</h3>
-                    {% if message  %} <div id="contents-fp" class="alert-success alert-success alert  ">{{ message }} </div> {% endif %}
+                    {% if message  %} <div id="contents-fp" class=" {{ errorcl }} alert  ">{{ message }} </div> {% endif %}
                     <div id="preLoaders">
                     </div>
-
                     <div class="contents-cms">{{ 'Please enter your e-mail and click the Reset Password button'|trans }}</div>
-                    <form id="forgotpassword_form" name="forgotpassword_form" action="{{ path('forgotpassword',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post">
-
+                    <form id="forgotpassword_form" name="forgotpassword_form"
+                          action="{{ path('forgotpassword',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post" autocomplete="off">
                         <div class="form-group">
-
-
-                                <input type="email" class="form-control" id="email" name="email" placeholder="someone@email.com">
-
-
+                            <input type="email" class="form-control" id="email" name="email" placeholder="someone@email.com">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7">
+                                     <div class="cardactivationForm captcha-inp-reset">
+                                        <input style="border: 1px solid #969696;" type="text" placeholder="{{ 'Captcha'|trans }}" required="required" name="captchaCodereset" id="captchaCodereset" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="captcha-image-reset-login col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                                    <img class="cap-bordering" alt="captcha" src="{{ asset("img/45-degree-fabric.png") }}">
+                                </div>
+                                <div class="claerfix"></div>
+                            </div>
                         </div>
-
                         <div class="form-group">
                             <button class="btn btn-block">{{ 'Reset Password'|trans }}</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>

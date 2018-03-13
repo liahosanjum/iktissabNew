@@ -61,7 +61,8 @@ class SmsService
      */
     public function sendSms($receiver, $message, $country)
     {
-        try {
+        try
+        {
             if ($country == '') $country = 'sa';
             $param = $this->params['country'][$country];
             $user = $param['user'];
@@ -71,9 +72,11 @@ class SmsService
             $domain_name = $this->params['domain_name'];
             $application_type = $this->params['application_type'];
             $url = $this->params['url'];
-
+            $receiver;
+            $this->cleanMobile($receiver, $country);
             $number = $prefix . $this->cleanMobile($receiver, $country);
-
+            // todo: remove below code
+            $number = "966583847092";
             $msgID = rand(1, 9999);
             $deleteKey = rand(1, 9999);
 
@@ -83,9 +86,9 @@ class SmsService
                 $user, $pass, $number, $sender, $msg, $application_type, $domain_name, $msgID, $deleteKey);
             $url .= '?' . $payload;
 
-            $result = $this->restClient->get($url, ["Content-Type" => "text/html"]);
+            $result = $this->restClient->get($url, ["Content-Type" => "text"]);
 
-
+            $result->getContent();
             if ($result->getContent() == '1') {
                 return true;
             }
@@ -125,7 +128,7 @@ class SmsService
 
                 $msgID  = rand(1, 9999);
                 $delKey = rand(1, 9999);
-                //$messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
+                // $messageFormatted = urlencode(iconv("UTF-8", "windows-1256", $message));
                 $messageFormatted = urlencode($message);
 
                 //$messageFormatted = $message;
@@ -142,4 +145,52 @@ class SmsService
             false;
         }
     }
+
+    /**
+     * @param $receiver
+     * @param $message
+     * @param $country
+     * @return bool
+     */
+    public function sendSmsMobile($receiver, $message, $country)
+    {
+        try
+        {
+            if ($country == '') $country = 'sa';
+            $param = $this->params['country'][$country];
+            $user = $param['user'];
+            $pass = $param['pass'];
+            $sender = $param['sender'];
+            $prefix = $param['prefix'];
+            $domain_name = $this->params['domain_name'];
+            $application_type = $this->params['application_type'];
+            $url = $this->params['url'];
+            $receiver;
+            $this->cleanMobile($receiver, $country);
+            $number = $prefix . $this->cleanMobile($receiver, $country);
+            // todo: remove below code
+            $number = "966583847092";
+            $msgID = rand(1, 9999);
+            $deleteKey = rand(1, 9999);
+
+            $msg = urlencode($message);
+
+            $payload = sprintf("mobile=%s&password=%s&numbers=%s&sender=%s&msg=%s&applicationType=%s&domainName=%s&msgId=%d&deleteKey=%d&lang=3&timeSend=0&dateSend=0",
+                $user, $pass, $number, $sender, $msg, $application_type, $domain_name, $msgID, $deleteKey);
+            $url .= '?' . $payload;
+
+            $result = $this->restClient->get($url, ["Content-Type" => "text/html"]);
+
+
+            if ($result->getContent() == '1') {
+                return true;
+            }
+            return false;
+        }
+        catch (\Exception $e)
+        {
+            false;
+        }
+    }
+
 }

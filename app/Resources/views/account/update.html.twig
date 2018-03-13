@@ -16,18 +16,26 @@
             </div>
             {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
 
+
             <div id="div_dg" class="update-form-user">
                 {{ form_row(form.dob) }}
                 <div class="btn_dob_wrappper">
                     <input type="button" id="btn_dob" value="Hijri"/>
                 </div>
+                <div class="title-cardactivation-form-captcha">
+                    {{ form_errors(form.dob) }}
+                </div>
             </div>
-            <div id="div_dh" class="update-form-user">
+            <div id="div_dh" class="update-form-user" style="display: none;">
                 {{ form_row(form.dob_h) }}
                 <div class="btn_dob_h_wrappper">
                     <input type="button" id="btn_dob_h" value="Gregorian"/>
                 </div>
+                <div class="title-cardactivation-form-captcha">
+                    {{ form_errors(form.dob_h) }}
+                </div>
             </div>
+
 
             <div class="account_maritial_status update-form-user" >
             {{ form_row(form.maritial_status) }}
@@ -45,10 +53,14 @@
             {{ form_row(form.city_no) }}
             </div>
 
-
-            <div id="area_no" class="account_update_dd update-form-user">
-                {{ form_row(form.area_no) }}
+            <div class="area_no_wrapper account_update_dd update-form-user">
+                <div><label for="ikt_update_city_no" class="formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels">Area</label>
+                    <select class="form-control formLayout" name="ikt_update[area_no]" id="ikt_update_area_no">
+                        <option value="">Select Area</option>
+                    </select>
+                </div>
             </div>
+
 
             <div id="area_text" class="account_update_dd update-form-user">
                 {{ form_row(form.area_text) }}
@@ -56,11 +68,16 @@
 
 
 
-            <div   class="account_update_dd update-form-user">
-            {{ form_row(form.pur_group) }}
+            <div class="account_update_dd update-form-user">
+                {{ form_row(form.pur_group) }}
             </div>
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
+                {{ form_row(form.submit) }}
+
+                {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+
+                {{ form_end(form) }}
+
+
         </div>
     </div>
     {% block javascripts %}
@@ -162,78 +179,83 @@
 
 
             // for city and areas
-            $('#area_no').hide();
+            // jQuery('#area_no').hide();
 
 
             var areas = {{ areas.content| raw }} ;
-
-            $('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
+            jQuery('#ikt_update_area_no').empty();
+            //jQuery('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
             jQuery('#ikt_update_city_no').on('change', function () {
-                manage_areas($(this).val())
+                jQuery('#ikt_update_area_no').empty();
+                manage_areas(jQuery(this).val())
             });
 
             // if form is submitted then manage the areas and cities
-            if ($('#ikt_update_city_no').val() != '') {
-                manage_areas($('#ikt_update_city_no').val());
+
+            if (jQuery('#ikt_update_city_no').val() != '') {
+                manage_areas(jQuery('#ikt_update_city_no').val());
             }
+
+            jQuery('#ikt_update_area_no').on('change', function () {
+                //jQuery('#ikt_update_area_no').val();
+                jQuery('#ikt_update_area_text').val(jQuery('#ikt_update_area_no').val());
+                jQuery('#ikt_update_area_no').val(jQuery('#ikt_update_area_no').val());
+            });
 
             function manage_areas(city) {
                 var city_count = 0;
-
-                $('#ikt_update_area_no').empty().append('<option value="">{{ 'Select Area'|trans }}</option>');
+                // --> jQuery('#ikt_update_area_no').empty().append('<option value="">{{ 'Select Area '|trans }}</option>');
 
                 if (city != '') {
 
-                    $.each(areas, function (index, el) {
+                    jQuery.each(areas, function (index, el) {
                         if (city == el.city_no) {
                             city_count++;
-                            $('#ikt_update_area_no').append('<option value="'+el.name+'">'+el.name+'</option>');
+                            jQuery('#ikt_update_area_no').append('<option value="'+jQuery.trim(el.name)+'">'+jQuery.trim(el.name)+'</option>');
                         }
                     });
 
                 }
-                if (city_count > 0) {
-
-                    $('#ikt_update_area_text').val('-1');
-                    jQuery('#area_no').show();
+                if (city_count > 0)
+                {
+                    // jQuery('#ikt_update_area_text').val('-1');
+                    // ikt_update_area_no
+                    jQuery('#ikt_update_area_no').show();
                     jQuery('#area_text').hide();
                 } else {
-                    $('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
-                    $('#ikt_update_area_text').val('');
-                    jQuery('#area_no').hide();
+                    jQuery('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
+                    jQuery('#ikt_update_area_text').val('');
+                    jQuery('.area_no_wrapper').hide();
                     jQuery('#area_text').show();
                 }
-
             }
 
 
             {{ form_jquery_validation(form) }}
+            $('form[name="ikt_update"]').on('submit', function (event) {
+                if($( "#ikt_update_dob_year" ).hasClass( "valid" )) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function () {
 
+                            jQuery('#preLoadersUpd').html('<div id="loader"></div>');
+                        },
+                        complete: function () {
 
-
-
-
-                $('form[name="ikt_update"]').on('submit', function (event) {
-
-                        event.preventDefault();
-                        $.ajax({
-                            type: $(this).attr('method'),
-                            url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
-                            data: new FormData(this),
-                            processData: false,
-                            contentType: false,
-                            beforeSend: function () {
-
-                                $('#preLoadersUpd').html('<div id="loader"></div>');
-                            },
-                            complete: function () {
-
-                            },
-                            success: function (response) {
-                                $('#contents-6').html(response);
-                            }
-                        })
+                        },
+                        success: function (response) {
+                            jQuery('#contents-6').html(response);
+                        }
+                    })
+                }
+                else{return false;}
                 });
+
         });
             </script>
 

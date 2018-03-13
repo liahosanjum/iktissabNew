@@ -10,10 +10,12 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\BrowserKit\Response;
+// use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AppBundle\Controller\Common\FunctionsController;
 use AppBundle\AppConstant;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 class SecurityController extends Controller
 {
     /**
@@ -29,6 +31,10 @@ class SecurityController extends Controller
             exit();
         }
         $commFunct = new FunctionsController();
+        $commFunct->setContainer($this->container);
+
+
+
         if($commFunct->checkSessionCookies($request) == false){
             return $this->redirect($this->generateUrl('landingpage'));
         }
@@ -104,6 +110,7 @@ class SecurityController extends Controller
 
 
 
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -112,9 +119,19 @@ class SecurityController extends Controller
         $message = "";
         $errorcl = 'alert-danger';
         //dump($message);dump($error);die();
+        $captchaCode = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
+
+
+        $filename = $commFunct->saveTextAsImage();
+        $response->setContent($filename['filename']);
+        $captcha_image = $filename['image_captcha'];
+
+
+        
         return $this->render(':default:login.html.twig', array(
-           'last_username' => $lastUsername, 'message' => $message,
-            'error' => $error , 'errorcl' => $errorcl
+            'last_username' => $lastUsername, 'message' => $message,
+            'error' => $error , 'errorcl' => $errorcl,
+            'data'    => $captcha_image,
         ));
     }
 

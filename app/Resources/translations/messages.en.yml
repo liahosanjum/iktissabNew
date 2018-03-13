@@ -114,7 +114,7 @@
 'Update': 'Update'
 'You can update your full name through the following form': 'You can update your information through the following form'
 'This field is required': 'This field is required'
-'Password fields must match': 'Password fields must be the same ar'
+'Password fields must match': 'Password fields must be the same'
 'Update Password': 'Update Password'
 'Enter Current Password': 'Enter Current Password'
 'New Password': 'New Password'
@@ -178,7 +178,7 @@
 "Ramadan": "Ramadan"
 "Shawwal": "Shawwal"
 "Dhul Qaada": "Dhul Qaada"
-"Dhul Hijja": "Dhul Hijjaة"
+"Dhul Hijja": "Dhul Hijja"
 "Hijri": "Hijri"
 "year_arabic": " year_arabic "
 "Year": " Year "
@@ -233,7 +233,7 @@
 "Email": "Email"
 "Follow Us": "Follow Us"
 "Terms and Conditions": "Terms and Conditions"
-"Copy rights": "All Rights Reserved to Abdullah AlOthaim Markets Company @ 2017"
+"Copy rights": "All Rights Reserved to Abdullah AlOthaim Markets Company @ 2018"
 "Customer Services": "Customer Services"
 "My Account": "My Account"
 "Forgot Email": "Forgot Email"
@@ -323,11 +323,12 @@
 "Please enter activation code": "Please enter activation code"
 "Please enter 6 digits code you received on your mobile": "Please enter 6 digits code you received on your mobile"
 "Thank you. Your activation request has been received successfully": "Thank you. Your activation request has been received successfully"
-"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number in 48 hours, also we have sent you an email containing a link to confirm & activate your Iktissab Account"
+"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team."
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
-'An invalid exception occurred': 'Unable to process your request at this time.Please try latter'
+'An invalid exception occurred': 'Unable to process your request at this time.Please try later'
+'An invalid exception has occurred': 'Unable to process your request at this time.Please try later'
 'Information': 'Information'
 'Iktissab password Recovery': 'Iktissab password recovery'
 'Enter Iktissab ID': 'Enter Iktissab ID'
@@ -373,7 +374,7 @@
 'Manage Users': 'Manage Users'
 'Creation Date': 'Creation Date'
 'Dear': 'Dear'
-'Your account has been created at iktissab you can login using the details below': 'Your account has been created at iktissab website , you can login using the details below'
+'Your account has been created at iktissab you can login using the details below': 'Your account has been created at iktissab website , you can login using the details below after activation by Iktissab Team'
 'Username': 'Username'
 'Abdullah Al Othaim Markets Company, Riyadh': 'Abdullah Al Othaim Markets Company, Riyadh'
 'Question': 'Question'
@@ -410,4 +411,8 @@
 "More Items": "More Items"
 "Close": "Close"
 "Username or password is incorrect or account has been blocked due to many invalid login attempts": "Username or password is incorrect or account has been blocked due to many invalid login attempts"
-
+"Invalid Data": "Invalid Data"
+'Please provide valid data': 'Please provide valid data'
+'Name is same as current name': 'Name is same as current name en'
+'You have already subscribed': 'You have already subscribed en'
+'Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account duumy text': 'test'

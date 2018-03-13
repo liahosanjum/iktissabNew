@@ -31,8 +31,8 @@
                     <div class="header-title-list_settings">{{ item.Technical }}</div>
                     <div class="header-title-list_settings">{{ item.Other }}</div>
                     <div class="header-title-action-list_settings">
-                        <div class="header-action-list_settings"><a href="{{ app.request.getBaseURL()  }}/admin/settingsdelete/{{ item.Id }}" onclick="return delRecord({{ item.Id }})">Delete</a></div>
-                        <div class="header-action-list_settings"><a href="{{ app.request.getBaseURL()  }}/admin/settingsupdate/{{ item.Id }}">Update</a></div>
+                        <div class="header-action-list_settings"><a href="{{ app.request.getBaseURL()  }}/admin/settingsdelete?param={{ item.Id }}" onclick="return delRecord({{ item.cid }})">Delete</a></div>
+                        <div class="header-action-list_settings"><a href="{{ app.request.getBaseURL()  }}/admin/settingsupdate?param={{ item.Id }}">Update</a></div>
                         <div class="clearboth"></div>
                     </div>
                     <div class="clearboth"></div>

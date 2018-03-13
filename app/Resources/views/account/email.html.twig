@@ -39,6 +39,8 @@
                         {{ form_row(form.old_password) }}
                     </div>
                     <div class=" ">
+                        {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+
                     {{ form_end(form) }}
                     </div>
                 <div class="claerfix"></div>

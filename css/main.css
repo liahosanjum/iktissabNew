@@ -1,8 +1,5 @@
-label.required:after {
-    content: " *";
-    color: #e32;
-    font-size: 12px;
-}
+
+
 label.error{
     color: #e32;
 }
@@ -18,12 +15,3 @@ label.error{
 }
 
 
-
-   
-
-
-/* 
-	Ok so you have made it this far, that means you are very keen to on my code. 
-	Anyway I don't really mind it. This is a great way to learn so you actually doing the right thing:)
-	Follow me @ihatetomatoes
-*/

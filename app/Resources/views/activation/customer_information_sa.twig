@@ -28,8 +28,10 @@
         <div class="row">
 
             {% if(error.success == false) %}
-                <div class="activation-msg-wrapper activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center alert alert-danger">
-                    {{ error.message }}
+                <div class="activation-msg-wrapper activation-form-wrapper  col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="text-center alert alert-danger" style="margin-top:40px;">
+                        {{ error.message }}
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -76,7 +78,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{ form_start(form,{'attr': {'id': 'ikt_reg'}}) }}
+
+                                {{ form_start(form,{'attr': {'id': 'ikt_reg' ,'autocomplete': 'off'}}) }}
                                 <div class="row">
                                     <div class="col-lg-8   col-md-12 col-sm-12 col-xs-12">
                                         <div class="iktissab-activation-step2">
@@ -313,6 +316,8 @@
 
                                                 <div class="cardactivationForm iktpass">
                                                     {{ form_row(form.email) }}
+
+                                                    {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
                                                 </div>
 
                                                 <div class="claerfix"></div>
@@ -498,11 +503,12 @@
 
 
             // for city and areas
-            $('#area_no').hide();
+            // $('#area_no').hide();
+            jQuery('#ikt_reg_area_text').hide();
+            jQuery('#area_text').hide();
 
 
             var areas = {{ areas.content| raw }} ;
-            $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
             jQuery('#ikt_reg_city_no').on('change', function () {
                 manage_areas($(this).val())
             });
@@ -521,29 +527,32 @@
                     $.each(areas, function (index, el) {
                         if (city == el.city_no) {
                             city_count++;
-                            $('#ikt_reg_area_no').append('<option value="' + el.name + '">' + el.name + '</option>');
+                            $('#ikt_reg_area_no').append('<option value="' + el.area_code + '">' + el.name + '</option>');
                         }
                     });
-
                 }
                 if (city_count > 0) {
 
-                    $('#ikt_reg_area_text').val('-1');
+                    jQuery('#ikt_reg_area_text').val('-1');
                     jQuery('#area_no').show();
                     jQuery('#area_text').hide();
-                } else {
-                    $('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
-                    $('#ikt_reg_area_text').val('');
-                    jQuery('#area_no').hide();
-                    jQuery('#area_text').show();
+                }
+                else
+                {
+                    //jQuery('#ikt_reg_area_no').empty().append('<option value="-1">-1</option>');
+                    //jQuery('#ikt_reg_area_text').val('-1');
+                    jQuery('#ikt_reg_area_text').hide();
+                    jQuery('#area_no').show();
                 }
 
             }
-//            $('#ikt_reg').submit(function (e) {
-//
-//            });
+
             {{ form_jquery_validation(form) }}
 
         });
     </script>
+
+    <style>
+        .cardactivation-wrapper .alert-danger { font-size: 16px; }
+    </style>
 {% endblock %}

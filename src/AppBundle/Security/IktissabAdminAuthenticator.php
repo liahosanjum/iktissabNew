@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 
@@ -27,18 +28,16 @@ class IktissabAdminAuthenticator implements SimpleFormAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         try{
-
+            if(!$userProvider->canLogin()){
+                throw new UsernameNotFoundException(
+                    sprintf('Username or password is incorrect or account has been blocked due to many invalid login attempts')
+                );
+            }
             $user = $userProvider->loadUserByUsername($token->getUsername());
         }
         catch (UsernameNotFoundException $e){
-            throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
+            throw new CustomUserMessageAuthenticationException('Username or password is incorrect or account has been blocked due to many invalid login attempts');
         }
-
-//        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_member_area']));
-//        var_dump(unserialize($_SESSION['_sf2_attributes']['_security_admin_area']));die();
-        //var_dump($user);exit;
-//        echo "<hr />";
-//        var_dump($token->getRoles());
 
 
         $passwordValid = $this->encoder->isPasswordValid($user, $token->getCredentials());
@@ -47,11 +46,13 @@ class IktissabAdminAuthenticator implements SimpleFormAuthenticatorInterface
         if($passwordValid)
         {
             //TODO: check member status here
+            $userProvider->clearLoginAttempts();
             return new UsernamePasswordToken($user, $user->getPassword(), $providerKey, $user->getRoles());
         }
         else
         {
-            throw new CustomUserMessageAuthenticationException('Invalid Username or Password');
+            $userProvider->incrementLoginAttempts();
+            throw new CustomUserMessageAuthenticationException('Username or password is incorrect or account has been blocked due to many invalid login attempts');
         }
     }
 

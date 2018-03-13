@@ -1,0 +1,45 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
+           <div class="addNew">
+               <a href="{{ path('admin_resources')}}">ADD Pages</a>
+           </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Title</th>
+                    <th>Role</th>
+                    <th>Status</th>
+
+                    <th colspan="2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+            {% set i = 1 %}
+            {% for item in data %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{  item.resource_name }}</td>
+                    <td>{{  item.assigned_to }}</td>
+                    <td>{{  item.Status }}</td>
+                    <td colspan="2">
+                        <a href="{{ app.request.getBaseURL()  }}/admin/resourceslistdelete?param={{item.id}}" onclick="return delRecord('del')">Delete</a>
+                        <a href="{{ app.request.getBaseURL()  }}/admin/resourceslistupdate?param={{item.id}}">Update</a>
+                    </td>
+                 </tr>
+                {% set i = i + 1 %}
+                {% endfor %}
+
+                </tbody>
+           </table>
+    </div>
+
+{% endblock %}
+

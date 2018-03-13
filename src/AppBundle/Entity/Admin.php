@@ -29,6 +29,12 @@ class Admin
     private $email;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="role_name", type="string", length=255, nullable=true)
+     */
+    private $roleName;
+    /**
      * @var integer
      *
      * @ORM\Column(name="reg_date", type="integer", nullable=false)
@@ -156,4 +162,31 @@ class Admin
     {
         return $this->id;
     }
+
+    /**
+     * Set roleName
+     *
+     * @param string $roleName
+     *
+     * @return Admin
+     */
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
+
+        return $this;
+    }
+
+    /**
+     * Get roleName
+     *
+     * @return string
+     */
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
+
+
+
 }

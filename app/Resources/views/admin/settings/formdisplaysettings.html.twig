@@ -39,15 +39,12 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsdelete/{{ item.Id }}" onclick="return delRecord({{ item.Id }})">Delete</a>
-                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsupdate/{{ item.Id }}">Update</a>
-
+                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsdelete?param={{ item.Id }}" onclick="return delRecord('del')">Delete</a>
+                                        <a href="{{ app.request.getBaseURL()  }}/admin/formdisplaysettingsupdate?param={{ item.Id }}">Update</a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-
-
                     </td>
                 </tr>
 

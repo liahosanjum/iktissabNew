@@ -14,7 +14,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Close'|trans }}</button>
-
             </div>
         </div>
     </div>
@@ -22,14 +21,14 @@
 <div class="row footer-subscription-wrapper">
     <div class="col-xs-12 subscription-title">{{ 'Newsletter'|trans }}</div>
     <div class="col-xs-12 sub-cription-mobile">
-        {{ form_start(form,{attr:{'id':'subs_mob','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')} )} }) }}
+        {{ form_start(form,{attr:{'autocomplete':'off', 'id':'subs_mob','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')} )} }) }}
 
         {{ form_end(form) }}
     </div>
     <div class=" col-xs-12 subscription-title-mobile">{{ 'Messaging Service'|trans }}</div>
     <div class="col-xs-12 sub-cription-email">
 
-        {{ form_start(form_mob,{attr:{'id':'subs_email','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})} }) }}
+        {{ form_start(form_mob,{attr:{ 'autocomplete':'off', 'id':'subs_email','action':url('subscription',{'_country':app.request.get('_country'), '_locale':app.request.get('_locale')})} }) }}
         {{ form_widget(form) }}
 
 

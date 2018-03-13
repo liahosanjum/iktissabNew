@@ -11,14 +11,14 @@
 
         <div class="col-lg-12 col-md-12 col-sm-12">
             {%  if message != "" %}
-                <div class="cmsForm alert-success">
+                <div class="cmsForm {{ error_cl }}">
 
                     {{ message }}
 
                 </div>
             {% endif %}
 
-            {{ form_start(form) }}
+            {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
 
 
             <div class="cmsForm">
@@ -76,7 +76,7 @@
 
                 {{ form_widget(form.save) }}
             </div>
-
+            {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
             {{ form_end(form) }}
         </div>
         <div class="claerfix"></div>

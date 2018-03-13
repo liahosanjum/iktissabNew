@@ -1,4 +1,6 @@
-﻿.captcha-text { float: left; width: 100%;  }
+﻿.captcha-inp-reset { padding-top: 10px; }
+.captcha-text { float: left; width: 100%;  }
+.captcha-inp-reset { padding-top: 10px; }
 .cap-bordering{ border: 1px solid #4e4e4e; }
 .country-flg { margin-right: 3px; margin-left: 3px; }
 .modal-footer .btn-default
@@ -8,6 +10,8 @@
     color: #FFFFFF;
     border-radius: 2px;
 }
+.send_pwd_msg { padding-top:20px; }
+
 .modal-footer .btn-default:hover
 {
     background-color: #FFFFFF;
@@ -20,6 +24,16 @@
     margin-top: -8px;
 }
 
+label.required:after {
+    content: " *";
+    color: #e32;
+    font-size: 12px;
+}
+.iktpass label.required:after {
+    content: " *";
+    color: #e32;
+    font-size: 12px;
+}
 
 #div_dg #ikt_update_dob label#ikt_update_dob_year-error
 {
@@ -45,10 +59,17 @@
     width: 100%;
 }
 
+.pass-reset-code{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bolder;
+    letter-spacing: 4px;
+}
 
 
 #div_dh { float: left; width: 100%; }
-
+#enter_otp_otp { /*margin-left:35%; margin-right:35%;*/ width: 100%; text-align: center;
+    font-size: 20px;  font-weight: bolder;     letter-spacing: 4px; float: right}
 .detail-iktissab-promotional-items { margin-top: 30px; }
 .ikt-promotions-detail-link { float: right; text-align: center; width: 100%;   }
 .link-ikt-pro a { color: #FFFFFF; font-size: 16px; text-decoration: none;  }
@@ -56,8 +77,8 @@
 .link-ikt-pro { width: 30%;  margin: 0 auto;
     border-radius: 3px;  background-color: #008b40;  height: 40px; color: #FFFFFF; padding: 8px;  }
 .button-link-ikt-promo {  height: 40px; }
-.link-ikt-pro:hover   { width: 30%; border: 2px solid #008b40; margin: 0 auto; height: 40px;
-   border-radius: 3px; background-color: #FFFFFF;   color: #008b40 !important; }
+.link-ikt-pro:hover   { width: 30%; border: 2px solid #008b40; margin: 0 auto; height: 40px; padding: 6px;
+    border-radius: 3px; background-color: #FFFFFF;   color: #008b40 !important; }
 .link-ikt-pro:hover > a {   color: #008b40 !important;  }
 
 
@@ -65,6 +86,9 @@
 .captcha-image { float: left; margin-top: 43px; text-align: left;  }
 .captcha-image-reg { float: left; margin-top: 45px; text-align: left; padding-right: 0px   }
 .captcha-image-sendpwd { float: left; margin-top: 45px; text-align: left; padding-right: 0px   }
+.captcha-image-reset { float: left; margin-top: 10px; text-align: left; padding-right: 0px   }
+.captcha-image-reset-login { float: left; margin-top: 11px; text-align: left; padding-right: 0px   }
+
 .captcha-image-forgotemail { float: left; margin-top: 45px; text-align: left; padding-right: 0px ;  }
 .captcha-code{ float: left; width: 100%; }
 .contact-map { float: right; }
@@ -80,6 +104,9 @@
 #preLoadersSSN{  border-radius: 12px;  left: 55%;  position: absolute;  top: 35%;  z-index: 1;  }
 .card-activation-phone-message .required { color: #FF0000; }
 .card-activation-phone-code .btn-primary { width: 100%; }
+.card-activation-phone-code ul li { color:#FF0000; float: right; padding-left:20%; margin-top:5px; list-style: none;  }
+
+
 .forgot-email .captchaCode { padding-top:20px; }
 .forgot-email .forgot-email-captcha { padding-top:12px; }
 .forgot-email .FormCaptcha_CaptchaImage { padding-top:20px; }
@@ -102,13 +129,14 @@ select::-ms-expand {
 #mobile-ext-enq{ float: left; direction: ltr; width: 100%; }
 .mobile-number-enq{ float:right !important; }
 .mobile-ext-enq{ float:left !important; text-align: right; }
-.mobile-ext-enq-lbl{ margin-top:15px; margin-bottom:2px; font-weight: 600; }
+.mobile-ext-enq-lbl{ margin-top:12px; margin-bottom:2px; font-weight: 600; }
 .login-passreset{ float: left !important; text-align: right; }
 .pass-repeat{ margin-top:8px !important;}
 .email-repeat{ margin-top:8px !important;}
 .messsage-wrapper{ margin-left:15px; margin-right:15px; }
-.iktpass{ padding-top: 10px; }
-.form-control[readonly] { margin-bottom: 5px !important; }
+.messsage-wrapper-mobile{ margin-left:15px; margin-right:15px; }
+.iktpass{ padding-top: 5px; }
+.form-control[readonly] { margin-bottom: 2px !important; }
 .home-no-data{ min-height: 400px; margin-top: 50px; margin-bottom: 50px; }
 .err-img { margin-top:70px; margin-bottom: 70px; }
 .errorPage{ min-height: 500px;  }
@@ -161,7 +189,7 @@ margin-left: 15px; margin-right: 15px;
 }
 
 .ext-code{ margin-top:47px; }
-.dob_label{ padding-top:0px; padding-bottom:8px; padding-right: 2px !important; }
+.dob_label{ margin-top:9px !important; padding-bottom:3px; padding-right: 2px !important; }
 .ikt-activation-title .form_labels { text-align: left;   }
 .cust_info_dates .btn_dob_h_wrappper { float: right; width: auto; padding-left: 0px; margin-top:0px; padding-right: 5px;}
 .verify_reset_password_wrapper { min-height: 400px;   }
@@ -1511,7 +1539,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .card-activation-phone-message { font-size: 14px; font-weight: 700; margin-top: 34px; }
 .card-activation-phone-title{ font-size: 14px; font-weight: 700; margin-top: 34px; margin-right: 23%;  }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
-.card-activation-phone-code { margin-top: 10px; margin-right: 41%; margin-left: 41%; float: right; }
+.card-activation-phone-code { margin-top: 10px; margin-right: 35%; margin-left: 35%; float: right; }
 .red-color { color: #FF0000; padding-right: 10px;  }
 .card-activation-phone-note { margin-top: 40px; float: right; font-size: 14px; font-weight: 600;  }
 .user-member { background: rgba(0, 0, 0, 0) url("../../img/login-user.jpg") no-repeat scroll 99% 50%;
@@ -1780,7 +1808,9 @@ select#ikt_update_maritial_status  {
 }
 .date-birth-step2 .last-date { padding-left: 10px; !important;}
 .date-birth-step2 .title-cardactivation-form { padding-right: 18px !important; min-height: 35px; width: 100%; }
-
+.pwd-send-account { font-weight: 600; }
+.forgot-email-captcha { font-weight: 600; }
+.pwd-send-account {font-weight: 600; }
 .title-cardactivation-form{ float: right; padding-bottom: 2px; padding-top: 5px;
     font-weight: 700; font-size: 14px; direction: rtl; }
 
@@ -1799,7 +1829,7 @@ select#ikt_update_maritial_status  {
 
 .cardactivationForm input {
     float: right;
-    font-family: hacen_lebanonregular;
+
 }
 .dayWrapper { float: right; width: 73%; overflow: hidden; border: 1px solid #e0e0e0; margin-right:16px;}
 .dayWrapper  select {
@@ -1821,14 +1851,14 @@ select#ikt_update_maritial_status  {
 .cardactivationForm input, #cardactivationForm select.select {
     border: 1px solid #ADADAD;
     border-radius: 0 !important;
-    height: 33px;
+    height: 34px;
     padding-right:5px;
     width: 100%;
 }
-#appbundle_enquiryandsuggestion_job{ border: 1px solid #ADADAD; height: 33px; }
-#appbundle_enquiryandsuggestion_reason{ border: 1px solid #ADADAD; height: 33px; }
-#appbundle_enquiryandsuggestion_submit { width:263px;margin-top: 48px }
+#appbundle_enquiryandsuggestion_job{ border: 1px solid #ADADAD; height: 34px; }
+#appbundle_enquiryandsuggestion_reason{ border: 1px solid #ADADAD; height: 34px; }
 
+#appbundle_enquiryandsuggestion_submit { width:263px;margin-top: 48px }
 .activation-description{ margin-top:48px;border: 1px solid #adadad;
     background-color: #f9f9f9; padding-top: 20px; padding-right: 10px; padding-left: 10px;
     padding-bottom:20px; }
@@ -1883,7 +1913,7 @@ select#ikt_update_maritial_status  {
 .eservices-wrapper .nav-tabs > li > a { margin-right: 0px; }
 .eservices-wrapper li.myTab-listitem-last {  border-bottom: 2px solid #C6B868; padding-bottom: 100px; }
 .eservices-wrapper .nav > li > a:hover { background-color:#FFFFFF;border: none;  }
-.eservices-wrapper .nav > li > a { padding:6px 8px 6px 0px; color: #343434; font-size: 14px; font-weight:600; border-left: none;}
+.eservices-wrapper .nav > li > a { padding:6px 0px 6px 0px; color: #343434; font-size: 14px; font-weight:600; border-left: none;}
 .eservice-list { float: right; }
 .eservices-wrapper .eservice-list-contents { margin-bottom: 20px; min-height: 410px;  }
 .eservices-wrapper  .fa-angle-double-left { color: #343434 ; font-size: 16px;  }
@@ -2114,7 +2144,8 @@ table.user-details { margin-bottom: 0px !important; }
     .header-img { float: none; }
     .logo-wrapper{ display: inline-block; float: none;}
     .promotion-section { text-align: center; min-height: 196px; }
-    .promotion-section_down { text-align: center; margin-bottom: 20px; }
+
+    .promotion-section_down { text-align: center; min-height: 196px; }
     .square-wrapper{ margin-top:30px; }
     .top-lang-wrapper .navbar-nav > li > a {  border-bottom: 0px solid #e3e3e3;  }
     .navbar-nav > li > a { border-left: none; border-bottom: 1px solid #e3e3e3;  }
@@ -2143,6 +2174,7 @@ table.user-details { margin-bottom: 0px !important; }
     .iqama-id-wrapper{ padding-right:0px !important;}
     .eservice-content-inner-wrapper { padding-right:0px !important; padding-left:0px !important;}
     .activation-msg-wrapper{ margin-right: 8.333333%; }
+    #mobile-ext-enq{ margin-bottom: 2px;}
 
 
 }
@@ -2279,6 +2311,7 @@ table.user-details { margin-bottom: 0px !important; }
 }
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
+    #enter_otp_otp { margin-left:30%; margin-right:30%; width: 40%; }
     .youtube-wrapper{ width: 100%; }
     .navbar-nav > li > .dropdown-menu { width: 100%; }
     .youtube-container { height: 275px; width: 100%; }
@@ -2289,7 +2322,7 @@ table.user-details { margin-bottom: 0px !important; }
     .header-contact-wrap { padding-top:25px; }
     .top-lang-wrapper .dropdown-menu > li > a {  border: 1px solid #dddddd; text-align: right; background-color: #FFFFFF;   }
     .topMenu  .navbar-nav .open .dropdown-menu { background-color: #F29100; width:auto;  }
-
+    .steps-title { min-height: 40px; }
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     .top-lang-wrapper .dropdown-menu > li:last-child > a {
         border: none; color: #343434;
@@ -2361,6 +2394,7 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_h_year{width: 33%; float: right; margin-right: 0px;}
     select#ikt_update_dob_year{width: 33%; margin-right: 0px; float: right;}
     .activation-msg-wrapper{ margin-right: 8.333333%; }
+    .promo-title{ font-size:14px; }
 
 }
 
@@ -2370,12 +2404,13 @@ table.user-details { margin-bottom: 0px !important; }
     .account-info-column { font-size: 12px; font-weight: 700; float: none; }
     .top-lang-wrapper .navbar-nav > li { text-align: right; }
     .topMenu .navbar-nav .open .dropdown-menu { position: absolute; left: -26px;  }
-
+    #enter_otp_otp { margin-left:20%; margin-right:20%; width: 60%; }
     .dropdown-menu > li > a {  border: 1px solid #dddddd; text-align: right; background-color: #FFFFFF;   }
     .topMenu  .navbar-nav .open .dropdown-menu { background-color: #FFFFFF;  }
     .topMenu  li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
 
-    .topMenu .dropdown-menu > li:last-child > a { border: 1px solid #dddddd;  box-shadow:0 6px 12px rgba(0, 0, 0, 0.176);  text-align: right;}
+    .topMenu .dropdown-menu > li:last-child > a { border: 1px solid #dddddd;    text-align: right;}
+    ul.nav li.dropdown:hover > ul.dropdown-menu { border: none; }
     .top-lang-wrapper .navbar-nav { margin: 0px; float: left; }
     .topMenu  .navbar-nav .open .dropdown-menu > li > a { float: left; width: 100%; }
     .content-hide{ display: none;}
@@ -2385,11 +2420,12 @@ table.user-details { margin-bottom: 0px !important; }
     .date-birth-step2 .col-lg-3 , .date-birth-step2 .col-md-3 , .date-birth-step2 .col-sm-3 , .date-birth-step2 .col-xs-3 {
         padding-right: 15px; padding-left: 15px;
     }
+    .mobile-num { float: none; }
     .date-birth-step2 .day { padding-right: 0px !important; }
     .date-birth-step2 .cardactivationForm { width: 100%;}
     .title-cardactivation-form{ font-size: 12px;  }
     .ikt-activation-title { font-size: 14px;}
-    .steps-title { min-height: 40px;  }
+    .steps-title { min-height: 40px; }
     .date-birth-step2 .day{ padding-right: 0px !important; }
     .date-birth-step2 .title-cardactivation-form { width: auto; padding-right: 0px !important; }
     .card-activation-phone-note { font-size: 12px; }
@@ -2423,11 +2459,11 @@ table.user-details { margin-bottom: 0px !important; }
     select#ikt_update_dob_month{ width: 30%; }
     select#ikt_update_dob_month{width:32%;   float: right;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:20px; }
-    .card-activation-phone-code { margin-left: 36%; margin-right: 36%; }
+    .card-activation-phone-code { margin-left: 20%; margin-right: 20%; width: 60%; }
     .mob-msg { padding-right: 10px; }
     .formLayout{ font-size: 11px; }
     .iktissab-activation-step3 {  margin-right: 0; }
-    .card-activation-phone-title{ margin-right: 0px; }
+    .card-activation-phone-title { margin-right: 15%; margin-left: 15%; width:70%; }
     #ikt_reg_dob_h_year{ float: right; width: 32%; }
     #ikt_reg_dob_h_month{ float: right; width: 32%; margin-left: 2px; margin-right: 2px; }
     #ikt_reg_dob { width:100%; }
@@ -2440,7 +2476,7 @@ table.user-details { margin-bottom: 0px !important; }
     .flot-text{ font-size:7px !important; }
     .eservices-wrapper .eservice-content-company-description{ word-wrap: normal !important; }
     .topMenu .navbar-nav > li > a{ padding-left:5px; padding-right: 5px; }
-    .contactus-inner-contents { min-height: 200px }
+    .contactus-inner-contents { min-height: 20px }
     .activation-description .sno { width: 13%; }
     .desc { width: 86%; text-align: justify; }
     .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%;  }
@@ -2491,13 +2527,16 @@ table.user-details { margin-bottom: 0px !important; }
     .priceBeforeDescount{ font-size: 11px; }
     .priceAfterDescount { font-size: 11px; }
     .promotion-section_down { min-height: 196px; }
-    .link-ikt-pro{ width: 40%; }
-    .link-ikt-pro:hover{ width: 40%; }
+    .promotion-section { min-height: 196px; }
+    .link-ikt-pro{ width: 50%; }
+    .link-ikt-pro:hover{ width: 50%; }
     .complient-list ul li{ line-height: 23px; }
     .faqs-question{ font-size: 15px; }
-    .captcha-image { margin-top: 47px; }
+    .captcha-image { margin-top: 45px; }
     .ikt-activation-title { font-size: 14px; }
     .memeberloginwrapper h3 { font-size: 13px; }
     .activation-msg-wrapper{ margin-right: 8.333333%; }
+    .captcha-image-sendpwd { margin-top: 41px; }
+    .captcha-image-forgotemail{ margin-top: 41px; }
 }
 

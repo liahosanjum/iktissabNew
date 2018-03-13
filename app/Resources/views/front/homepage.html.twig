@@ -7,7 +7,8 @@
     <meta http-equiv="Link" content="<{{ asset('img/promo1over.svg')}}>; rel=prefetch">
     <meta http-equiv="Link" content="<{{ asset('img/cart.svg')}}>; rel=prefetch">
     <meta http-equiv="Link" content="<{{ asset('img/cartover.svg')}}>; rel=prefetch">
-    <link rel="prefetch" href="{{ asset('img/promo1.svg')}}">
+    <link rel="preload" href="{{ asset('img/promo1.svg')}}">
+
     
     {{ parent() }}
 
@@ -15,13 +16,12 @@
         function changeImage(id , name)
         {
             var name = name + 'over';
-
-            document.getElementById(id).src = "{{ app.request.schemeAndHttpHost }}{{ asset('/img/') }}"+name+".svg";
+            document.getElementById(id).src = "{{ asset('img/') }}"+name+".svg";
         }
 
         function changeImageOver(id , name)
         {
-            document.getElementById(id).src =  "{{ app.request.schemeAndHttpHost }}{{ asset('/img/') }}"+name+".svg";
+            document.getElementById(id).src =  "{{ asset('img/') }}"+name+".svg";
         }
     </script>
 
@@ -43,24 +43,18 @@
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
                 <div class="message-promo">
                     <div class="row">
-                        <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="right-arrow">
-                                <img alt="slider-arrow" src="{{ asset('img/slider-arrow-l.svg')}}" />
-                            </div></div>-->
+
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="mid-arrow-content">
-                                <!--<span class="home-text-grey">خصم 10% لدى جميع فروع كيابي فقط لحاملي بطاقة اكتساب</span>
-                                <span class="home-text-green">اكتساب Iktissab</span>
-                                <span class="home-text-grey1">أسواق عبد الله العثيم تمنح خصومات هائلة لحاملي بطاقات اكتساب تصل إلى 25%</span>-->
+
                                 <ul id="webTicker-{{ app.request.get('_locale') }}">
                                     {% for item_news in data_news %}
-                                        {{ item_news.details|raw }}
+                                       <li class="home-text-grey"> {{ item_news.details }} </li>
                                     {%  endfor %}
                                 </ul>
                             </div>
                         </div>
-                        <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"><div class="left-arrow">
-                                <img alt="slider2-arrow" src="{{ asset('img/slider-arrow-r.svg')}}" />
-                            </div></div>-->
+
                         <div class="claerfix"></div>
                     </div>
                 </div>

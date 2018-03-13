@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 
 //use Symfony\Component\BrowserKit\Request;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
@@ -59,17 +60,17 @@ class ActivateCardoneType extends AbstractType
 
 
             ->add('captchaCode', TextType::class, array(
-                'label'                          => 'Captcha',
-                'constraints'                    =>  array (
-                    new NotBlank(array('message' => 'This field is required'))),
-            ))
+                'label' => 'Captcha',
+                'constraints' =>  array (
+                    new NotBlank(array('message' => 'This field is required')),
+                    new Regex(
+                        array(
+                            'pattern' => '/^[a-zA-Z\-0-9]+$/' ,
+                            'match'   => true,
+                            'message' =>  'Invalid captcha code')),)
+                    ))
 
-            ->add('status', CheckboxType::class, array(
-                'label'                          => 'Status',
-                'constraints'                    =>  array (
-                    new NotBlank(array('message' => 'This field is required'))
-                ),
-            ))
+
 
 
             ->add('status', CheckboxType::class, array(
@@ -79,7 +80,11 @@ class ActivateCardoneType extends AbstractType
                 'constraints' => array(
                     new NotBlank(array('message' => 'This field is required'))),
             ))
-            
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
 
 
             ->add('submit', SubmitType::class, array('label'=>"Step One", 'attr' => array('class' => 'btn btn-primary button-2x')) );
@@ -88,7 +93,8 @@ class ActivateCardoneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('extras');
     }

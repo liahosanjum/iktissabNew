@@ -2,6 +2,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,7 +20,7 @@ class UpdatePasswordType extends AbstractType
 
         $builder->add('old_password', PasswordType::class, ['label' => "Enter Current Password",
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels'],
-            'attr' => ['class' => 'form-control   formLayout'],
+            'attr' => ['class' => 'form-control '],
         'constraints' => array
         (
             new NotBlank(array('message' => 'This field is required')),
@@ -29,14 +30,20 @@ class UpdatePasswordType extends AbstractType
             'type' => PasswordType::class,
             'invalid_message' => 'Password fields must match',
             'required' => true,
-            'first_options' => array('attr' =>array('class' => 'form-control col-lg-12 col-md-12 col-sm-12 col-xs-12     formLayout'), 'label' => 'New Password', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
-            'second_options' => array('attr' =>array('class' => 'form-control col-lg-12 col-md-12 col-sm-12 col-xs-12   formLayout'), 'label' => 'Confirm New Password', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+            'first_options' => array('attr' =>array('class' => 'form-control col-lg-12 col-md-12 col-sm-12 col-xs-12     '), 'label' => 'New Password', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+            'second_options' => array('attr' =>array('class' => 'form-control col-lg-12 col-md-12 col-sm-12 col-xs-12   '), 'label' => 'Confirm New Password', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
             'options' => array('attr' => array('class' => 'form-control')),
             'constraints' => array(
                 new NotBlank(array('message' => 'This field is required')),
                 new Assert\Length(array("min"=>6, 'minMessage'=>'Password must be at least 6 characters'))
             )
         ])
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
+
         ->add('Update', SubmitType::class ,array(
             'attr' => array('class' => 'btn col-lg-4 btn-primary '),
         ) );
@@ -45,7 +52,8 @@ class UpdatePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
 
     }

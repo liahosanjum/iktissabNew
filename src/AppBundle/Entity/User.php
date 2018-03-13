@@ -88,6 +88,9 @@ class User
      */
     private $modified;
 
+    
+
+
     /**
      * Get iktCardNo
      *
@@ -322,4 +325,10 @@ class User
         $d = new  \DateTime("now");
         $this->modified = $d->getTimestamp();
     }
+
+
+   
+
+
+
 }

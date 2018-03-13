@@ -78,6 +78,7 @@ class IktissabUserProvider implements UserProviderInterface
     public function clearLoginAttempts(){
         $this->em->getRepository("AppBundle:LoginAttempt")->clearAttempts($this->request->getClientIp());
     }
+    
     public function loadUserByUsername($username)
     {
         $status = 1;

@@ -47,8 +47,9 @@ framework:
         # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id:  session.handler.native_file
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
-        cookie_lifetime: 3600,
-    fragments:       ~
+        cookie_lifetime: 3600
+        gc_maxlifetime: 3600
+    fragments: ~
     http_method_override: true
     assets: ~
     serializer:
@@ -103,7 +104,7 @@ sensio_framework_extra:
     router:      { annotations: true }
     request:     { converters: true, auto_convert: true }
     view:        { annotations: true }
-    cache:       { annotations: true }
+    cache:       { annotations: false }
     security:    { annotations: true }
     psr_message: { enabled: false }
 #fos_rest:

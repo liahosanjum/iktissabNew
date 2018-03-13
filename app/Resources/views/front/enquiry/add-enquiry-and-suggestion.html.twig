@@ -41,10 +41,32 @@
                     <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12 ">
 
 
-                        {{ form_start(form) }}
-                            {{ form_row(form.name) }}
 
-                            {{ form_row(form.email) }}
+                        {{ form_start(form, { 'attr': {'autocomplete': 'off'} })  }}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                            {{ form_label(form.name) }}
+                             </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                                {{ form_widget(form.name) }}
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  error">
+                                {{ form_errors(form.name) }}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                                {{ form_label(form.email) }}
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                                {{ form_widget(form.email) }}
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  error">
+                                {{ form_errors(form.email) }}
+                            </div>
+
+                        </div>
                 <div class="row">
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
@@ -52,7 +74,7 @@
                                 <div class="cardactivationForm">
                                     {{ form_widget(form.job) }}
                                 </div>
-                                <div class="title-cardactivation-form">
+                                <div class="title-cardactivation-form  error">
                                     {{ form_errors(form.job) }}
                                 </div>
                               </div>
@@ -63,7 +85,7 @@
                                 <div class="cardactivationForm">
                                     {{ form_widget(form.reason) }}
                                 </div>
-                                <div class="title-cardactivation-form">
+                                <div class="title-cardactivation-form  error">
                                     {{ form_errors(form.reason) }}
                                 </div>
                             </div>
@@ -78,7 +100,7 @@
                                     {{ 'Country-Code:'|trans }}
                                 </div>
                                 <div id="mobile-ext-enq">
-                                    <input readonly="readonly" type="text" value="{{ ext }}"  class="mobile-ext-enq col-lg-2 form-control formLayout" />
+                                    <input readonly="readonly" type="text" value="{{ ext }}"  class="mobile-ext-enq col-lg-2 form-control" />
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-9 col-sm-10 col-xs-7  mobile-number-enq">
@@ -88,14 +110,20 @@
                                 <div class="cardactivationForm">
                                     {{ form_widget(form.mobile) }}
                                 </div>
-                                <div class="title-cardactivation-form">
+                                <div class="title-cardactivation-form  error">
                                     {{ form_errors(form.mobile) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                {{ form_row(form.comments) }}
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                                {{ form_label(form.comments) }}
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                                {{ form_widget(form.comments) }}
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12 error">
+                                {{ form_errors(form.comments) }}
                             </div>
                         </div>
                         <div class="row">
@@ -107,7 +135,7 @@
                                     <div class="cardactivationForm">
                                         {{ form_widget(form.captchaCode) }}
                                     </div>
-                                    <div class="title-cardactivation-form">
+                                    <div class="title-cardactivation-form  error">
                                         {{ form_errors(form.captchaCode) }}
                                     </div>
                                 </div>
@@ -118,6 +146,7 @@
                                 <div class="claerfix"></div>
                             </div>
                         </div>
+                        {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
                         {{ form_end(form) }}
 
                     </div>
@@ -212,6 +241,9 @@
             margin: 0;
             padding: 0;
         }
+        .error ul li { color: #ff0000; list-style: none; font-weight: normal; }
+        .error ul { padding-left: 2px;  }
+        .error ul { padding-right: 1px;  }
     </style>
 {% endblock %}
 

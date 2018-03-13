@@ -52,7 +52,7 @@ class IktRegType extends AbstractType
 
             ->add('fullName', TextType::class, array('label' => 'Full name',
                     'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control formLayout'),
+                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control'),
 
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -239,6 +239,13 @@ class IktRegType extends AbstractType
 
                 )
             ))
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
+
+
             ->add('pur_group', ChoiceType::class, array(
                 'label' => 'Shoppers',
                 'label_attr' => ['class' => 'formLayout    form_labels'],
@@ -262,9 +269,10 @@ class IktRegType extends AbstractType
     {
         $resolver->setDefaults(array(
             'attr' => array(
-                'novalidate' => 'novalidate',
+                'novalidate'  => 'novalidate',
                 'var' => null
             ),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('additional'); // Requires that currentOrg be set by the caller.
         $resolver->setAllowedTypes('additional', 'array'); // Validates the type(s) of option(s) passed.

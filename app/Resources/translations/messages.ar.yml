@@ -76,7 +76,7 @@
 'Verification code:': 'رمز التحقق: '
 'Changing account email': 'تحديث البريد الإلكتروني للحساب '
 'The new email is already registered before , please enter a valid email': 'ربما يكون البريد الإلكتروني الجديد مسجل سابقاً، فضلاً أدخل بريد الكتروني آخر'
-'Invalid email address': 'عنوان بريد إلكتروني غير صالح'
+'Invalid email address': 'عنوان بريد إلكتروني غير صحيح'
 'New Email and Confirm new email must be same': 'تأكيد البريد الإلكترونـي غير متطابق'
 'New email and current email must not be the same': 'لا يجب استخدام البريد الإلكتروني الحالي  كبريد إلكتروني جديد'
 'Your record is not updated': 'لم يتم تحديث معلوماتك'
@@ -230,7 +230,7 @@
 "Email": "البريـد الإلكترونـي"
 "Follow Us": "تابعونــا علـى"
 "Terms and Conditions": "الشروط والأحكام"
-"Copy rights": "جميع الحقوق محفوظة لشركة أسواق عبد الله العثيم @ 2017"
+"Copy rights": "جميع الحقوق محفوظة لشركة أسواق عبد الله العثيم @ 2018"
 "Customer Services": "مركز خدمة العملاء"
 "My Account": "حسابي"
 "Forgot Email": "نسيت البريد الإلكتروني"
@@ -319,7 +319,7 @@
 "Please enter activation code": "فضلاً ادخل كود التفعيل"
 "Please enter 6 digits code you received on your mobile": "لقد تم ارسال كود التفعيل والمكون من 6 أرقام إلى جوالك المنتهي بـ"
 "Thank you. Your activation request has been received successfully": "شكراً لكم لقد تم استلام طلب التفعيل بنجاح "
-"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "عزيزنا العميل تم إرسال بياناتك لفريق اكتساب سوف يتم تفعيل حسابك خلال 48 ساعه بعد مراجعة كافة بياناتك وللدخول على موقع اكتساب نرجو الضغط على الرابط التالى "
+"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "عزيزنا العميل تم إرسال بياناتك لفريق اكتساب سوف يتم تفعيل حسابك خلال 48 ساعه بعد مراجعة كافة بياناتك "
 "Retrieve account email": "استعادة البريد الإلكتروني للحساب"
 "Credit Cash": "المبالغ المكتسبة"
 "Unable to update record": "نأسف، تعذر تحديث معلوماتك"
@@ -404,3 +404,8 @@
 "More Items": "المزيد من الأصناف"
 "Close": "مغلق"
 "Username or password is incorrect or account has been blocked due to many invalid login attempts": "اسم المستخدم أو كلمة المرور غير صحيحة أو تم  قفل الحساب نتيجة محاولات دخول متكررة غير ناجحة "
+'Invalid Data': 'يرجى إدخال البيانات الصحيحة'
+'Please provide valid data': 'برجاء أدخال قيم صحيحة'
+'Name is same as current name': 'Name is same as current name ar'
+'You have already subscribed': 'You have already subscribed ar'
+'The entered mobile number is already used for 5 cards. you can not use the same mobile number more than 5 times': 'لديك خمس بطاقات اكتساب مرتبطه بنفس رقم الجوال، لا يمكنك  استخدام نفس رقم الجوال  لتفعيل أكثر من خمس بطاقات اكتساب'

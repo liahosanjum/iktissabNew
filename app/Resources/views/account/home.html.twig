@@ -262,7 +262,7 @@
 
                                 </table>
                                 <div style="width: 96%;  float: right;  margin-left: 2% !important; margin-right:2% !important ; margin-top:40px; " class="">
-                                    {% if message != '' %}
+                                    {% if count == '' %}
                                         {% set display = 'none' %}
                                         <div style="" class="alert-success-forms formMessage alert fade in  alert-danger">
                                             {{ 'No record found'|trans }}
@@ -417,8 +417,8 @@
                 <div class="col-lg-12 text-center home-no-data">
                    <div class="alert-success-forms formMessage alert-danger alert fade in alert-dismissable">
                     {% if message != "" %}
-                       {{ message }}
-                       {% else %}
+                        {{ message }}
+                        {% else %}
                        {{ 'No record found'|trans }}
 
                        {% endif %}
@@ -451,11 +451,14 @@
                     }
                 },
                 xaxis: {
-                    axisLabel: "World Cities",
+                    axisLabel: "",
                     mode: "categories",
                     tickLength: 0
                 }
             });
+
+
+
             $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 
             $('#myTab a').on('click', function (event)

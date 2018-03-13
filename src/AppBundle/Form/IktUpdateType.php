@@ -29,6 +29,7 @@ class IktUpdateType extends AbstractType
     {
 
         $lookupData = $options['additional'];
+        //print_r($lookupData['areas']);
         $builder->add('dob', DateType::class, array(
 //                'widget' => 'single_text',
 
@@ -43,6 +44,7 @@ class IktUpdateType extends AbstractType
 
             ))
             ->add('dob_h', DateType::class, array(
+                'required' => true,
                 'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),
                 'widget' => 'choice',
                 'label' => 'Birthdate',
@@ -56,7 +58,7 @@ class IktUpdateType extends AbstractType
             ))
             ->add('maritial_status', ChoiceType::class, array(
                 'label' => 'Marital Status',
-                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels mstatus'],
                 'attr' =>array('class' => 'form-control formLayout' ),
                 'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
 
@@ -76,21 +78,17 @@ class IktUpdateType extends AbstractType
                 'placeholder' => 'Select City',
 
             ))
-            ->add('area_no', ChoiceType::class, array(
-                'choices' => $lookupData['areas'],
-                'label' => 'Area',
-                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' =>array('class' => 'form-control formLayout' ),
-                'placeholder' => 'Select Area',
-                'attr' =>array('class' => 'form-control formLayout' ),
 
-            ))
+
+
             ->add('area_text', TextType::class, array(
                 'label' => 'Area',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
+
+
             ->add('language', ChoiceType::class, array(
                     'label' => 'Preffered Language',
                     'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
@@ -107,6 +105,12 @@ class IktUpdateType extends AbstractType
                 'attr' =>array('class' => 'form-control formLayout' ),
 
             ))
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
+
             ->add('submit', SubmitType::class, array(
                 'label' => 'Update'
 
@@ -123,6 +127,7 @@ class IktUpdateType extends AbstractType
                 'novalidate' => 'novalidate',
                 'var' => null
             ),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('additional'); // Requires that currentOrg be set by the caller.
         $resolver->setAllowedTypes('additional', 'array'); // Validates the type(s) of option(s) passed.

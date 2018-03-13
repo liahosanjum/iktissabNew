@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -63,6 +64,11 @@ class ForgotEmailType extends AbstractType
 //                        'callback' => [$this, 'validateIqama']
 //                    ])
                 )
+            ))
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
             ))
 
             ->add('captchaCode', TextType::class, array(
@@ -127,8 +133,10 @@ class ForgotEmailType extends AbstractType
         $resolver->setDefaults(array(
             'attr' => array(
                 'novalidate' => 'novalidate',
-                'var' => null
+                'var' => null,
+                
             ),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('additional'); // Requires that currentOrg be set by the caller.
         $resolver->setAllowedTypes('additional', 'array'); // Validates the type(s) of option(s) passed.

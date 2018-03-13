@@ -3,6 +3,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,10 +45,16 @@ class UpdateEmailType extends AbstractType
                     'label_attr' => ['class' => 'formLayout    form_labels'],
                     'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control formLayout'),
                     'constraints' => array(
-                        new Assert\NotBlank(array('message' => 'This field is required'))
+                        new Assert\NotBlank(array('message' => 'This field is required')),
+                        
                     )
                 )
             )
+
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
+            ))
 
 
 
@@ -59,7 +66,8 @@ class UpdateEmailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('extras');
     }

@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 
+use AppBundle\Controller\Common\FunctionsController;
 use AppBundle\Entity\EnquiryAndSuggestion;
 use AppBundle\Entity\FormSettings;
 use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class EnquiryAndSuggestionType extends AbstractType
@@ -33,26 +34,28 @@ class EnquiryAndSuggestionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $country = $options['extras']['country'];
+        $country     = $options['extras']['country'];
+
+
         $builder ->add('name', TextType::class, array('label' => 'Full name',
             'label_attr' => ['class' => 'required inq-form  formLayout form_labels'],
-            'attr' => array('class' => 'col-lg-8  form-control formLayout'),
+            'attr' => array('class' => 'col-lg-8  form-control '),
             'constraints' => array(
                 new Assert\NotBlank(array('message' =>  'This field is required'))
             )
         ))
 
             ->add('job', TextType::class, array('label' => 'Job' ,
-                'label_attr' => ['class' => 'formLayout inq-form inq_form_job form_labels'],
-                'attr' => array('class' => 'col-lg-4 inq_form_job form-control-modified  formLayout'),
+                'label_attr' => ['class' => ' inq-form inq_form_job form_labels'],
+                'attr' => array('class' => 'col-lg-4 inq_form_job form-control-modified  '),
 
             ))
 
 
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
-                'label_attr' => ['class' => 'inq-form formControl-ext formLayout    form_labels'],
-                'attr' => array('class' => 'formControl form-control formLayout     form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 11),
+                'label_attr' => ['class' => 'inq-form formControl-ext mobile-ext-enq-lbl    form_labels'],
+                'attr' => array('class' => ' form-control       form_labels' , 'maxlength'=> ($country == 'sa') ? 9 : 11),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Regex(
@@ -66,7 +69,7 @@ class EnquiryAndSuggestionType extends AbstractType
 
             ->add('email', EmailType::class, array('label' => 'Email' ,
                 'label_attr' => ['class' => 'required inq-form formLayout form_labels'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+                'attr' => array('class' => 'col-lg-8 form-control '),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Email(array('message' => 'Invalid email address'))
@@ -74,8 +77,8 @@ class EnquiryAndSuggestionType extends AbstractType
 
 
             ->add('reason', ChoiceType::class, array('label'=>"Reason",
-                'label_attr' => ['class' => 'required formLayout inq-form inq_form_reason form_labels'],
-                'attr' => array('class' => 'col-lg-4 inq_form_reason form-control-modified  formLayout'),
+                'label_attr' => ['class' => 'required  inq-form inq_form_reason form_labels'],
+                'attr' => array('class' => 'col-lg-4 inq_form_reason form-control-modified  '),
 
                 "choices"=>array(
                     "Complaint" => EnquiryAndSuggestion::COMPLAINT,
@@ -87,12 +90,15 @@ class EnquiryAndSuggestionType extends AbstractType
 
             ->add('comments', TextareaType::class, array('label'=>"Comments",
                 'label_attr' => ['class' => 'required formLayout inq-form form_labels'],
-                'attr' => array('class' => 'col-lg-8 form-control formLayout'),
+                'attr' => array('class' => 'col-lg-8 form-control '),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
-
-
+            ))
+            
+            ->add('token', HiddenType::class, array(
+                'mapped'   => false,
+                'required' => false,
             ))
 
             ->add('captchaCode', TextType::class, array(
@@ -123,6 +129,7 @@ class EnquiryAndSuggestionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\EnquiryAndSuggestion',
             'attr' => array('novalidate' => 'novalidate'),
+            'csrf_protection' => false,
         ));
         $resolver->setRequired('extras');
 
@@ -135,6 +142,8 @@ class EnquiryAndSuggestionType extends AbstractType
     {
         return 'appbundle_enquiryandsuggestion';
     }
+
+
 
 
 }

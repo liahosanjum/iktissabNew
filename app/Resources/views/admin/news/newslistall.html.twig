@@ -28,8 +28,8 @@
 
                     <td>{{  item.Status }}</td>
                     <td colspan="2">
-                        <a href="{{ app.request.getBaseURL()  }}/admin/newslistdelete/{{ item.id }}" onclick="return delRecord({{ item.id }})">Delete</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ app.request.getBaseURL()  }}/admin/newslistupdate/{{item.id}}">Update</a>
+                        <a href="{{ app.request.getBaseURL()  }}/admin/newslistdelete?param={{ item.id }}" onclick="return delRecord({{ item.cid }})">Delete</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ app.request.getBaseURL()  }}/admin/newslistupdate?param={{item.id}}">Update</a>
                     </td>
                  </tr>
                 {% set i = i + 1 %}

@@ -1,8 +1,4 @@
-
-
-
-
-        <div class="row">
+    <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -31,6 +27,8 @@
                             {{ form_row(form.missingcard_registered_iqamaid) }}
                             {{ form_row(form.new_iktissab_id) }}
                             {{ form_row(form.comment_missingcard) }}
+                            {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+
                             {{ form_end(form) }}
                         </div>
                 </div>

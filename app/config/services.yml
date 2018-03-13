@@ -12,7 +12,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", '@request_stack']
     app.iktissab_admin_provider:
             class: AppBundle\Security\Admin\IktissabAdminProvider
-            arguments: ["@doctrine.orm.entity_manager"]
+            arguments: ["@doctrine.orm.entity_manager" , '@request_stack']
     app.iktissab_authenticator:
         class: AppBundle\Security\IktissabAuthenticator
         arguments: ["@security.password_encoder"]

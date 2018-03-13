@@ -17,7 +17,8 @@
             </div>
             <div>
 
-                {{ form(form1) }}
+
+                {{ form(form1, { 'attr': {'autocomplete': 'off'} }) }}
 
                 {{ form_row(form1.fullName) }}
 
@@ -36,10 +37,6 @@
 
     {% endblock %}
     {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-        <script type="text/javascript" src="{{ asset("default/js/jquery.validate.defaults.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 {{ form_jquery_validation(form1) }}

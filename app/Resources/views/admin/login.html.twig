@@ -12,7 +12,7 @@
 
             {% endif %}
             <div class="login-admin-conts">
-            <form action="{{ path('admin_admin')}}" method="post">
+            <form action="{{ path('admin_admin')}}" method="post" autocomplete="off">
                 <label class="input-admin"  for="username">Username: </label>
                 <input class="form-control"  type="text" id="username" name="_username" value="{{ last_username }}" />
                 <label class="input-admin" for="password">Password:</label>

@@ -22,6 +22,7 @@
 
                             <a href="#" class="last-breadcrumb">{{ Data.page_title  }} </a>
                         {% endif %}
+
                 {% else %}
                     <a href="#" class="last-breadcrumb">
 
@@ -45,15 +46,18 @@
         </div>
     </div>
 </section>
+    {% set abc = Data.url_path %}
 
 
             {% if Data != "" %}
 
 
                 {% if app.request.getLocale() == 'en' %}
-                {{   Data.page_content| raw  }}
+                    {%  include('front/cms/en/'~ abc ~'_en.html.twig')     %}
                    {% else %}
-                {{   Data.page_content| raw  }}
+
+                       {%  include('front/cms/ar/'~ abc ~'_ar.html.twig')     %}
+
                    {% endif %}
 
 

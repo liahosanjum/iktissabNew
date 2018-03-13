@@ -23,6 +23,8 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 // use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
@@ -36,6 +38,7 @@ class DefaultController extends Controller
     {
         try
         {
+
             $response = new Response();
             $cookie_country = $request->cookies->get('cookie_country');
             $store = $request->cookies->get('store');
@@ -69,6 +72,8 @@ class DefaultController extends Controller
                     $country = $request->cookies->get("cookie_country");
                     // here get cookie from othaimmarkets.com website for language
                     if ($request->cookies->get("store") == '') {
+                        // if language from othaimmarkets is empty then set language
+                        // to arabic
                         $locale = 'ar';
                     } else {
                         $locale = $request->cookies->get("store");
@@ -248,9 +253,11 @@ class DefaultController extends Controller
     {
         try
         {
+
             $response = new Response();
             $commFunct = new FunctionsController();
             $commFunct->setContainer($this->container);
+
             if ($commFunct->checkSessionCookies($request) == false) {
                 return $this->redirect($this->generateUrl('landingpage'));
             }
@@ -318,6 +325,7 @@ class DefaultController extends Controller
 
             $data_news = array();
             $i = 0;
+
             foreach ($homePageNews as $homePageNew) {
                 $data_news[$i]['id'] = $homePageNew->getId();
                 // echo '<br>';
@@ -417,6 +425,7 @@ class DefaultController extends Controller
         {
             $response = new Response();
             $commFunct = new FunctionsController();
+            $commFunct->setContainer($this->container);
             if ($commFunct->checkSessionCookies($request) == false) {
                 return $this->redirect($this->generateUrl('landingpage'));
             }
@@ -485,7 +494,10 @@ class DefaultController extends Controller
                 $error = '';
                 return $this->render('front/cms/contents.html.twig', array('data' => $data, 'message' => '',
                     'errorcl' => $error,
-                    'Data' => array('id' => $cmspages->getId(), 'page_title' => $cmspages->getpageTitle(), 'page_content' => $cmspages->getpageContent())));
+                    'Data' => array('id' => $cmspages->getId(), 'page_title' => $cmspages->getpageTitle(),
+                        'page_content' => $cmspages->getpageContent() , 'url_path' => $cmspages->geturlPath()
+                    )
+                ));
             }
         }
         catch(\Exception $e){
@@ -517,8 +529,12 @@ class DefaultController extends Controller
      */
 
     public function forgotPassword(Request $request){
-        try{
+
+        try
+        {
+            $response = new Response();
             $commFunct = new FunctionsController();
+            $commFunct->setContainer($this->container);
             if($commFunct->checkSessionCookies($request) == false)
             {
                 return $this->redirect($this->generateUrl('landingpage'));
@@ -561,11 +577,53 @@ class DefaultController extends Controller
             $activityLog = $this->get('app.activity_log');
 
             $postData    = $request->request->all();
-            if ($postData)
+            // print_r($postData['email']);
+
+            if($postData['email'] != "" &&  $postData['email'] != null )
             {
+
+
+                $captchaCode = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
+                $captchaCodeSubmitted = trim($postData['captchaCodereset']);
+                $filename = $commFunct->saveTextAsImage();
+                $response->setContent($filename['filename']);
+                $captcha_image = $filename['image_captcha'];
+
+                if ($captchaCodeSubmitted != $captchaCode)
+                {
+                    $error_cl         = 'alert-danger';
+                    $error['success'] = false;
+                    $error['message'] = $this->get('translator')->trans('Invalid captcha code');
+                    $message = $this->get('translator')->trans('Invalid captcha code');
+                    $error   = "";
+                    $errorcl = 'alert-danger';
+                    return $this->render('default/login.html.twig', array(
+                        'error'   => $error, 'errorcl'   => $errorcl,
+                        'message' => $message, 'data'    => $captcha_image,
+                    ));
+                }
+
+                $errors = "";
+                $validate_data = array($postData['email'],$captchaCodeSubmitted);
+                $errors        = $commFunct->validateDataPassword($validate_data);
+                if($errors > 0)
+                {
+                    $message = $this->get('translator')->trans('Please provide valid data');
+                    $errorcl = 'alert-danger';
+                    return $this->render('default/login.html.twig', array(
+                        'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+                    ));
+                }
+
+
+
+
+
+
                 // 1 get user password according to the email provided
                 $em      = $this->getDoctrine()->getManager();
                 $email   = $postData['email'];
+
                 $country_id = $this->getCountryCode($request);
                 $locale  = $this->getCountryLocal($request);
                 $result  = $em->getRepository("AppBundle:User")->findOneBy(array("email"=>$email));
@@ -574,10 +632,10 @@ class DefaultController extends Controller
                     // send email
 
                     $user_id = $result->getIktCardNo();
-                    $time  = time();
-                    $token = uniqid() . sha1($email . $time. rand(111111, 999999) . $user_id);
+                    $time    = time();
+                    $token   = uniqid() . sha1($email . $time. rand(111111, 999999) . $user_id);
 
-                    $code  = rand(111111, 999999);
+                    $code    = rand(111111, 999999);
                     $this->get('session')->set('resetcode', $code);
 
                     $data  = serialize(array('time' => $time, 'token' => $token ));
@@ -611,6 +669,7 @@ class DefaultController extends Controller
                     return $this->redirect($this->generateUrl('verifycode', array('_country' => $country_id, '_locale' => $locale, 'time' => time(), 'token' => $token), UrlGenerator::ABSOLUTE_URL));
                 }
             }
+
             $message = "";
             $errorcl = "";
             return $this->render('default/login.html.twig', array(
@@ -618,8 +677,21 @@ class DefaultController extends Controller
             ));
 
         }
-        catch (\Exception $e){
-
+        catch(\Exception $e)
+        {
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $errorcl = 'alert-danger';
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
+        }
+        catch(AccessDeniedException $ad)
+        {
+            $message = $this->get('translator')->trans('An invalid exception occurred');
+            $errorcl = 'alert-danger';
+            return $this->render('default/login.html.twig', array(
+                'message' => $message, 'error' => $error, 'errorcl' => $errorcl
+            ));
         }
     }
 
@@ -628,6 +700,7 @@ class DefaultController extends Controller
         try
         {
             $commFunct = new FunctionsController();
+            $commFunct->setContainer($this->container);
             if($commFunct->checkSessionCookies($request) == false)
             {
                 return $this->redirect($this->generateUrl('landingpage'));
@@ -670,8 +743,12 @@ class DefaultController extends Controller
             $activityLog = $this->get('app.activity_log');
             $posted      = array();
             $postData    = $request->request->all();
+
             if ($postData)
             {
+
+
+
                 // 1 get user password according to the email provided
                 $em      = $this->getDoctrine()->getManager();
                 $conn    = $em->getConnection();
@@ -758,7 +835,7 @@ class DefaultController extends Controller
                 }
                 else
                 {
-                    //$message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
+                    // $message = $this->get('translator')->trans('Sorry , ') . $email . $this->get('translator')->trans('is not recognized as a user name or an e-mail address');
                     $message = $this->get('translator')->trans('If there is an account associated with this E-mail then you will receive an email with a code to reset your password');
 
                     //$activityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, '0' . $email, array('iktissab_card_no' => 'unknownuser ' . $email, 'message' => $message, 'session' => $result));
@@ -823,6 +900,7 @@ class DefaultController extends Controller
         try
         {
             $commFunct = new FunctionsController();
+            $commFunct->setContainer($this->container);
             $activityLog = $this->get('app.activity_log');
             $em = $this->getDoctrine()->getManager();
             $time = (integer)$time;
@@ -990,11 +1068,12 @@ class DefaultController extends Controller
             if($this->get('session')->get('resetcode_reference') == "" || $this->get('session')->get('resetcode_reference') == null){
                 return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
             }
-            $commFunct   = new FunctionsController();
+            $commFunct = new FunctionsController();
+            $commFunct->setContainer($this->container);
             $activityLog = $this->get('app.activity_log');
             $em          = $this->getDoctrine()->getManager();
             $time        = (integer)$time;
-            $dataValue   = serialize(array('time' => $time, 'token' => $token));
+            $dataValue   = serialize(array('time' => $time , 'token' => $token));
             $resetcode   = $this->get('session')->get('resetcode');
             // todo:
             // $id    = $id;
@@ -1048,17 +1127,52 @@ class DefaultController extends Controller
                     if ($form->isSubmitted() && $form->isValid())
                     {
                         $formData = $form->getData();
-                        $newPassword = $formData['password'];
+                        $submitted_Data = $request->request->all();
+
+                        $submitted_Data['reset_password']['password']['first'];
+                        $submitted_Data['reset_password']['password']['second'];
+                        if($submitted_Data['reset_password']['password']['first'] != $submitted_Data['reset_password']['password']['second']){
+                            $message = $this->get('translator')->trans('Password fields must match');
+                            $errorcl = 'alert-danger';
+                            $data_form['show_form'] = 1;
+                            return $this->render('front/resetpassword.html.twig', array(
+                                'reset_password_form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                'errorcl' => $errorcl
+                            ));
+                        }
+
+
+
+                        $newPassword     = $formData['password'];
+                        $confirmPassword = $formData['password'];
+                        $validate_data   = array( $submitted_Data['reset_password']['password']['first'],$submitted_Data['reset_password']['password']['second']);
+                        $errors          = $commFunct->validateDataPassword($validate_data);
+                        if($errors > 0)
+                        {
+                            $message = $this->get('translator')->trans('Please provide valid data');
+                            $errorcl = 'alert-danger';
+                            $data_form['show_form'] = 1;
+                            return $this->render('front/resetpassword.html.twig', array(
+                                'reset_password_form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                                'errorcl'           => $errorcl
+                            ));
+                        }
+
+
+
+
+
+
                         $resetcode_verification   = $this->get('session')->get('resetcode');
                         if(!empty($resetcode_verification))
                         {
                             $this->get('session')->clear();
                             /*****************/
                             $C_id = $id;
-                            $reset_password = $this->resetPasswordOffline($request, md5($formData['password']), $C_id);
+                            $reset_password = $this->resetPasswordOffline($request, md5(strip_tags($formData['password'])), $C_id);
                             /*****************/
                             if ($reset_password == true) {
-                                $user->setPassword(md5($formData['password']));
+                                $user->setPassword(md5(strip_tags($formData['password'])));
                                 $user->setData('');
                                 $em->persist($user);
                                 $em->flush();
@@ -1127,7 +1241,7 @@ class DefaultController extends Controller
         }
         catch(\Exception $e)
         {
-            $message = $this->get('translator')->trans('An invalid exception occurred'.$e->getMessage());
+            $message = $this->get('translator')->trans('An invalid exception occurred');
             $data_form['show_form'] = 1;
             // $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_RESETPASSWORD_ERROR, $id, array('iktissab_card_no' => $id, 'message' => $message, 'session' => $user));
             $errorcl = 'alert-danger';
@@ -1150,19 +1264,22 @@ class DefaultController extends Controller
             if($this->get('session')->get('resetcode', '') == "" ){
                 return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
             }
-            if($this->get('session')->get('resetcode_counter','') === '') {
+
+            if($this->get('session')->get('resetcode_counter','') === '')
+            {
                 $this->get('session')->set('resetcode_counter', 3);
                 $resetcode_counter = 3;
             }
-            else {
+            else
+            {
                 $resetcode_counter = (integer)$this->get('session')->get('resetcode_counter');
-            };
+            }
 
             $em          = $this->getDoctrine()->getManager();
             $time        = (integer)$time;
             $dataValue   = serialize(array('time' => $time, 'token' => $token));
-            $country_id = $this->getCountryCode($request);
-            $locale  = $this->getCountryLocal($request);
+            $country_id  = $this->getCountryCode($request);
+            $locale      = $this->getCountryLocal($request);
 
             $user        = $em->getRepository('AppBundle:User')->findOneBy(array("data" => $dataValue));
             $id = ($user) ? $user->getIktCardNo():'';
@@ -1192,6 +1309,8 @@ class DefaultController extends Controller
             if($resetcode_counter == 0){
                 $data_form['show_form'] = 0;
                 $this->get('session')->set('resetcode_counter', '');
+                // -->
+                $this->get('session')->set('resetcode', '');
                 return $this->redirect($this->generateUrl('login', array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE))));
             }
 
@@ -1230,7 +1349,7 @@ class DefaultController extends Controller
                 }
             }
             else {
-                $errorcl = 'alert-success';
+                $errorcl = 'alert-danger';
                 $form->handleRequest($request);
                 if ($form->isSubmitted())
                 {
@@ -1243,7 +1362,7 @@ class DefaultController extends Controller
             $this->get('session')->set('resetcode_counter', $resetcode_counter);
 
             return $this->render('front/verifycode.html.twig', array(
-                'form' => $form->createView(), 'message' => $message, 'data' => $data_form,
+                'form'    => $form->createView(), 'message' => $message, 'data' => $data_form,
                 'errorcl' => $errorcl
             ));
         }
@@ -1259,9 +1378,9 @@ class DefaultController extends Controller
             ));
 
         }
-
-
     }
+
+
     public function verifycodeActionSohail(Request $request, $time, $token)
     {
         try
@@ -1472,6 +1591,7 @@ class DefaultController extends Controller
         // $this->get('session')->get('passwordrest');
         // return $this->redirect($this->generateUrl('resetpassword', array('_country'=>'sa','_locale'=>'en')));
     }
+
     /**
      * @Route("{_country}/{_locale}/subscription/", name="subscription")
      * @param Request $request
@@ -1480,7 +1600,10 @@ class DefaultController extends Controller
     public function subscriptionAction(Request $request)
     {
         $country = $request->get('_country');
-        $em = $this->getDoctrine()->getEntityManager();
+        $commFunction = new FunctionsController();
+        $commFunction->setContainer($this->container);
+
+        $em = $this->getDoctrine()->getManager();
         $formEmail = $this->createFormBuilder(null, ['attr' => ['novalidate' => 'novalidate']    ])
             ->add('email', EmailType::class, array('label' => 'Email Id',
                     'attr' => array('placeholder'=> 'someone@gmail.com'),
@@ -1497,11 +1620,13 @@ class DefaultController extends Controller
             ))
             ->getForm();
 // form for mobile subscription
-        $formMobile = $this->get('form.factory')->createNamedBuilder('subs_mob','Symfony\Component\Form\Extension\Core\Type\FormType',null, ['attr' => ['novalidate' => 'novalidate']])
+        $formMobile = $this->get('form.factory')->createNamedBuilder('subs_mob',
+            'Symfony\Component\Form\Extension\Core\Type\FormType', null ,
+            ['attr' => ['novalidate' => 'novalidate'] ] , array('csrf_protection' => false) )
             ->add('mobile', TextType::class, array(
                 'label' => 'Mobile',
 
-                'attr' => array('placeholder'=> ($country == 'sa' ? '05xxxxxxxx' : '0020xxxxxxxxxx' ) , 'maxlength'=> ($request->get('country') == 'sa') ? 10 : 14),
+                'attr' => array('placeholder'=> ($country == 'sa' ? '05xxxxxxxx' : '0020xxxxxxxxxx' ) , 'maxlength'=> ($request->get('_country') == 'sa') ? 10 : 14),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
@@ -1520,23 +1645,51 @@ class DefaultController extends Controller
             ->getForm();
 
         $formEmail->handleRequest($request);
+        $formEmailData = $formEmail->getData();
         if ($formEmail->isSubmitted()) {
             if (!$formEmail->isValid()) {
-                //throw error
-                $errormsg = '';
+                $validate_data = array($formEmailData['email']);
+
+                $errors = $commFunction->validateData($validate_data);
+                if($errors > 0)
+                {
+                    $errormsg =  $this->get('translator')->trans('Please provide valid data');
+                    $return = array('error' => true, 'message' => $errormsg);
+                    echo json_encode($return);
+                    die();
+                }
+
+
+
                 foreach ($formEmail->getErrors(true, true) as $key => $value) {
+                    $errormsg = "";
                     $errormsg .= $value->getMessage();
                 }
                 $return = array('error' => true, 'message' => $errormsg);
+
             }
 
-            if ($formEmail->isValid()) {
-                $formEmailData = $formEmail->getData();
+            if ($formEmail->isValid())
+            {
+                $validate_data = array($formEmailData['email']);
+                $errors = '';
+                $errors = $commFunction->validateData($validate_data);
+                if($errors > 0){
+                    $errormsg =  $this->get('translator')->trans('Please provide valid data');
+                    $return = array('error' => true, 'message' => $errormsg);
+                    echo json_encode($return);
+                    die();
+                }
+
+
+
+
+
                 $subscription = new Subscription();
                 // check if already exist
                 $emailExist = $em->getRepository('AppBundle:Subscription')->findOneBy(array('subsVal' => $formEmailData['email'], 'subsType' => 'email'));
                 if (!$emailExist) {
-                    $subscription->setSubsVal($formEmailData['email']);
+                    $subscription->setSubsVal(strip_tags($formEmailData['email']));
                     $subscription->setSubsType('email');
                     $em->persist($subscription);
                     $em->flush();
@@ -1552,23 +1705,47 @@ class DefaultController extends Controller
         }
         // handle request for mobile subscription
         $formMobile->handleRequest($request);
+        $formMobData = $formMobile->getData();
         if ($formMobile->isSubmitted()) {
             if (!$formMobile->isValid()) {
+                $validate_data = array($formMobData['mobile']);
+
+                $errors = $commFunction->validateData($validate_data);
+                if($errors > 0)
+                {
+                    $errormsg =  $this->get('translator')->trans('Please provide valid data');
+                    $return = array('error' => true, 'message' => $errormsg);
+                    echo json_encode($return);
+                    die();
+                }
+
+
                 //throw error
-                $errormsg = '';
+                //$errormsg = '';
                 foreach ($formMobile->getErrors(true, true) as $key => $value) {
+                    $errormsg = "";
                     $errormsg .= $value->getMessage();
                 }
                 $return = array('error' => true, 'message' => $errormsg);
             }
 
             if ($formMobile->isValid()) {
-                $formMobData = $formMobile->getData();
+                $validate_data = array($formMobData['mobile']);
+                $errors = '';
+                $errors = $commFunction->validateData($validate_data);
+                if($errors > 0){
+                    $errormsg =  $this->get('translator')->trans('Please provide valid data');
+                    $return = array('error' => true, 'message' => $errormsg);
+                    echo json_encode($return);
+                    die();
+                }
+
+
                 $subscription = new Subscription();
                 // check if already exist
                 $mobileExist = $em->getRepository('AppBundle:Subscription')->findOneBy(array('subsVal' => $formMobData['mobile'], 'subsType' => 'mobile'));
                 if (!$mobileExist) {
-                    $subscription->setSubsVal($formMobData['mobile']);
+                    $subscription->setSubsVal(strip_tags($formMobData['mobile']));
                     $subscription->setSubsType('mobile');
                     $em->persist($subscription);
                     $em->flush();
@@ -1694,7 +1871,7 @@ class DefaultController extends Controller
         //$extra_param = '/sa/en/16/cms';
         //print_r($extra_param);
         $url  =  trim($request->query->get('url'));
-        $commFunct = new FunctionsController();
+
         $commFunct->changeLanguage($request, $userLang);
         if($url == "" || $url == null ){
             $url = 'homepage';
@@ -1759,14 +1936,14 @@ class DefaultController extends Controller
         // we need to be logged in first
         $activityLog  = $this->get('app.activity_log');
         $commFunction = new FunctionsController();
+        $commFunction->setContainer($this->container);
+
         if ($commFunction->checkSessionCookies($request) == false) {
             return $this->redirect($this->generateUrl('landingpage'));
         }
         /**********/
 
         $userLang = '';
-        $commFunction = new FunctionsController();
-        $commFunction->setContainer($this->container);
         $response      = new Response();
         $locale = $request->getLocale();
 
@@ -1812,210 +1989,290 @@ class DefaultController extends Controller
             }
         }
         /**********/
+        $error = array('success' => true, 'message' => '');
+        $restClient = $this->get('app.rest_client')->IsAdmin(true);
+        $smsService = $this->get('app.sms_service');
         $form = $this->createForm(SendPwdType::class, array(), array(
-            'additional'  => array(
-                'locale'  => $request->getLocale(),
-                'country' => $request->get('_country'),
+            'additional' => array(
+                'locale'     => $request->getLocale(),
+                'country'    => $request->get('_country'),
             )));
+
         try
         {
-            $error = array('success' => true, 'message' => '');
-            $restClient = $this->get('app.rest_client')->IsAdmin(true);
-            $smsService = $this->get('app.sms_service');
-            $form = $this->createForm(SendPwdType::class, array(), array(
-                    'additional' => array(
-                    'locale'     => $request->getLocale(),
-                    'country'    => $request->get('_country'),
-                )));
+
             $form->handleRequest($request);
             $pData = $form->getData();
             $data  = $request->request->all();
             $logged_user_data = $this->get('session')->get('iktUserData');
             $message = "";
             $this->get('session')->get('_CAPTCHA');
-            if ($form->isSubmitted() && $form->isValid()) {
-                try
+            if ($form->isSubmitted() )
+            {
+                if($form->isValid())
                 {
-                    $captchaCode           = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
-                    $captchaCodeSubmitted  = trim(strtoupper($form->get('captchaCode')->getData()));
-                    $filename              = $commFunction->saveTextAsImage();
-
-                    $response->setContent($filename['filename']);
-                    $captcha_image = $filename['image_captcha'];
-                    if($captchaCodeSubmitted != $captchaCode)
+                    $errors = "";
+                    $validate_data = array($data['send_pwd']['iqama'] , $data['send_pwd']['iktCardNo'],
+                        $data['send_pwd']['captchaCode'] );
+                    $errors = $commFunction->validateData($validate_data);
+                    if($errors > 0)
                     {
-                        $error_cl      = 'alert-danger';
+                        $commFunction->setCsrfToken('front_forgot_pass');
+                        $session = new Session();
+                        $token   = $session->get('front_forgot_pass');
+
+                        $filename      = $commFunction->saveTextAsImage();
+                        $response->setContent($filename['filename']);
+                        $captcha_image = $filename['image_captcha'];
+
                         $error['success'] = false;
-                        $error['message'] = $this->get('translator')->trans('Invalid captcha code');
-                        return $this->render('default/send_pwd.twig',
-                            array
-                            (
+                        $error['message'] = $this->get('translator')->trans('Please provide valid data');
+
+                        return $this->render('/default/send_pwd.twig',
+                            array(
                                 'form'    => $form->createView(),
                                 'error'   => $error,
-                                'message' => $message,
-                                'data'    => $captcha_image,
-                            )
-                        );
+                                'token'   => $token,
+                                'data'    => $captcha_image, ));
                     }
-                    
-                    if($request->get('_country') == 'sa')
+
+                    try
                     {
-                        $validate_Iqama = $this->validateIqama($data['send_pwd']['iqama']);
-                        if ($validate_Iqama == false) {
-                            $message = "";
-                            $error['success'] = false;
-                            $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number' . $request->get('_country'));
-                            return $this->render('default/send_pwd.twig',
-                                array(
-                                    'form'      => $form->createView(),
-                                    'error'     => $error,
-                                    'message'   => $message,
-                                    'data'      => $captcha_image,
-                                )
-                            );
-                        }
-                    }
-                    $accountEmail = $this->iktCheck($pData['iktCardNo']);
-                    if($accountEmail != "" && $accountEmail != null)
-                    {
-                        if(!empty($this->get('session')->get('iktUserData')))
+                        if ($commFunction->checkCsrfToken($form->get('token')->getData(), 'front_forgot_pass'))
                         {
-                            $logged_user_data = $this->get('session')->get('iktUserData');
-                            // print_r($logged_user_data);
-                            $logged_user_data['C_id'];
-                            $logged_user_data['ID_no'];
-                            $pData['iqama'];
-                            if ($pData['iqama'] != $logged_user_data['ID_no']) {
+                            $captchaCode = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
+
+                            $captchaCodeSubmitted = trim($form->get('captchaCode')->getData());
+                            $filename = $commFunction->saveTextAsImage();
+                            $response->setContent($filename['filename']);
+                            $captcha_image = $filename['image_captcha'];
+                            if ($captchaCodeSubmitted != $captchaCode) {
+                                $commFunction->setCsrfToken('front_forgot_pass');
+                                $session = new Session();
+                                $token = $session->get('front_forgot_pass');
+                                $error_cl = 'alert-danger';
                                 $error['success'] = false;
-                                $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number' . $request->get('_country'));
-                            } elseif ($pData['iktCardNo'] != $logged_user_data['C_id']) {
-                                $error['success'] = false;
-                                $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab card number');
-                            } else {
-                                $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
-                                // echo AppConstant::WEBAPI_URL.$url;
-                                $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                                // print_r($data_user);exit;
-                                if (!empty($data_user)) {
-                                    if ($data_user['success'] == true) {
-                                        $message = $data_user['message'];
-                                        $acrivityLog = $this->get('app.activity_log');
-                                        $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $message, 'session' => $logged_user_data));
-                                        $error['success'] = true;
-                                        $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number ****').substr($logged_user_data['mobile'], 8, 12);
-                                    } else {
-                                        $error['success'] = false;
-                                        $error['message'] = $data['message'];
-                                    }
-                                } else {
-                                    $error['success'] = false;
-                                    $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
-                                }
+                                $error['message'] = $this->get('translator')->trans('Invalid captcha code');
+                                return $this->render('default/send_pwd.twig',
+                                    array
+                                    (
+                                        'form'    => $form->createView(),
+                                        'error'   => $error,
+                                        'token'   => $token,
+                                        'data'    => $captcha_image,
+                                    )
+                                );
                             }
 
-                            return $this->render('/default/send_pwd.twig',
-                                array(
-                                    'form' => $form->createView(),
-                                    'error' => $error,
-                                    'message' => $message,
-                                    'data' => $captcha_image,
-                                )
-                            );
+                            if ($request->get('_country') == 'sa') {
+                                $validate_Iqama = $this->validateIqama($data['send_pwd']['iqama']);
+                                $commFunction->setCsrfToken('front_forgot_pass');
+                                $session = new Session();
+                                $token = $session->get('front_forgot_pass');
+                                if ($validate_Iqama == false) {
+                                    $message = "";
+                                    $error['success'] = false;
+                                    $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number' . $request->get('_country'));
+                                    return $this->render('default/send_pwd.twig',
+                                        array(
+                                            'form' => $form->createView(),
+                                            'error' => $error,
+                                            'token' => $token,
+
+                                            'data' => $captcha_image,
+                                        )
+                                    );
+                                }
+                            }
+                            $accountEmail = $this->iktCheck($pData['iktCardNo']);
+                            if ($accountEmail != "" && $accountEmail != null) {
+                                if (!empty($this->get('session')->get('iktUserData'))) {
+                                    $logged_user_data = $this->get('session')->get('iktUserData');
+                                    // print_r($logged_user_data);
+                                    $logged_user_data['C_id'];
+                                    $logged_user_data['ID_no'];
+                                    $pData['iqama'];
+                                    if ($pData['iqama'] != $logged_user_data['ID_no']) {
+                                        $error['success'] = false;
+                                        $error['message'] = $this->get('translator')->trans('Invalid Iqama Id/SSN Number' . $request->get('_country'));
+                                    } elseif ($pData['iktCardNo'] != $logged_user_data['C_id']) {
+                                        $error['success'] = false;
+                                        $error['message'] = $this->get('translator')->trans('Please enter valid Iktissab card number');
+                                    } else {
+                                        $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
+                                        // echo AppConstant::WEBAPI_URL.$url;
+
+                                        $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
+                                        if (!empty($data_user)) {
+                                            if ($data_user['success'] == true) {
+                                                $message = $data_user['message'];
+                                                $acrivityLog = $this->get('app.activity_log');
+                                                $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $message, 'session' => $logged_user_data));
+                                                $error['success'] = true;
+                                                $error['message'] = $this->get('translator')->trans('You will recieve sms on your mobile number ****') . substr($logged_user_data['mobile'], 8, 12);
+                                            } else {
+                                                $error['success'] = false;
+                                                $error['message'] = $data['message'];
+                                            }
+                                        } else {
+                                            $error['success'] = false;
+                                            $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later11');
+                                        }
 
 
-                        }
-                        else
-                        {
-                            // print_r($logged_user_data);
-                            $pData['iqama'];
-                            $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
-                            // echo AppConstant::WEBAPI_URL.$url;
-                            $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
-                            // print_r($data_user);
-                            if (!empty($data_user))
-                            {
-                                if ($data_user['success'] == true) {
-                                    //$message = $data_user['message'];
-                                    $acrivityLog = $this->get('app.activity_log');
-                                    $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $message, 'session' => $pData['iqama'] .'  ' . $pData['iktCardNo'] ));
-                                    $error['success'] = true;
-                                    $error['message'] = $data_user['message'];
+                                    }
+                                    $commFunction->setCsrfToken('front_forgot_pass');
+                                    $session = new Session();
+                                    $token = $session->get('front_forgot_pass');
+                                    return $this->render('/default/send_pwd.twig',
+                                        array(
+                                            'form'  => $form->createView(),
+                                            'error' => $error,
+                                            'token' => $token,
+                                            'data'  => $captcha_image,
+                                        )
+                                    );
+
                                 }
                                 else
                                 {
-                                    $error['success'] = false;
-                                    $error['message'] = $data_user['message'];
+                                    $pData['iqama'];
+
+                                    $url = $request->getLocale() . '/api/' . $pData['iktCardNo'] . '/sendsms/' . $pData['iqama'] . '.json';
+                                    AppConstant::WEBAPI_URL.$url;
+
+                                    $data_user = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+                                    //print_r($data_user);exit;
+                                    if (!empty($data_user)) {
+                                        if ($data_user['success'] == true) {
+                                            //$message = $data_user['message'];
+                                            $acrivityLog = $this->get('app.activity_log');
+                                            $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $message, 'session' => $pData['iqama'] . '  ' . $pData['iktCardNo']));
+                                            $error['success'] = true;
+                                            $error['message'] = $data_user['message'];
+                                        } else {
+                                            $error['success'] = false;
+                                            $error['message'] = $data_user['message'];
+                                        }
+                                    } else {
+                                        $error['success'] = false;
+                                        $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
+                                    }
+                                    $commFunction->setCsrfToken('front_forgot_pass');
+                                    $session = new Session();
+                                    $token = $session->get('front_forgot_pass');
+                                    return $this->render('/default/send_pwd.twig',
+                                        array(
+                                            'form' => $form->createView(),
+                                            'error' => $error,
+                                            'token' => $token,
+
+                                            'data' => $captcha_image,
+                                        )
+                                    );
+
                                 }
-                            }
-                            else {
-                                $error['success'] = false;
-                                $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
-                            }
 
-                            return $this->render('/default/send_pwd.twig',
-                                array(
-                                    'form' => $form->createView(),
-                                    'error' => $error,
-                                    'message' => $message,
-                                    'data' => $captcha_image,
-                                )
-                            );
-
+                            }
+                        } else {
+                            $this->get('security.token_storage')->setToken(null);
+                            $response = new RedirectResponse($this->generateUrl('landingpage'));
+                            return $response;
                         }
 
-                    return $this->render('/default/send_pwd.twig',
-                        array(
-                            'form' => $form->createView(),
-                            'error' => $error,
-                            'message' => $message,
-                            'data' => $captcha_image,
-                        ));
                     }
-                } catch (\Exception $e) {
+                    catch (\Exception $e)
+                    {
+                        $commFunction->setCsrfToken('front_forgot_pass');
+                        $session = new Session();
+                        $token = $session->get('front_forgot_pass');
+
+                        $e->getMessage();
+                        $filename = $commFunction->saveTextAsImage();
+                        $response->setContent($filename['filename']);
+                        $captcha_image = $filename['image_captcha'];
+
+
+                        $error['success'] = false;
+                        $acrivityLog = $this->get('app.activity_log');
+                        $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage(), 'session' => '', 'data' => $captcha_image,));
+                        $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
+                        return $this->render('/default/send_pwd.twig',
+                            array(
+                                'form' => $form->createView(),
+                                'error' => $error,
+
+                                'token' => $token,
+                                'data' => $captcha_image,
+                            ));
+
+                    }
+                }
+                else
+                {
+                    //echo 'testin4';
+                    $commFunction->setCsrfToken('front_forgot_pass');
+                    $session = new Session();
+                    $token   = $session->get('front_forgot_pass');
+
                     $filename      = $commFunction->saveTextAsImage();
                     $response->setContent($filename['filename']);
                     $captcha_image = $filename['image_captcha'];
-                    $e->getMessage();
                     $error['success'] = false;
-                    $acrivityLog = $this->get('app.activity_log');
-                    $acrivityLog->logEvent(AppConstant::ACTIVITY_FORGOT_PASSWORD_ERROR, 1, array('message' => $e->getMessage(), 'session' => '', 'data' => $captcha_image,));
                     $error['message'] = $this->get('translator')->trans('Unable to process your request at this time.Please try later');
+
                     return $this->render('/default/send_pwd.twig',
                         array(
                             'form'    => $form->createView(),
                             'error'   => $error,
-                            'message' => $message,
-                            'data'    => $captcha_image,
-                        ));
 
+                            'token' => $token,
+                            'data'    => $captcha_image,
+                        ) );
                 }
 
             }
             else
             {
+                $commFunction->setCsrfToken('front_forgot_pass');
+                $session = new Session();
+                $token   = $session->get('front_forgot_pass');
+
                 $filename      = $commFunction->saveTextAsImage();
                 $response->setContent($filename['filename']);
                 $captcha_image = $filename['image_captcha'];
+
                 return $this->render('/default/send_pwd.twig',
                     array(
                         'form'    => $form->createView(),
                         'error'   => $error,
-                        'message' => $message,
-                        'data'    => $captcha_image, ) );
+
+                        'token'   => $token,
+                        'data'    => $captcha_image,
+                        ) );
             }
         }
         catch(\Exception $e){
             $filename      = $commFunction->saveTextAsImage();
-
+            $e->getMessage();
             $response->setContent($filename['filename']);
             $captcha_image = $filename['image_captcha'];
             $message = $this->get('translator')->trans('An invalid exception occurred');
             $error['success'] = false;
             $error['message'] = $message;
+
+            $commFunction->setCsrfToken('front_forgot_pass');
+            $session = new Session();
+            $token   = $session->get('front_forgot_pass');
+
+
             return $this->render('/default/send_pwd.twig',
                 array(
                     'form'  => $form->createView(),
-                    'error' => $error,  ) );
+                    'token' => $token,
+                    
+                    'error' => $error, 'data'    => $captcha_image, ) );
         }
         catch (AccessDeniedException $ed)
         {
@@ -2025,16 +2282,17 @@ class DefaultController extends Controller
             $captcha_image = $filename['image_captcha'];
             $error['success'] = false;
             $error['message'] = $this->get('translator')->trans($ed->getMessage());
+
+            $commFunction->setCsrfToken('front_forgot_pass');
+            $session = new Session();
+            $token   = $session->get('front_forgot_pass');
+
             return $this->render('/default/send_pwd.twig',
                 array(
                     'form'  => $form->createView(),
-                    'error' => $error, ) );
+                    'token' => $token,
+                    'error' => $error,'data'    => $captcha_image, ) );
         }
-
-
-
-
-
     }
 
     public function resetPasswordOffline(Request $request , $password , $C_id)
@@ -2250,6 +2508,139 @@ class DefaultController extends Controller
             return $this->render('front/iktissabpromotions.html.twig', array('DataPromo' => $listing));
         }
     }
+
+    /**
+     * @Route("/{_country}/{_locale}/test1243")
+     * @param Request $request
+     * @return Response
+     */
+
+    public function test1243(Request $request){
+
+        $message = \Swift_Message::newInstance()
+            ->addTo('sa.aspire@gmail.com')
+            ->addFrom($this->container->getParameter('mailer_user'))
+            ->setSubject(AppConstant::EMAIL_SUBJECT);
+        $message->setBody(
+            $this->container->get('templating')->render(':email-templates/forgot_password:forgot_password.html.twig', [
+                'email' => 'sa.aspire@gmail.com',
+                'link'  => 'asdf'
+            ]),
+            'text/html'
+        );
+
+
+        $this->get('mailer')->send($message);
+
+        echo '==>'.$message = $this->get('translator')->trans('lang-E');
+        return $this->render('account/error.html.twig',
+            array
+            (
+                'message' => $message,
+                'errorcl' => 'alert-danger'
+            )
+        );
+    }
+
+
+    /**
+     * @Route("/{_country}/{_locale}/testRS2")
+     * @param Request $request
+     * @return Response
+     */
+
+    public function testRS2Action(Request $request , $form_param)
+    {
+
+            $country_id  = $request->get('_country');
+            $restClient  = $this->get('app.rest_client')->IsAdmin(true);
+
+            //print_r($form_param);
+            /************************/
+            //echo $url  = $request->getLocale() . '/api/create_offlineuser.json';
+            $url  = $request->getLocale().'/api/'.$_POST['url'] ;
+            if(!empty($_POST)) {
+            $postData = $_POST['data'];
+            //exit;
+            $data = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url, $postData, array('Country-Id' => $country_id));
+            //print_r($data);
+            //$data = ($data);
+            return $this->render('front/test/testRS.html.twig',
+                    array
+                    (
+                        'data'    => $data,
+                        'errorcl' => 'alert-danger'
+                    )
+                );
+            }
+            $data = "";
+            return $this->render('front/test/testRS.html.twig',
+                array
+                (
+                    'data' => $data,
+                    'errorcl' => 'alert-danger',
+
+                )
+            );
+    }
+
+    /**
+     * @Route("/{_country}/{_locale}/testRS")
+     * @param Request $request
+     * @return Response
+     */
+
+    public function testRSAction(Request $request , $form_param)
+    {
+
+        $country_id  = $request->get('_country');
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
+
+        //print_r($form_param);
+        /************************/
+        //echo $url  = $request->getLocale() . '/api/create_offlineuser.json';
+        $url  = $request->getLocale().'/api/'.$_POST['url'] ;
+        if(!empty($_POST['url'])) {
+            //$postData = $_POST['data'];
+            //exit;
+            $url = $request->getLocale() . '/api/'.$_POST["data"].'/is_in_stagging2.json';
+            $data = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
+
+            // print_r($data);
+            // $data = ($data);
+            return $this->render('front/test/testRS.html.twig',
+                array
+                (
+                    'data' => $data,
+                    'errorcl' => 'alert-danger'
+                )
+            );
+        }
+        $data = "";
+        return $this->render('front/test/testRS.html.twig',
+            array
+            (
+                'data' => $data,
+                'errorcl' => 'alert-danger',
+
+            )
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

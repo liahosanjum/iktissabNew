@@ -158,4 +158,6 @@ class ActivityLog
     {
         return $this->actionType;
     }
+
+
 }

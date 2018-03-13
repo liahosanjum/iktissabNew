@@ -89,3 +89,5 @@ border-bottom: 1px solid #FFFFFF;
 .error { color: #FF0000; }
 .required { width: 100%; }
 .form-control { color: #000000 !important; }
+.admin-title { font-family: Arial; font-size: 18px;  }
+.admin-titledata { font-family: Verdana; font-size: 14px;  }

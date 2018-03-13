@@ -22,7 +22,6 @@ class IktissabAuthenticator implements SimpleFormAuthenticatorInterface
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder){
-
         $this->encoder = $encoder;
     }
 

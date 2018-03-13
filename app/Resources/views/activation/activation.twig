@@ -76,16 +76,21 @@
                                 </div>
                                 <div class="row">
 
-                                    {% if(error.success == false) %}
-                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 activation-form-wrapper activation-msg-wrapper ">
+                       {% if(error.success == false) %}
+                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 activation-form-wrapper activation-msg-wrapper ">
+                              <div class="row">
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                             <div class="text-center alert alert-danger">
                                                 {{ error.message }}
                                             </div>
                                         </div>
-                                    {% endif %}
+                                </div>
+                          </div>
+                        {% endif %}
 
                                 </div>
-                                {{ form_start(form) }}
+
+                                {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
                                 <div class="row">
 
 
@@ -216,6 +221,7 @@
                                     </div>
                                     <div class="claerfix"></div>
                                 </div>
+                                {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
                                 {{ form_end(form) }}
                             </div>
                         </div>
@@ -251,6 +257,8 @@
 
     });
 </script>
-
+<style>
+    .cardactivation-wrapper .alert-danger { font-size: 16px; }
+    </style>
 
 {% endblock %}

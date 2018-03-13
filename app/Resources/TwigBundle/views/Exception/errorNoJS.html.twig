@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block headerhome %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+  {% block top_menu %}
+      {{ parent() }}
+  {% endblock %}
+    {% block main_menu %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block body %}
+        <div class="container err404">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 errorPage">
+                    <div class="text-center err-img"><img src="{{ asset("error/404.png") }}" /></div>
+                    <h2 class="text-center">
+                    {{ 'Please enable javascript on your browser'|trans }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+{% block copyrightfooter %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

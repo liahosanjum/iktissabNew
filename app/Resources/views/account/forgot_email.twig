@@ -17,20 +17,24 @@
                 <div><h1> {{ 'Retrieve account email'|trans}}</h1></div>
             </div>
         </div>
+        <div class="row  offset-layout send_pwd_msg">
+            {% if(error.success == false) %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                   <div> <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-danger "> {{ error.message }} </div></div>
+                </div>
+            {% endif %}
+            {% if(error.success == true and error.message != '') %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                    <div> <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-success "> {{ error.message }} </div></div>
+                </div>
+            {% endif %}
+        </div>
+        {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
         <div class="row  offset-layout">
             <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 
-                    {% if(error.success == false) %}
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-danger ">
-                            {{ error.message }}
-                        </div>
-                    {% endif %}
-                    {% if(error.success == true and error.message != '') %}
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  alert alert-success">
-                            {{ error.message }}
-                        </div>
-                    {% endif %}
-                    {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+
+
                     <div class="title-cardactivation-form">
                         {{ form_label(form.iktCardNo) }}
                     </div>
@@ -89,6 +93,8 @@
                 <div class="claerfix"></div>
             </div>
         </div>
+        {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
+
             {{ form_end(form) }}
         <div class="claerfix"></div>
     </section>
@@ -100,6 +106,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             {{ form_jquery_validation(form) }}
+
         });
     </script>
 {% endblock %}

@@ -74,11 +74,14 @@ class AppConstant
 
     // const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/iktissabv2s/web/';
     const WEBAPI_URL =  'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/';
+    // const WEBAPI_URL =  'http://150.150.100.93:8080/IktissabServicesV2/web/';
 
     const OTHAIM_WEBSERVICE_URL     = "http://www.othaimmarkets.com/webservices/api/v2";
     const OTHAIM_WEBSERVICE_URL_EG  = "http://www.othaimmarkets.com/eg/webservices/api/v2";
     
     const IKTISSAB_API_URL    = 'http://ma.othaimmarkets.com:8080/IktissabServicesV2/web/%s/api/%s.json';
+    // const IKTISSAB_API_URL    = 'http://150.150.100.93:8080/IktissabServicesV2/web/%s/api/%s.json';
+
     const IKTISSAB_API_USER   = '1eaf95a1-4e8c-11e7-9833-842b2b4da8dd';
 
     const IKTISSAB_API_SECRET = 'da28cd9e2ae7bb9d157f091240015a8b';
@@ -115,6 +118,7 @@ class AppConstant
     const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';
     // const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
 
+    // const BASE_URL = "http://othaimmarkets.com/ikitssab/index.php";
     const BASE_URL = "http://localhost/iktissabNew/index.php";
 
     

@@ -44,10 +44,10 @@ class CmsPagesType extends AbstractType
                     'class' => 'form-control'
                 ),
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\NotBlank(array('message' => 'This field is required.')),
                     new Assert\Regex(
                         array(
-                            'pattern' =>  '/^[a-zA-Z ]*$/',
+                            'pattern' => '/^[a-zA-Z\p{Arabic}0-9\s\-\%]+$/u',
                             'match' => true,
                             'message' => 'Invalid Data')),
                     )))
@@ -57,6 +57,11 @@ class CmsPagesType extends AbstractType
             ),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => '/^[a-zA-Z\p{Arabic}0-9\s\-\%]+$/u',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )))
             
             ->add('url_path'  , TextType::class, array('label' => 'Enter url separated by hypen i.e ( about-us ) ','required' => true,'attr' => array(
@@ -66,7 +71,7 @@ class CmsPagesType extends AbstractType
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
-                            'pattern' =>  '/^[a-zA-Z-]*$/',
+                            'pattern' =>  '/^[a-zA-Z0-9-]*$/',
                             'match' => true,
                             'message' => 'Invalid Data')),
                 )))
@@ -82,6 +87,11 @@ class CmsPagesType extends AbstractType
                 'choices' => array('Select Country ' => '', 'Saudi Arabia' => 'sa', 'Egypt ' => 'eg'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => '/^[a-zA-Z]*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )
             ))
             ->add('language', ChoiceType::class, array(
@@ -92,6 +102,11 @@ class CmsPagesType extends AbstractType
                 'choices' => array('Select language ' => '', 'English' => 'en', 'Arabic ' => 'ar'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => '/^[a-zA-Z]*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )
             ))
 
@@ -103,14 +118,19 @@ class CmsPagesType extends AbstractType
                 'choices' => array('Select Type ' => '', 'cms' => 'cms', 'news' => 'news'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
+                    new Assert\Regex(
+                        array(
+                            'pattern' => '/^[a-zA-Z]*$/',
+                            'match' => true,
+                            'message' => 'Invalid Data')),
                 )
             ))
 
             ->add('token', HiddenType::class, array(
                 'mapped'   => false,
                 'required' => false,
-
             ))
+
 
             ->add('status', CheckboxType::class, array(
                 'label'    => 'Status',

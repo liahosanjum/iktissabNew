@@ -11,7 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\AppConstant;
-
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class EnquiryAndSuggestionController extends Controller
 {
@@ -88,93 +89,164 @@ class EnquiryAndSuggestionController extends Controller
         $captcha->setContainer($this->container);
         $form->get('captchaCode')->getData();
         $this->get('session')->get('_CAPTCHA');
+
+
+
+
+
+
         /*****************/
         if(isset($display_settings) && $display_settings != null) {
-            if ($form->isValid())
+            if ($form->isValid() && $form->isSubmitted())
             {
-                $captchaCode           = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
-                $captchaCodeSubmitted  = trim(strtoupper($form->get('captchaCode')->getData()));
+                $captchaCode           = trim($this->get('session')->get('_CAPTCHA'));
+                $captchaCodeSubmitted  = trim($form->get('captchaCode')->getData());
                 if($captchaCodeSubmitted != $captchaCode)
                 {
                     $config        = array();
                     $filename      = $captcha->saveTextAsImage($config);
-
+                    $comFunction->setCsrfToken('front_inq_suggestion');
+                    $session = new Session();
+                    $token = $session->get('front_inq_suggestion');
 
                     $response->setContent($filename['filename']);
                     $captcha_image = $filename['image_captcha'];
                     $error_cl      = 'alert-danger';
                     return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
                         array('form' => $form->createView(),'message' => $this->get('translator')->trans('Invalid captcha code'),
-                            'show_form' => $show_form , 'data' => $captcha_image , 'error_cl'=> $error_cl ));
+                            'show_form' => $show_form ,
+                            'data' => $captcha_image , 'error_cl'=> $error_cl , 'token' => $token));
                 }
-                try {
-                    $data = $this->getEmailList($request, 'Inquiries And Suggestion', $form->get('reason')->getData());
-                    if ($data['success'])
+                try
+                {
+                    if($comFunction->checkCsrfToken($form->get('token')->getData(), 'front_inq_suggestion' ))
                     {
-                        /*
-                        if($request->get('_country') == 'sa'){
-                            $ext = '966';
-                        }elseif($request->get('_country') == 'eg'){
-                            $ext = '0020';
+                        $name = $form->get('name')->getData();
+                        $email = $form->get('email')->getData();
+                        $job = $form->get('job')->getData();
+                        $reason = $form->get('reason')->getData();
+                        $mobile = $form->get('mobile')->getData();
+                        $comments = $form->get('comments')->getData();
+                        $captchaCode = $form->get('captchaCode')->getData();
 
-                        }
-                        $enquiryAndSuggestion->setMobile($ext.$form->get('mobile')->getData());
-                        */
-                        $enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
-                        $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
-                        if ($rest) {
-                            $config       = array();
-                            $filename     = $captcha->saveTextAsImage($config);
 
+                        $errors = "";
+                        $validate_data = array($name ,$email,$job,$reason,$mobile,$comments,$captchaCode);
+                        $errors = $comFunction->validateData($validate_data);
+
+                        if($errors > 0)
+                        {
+                            $message = $this->get('translator')->trans('Please provide valid data');
+                            $errorcl = 'alert-danger';
+
+                            $config        = array();
+                            $filename      = $captcha->saveTextAsImage($config);
+                            $comFunction->setCsrfToken('front_inq_suggestion');
+                            $session = new Session();
+                            $token = $session->get('front_inq_suggestion');
 
                             $response->setContent($filename['filename']);
                             $captcha_image = $filename['image_captcha'];
-                            $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, 0, array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
-
-                            return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig', array('form' => $form->createView(), 'message' =>  $this->get('translator')->trans('Form is submitted Successfully') ,'show_form' => $show_form, 'data' => $captcha_image));
+                            $error_cl      = 'alert-danger';
+                            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig',
+                                array('form' => $form->createView(),'message' => $this->get('translator')->trans('Please provide valid data'),
+                                    'show_form' => $show_form ,
+                                    'data' => $captcha_image , 'error_cl'=> $error_cl , 'token' => $token));
                         }
-                    } else {
-                        $config       = array();
-                        $filename     = $captcha->saveTextAsImage($config);
 
 
-                        $response->setContent($filename['filename']);
-                        $captcha_image = $filename['image_captcha'];
-                        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $this->get('translator')->trans('') ,'show_form' => $show_form , 'data' => $captcha_image));
+
+                        $data = $this->getEmailList($request, 'Inquiries And Suggestion', strip_tags($form->get('reason')->getData()));
+                        if ($data['success']) {
+                            $comFunction->setCsrfToken('front_inq_suggestion');
+                            $session = new Session();
+                            $token = $session->get('front_inq_suggestion');
+
+                            $enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
+                            //$enquiryAndSuggestion->setCountry($request->get('_country'))->setSource("W");
+                            $rest = $this->get('app.services.enquiry_and_suggestion')->save($enquiryAndSuggestion, $data);
+                            if ($rest) {
+                                $config = array();
+                                $filename = $captcha->saveTextAsImage($config);
+                                $response->setContent($filename['filename']);
+                                $captcha_image = $filename['image_captcha'];
+                                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM, 0, array('user_ip' => $comFunction->getIP(), 'message' => 'Form is submitted Successfully', 'Data' => ''));
+                                return $this->render('front/enquiry/add-enquiry-and-suggestion_success.html.twig',
+                                    array('form' => $form->createView(),
+                                        'message' => $this->get('translator')->trans('Form is submitted Successfully'),
+                                        'show_form' => $show_form, 'data' => $captcha_image , 'token' => $token ));
+                            }
+                        } else {
+
+                            $comFunction->setCsrfToken('front_inq_suggestion');
+                            $session = new Session();
+                            $token = $session->get('front_inq_suggestion');
+
+
+
+                            $config = array();
+                            $filename = $captcha->saveTextAsImage($config);
+
+                            $error_cl = 'alert-danger';
+                            $response->setContent($filename['filename']);
+                            $captcha_image = $filename['image_captcha'];
+                            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),
+                                'message' => $this->get('translator')->trans('Email has not been sent'), 'show_form' => $show_form,
+                                'data' => $captcha_image, 'error_cl' => $error_cl, 'token' => $token));
+                        }
+                    }
+                    else
+                    {
+                        $this->get('security.token_storage')->setToken(null);
+                        $response = new RedirectResponse($this->generateUrl('landingpage'));
+                        return $response;
                     }
                 }
                 catch (\Exception $e)
                 {
-                    $error_cl = 'alert-danger';
-                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => '' , 'data' => $file_name));
-                    return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage() ,'show_form' => $show_form , 'data' => $file_name ,'error_cl'=> $error_cl));
+                    $comFunction->setCsrfToken('front_inq_suggestion');
+                    $session = new Session();
+                    $token = $session->get('front_inq_suggestion');
+                    $error_cl      = 'alert-danger';
+                    $config        = array();
+                    $filename      = $captcha->saveTextAsImage($config);
+                    $response->setContent($filename['filename']);
+                    $captcha_image = $filename['image_captcha'];
+                    $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $e->getMessage(), 'Data' => '' , 'data' => $captcha_image));
+                    return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $e->getMessage()."sdfg" ,'show_form' => $show_form , 'data' => $captcha_image ,'error_cl'=> $error_cl, 'token' => $token ));
                 }
-            } else {
-                $config        = array();
-                $filename      = $captcha->saveTextAsImage($config);
-
-
-                $response->setContent($filename['filename']);
-                $captcha_image = $filename['image_captcha'];
-                $error_cl      = 'alert-danger';
-                return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form , 'data' => $captcha_image));
             }
-        } else {
+
+        } else
+        {
+            $comFunction->setCsrfToken('front_inq_suggestion');
+            $session = new Session();
+            $token = $session->get('front_inq_suggestion');
+
             if($form->isSubmitted()) {
-                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'), 'Data' => ''));
+                $activityLog->logEvent(AppConstant::ACTIVITY_ADD_INQUIRY_FORM_ERROR, 0, array('user_ip' => $comFunction->getIP(), 'message' => $this->get('translator')->trans('Dear Customer, you have already make submission for this form'),
+                    'Data' => '', 'token' => $token,
+                ));
                 $error_cl     = 'alert-danger';
                 $message = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');
             } else {
                 $error_cl     = 'alert-danger';
                 $message      = $this->get('translator')->trans('Dear Customer, you have already make submission for this form');}
             $show_form        = false;
-            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(), 'message' => $message , 'show_form' => $show_form , 'data' => '' ,'error_cl'=> $error_cl));
+            return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),
+                'message' => $message , 'show_form' => $show_form , 'data' => '' ,'error_cl'=> $error_cl , 'token' => $token,
+            ));
         }
+
+
+        $comFunction->setCsrfToken('front_inq_suggestion');
+        $session = new Session();
+        $token   = $session->get('front_inq_suggestion');
         $config        = array();
         $filename      = $captcha->saveTextAsImage($config);
         $response->setContent($filename['filename']);
         $captcha_image = $filename['image_captcha'];
-        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "",'show_form' => $show_form , 'data' => $captcha_image ));
+        return $this->render('front/enquiry/add-enquiry-and-suggestion.html.twig', array('form' => $form->createView(),'message' => "" ,'show_form' => $show_form , 'data' => $captcha_image , 'token' => $token ));
     }
 
 
@@ -273,6 +345,37 @@ class EnquiryAndSuggestionController extends Controller
             }
         }
         catch (\Exception $e)
+        {
+            return false;
+        }
+    }
+
+    public function setCsrfToken($token_name){
+        $csrf = $this->get('security.csrf.token_manager');
+        $guid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 61535), mt_rand(0, 61535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+        $d = new \DateTime("NOW");
+        $currentDate = $d->format("Y/m/d H:i:s");
+        $nonce = md5($guid);
+        $passwordHash   = sha1(base64_encode($nonce) . $currentDate . AppConstant::IKTISSAB_API_SECRET);
+        $passwordDigest =  base64_encode($passwordHash);
+        $token = $csrf->refreshToken($passwordDigest);
+        $session = new Session();
+        $token_name = $token_name;
+        $session->set($token_name, $token);
+    }
+
+    public function checkCsrfToken($csf_token , $token_name){
+        $session = new Session();
+        $token_name = $token_name;
+        // csrf_admin_token
+        echo $token_val = $session->get($token_name);
+        echo '<br>';
+        echo $csf_token;
+        if($token_val == $csf_token)
+        {
+            return true;
+        }
+        else
         {
             return false;
         }

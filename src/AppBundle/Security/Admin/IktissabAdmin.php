@@ -15,8 +15,9 @@ class IktissabAdmin implements UserInterface, EquatableInterface
     private $salt;
     private $roles;
     private $id;
+    private $rolename;
 
-    public function __construct($username, $password, $id, $salt="", $roles = array('ROLE_IKTADMIN'))
+    public function __construct($username, $password, $id, $salt="", $roles = array('ROLE_IKTADMIN'), $rolename)
     {
         // die('webservice use const');
         $this->username = $username;
@@ -24,6 +25,7 @@ class IktissabAdmin implements UserInterface, EquatableInterface
         $this->salt = $salt;
         $this->roles = $roles;
         $this->id = $id;
+        $this->rolename = $rolename;
     }
 
     public function getRoles()
@@ -60,6 +62,8 @@ class IktissabAdmin implements UserInterface, EquatableInterface
             return false;
         }
 
+
+
         if ($this->password !== $user->getPassword()) {
             return false;
         }
@@ -73,8 +77,16 @@ class IktissabAdmin implements UserInterface, EquatableInterface
         }
 
 
-
         return true;
+    }
+
+
+
+
+
+    public function getRoleName()
+    {
+        return $this->rolename;
     }
 }
 
