@@ -13,3 +13,8 @@ enquiryandsuggestion:
     type: rest
     resource: AppBundle\Controller\Api\EnquiryAndSuggestionController
     prefix: /{_country}/{_locale}/api
+
+cardroute:
+    type: rest
+    resource: AppBundle\Controller\Api\CardController
+    prefix: /{_country}/{_locale}/api

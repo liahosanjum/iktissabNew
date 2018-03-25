@@ -59,7 +59,7 @@ class IktissabCardService
     public function getCardStatus($card)
     {
         $client = $this->container->get('app.services.iktissab_rest_service');
-        $data = $client->Get($card.'/card_status');
+        $data = $client->IsAdmin(true)->Get($card.'/card_status');
 
         return $data;
     }
