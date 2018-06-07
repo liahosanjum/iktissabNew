@@ -59,10 +59,12 @@ class RejectedUser
 
     /**
      * @param int $iktCardNo
+     * @return RejectedUser
      */
     public function setIktCardNo($iktCardNo)
     {
         $this->iktCardNo = $iktCardNo;
+        return $this;
     }
 
     /**
@@ -75,10 +77,12 @@ class RejectedUser
 
     /**
      * @param string $activationSource
+     * @return RejectedUser
      */
     public function setActivationSource($activationSource)
     {
         $this->activationSource = $activationSource;
+        return $this;
     }
 
     /**
@@ -91,10 +95,12 @@ class RejectedUser
 
     /**
      * @param string $email
+     * @return RejectedUser
      */
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**

@@ -7,6 +7,7 @@
  */
 namespace AppBundle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 class AppConstant
 {
     //Activity Log Constants
@@ -114,5 +115,9 @@ class AppConstant
     // const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
 
     // const BASE_URL = "http://othaimmarkets.com/ikitssab/index.php";
-    const BASE_URL = "http://localhost/iktissabNew/index.php";
+
+    //const BASE_URL = "http://localhost/iktissabNew/index.php";
+
+    const BASE_URL = "http://test.othaimmarkets.com/iktissab/index.php";
+
 }
