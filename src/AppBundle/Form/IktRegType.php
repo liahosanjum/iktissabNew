@@ -80,23 +80,23 @@ class IktRegType extends AbstractType
                 'type' => TextType::class,
                 'invalid_message' => 'New email and confirm email fields must match',
                 'required' => true,
-                'first_options' => array('attr' =>array('class' => 'form-control formLayout form_labels'),
-                    'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout    form_labels' ]),
-                'second_options' => array('attr' =>array('class' => 'form-control   formLayout form_labels'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout email-repeat  form_labels']),
-                'options' => array('attr' => array('class' => 'form-control')),
+                'first_options' => array('attr' =>array('class' => 'form-control  form_labels' ,'readonly' => 'readonly'),
+                    'label' => 'New Email', 'label_attr' => ['class' => 'required     form_labels' ]),
+                'second_options' => array('attr' =>array('class' => 'form-control    form_labels' ,'readonly' => 'readonly'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout email-repeat  form_labels']),
+                'options' => array('attr' => array('class' => 'form-control'  )),
                 'constraints' => array (
                     new NotBlank(array('message' =>  'This field is required')),
                 )
             ])
             ->add('password', RepeatedType::class, array(
-                    'label_attr' => ['class' => 'formLayout col-lg-6 col-md-6 col-sm-6 col-xs-12   form_labels required'],
-                    'attr' =>array('class' => 'form-control formLayout'),
+                    'label_attr' => ['class' => ' col-lg-6 col-md-6 col-sm-6 col-xs-12   form_labels required'],
+                    'attr' =>array('class' => 'form-control '),
 
                     'type' => PasswordType::class,
                     'invalid_message' => 'Password field must match',
                     'required' => true,
-                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout     form_labels'], 'attr' =>array('class' => 'form-control   formLayout form_labels')),
-                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required formLayout pass-repeat    form_labels'],'attr' => array('class' => 'form-control  formLayout form_labels')),
+                    'first_options'  => array('label' => 'Password','label_attr' => ['class' => 'required      form_labels'], 'attr' =>array('class' => 'form-control    form_labels')),
+                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => ' required  pass-repeat    form_labels'],'attr' => array('class' => 'form-control   form_labels')),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))
@@ -106,7 +106,7 @@ class IktRegType extends AbstractType
             ->add('gender', ChoiceType::class, array(
                     'label' => 'Gender',
                     'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 '),
+                    'attr' => array('class' => 'form-control-modified col-lg-10  col-md-10  col-sm-10 '),
                     'choices' => array('Gender' => '', 'Male' => 'M', 'Female' => 'F'),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
@@ -126,12 +126,13 @@ class IktRegType extends AbstractType
                     )
                 )
             )
-            ->add('dob', DateType::class, array(
-//                'widget' => 'single_text',
+            ->add(
+                'dob', DateType::class, array(
+//              'widget' => 'single_text',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label'],
                 'years' => range(date('Y') - 5, date('Y') - 77),
                 'label' => 'Birthdate',
-//                'months' => array(1=>"test",1,1,4=>"welcome",5,6,7,8,9,10,11,12),
+//              'months' => array(1=>"test",1,1,4=>"welcome",5,6,7,8,9,10,11,12),
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels dob_label required'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
@@ -139,7 +140,6 @@ class IktRegType extends AbstractType
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
-
             ))
             ->add('dob_h', DateType::class, array(
                 'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),

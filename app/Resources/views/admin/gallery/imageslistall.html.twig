@@ -14,6 +14,7 @@
                 <thead>
                 <tr>
                     <th>S.no</th>
+                    <th>Title</th>
                     <th>Image</th>
                     <th>Status</th>
                     <th colspan="2">Action</th>
@@ -24,6 +25,7 @@
             {% for item in data %}
                 <tr>
                     <td>{{ i }}</td>
+                    <td>{{ item.enTitle }}</td>
                     <td><img width="50" height="50" src="{{ asset('banners/img/') ~ item.image  }} "></td>
 
                     <td>{{  item.Status }}</td>

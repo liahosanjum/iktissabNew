@@ -13,6 +13,7 @@ class AppConstant
     const  ACTIVITY_LOGIN = 'Login';
     const  ACTIVITY_LOGOUT = 'Logout';
     const  ACTIVITY_SEND_SMS = 'SmsSent';
+    const  ACTIVITY_SEND_SMS_FAILED = 'SmsNotSent';
     const  ACTIVITY_SEND_EMAIL = 'EmailSent';
     const  ACTIVITY_NEW_CARD_REGISTRATION = 'NewCardRegistration';
     const  ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS = 'NewCardRegistrationSuccessfull';
@@ -41,6 +42,7 @@ class AppConstant
     const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
 
     const ACTIVITY_FORGOT_EMAIL_SMS = 'SmsSentForForgotEmail';
+    const ACTIVITY_FORGOT_EMAIL_SMS_FAILED = 'SmsNotSentForForgotEmail';
 
 
     const  ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS = 'UpdateRestPasswordSuccessfull';
@@ -51,6 +53,7 @@ class AppConstant
 
     const  ACTIVITY_UPDATE_EMAIL_SUCCESS = 'UpdateEmailSuccessfull';
     const  ACTIVITY_UPDATE_EMAIL_ERROR   = 'UpdateEmailError';
+    const  ACTIVITY_UPDATE_EMAIL_ALREADY_REGISTERED   = 'UpdateEmailAlreadyRegistered';
 
     const  ACTIVITY_EMAIL_UPDATE_SMS_SUCCESS = 'UpdateEmailSMSSuccessfull';
     const  ACTIVITY_EMAIL_UPDATE_SMS_ERROR   = 'UpdateEmailSMSError';
@@ -95,23 +98,15 @@ class AppConstant
     const IKT_REG_SCENERIO_2 = 'SCENERIO2';
 
 
-    const IKT_SA_PREFIX = '966';
-    const IKT_EG_PREFIX = '0020';
-
-
-    const EMAIL_SUBJECT = 'Abdullah Al Othaim Markets';
-
-    const INVALID_DATA = "Invalid Data";
-
-
-
-    const SECRET_KEY_FP = 'SDAWEI123123AJT';
-
-
-    // const DATE_FORMAT = "d-m-Y";
-
-    const DATE_FORMAT = "m/d/Y";
-    const DATE_TIME_FORMAT = "Y-m-d h:i:m a";
+    const IKT_SA_PREFIX    = '966';
+    const IKT_EG_PREFIX    = '0020';
+    const EMAIL_SUBJECT    = 'Abdullah Al Othaim Markets';
+    const INVALID_DATA     = "Invalid Data";
+    const SECRET_KEY_FP    = 'SDAWEI123123AJT';
+    // const DATE_FORMAT   = "d-m-Y";
+    const DATE_FORMAT_DOB  = "Y-m-d";
+    const DATE_FORMAT      = "m/d/Y";
+    const DATE_TIME_FORMAT = "Y-m-d h:i:m";
 
     
     const PROMOTIONS_PATH    = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
@@ -120,11 +115,4 @@ class AppConstant
 
     // const BASE_URL = "http://othaimmarkets.com/ikitssab/index.php";
     const BASE_URL = "http://localhost/iktissabNew/index.php";
-
-    
-
-
-
-     
-
 }

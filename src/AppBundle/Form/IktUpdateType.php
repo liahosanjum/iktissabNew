@@ -32,34 +32,36 @@ class IktUpdateType extends AbstractType
         //print_r($lookupData['areas']);
         $builder->add('dob', DateType::class, array(
 //                'widget' => 'single_text',
-
-                'years' => range(date('Y') - 5, date('Y') - 77),
-                'label' => 'Birthdate',
-                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'required'    => false,
+                'years'       => range(date('Y') - 5, date('Y') - 77),
+                'label'       => 'Birthdate',
+                'label_attr'  => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder' => array(
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                    'year'    => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
-                'attr' =>array('class' => '' ),
+
+
 
 
             ))
             ->add('dob_h', DateType::class, array(
-                'required' => true,
+                'required' => false,
                 'years' => range($this->getCurrentHijYear() -5 ,$this->getCurrentHijYear() -77),
-                'widget' => 'choice',
+                 //'widget' => 'choice',
                 'label' => 'Birthdate',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
-                'attr' =>array('class' => '' ),
+
+
 
 
             ))
             ->add('maritial_status', ChoiceType::class, array(
                 'label' => 'Marital Status',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels mstatus'],
-                'attr' =>array('class' => 'form-control formLayout' ),
+                'attr' =>array('class' => 'form-control ' ),
                 'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
 
             ))
@@ -67,14 +69,14 @@ class IktUpdateType extends AbstractType
                 'choices' => $lookupData['jobs'],
                 'label' => 'Job',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' =>array('class' => 'form-control formLayout' ),
+                'attr' =>array('class' => 'form-control ' ),
 
             ))
             ->add('city_no', ChoiceType::class, array(
                 'choices' => $lookupData['cities'],
                 'label' => 'City',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'attr' =>array('class' => 'form-control formLayout' ),
+                'attr' =>array('class' => 'form-control ' ),
                 'placeholder' => 'Select City',
 
             ))
@@ -98,11 +100,11 @@ class IktUpdateType extends AbstractType
                 )
             )
             ->add('pur_group', ChoiceType::class, array(
-                'label' => 'Shoppers',
-                'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-                'placeholder' => 'Select Shopper',
-                'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
-                'attr' =>array('class' => 'form-control formLayout' ),
+                'label'         => 'Shoppers',
+                'label_attr'    => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
+                'placeholder'   => 'Select Shopper',
+                'choices'       => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
+                'attr'          => array('class' => 'form-control formLayout' ),
 
             ))
 

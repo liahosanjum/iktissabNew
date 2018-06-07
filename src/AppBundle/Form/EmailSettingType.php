@@ -23,7 +23,7 @@ class EmailSettingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('email' , TextType::class, array('label' => 'Email ',
+        $builder->add('email' , TextType::class, array('label' => 'Email',
                 'attr' => array(
                     'class' => 'form-control'
                 ),'constraints' => array(

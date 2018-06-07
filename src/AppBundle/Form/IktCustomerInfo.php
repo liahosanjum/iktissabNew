@@ -15,8 +15,9 @@ class IktCustomerInfo extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', EmailType::class, array('label' => 'Email Id',
-            'attr' => array('class' => 'col-lg-8 form-control formLayout' ,'readonly' => 'readonly' ),
+        $builder->add('email', EmailType::class, array('label' => 'Email',
+            'attr' => array('class' => 'col-lg-8 form-control ' ,'readonly' => 'readonly' ),
+            'label_attr' => ['class' => '   form_labels frm-ads'],
             'constraints' => array(
             new Assert\NotBlank(array('message' => 'Email is required')),
             new Assert\Email(array('message' => 'Invalid email address'))
@@ -25,8 +26,8 @@ class IktCustomerInfo extends AbstractType
         ))
             ->add('iktCardNo', IntegerType::class, array('label' => 'Iktissab ID',
                 
-                'attr' => array('class' => 'col-lg-8 form-control formLayout',  'readonly' => 'readonly','maxlength'=>8 ),
-
+                'attr' => array('class' => 'col-lg-8 form-control ',  'readonly' => 'readonly','maxlength'=>8 ),
+                'label_attr' => ['class' => '   form_labels frm-ads'],
 
                 'constraints' => array(
 
@@ -37,13 +38,13 @@ class IktCustomerInfo extends AbstractType
                 )
             ))
             ->add('password', RepeatedType::class, array(
-                    'label' => 'Email Id',
+                    'label' => '',
 
                     'type' => PasswordType::class,
                     'invalid_message' => 'Password fields must match',
                     'required' => true,
-                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
-                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => 'required formLayout form_labels'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
+                    'first_options' => array('label' => 'Password','label_attr' => ['class' => 'required  form_labels  frm-ads'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
+                    'second_options' => array('label' => 'Repeat password','label_attr' => ['class' => 'required  form_labels frm-ads'], 'attr' => array('class' => 'col-lg-8 form-control formLayout')),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         new Assert\Length(array('min'=> 6, 'minMessage'=> 'Password must be greater then 6 characters'))

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="container ">
+        {% if app.request.cookies.get('c_locale') == "en" %}
+            {%  set side = 'right'  %}
+        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+            {%  set side = 'left'  %}
+        {% else %}
+            {%  set side = 'left'  %}
+        {% endif %}
+        <div class="breadcrum-wrapper">
+            <div class="row">
+                <div class="breadcrumb">
+                </div>
+            </div>
+        </div>
+        </section>
+        <section class="container verify_reset_password_wrapper">
+        <div class="row">
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div><h1> Testing Services Get</h1></div>
+            </div>
+        </div>
+
+
+            <div class="row">
+                <div class="  col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+
+                        <div style="float: left; width: 800px;">
+                            {% if data !="" %}
+                                {{ dump(data) }}
+                            {% endif %}
+                        <form id="getTestRS" name="getTestRS" action="getTestRS" method="post">
+                            <br><br><br>
+                            <br><br><br>
+                            <input type="text" placeholder="url" style="height: 40px; margin-bottom: 20px;" class="  col-lg-12  col-md-12" id="url" name="url">
+                            <select id="url2" name="url2">
+                                <option value="settings">settings</option>
+                            <select>
+
+
+
+                            <br><br><br>
+
+                            <input type="submit" id="check" name="check" />
+                            <br><br><br>
+
+                        </form>
+                        </div>
+                    </div>
+
+            </div>
+        </section>
+
+
+    {% endblock %}
+    {% block javascripts %}
+
+
+
+
+
+
+{% endblock %}

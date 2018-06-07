@@ -424,13 +424,8 @@ class AdminController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('admin_admin');
         }
-        else
-        {
-            //return $this->redirectToRoute('admin_admin');
-        }
+        // modif-c = 1121
         $em = $this->getDoctrine()->getManager();
-        //$cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
-
         $funcController = new FunctionsController();
         $funcController->setContainer($this->container);
 
@@ -498,7 +493,7 @@ class AdminController extends Controller
                         $cmsPage->setStatus(strip_tags(trim($form->get('status')->getData())));
                         $cmsPage->setLanguage(strip_tags(trim($form->get('language')->getData())));
                         $cmsPage->setCountry(strip_tags(trim($form->get('country')->getData())));
-                        $cmsPage->setType(strip_tags(trim($form->get('type')->getData())));
+                        $cmsPage->setType('cms');
 
 
                         $em = $this->getDoctrine()->getManager();
@@ -646,6 +641,7 @@ class AdminController extends Controller
             exit;
         }
         $status = $cmsPage->getStatus();
+
 
         /*
          * this set the value field in the form by passing the values retrieved from the data
@@ -845,11 +841,13 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         //$cmsPage = $em->getRepository('AppBundle:CmsPages')->find($page);
         //echo $page = $request->query->get('page');
-
         $cmsPage = $em->getRepository('AppBundle:Gallery')
             ->findOneBy(array('id' => $page));
         $status = $cmsPage->getStatus();
         $form = $this->createForm(GalleryType::class, $cmsPage);
+        $form->add('image', FileType::class, array('required' => false ,  'data_class' => null,));
+        $image = $cmsPage->getImage();
+
         if($status == 1)
         {
             $status = $form->get('status')->setData(true);
@@ -952,6 +950,7 @@ class AdminController extends Controller
         else
         {
             //echo $this->getParameter('images_directory').'/'.$cmsPage->getImage();
+            $form->get('image')->setData($image);
 
             $cmsPage->setImage(
                 new FileType($this->getParameter('images_directory').'/'.$cmsPage->getImage())
@@ -1072,18 +1071,21 @@ class AdminController extends Controller
              * @var Symfony\Component\HttpFoundation\File\UploadedFile
              */
             $file = $gallery->getImage();
-            // Generate a unique name for the file before saving it
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            if ($file != "") {
 
-            // Move the file to the directory where brochures are stored
-            $file->move(
-                $this->getParameter('images_directory'),
-                $fileName
-            );
+                // Generate a unique name for the file before saving it
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
-            // Update the 'brochure' property to store the PDF file name
-            // instead of its contents
-            $gallery->setImage($fileName);
+                // Move the file to the directory where brochures are stored
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+
+                // Update the 'brochure' property to store the PDF file name
+                // instead of its contents
+                $gallery->setImage($fileName);
+            }
 
             $form->get('status')->getData();
             $gallery->setAtitle($form->get('atitle')->getData());
@@ -1104,8 +1106,9 @@ class AdminController extends Controller
             }
             // ... persist the $product variable or any other work
         }
+        $message = "";
         return $this->render('admin/cms/upload.html.twig' ,  array(
-            'form' => $form->createView() ));
+            'form' => $form->createView(),'message' => $message, ));
 
     }
 
@@ -1127,10 +1130,11 @@ class AdminController extends Controller
         $i = 0;
         foreach( $images as $image )
         {
-            echo "===> ".$image->getId();
+            // echo "===> ".$image->getId();
             $data[$i]['id']      =  $image->getId();
-            $data[$i]['image']  =  $image->getImage();
+            $data[$i]['image']   =  $image->getImage();
             $data[$i]['Status']  =  $image->getStatus();
+            $data[$i]['enTitle'] =  $image->getEtitle();
             $i++;
         }
         //print_r($data);
@@ -1374,7 +1378,7 @@ class AdminController extends Controller
             // $form->get('token')->setData($token);
             // $request = $this->getRequest();
             return $this->render('admin/settings/settingsedit.html.twig', array(
-                'form' => $form->createView(),'message' => "",
+                'form'     => $form->createView(),'message' => "",
                 'error_cl' => 'alert-success', 'token' => $token,
             ));
         }
@@ -1843,32 +1847,30 @@ class AdminController extends Controller
     public function chkRcdRole($assignedResource , $assignedRole , $page = ""  )
     {
         $em = $this->getDoctrine()->getManager();
+        $conn = $em->getConnection();
         if($page !="" )
         {
-           $qb = $em->createQueryBuilder('u');
-           $qb->select('u')
-                ->from('AppBundle:Resources', 'u')
-                ->where('u.id != ?1 AND u.resourceName = ?2')
-                ->setParameters(array(1 => $page , 2 => 'MANAGE_CMS_VIEW'));
-                $result =  $qb->getQuery()->getResult();
-                //$result[0]->getId();
-
-            if(!empty($result)){
+            $stm  = $conn->prepare("SELECT * FROM resources WHERE  id != ? AND resource_name =? AND assigned_to =?    ");
+            $stm->bindValue(1, $page);
+            $stm->bindValue(2, $assignedResource);
+            $stm->bindValue(3, $assignedRole);
+            $stm->execute();
+            $result  = $stm->fetchAll();
+            if(!empty($result))
+            {
                 return true;
             }
             else {
-
                 return false;
             }
-              
-
         }
-        else {
+        else
+        {
             $resoureces = $this->getDoctrine()
                 ->getRepository('AppBundle:Resources')
                 ->findBy(array('resourceName' => $assignedResource, 'assignedTo' => $assignedRole));
-
-            if (!empty($resoureces)) {
+            if (!empty($resoureces))
+            {
                 return true;
             } else {
                 return false;
@@ -2016,17 +2018,55 @@ class AdminController extends Controller
         }
         else
         {
-            //return $this->redirectToRoute('admin_admin');
+            // return $this->redirectToRoute('admin_admin');
         }
+        /**********/
+
+        $em = $this->getDoctrine()->getManager();
+        $conn = $em->getConnection();
+        /****************/
+        /*
+        $stm  = $conn->prepare("SELECT id, resource_name FROM resources_list");
+        $stm->execute();
+        $result  = $stm->fetchAll();
+
+        $i = 0;
+
+        foreach ($result as $value)
+        {
+            $listing[$value['resource_name']] = $value['id'];
+            $i++;
+        }*/
+
+
+        $i = 0;
+        $stmrole  = $conn->prepare("SELECT role_name FROM admin WHERE role_id != ? ");
+        $stmrole->bindValue(1, 1);
+        $stmrole->execute();
+        $resultrole  = $stmrole->fetchAll();
+
+        foreach ($resultrole as $value)
+        {
+            $roles[$value['role_name']] = $value['role_name'];
+            $i++;
+        }
+
+
+
+
         $funcController = new FunctionsController();
         $funcController->setContainer($this->container);
-
+        // MANAGE_CMS_ADD
         if(!$funcController->isValidRule('MANAGE_CMS_ADD')) {
             return $response = new RedirectResponse($this->generateUrl('admin_accessdenied'));
         }
 
         $resource = new Resources();
-        $form = $this->createForm(ResourcesType::class, $resource);
+        $form = $this->createForm(ResourcesType::class, $resource ,array(
+                'additional' => array(
+                    'roles'  => $roles,
+                )
+        ));
         // print_r($form);
         $form->handleRequest($request);
         $resData = $form->getData();
@@ -2042,6 +2082,7 @@ class AdminController extends Controller
                     // todo: check duplication
 
                     $rec_exits = $this->chkRcdRole($resource_name , $assigned_to);
+
 
                     $funcController->setCsrfToken('admin_resources_list');
                     $session = new Session();
@@ -2147,9 +2188,6 @@ class AdminController extends Controller
 
         //our data to be encoded
         $em = $this->getDoctrine()->getManager();
-        /*$resources = $this->getDoctrine()
-            ->getRepository('AppBundle:CmsPages')
-            ->findAll();*/
         $resources = $this->getDoctrine()
             ->getRepository('AppBundle:Resources')
             ->findAll();
@@ -2224,7 +2262,33 @@ class AdminController extends Controller
             return $this->redirectToRoute('admin_admin');
         }
 
+
+
         $em = $this->getDoctrine()->getManager();
+        $conn = $em->getConnection();
+        $i = 0;
+        $stmrole  = $conn->prepare("SELECT role_name FROM admin WHERE role_id != ? ");
+        $stmrole->bindValue(1, 1);
+        $stmrole->execute();
+        $resultrole  = $stmrole->fetchAll();
+        foreach ($resultrole as $value)
+        {
+            $roles[$value['role_name']] = $value['role_name'];
+            $i++;
+        }
+        /****************/
+        /*
+        $stm  = $conn->prepare("SELECT id, resource_name FROM resources_list");
+        $stm->execute();
+        $result  = $stm->fetchAll();
+        foreach ($result as $value)
+        {
+            $listing[$value['resource_name']] = $value['id'];
+            $i++;
+        }
+        */
+
+
 
         $funcController = new FunctionsController();
         $funcController->setContainer($this->container);
@@ -2238,7 +2302,11 @@ class AdminController extends Controller
 
         $resources = $em->getRepository('AppBundle:Resources')
             ->findOneBy(array(  'id' => $page));
-        $form = $this->createForm(ResourcesType::class, $resources);
+        $form = $this->createForm(ResourcesType::class, $resources, array(
+            'additional' => array(
+                'roles'  => $roles , ))
+        );
+
         if(empty($resources))
         {
             $funcController->setCsrfToken('admin_resrce_list_upd');
@@ -2280,21 +2348,27 @@ class AdminController extends Controller
             if($form->isValid()) {
                 if($funcController->checkCsrfToken($form->get('token')->getData(),'admin_resrce_list_upd'))
                 {
-                    $resource_name = $resources->setResourceName(strip_tags(trim($form->get('resource_name')->getData())));
-
+                     $resource_name = strip_tags(trim($form->get('resource_name')->getData()));
+                     // dump($resource_name);
                     $resources->setStatus(strip_tags(trim($form->get('status')->getData())));
 
-                    $assigned_to = $resources->setAssignedTo(strip_tags(trim($form->get('assigned_to')->getData())));
-                    
-                    $rec_exits = $this->chkRcdRole($resource_name , $assigned_to , $page);
+                     $assigned_to = strip_tags(trim($form->get('assigned_to')->getData()));
+                    // dump($assigned_to);
 
-                    if($rec_exits == false)
-                    {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->flush();
+                    $rec_exits = $this->chkRcdRole($resource_name , $assigned_to , $page);
                     $funcController->setCsrfToken('admin_resrce_list_upd');
                     $session = new Session();
                     $token   = $session->get('admin_resrce_list_upd');
+
+                    if($rec_exits == false)
+                    {
+                        $resource_name = $resources->setResourceName(strip_tags(trim($form->get('resource_name')->getData())));
+                        // dump($resource_name);
+                        $resources->setStatus(strip_tags(trim($form->get('status')->getData())));
+
+                        $assigned_to = $resources->setAssignedTo(strip_tags(trim($form->get('assigned_to')->getData())));
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
 
                     if ($resources->getId()) {
                         return $this->render('admin/cms/resourcesedit.html.twig', array(
@@ -2307,21 +2381,21 @@ class AdminController extends Controller
                     {
                         return $this->render('admin/cms/resourcesedit.html.twig', array(
                             'form' => $form->createView(),
-                            'message' => $this->get('translator')->trans('Nothing to update'),
+                            'message' => $this->get('translator')->trans('Nothing to update456'),
                             'error_cl' => 'alert-danger', 'token' => $token,
 
                         ));
                     }
                 }
-                    else
-                    {
+                else
+                {
                         return $this->render('admin/cms/resourcesedit.html.twig', array(
                             'form' => $form->createView(),
-                            'message' => $this->get('translator')->trans('Nothing to update'),
+                            'message' => $this->get('translator')->trans('Record already exist'),
                             'error_cl' => 'alert-danger', 'token' => $token,
 
                         ));
-                    }
+                }
                     
                     
                     

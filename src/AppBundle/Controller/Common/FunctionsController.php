@@ -281,7 +281,6 @@ class FunctionsController extends Controller
              //'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
              'MANAGE_LOGS',
         );
-
         $resourceOfEditor2 = array('MANAGE_USER',
             'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
             'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
@@ -289,8 +288,6 @@ class FunctionsController extends Controller
             //'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
             //'MANAGE_LOGS',
         );
-
-
 
         /*
          $resourceOfEditorViewer = a array('MANAGE_USER',
@@ -353,9 +350,13 @@ class FunctionsController extends Controller
         }
     }
 
+
     public function isValidRule($resource){
         $tokenStorage  = $this->get('security.token_storage');
         $roleName = $tokenStorage->getToken()->getUser()->getRoleName();
+        //$roleId   =  $tokenStorage->getToken()->getUser()->getRoleId();
+
+
         if(!$this->checkAccessRole2($roleName , $resource))
         {
             return false;
@@ -364,6 +365,32 @@ class FunctionsController extends Controller
             return true;
         }
     }
+
+    public function checkAccessRole3($roleId , $resourceNameRequested)
+    {
+        if($roleId == '1')
+        {
+            // ADMIN_ROLE
+            return true;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $resourceList = $this->getDoctrine()
+            ->getRepository('AppBundle:Resources')
+            ->findBy(array( 'status' => '1' , 'resourceId' => $resourceNameRequested , 'assignedTo' => $roleId ));
+
+        if(!empty($resourceList))
+        {
+            if($resourceList[0]->getId() != "" && $resourceList[0]->getId() != null)
+            {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
 
     public function setCsrfToken($token_name){
         $csrf = $this->get('security.csrf.token_manager');
@@ -393,14 +420,14 @@ class FunctionsController extends Controller
         }
     }
 
-    public function validateDatabk ($data)
+    public function validateDataName ($data)
     {
         $count_errors = 0;
         try
         {
             foreach ($data as $value)
             {
-                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-@.]+$/u", $value))
+                if (!preg_match("/^[a-zA-Z\p{Arabic}\s]+$/u", $value))
                 {
                     $count_errors++;
                 }
@@ -438,7 +465,7 @@ class FunctionsController extends Controller
 
 
 
-    public function validateDataBK1 ($data)
+    public function validateDataSubs ($data)
     {
         $count_errors = 0;
         try
@@ -482,7 +509,7 @@ class FunctionsController extends Controller
         {
             foreach ($data as $value)
             {
-                $specialCh = array('!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-'
+                $specialCh = array('!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-' 
                 , '>' , '<' , ',' , '.' , '|' , ':' , '+' , '=' , '{' , '}','[',']', '/' , '_' , '§' , '±' , '~'
                   ,  '?' , '؟' , ';' , '"' , '؛', '&gt' , '&lt' , '&GT' , '&LT'
                 );
@@ -558,7 +585,10 @@ class FunctionsController extends Controller
         }
     }
 
-
+    public function getBrowserInfo()
+    {
+        return str_replace("/","-",$_SERVER['HTTP_USER_AGENT']);
+    }
 
 
 

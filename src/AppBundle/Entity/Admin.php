@@ -55,6 +55,13 @@ class Admin
      */
     private $password;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="role_id", type="integer", nullable=false)
+     */
+    private $roleId;
+
     
     /**
      * Set email
@@ -185,6 +192,30 @@ class Admin
     public function getRoleName()
     {
         return $this->roleName;
+    }
+
+    /**
+     * Set roleId
+     *
+     * @param integer $roleId
+     *
+     * @return Admin
+     */
+    public function setRoleId($roleId)
+    {
+        $this->roleId = $roleId;
+
+        return $this;
+    }
+
+    /**
+     * Get roleId
+     *
+     * @return integer
+     */
+    public function getRoleId()
+    {
+        return $this->roleId;
     }
 
 

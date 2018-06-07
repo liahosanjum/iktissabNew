@@ -11,7 +11,14 @@
 .navbar-nav { margin:0px; }
 
 .send_pwd_msg { padding-top:20px; }
-
+.frm-ads{ padding-top:15px; }
+#ikt_customer_info_password label { margin-bottom: 0px !important;    }
+.marquee_en {
+    overflow: hidden;
+    font-size: 14px;
+    font-family: Verdana;
+    font-weight: bold;
+}
 
 #div_dg #ikt_update_dob label#ikt_update_dob_year-error
 {
@@ -21,7 +28,7 @@
     font-weight: normal;
     left: 14px;
     position: absolute;
-    top: 82px;
+    top: 71px;
     width: 100%;
 }
 #div_dh #ikt_update_dob_h label#ikt_update_dob_h_year-error
@@ -32,7 +39,7 @@
     font-weight: normal;
     left: 14px;
     position: absolute;
-    top: 80px;
+    top: 71px;
     width: 100%;
 }
 
@@ -98,11 +105,11 @@ ul.nav li.dropdown:hover > ul.dropdown-menu { width: auto; }
     border-radius: 3px;  background-color: #008b40;  height: 40px; color: #FFFFFF; padding: 8px;  }
 .button-link-ikt-promo {  height: 40px; }
 .link-ikt-pro:hover   { width: 30%; border: 2px solid #008b40; margin: 0 auto; height: 40px; padding: 6px;
-    border-radius: 3px; background-color: #FFFFFF;   color: #008b40 !important; }
-.link-ikt-pro:hover > a {   color: #008b40 !important;  }
+    border-radius: 3px; background-color: #FFFFFF;   color: #000000 !important; }
+.link-ikt-pro:hover > a {   color: #000000 !important;  }
 
 .captcha-text { float: left; width: 100%; }
-.captcha-style { border: 1px solid #4e4e4e; }
+.captcha-style { border: 1px solid #4e4e4e; height: 34px; }
 .form-pwd .pwd-send-account {padding-top:15px; font-weight: normal; }
 .captcha-image { float: left; margin-top: 42px;   padding-left: 0px; text-align: right; }
 .captcha-image-reg { float: left; margin-top: 42px;   padding-left: 0px; text-align: right; }
@@ -155,15 +162,16 @@ select::-ms-expand {
 .title-cardactivation-form-captcha {  float: right; width:100%; text-align: left; }
 .login-passreset { float: left; text-align: left; }
 .inq-form{ margin-top:17px !important;}
-/*.update-form-user{ margin-top:10px !important;  margin-bottom:10px !important; }*/
+.update-form-user{ margin-top:8px !important;  margin-bottom:3px !important; }
 
 
 .mobile-ext-enq-lbl{ margin-top:16px; margin-bottom:2px; font-weight:500; }
 #FormCaptcha_CaptchaDiv{ float: right; }
 .navbar-right .dropdown-menu { right: auto;   }
 .navbar-collapse { padding-left: 0px !important;  }
-.pass-repeat{ margin-top:8px !important;}
-.email-repeat{ margin-top:8px !important;}
+.pass-repeat{ margin-top:12px !important; margin-bottom: 3px !important; }
+.iktpass label{ margin-bottom: 3px !important; }
+.email-repeat{ margin-top:12px !important; margin-bottom: 3px !important;}
 .messsage-wrapper{ margin-left:15px; margin-right:15px; }
 .messsage-wrapper-mobile{ margin-left:15px; margin-right:15px; }
 .iktpass{ padding-top: 5px; }
@@ -530,7 +538,7 @@ label.error{
 .formMessage { margin-top: 14px; }
 #preLoaders {left: 40%;  z-index: 1;  position: absolute;  border-radius: 12px;  top: 40%;  }
 .formControl-mobile { width: 200px; }
-#mobile_ext{ /*width: 100px;*/ padding-left:5px !important; }
+#mobile_ext{ padding-left:5px !important; font-weight: normal; }
 
 
 .alert-success-forms{ font-size: 16px; font-weight: normal; }
@@ -565,7 +573,7 @@ select#ikt_update_dob_day{
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -582,7 +590,7 @@ select#ikt_update_dob_h_day{
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -611,7 +619,7 @@ select#ikt_update_dob_month{
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -631,7 +639,7 @@ select#ikt_update_dob_year  {
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -649,7 +657,7 @@ select#ikt_update_dob_h_year  {
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -667,7 +675,7 @@ select#ikt_update_dob_h_month{
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -690,7 +698,7 @@ select#ikt_update_maritial_status  {
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     padding-top:8px;
@@ -710,7 +718,7 @@ select#ikt_update_maritial_status  {
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     line-height: 15px;
     padding-right: 12px;
     text-align: left;
@@ -727,7 +735,7 @@ select#ikt_update_maritial_status  {
     font-weight: 500;
     border-radius: 2px;
     border: 2px solid #008b40;
-    height: 33px;
+    height: 34px;
     width:160px;
     font-family: verdana;
 }
@@ -740,7 +748,7 @@ select#ikt_update_maritial_status  {
     font-weight: 500;
     border-radius: 2px;
     border: 2px solid #008b40;
-    height: 33px;
+    height: 34px;
     width:100%; /*160*/
     font-family: verdana;
 }
@@ -756,7 +764,7 @@ select#ikt_update_maritial_status  {
     font-family: DroidKufiBold;
     font-size: 17px;
     font-weight: 500;
-    height: 32px;
+    height: 34px;
     width: 84px;
 }
 
@@ -1148,7 +1156,7 @@ a.eg-fl-eg { padding-right:58px !important; }
 .top-contact-wrapper{ float: left;  }
 .top-lang-wrapper { float: right; }
 .menu-wrapper .navbar { min-height: 45px; }
-.newsticker { border: 4px solid #dddddd; }
+
 
 .top-lang-wrapper-inner .navbar-nav > li:nth-child(1) > a { border-left: 3px solid #e3e3e3; }
 
@@ -1168,7 +1176,10 @@ a.eg-fl-eg { padding-right:58px !important; }
 .message-promo{ float: right; width: 100%;}
 .left-arrow{ float: right;   }
 .right-arrow{ float: right; width: 100%;    }
-.mid-arrow-content{ float: right;  width: 100%;  font-size: 14px;  padding-top: 5px; padding-bottom: 5px;   text-align: center; font-family: DroidKufiRegular;  }
+.mid-arrow-content{ float: right;  width: 100%;  font-size: 14px;  padding-top: 10px;
+    padding-bottom: 10px;   text-align: center; font-family: DroidKufiRegular;  }
+
+
 .mid-arrow-content ul > li { font-family: Verdana; font-size: 14px;}
 .home-text-green{ padding-left:20px; padding-right: 20px; color: #008B40; float: right;  }
 .logo-wrapper { float: left; }
@@ -1810,7 +1821,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    height: 32px;
+    height: 34px;
     font-size: 12px;
     line-height: 15px;
     padding-left: 2px;
@@ -1891,7 +1902,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .cardactivationForm input, #cardactivationForm select.select {
     border: 1px solid #ADADAD;
     border-radius: 0 !important;
-    height: 33px;
+    height: 34px;
     padding-left: 5px;
     width: 100%;
 }
@@ -2078,7 +2089,7 @@ padding-left:26px !important;
     padding: 5px 0;
     border-radius: 2px;
     border: 2px solid #008b40;
-    margin-top: 10px;
+    margin-top: 20px;
     width:160px;
 }
 .btn-primary:hover { background-color: #fff; color:#343434; border: 2px solid #008b40}
@@ -2257,6 +2268,7 @@ padding-left:26px !important;
     .form-pwd .pwd-send-account { padding-top: 17px; }
     .ikt-ssn { padding-left:15px; }
     .navbar-collapse { padding-right:4px !important; }
+    .dropdown-menu { left:-1px; }
 }
 
 @media screen and (max-width: 600px) {
@@ -2316,9 +2328,9 @@ padding-left:26px !important;
 @media screen and (max-width: 1024px)
 {
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
-
+    .menu-wrapper .navbar-nav > li { height: 41px; }
     .captcha-image-forgotemail { padding-left: 0px; }
-
+    .menu-wrapper .navbar-nav > li > a { height: 41px; }
     .youtube-wrapper{ width: 100%; }
     .youtube-container {  width: 100%; }
     .mob-msg { float: none; }
@@ -2329,7 +2341,7 @@ padding-left:26px !important;
     #enter_otp_otp { margin-left:7%; margin-right:10%; width: 80%; }
     .mid-content-banner { width: 100%;  }
     .header-contact-wrap {  padding-top: 0px; }
-    .menu-wrapper .navbar-nav > li > a{ padding: 13px 8px 9px }
+    .menu-wrapper .navbar-nav > li > a{ padding: 10px 8px 9px }
     .social-media { display: none; }
     .navbar-nav > li > a { font-size: 12px; }
     .menu-wrapper .navbar-nav > li > a > .fa-home { font-size: 33px; }
@@ -2406,6 +2418,8 @@ padding-left:26px !important;
 
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
+    .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
+
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     .navbar-toggle { display: block; }
     .menu-wrapper .navbar-right .dropdown-menu{ width: 100%; }
@@ -2489,6 +2503,8 @@ padding-left:26px !important;
 
 }
 @media screen and (min-width: 600px) and (max-width: 767px) {
+    .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
+
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     .activation-description .sno { width: 13%; }
     .desc { width: 86%; text-align: justify; }
@@ -2504,6 +2520,8 @@ padding-left:26px !important;
 }
 
 @media screen and (max-width: 480px) {
+    .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
+
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     .youtube-wrapper{ width: 100%; }
     .youtube-container {  width: 100%; }
@@ -2517,7 +2535,7 @@ padding-left:26px !important;
 
     select#ikt_update_dob_year{width: 33%;float: right;}
     .btn_dob_wrappper{ padding-right: 0px; padding-top:3px;float: left; padding-left: 0px;  float: left;}
-
+    .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100% !important; }
     #ikt_update_dob_h{ width:100%; }
     select#ikt_update_dob_h_day{ width: 33%; float: left; }
     select#ikt_update_dob_h_month{width:32%;float: right;}
@@ -2537,13 +2555,15 @@ padding-left:26px !important;
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
+    .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
+
     .ikt-activation-number { text-align: center; }
     .card-activation-phone-title { margin-left: 10%; margin-right: 10%; width: 80%; }
     .sq-title { padding-top: 5px;}
     .top-lang-wrapper { float: left }
     .top-lang-wrapper .navbar-nav > li { text-align: right; }
     .topMenu .navbar-nav .open .dropdown-menu { position: absolute;   }
-
+     #mobile_ext { width: 100px; }
     .dropdown-menu > li > a {  border: 1px solid #dddddd; text-align: left; background-color: #FFFFFF;   }
     .topMenu  .navbar-nav .open .dropdown-menu { background-color: #FFFFFF; border: 1px solid #dddddd  }
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
@@ -2563,7 +2583,7 @@ padding-left:26px !important;
     .date-birth-step2 .day { padding-right: 0px !important; }
     .date-birth-step2 .cardactivationForm { width: 100%;}
     .title-cardactivation-form{ font-size: 12px;  }
-    .ikt-activation-title { font-size: 14px;}
+    .ikt-activation-title { font-size: 12px;}
     .steps-title { min-height: 40px;  }
     .date-birth-step2 .day{ padding-right: 0px !important; }
     .date-birth-step2 .title-cardactivation-form {  padding-right: 0px !important; text-align: left; }
@@ -2683,8 +2703,8 @@ padding-left:26px !important;
     .captcha-image-forgotemail { margin-top:43px; }
     .card-activation-phone-code { margin-top: 10px; width: 100%; }
     .card-activation-phone-code ul { float: left; width: 100% ; margin-left: 0%; margin-right:0%;}
+    .appstore { padding-left:9px;  }
+    .gplay { padding-right:9px; }
     .card-activation-phone-code ul li { float: left; padding-left: 0px;  width: 100%; margin-right: 0%; margin-left: 0%; color:#FF0000; margin-top:5px; list-style: none;  }
-
-
 }
 

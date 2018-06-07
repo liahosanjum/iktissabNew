@@ -37,6 +37,8 @@ class ResourcesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $lookupData = $options['additional'];
+        // print_r($lookupData['roles']);
 
         $builder
             ->add('resource_name', ChoiceType::class, array(
@@ -44,22 +46,24 @@ class ResourcesType extends AbstractType
                     'class' => 'form-control col-lg-3'
                 ),
                 'label' => 'Select Resource:',
-                'choices' => array('Select Resource ' => '',
-                    'View CMS' => 'MANAGE_CMS_VIEW',
-                    'Add CMS Page'  => 'MANAGE_CMS_ADD',
-                    'Edit CMS page'  => 'MANAGE_CMS_EDIT',
+                'choices' => array(
+                    'Select Resource ' => '',
+                    'View CMS'         => 'MANAGE_CMS_VIEW',
+                    'Add CMS Page'     => 'MANAGE_CMS_ADD',
+                    'Edit CMS page'    => 'MANAGE_CMS_EDIT',
                     'Delete CMS Page'  => 'MANAGE_CMS_DELETE',
-                    'View NEWS' => 'MANAGE_NEWS_VIEW',
-                    'Add NEWS Page'  => 'MANAGE_NEWS_ADD',
-                    'Edit NEWS page'  => 'MANAGE_NEWS_EDIT',
-                    'Delete NEWS Page'  => 'MANAGE_NEWS_DELETE'
-
-
-
+                    'View NEWS'        => 'MANAGE_NEWS_VIEW',
+                    'Add NEWS Page'    => 'MANAGE_NEWS_ADD',
+                    'Edit NEWS page'   => 'MANAGE_NEWS_EDIT',
+                    'Delete NEWS Page' => 'MANAGE_NEWS_DELETE',
+                    'Delete NEWS Page' => 'MANAGE_NEWS_DELETE',
+                    'Add Image'        => 'MANAGE_IMAGE_ADD',
+                    'View Image'       => 'MANAGE_IMAGE_VIEW',
+                    'Edit Image'       => 'MANAGE_IMAGE_EDIT',
+                    'Delete Image'     => 'MANAGE_IMAGE_DELETE',
                 ),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
-
                 )
             ))
 
@@ -67,11 +71,8 @@ class ResourcesType extends AbstractType
                     'attr'  => array(
                     'class' => 'form-control col-lg-3'
                 ),
-                'label' => 'Select Resource:',
-                'choices' => array('Select Roles ' => '',
-                    'CMS Editor'    => 'EDITOR_ROLE',
-                    'News Editor'   => 'EDITOR_ROLE2'
-                ),
+                'label'             => 'Select Role:',
+                'choices'           =>  $lookupData['roles'] ,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
 
@@ -105,7 +106,7 @@ class ResourcesType extends AbstractType
             ),
             'csrf_protection' => false,
         ));
-        // $resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
+         $resolver->setRequired('additional');               // Requires that currentOrg be set by the caller.
         // $resolver->setAllowedTypes('additional', 'array');  // Validates the type(s) of option(s) passed.
     }
 

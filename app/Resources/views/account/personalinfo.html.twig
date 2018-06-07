@@ -109,7 +109,12 @@
                 <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
                 <div class="account-info-detail-wrapper">
                     <div class="account-info-column">{{ 'Language'|trans }}</div>
-                    <div class="account-info-value">{{ iktData['lang'] }}</div>
+                    <div class="account-info-value">
+                    {% if iktData['lang'] == 'A'%}
+                    {{ 'Arabic'|trans }}
+                    {% else %}
+                    {{ 'English'|trans }}
+                    {%  endif %}</div>
                     <div class="claerfix"></div>
                 </div>
                 <div class="claerfix"></div>
@@ -170,7 +175,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
             <div class="eservice-content-personal-description">
                 <div class="icon-list-account light-red-color"><i aria-hidden="true" class="fa fa-circle-o"></i></div>
                 <div class="account-info-detail-wrapper">
@@ -219,14 +224,6 @@
             </div>
         </div><div class="claerfix"></div>
     </div>-->
-
-
-
-
-
-
-
-
 
 
 {% else %}

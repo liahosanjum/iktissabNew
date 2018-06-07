@@ -57,11 +57,10 @@
 
             var string = document.getElementById('update_fullname_fullname').value;
             if( string.match(format) ){
-                alert('valid');
+                // alert('valid');
                 return true;
             }else{
-                alert('invalid');
-                //alert('sdf');
+                // alert('invalid');
                 return false;
             }
         }
@@ -81,7 +80,7 @@
 
                                 event.preventDefault();
                                 jQuery.ajax({
-                                    type: $(this).attr('method'),
+                                    type: jQuery(this).attr('method'),
                                     url: "{{ path('front_account_fullname', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
                                     data: new FormData(this),
                                     processData: false,
@@ -91,6 +90,7 @@
                                        var isValid = validateIt();
                                         if(isValid) {
                                             jQuery('#preLoadersFull').html('<div id="loader"></div>');
+                                            jQuery('#update_fullname_Update').attr('disabled', "disabled");
                                         }else{
                                             jQuery('#fname').append('<label id="update_fullname_fullname-error" class="error" for="update_fullname_fullname">{{ 'Please provide valid data'|trans }}</label>');
                                             return false;

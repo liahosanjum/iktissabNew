@@ -63,7 +63,10 @@ class SmsService
     {
         try
         {
-            if ($country == '') $country = 'sa';
+            if ($country == '')
+            {
+                $country = 'sa';
+            }
             $param = $this->params['country'][$country];
             $user = $param['user'];
             $pass = $param['pass'];
@@ -71,13 +74,13 @@ class SmsService
             $prefix = $param['prefix'];
             $domain_name = $this->params['domain_name'];
             $application_type = $this->params['application_type'];
-            $url = $this->params['url'];
+            $url       = $this->params['url'];
             $receiver;
             $this->cleanMobile($receiver, $country);
-            $number = $prefix . $this->cleanMobile($receiver, $country);
+            $number    = $prefix . $this->cleanMobile($receiver, $country);
             // todo: remove below code
-            $number = "966583847092";
-            $msgID = rand(1, 9999);
+            $number    = "966583847092";
+            $msgID     = rand(1, 9999);
             $deleteKey = rand(1, 9999);
 
             $msg = urlencode($message);
@@ -96,7 +99,7 @@ class SmsService
         }
         catch (\Exception $e)
         {
-            false;
+            return false;
         }
     }
 
@@ -142,7 +145,7 @@ class SmsService
         }
         catch (\Exception $e)
         {
-            false;
+            return false;
         }
     }
 
@@ -189,7 +192,7 @@ class SmsService
         }
         catch (\Exception $e)
         {
-            false;
+            return false;
         }
     }
 

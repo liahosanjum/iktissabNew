@@ -39,30 +39,31 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function () {
+        jQuery(document).ready(function () {
             {{ form_jquery_validation(form) }}
 
-        $('form[name="iqamassn"]').on('submit', function (event) {
+            jQuery('form[name="iqamassn"]').on('submit', function (event) {
 
-            if($( "#iqamassn_iqamassn_new_first" ).hasClass( "valid" )) {
-                if ($("#iqamassn_iqamassn_new_second").hasClass("valid")) {
-                    if ($("#iqamassn_comment_iqamassn").hasClass("valid")) {
+            if(jQuery( "#iqamassn_iqamassn_new_first" ).hasClass( "valid" )) {
+                if (jQuery("#iqamassn_iqamassn_new_second").hasClass("valid")) {
+                    if (jQuery("#iqamassn_comment_iqamassn").hasClass("valid")) {
                         event.preventDefault();
-                        $.ajax({
-                            type: $(this).attr('method'),
+                        jQuery.ajax({
+                            type: jQuery(this).attr('method'),
                             url: "{{ path('front_account_iqamassn', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
                             data: new FormData(this),
                             processData: false,
                             contentType: false,
                             beforeSend: function () {
-                                $('#preLoadersSSN').html('<div id="loader"></div>');
+                                jQuery('#preLoadersSSN').html('<div id="loader"></div>');
+                                jQuery('#iqamassn_Update').attr('disabled', "disabled");
                             },
                             complete: function () {
 
                             },
                             success: function (response) {
                                 //$('#preLoaders').html('');
-                                $('#contents-9').html(response);
+                                jQuery('#contents-9').html(response);
                             }
                         })
                     }

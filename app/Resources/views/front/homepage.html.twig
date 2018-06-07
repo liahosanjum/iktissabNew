@@ -9,7 +9,6 @@
     <meta http-equiv="Link" content="<{{ asset('img/cartover.svg')}}>; rel=prefetch">
     <link rel="preload" href="{{ asset('img/promo1.svg')}}">
 
-    
     {{ parent() }}
 
     <script type="text/javascript">
@@ -46,12 +45,11 @@
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="mid-arrow-content">
-
-                                <ul id="webTicker-{{ app.request.get('_locale') }}">
+                                <div class="marquee_{{ app.request.get('_locale') }}" >
                                     {% for item_news in data_news %}
-                                       <li class="home-text-grey"> {{ item_news.details }} </li>
+         &nbsp; &nbsp; &nbsp;   {{ item_news.details }} &nbsp; &nbsp; &nbsp;
                                     {%  endfor %}
-                                </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -78,7 +76,7 @@
                             </a>
                         </div>
                         <div class="col-lg-12 col-md-12  col-sm-6  col-xs-6" >
-                            <a href="http://www.othaimmarkets.com//othaim-promotions?pid=1" target="_blank">
+                            <a href="http://www.othaimmarkets.com/othaim-promotions?pid=1" target="_blank">
                                 <div class="promotion-section_down"  onmouseover="changeImage('2','cart');" onmouseout="changeImageOver('2','cart');">
                                     <div class="promo-ico"><img alt="promtions" id="2" class="promo-img" src="{{ asset('img/cart.svg')}}"></div>
                                     <div class="promo-title">{{ 'Weekly Promotions'|trans  }}</div>
@@ -93,31 +91,31 @@
             </div>
             <div class="col-lg-9 col-md-8  col-sm-12  col-xs-12">
                 <div class="main-slider-wrapper">
-                    <div class="slickitem slider">
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg') }}" />
-                                </div>
-                            </a>
-                        </div>
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
-                                </div>
-                            </a>
-                        </div>
-                        <div class="home-page-slider">
-                            <a href="#" class="Product-Details">
-                                <div class="Banner-img">
-                                    <img alt="banner-img" class="img-responsive" src="{{ asset('img/banner/1.jpg')}}" />
-                                </div>
-                            </a>
-                        </div>
 
+
+                    <div class="slickitem slider slick-products">
+
+                        {% if image_data != "" %}
+                            {% for image_data_val in image_data %}
+                                <div class="home-page-slider">
+                                    <a href="#" class="Product-Details">
+                                        <div class="Banner-img">
+                                            <img alt="banner-img" class="img-responsive" src="{{ asset('banners/img/'~ image_data_val.image  ) }}" />
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="home-page-slider">
+                                <a href="#" class="Product-Details">
+                                    <div class="Banner-img">
+                                        <img alt="banner-img" class="img-responsive" src="{{ asset('banners/img/default.jpg') }}" />
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div> <!-- /.Item -->
-                </div>
+            </div>
             </div>
             <div class="claerfix"></div>
             <div>
@@ -413,15 +411,17 @@
                                 <div class="Product-img"><img alt="product1" class="img-responsive" src="{{ asset('/pl/') }}zad_c.png" /></div>
                             </a>
                         </div>
-                    </div> <!-- /.Item -->
+                    </div>
+
                     <div class="claerfix"></div>
                 </div>
             </div>
         </div>
+
+
         <div id="myModal1" class="modal">
             <span class="close"  style="color:#FFFFFF;">Close</span>
             <img class="modal-content" id="img01">
-
         </div>
 
     </section> <!-- /.slick Section -->
@@ -431,10 +431,8 @@
         function show(image) {
             var img = document.getElementById(image);
             var modalImg = document.getElementById("img01");
-
             modal.style.display = "block";
             modalImg.src = image;
-
         }
 
         // Get the <span> element that closes the modal
@@ -446,10 +444,7 @@
         modal.onclick = function() {
             modal.style.display = "none";
         }
-
-    </script>
-
-
-
+</script>
+<script type="text/javascript" src="{{ asset('js/jquery.marquee.min.js') }}"></script>
 {% endblock %}
 

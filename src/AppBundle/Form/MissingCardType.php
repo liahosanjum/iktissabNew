@@ -26,7 +26,7 @@ class MissingCardType extends AbstractType
         $country_id = $options['extras']['country'];
         $builder->add('missingcard_registered_iqamaid', TextType::class, array(
             'label' => 'Registered Iqama ID/SSN'.$country_id,'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-            'attr' =>array('class' => 'form-control formLayout' , 'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
+            'attr' =>array('class' => 'form-control ' , 'value' => $iktID_no , 'readonly' => 'readonly' , 'maxlength' => ($country_id == 'sa') ? 10 : 14 ),
             'constraints' => array(
                 new Assert\NotBlank(array('message' => 'This field is required')),
                 new Assert\Regex(
@@ -44,15 +44,15 @@ class MissingCardType extends AbstractType
                 'type' => TextType::class,
                 'invalid_message' => 'New Iktissab id and comfirm iktissab id must be same',
                 'required' => true,
-                'first_options'  => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'New Iktissab ID',  'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
-                'second_options' => array('attr' =>array('class' => 'form-control formLayout' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'Confirm Iktissab ID', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'first_options'  => array('attr' =>array('class' => 'form-control ' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'New Iktissab ID',  'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'second_options' => array('attr' =>array('class' => 'form-control ' , 'maxlength' => ($country_id == 'sa') ? 8 : 8 ),'label' => 'Confirm Iktissab ID', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                     new Assert\Regex(
                         array(
                             'pattern' => ($country_id == 'sa') ? '/^[9]([0-9]){7}$/' : '/^[5]([0-9]){7}$/',
-                            'match' => true,
+                            'match'   => true,
                             'message' =>  ($country_id == 'sa') ? "Please enter valid iktissab id starting with 9" : "Please enter valid iktissab id starting with 5")
                     ),
                 )
@@ -62,7 +62,7 @@ class MissingCardType extends AbstractType
 
 
             ->add('comment_missingcard', TextareaType::class, array('label' => 'Comments' , 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12 form_labels'],
-                'attr' =>array('maxlength' => 455, 'class' => 'form-control formLayout'),
+                'attr' =>array('maxlength' => 455, 'class' => 'form-control'),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
 

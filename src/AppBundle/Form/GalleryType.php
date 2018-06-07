@@ -36,7 +36,7 @@ class GalleryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        
         $builder
             ->add('atitle' , TextType::class, array('label' => 'Title Arabic','required' => true,
                 'attr' => array(
@@ -64,8 +64,8 @@ class GalleryType extends AbstractType
                 ))
             ->add('edesc'  , TextareaType::class, array('label' => 'Description English',
                 'required' => true,
-                'attr' => array(
-                'class' => 'form-control'
+                'attr'     => array(
+                'class'    => 'form-control'
             ),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
@@ -73,12 +73,16 @@ class GalleryType extends AbstractType
                 ))
 
             ->add('image', FileType::class, array('label' => 'Image (.jpg , .png only)' , 'data_class' => null,
-                'required' => true,
+                'required'    => true,
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+
                 ))
 
             ->add('status', CheckboxType::class, array(
                 'label'    => 'Status',
-                'mapped' => false,
+                'mapped'   => false,
                 'required' => false,
             ))
             

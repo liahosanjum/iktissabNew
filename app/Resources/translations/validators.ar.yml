@@ -38,6 +38,7 @@
 "Iqama/SSN fields must matcheg": "الرقم القومي غير مطابقة"
 'Mobile Number Must be 9 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 9 أرقام ويبدأ بـ 5'
 'Mobile Number Must be 11 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 11 رقم ويبدأ بـ 0'
+'Mobile Number Must be 10 digits': 'فضلاً ادخل رقم جوال صحيح مكون من 10 رقم ويبدأ بـ 0'
 'Name must be in two parts': 'فضلاً أدخل الاسم كاملاً'
 'Full name must be of atleast two parts': 'فضلاً أدخل الاسم كاملاً'
 'Invalid Data': 'Invalid Data'

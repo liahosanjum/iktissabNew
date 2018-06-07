@@ -5,15 +5,17 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 page-heading ">
 
-            <div class="title-form">Update Page </div>
+            <div class="title-form">Update Image </div>
 
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="cmsForm">
+            {% if message != "" %}
+            <div class="cmsForm  alert-success alert">
                 {{ message }}
 
             </div>
+            {% endif %}
             {{ form_start(form) }}
 
 

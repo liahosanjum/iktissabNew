@@ -32,7 +32,7 @@ class UpdateFullnameType extends AbstractType
         ))
         ->add('fullname', TextType::class, array('label' => 'Full Name',
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
-            'attr' =>array('class' => 'form-control formLayout'),
+            'attr' =>array('class' => 'form-control '),
             'constraints' => array(
              new Assert\NotBlank(array('message' => 'This field is required')))))
 
@@ -44,7 +44,7 @@ class UpdateFullnameType extends AbstractType
         ->add('comment_fullname', TextareaType::class, array('label' => 'Comments',
             'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
               
-            'attr' =>array('class' => 'form-control formLayout','maxlength' => 255),
+            'attr' =>array('class' => 'form-control ','maxlength' => 255),
              'constraints' => array(
              new Assert\NotBlank(array('message' => 'This field is required')),
              

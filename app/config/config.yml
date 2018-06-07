@@ -10,7 +10,7 @@ parameters:
     locale: en
     app_locales: en|ar
     app_countries: eg|sa
-    images_directory: '%kernel.root_dir%/../web/banners/img'
+    images_directory: '%kernel.root_dir%/../banners/img'
     sms_parameters:
         url: "http://www.mobily.ws/api/msgSend.php"
         application_type: "68"

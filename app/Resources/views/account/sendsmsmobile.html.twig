@@ -5,18 +5,13 @@
 
             </div>
             </div>
-
-
                 <div class="row text-center">
                 <div class="col-lg-10 col-md-11 col-sm-11 col-xs-11 col-lg-offset-1   verify-code  text-center">
-
                     {% if message != '' %}
                         <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
                             {{ message }}
                         </div>
                     {% endif %}
-
-
                 </div>
                 </div>
                 <div class="row">
@@ -24,48 +19,34 @@
                         <div class="form-group col-lg-10 col-lg-offset-1 col-md-11 col-sm-11 col-xs-11 text-center">
                             <input class="form-control" name="smsverify"  id="smsverify" placeholder="{{ 'Please enter the sms code'|trans }}"  >
                         </div>
-
                     <input class="form-control" name="token"  id="token" value="922992929292"  >
-
                     <div class="form-group col-lg-10 col-lg-offset-1 col-md-11 col-sm-11 col-xs-11   text-center">
                         <input   type="submit" id="sms-submit-mobile" name="sms-submit-mobile"   class="btn btn-primary  mobile-form-mags"  value = "{{ 'Submit'|trans }}" >
-
                     </div>
                     </form>
                 </div>
-
-
-
-
-
-
-
 {% block javascripts %}
 
 
         <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
         <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
-
-
         <script type="text/javascript">
 
-            $('form[name="sms-form-mobile"]').on('submit', function (event) {
+            jQuery('form[name="sms-form-mobile"]').on('submit', function (event) {
                 event.preventDefault();
-                $.ajax({
-                    type: $(this).attr('method'),
+                jQuery.ajax({
+                    type: jQuery(this).attr('method'),
                     url: "{{ path('front_account_sms_verificationmobile', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
                     data: new FormData(this),
                     processData: false,
                     contentType: false,
                     beforeSend: function() {
-                        alert("testing1");
                     },
                     complete: function(){
-alert("testing2");
                     },
                     success: function (response) {
-                        alert(response);
-                        $('#contents-7').html(response);
+                        // alert(response);
+                        jQuery('#contents-7').html(response);
                     }
                 })
             });

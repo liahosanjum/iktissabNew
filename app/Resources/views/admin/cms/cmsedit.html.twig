@@ -52,7 +52,7 @@
                 {{ form_widget(form.language) }}
             </div>
 
-            <div class="cmsForm">
+            <div class="cmsForm" id="cms_type">
                 {{ form_label(form.type) }}
                 {{ form_errors(form.type) }}
                 {{ form_widget(form.type) }}
@@ -84,6 +84,7 @@
     <style type="text/css">
         .cmsFormBrochure {
             display: none; }
+        #cms_type{ display: none; }
     </style>
 {% endblock %}
 {% block javascripts2 %}

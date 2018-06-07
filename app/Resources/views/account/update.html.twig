@@ -2,16 +2,14 @@
 
     <div class="row">
 
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            {% if message != '' %}
+                <div id="message-return" class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
+                    {{ message }}
+                </div>
+            {% endif %}
+        </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 update_account_user_wrapper">
-
-
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                {% if message != '' %}
-                    <div id="message-return" class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper">
-                        {{ message }}
-                    </div>
-                {% endif %}
-            </div>
             <div id="preLoadersUpd">
             </div>
             {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
@@ -26,7 +24,7 @@
                     {{ form_errors(form.dob) }}
                 </div>
             </div>
-            <div id="div_dh" class="update-form-user" style="display: none;">
+            <div id="div_dh" class="update-form-user" style="display:none">
                 {{ form_row(form.dob_h) }}
                 <div class="btn_dob_h_wrappper">
                     <input type="button" id="btn_dob_h" value="Gregorian"/>
@@ -65,9 +63,6 @@
             <div id="area_text" class="account_update_dd update-form-user">
                 {{ form_row(form.area_text) }}
             </div>
-
-
-
             <div class="account_update_dd update-form-user">
                 {{ form_row(form.pur_group) }}
             </div>
@@ -184,14 +179,15 @@
 
             var areas = {{ areas.content| raw }} ;
             jQuery('#ikt_update_area_no').empty();
+
+            // --jQuery("#city_named").val(jQuery("#ikt_update_city_no option:selected").text());
+
             //jQuery('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
             jQuery('#ikt_update_city_no').on('change', function () {
                 jQuery('#ikt_update_area_no').empty();
                 manage_areas(jQuery(this).val())
             });
-
             // if form is submitted then manage the areas and cities
-
             if (jQuery('#ikt_update_city_no').val() != '') {
                 manage_areas(jQuery('#ikt_update_city_no').val());
             }
@@ -202,27 +198,28 @@
                 jQuery('#ikt_update_area_no').val(jQuery('#ikt_update_area_no').val());
             });
 
-            function manage_areas(city) {
+
+
+
+            function manage_areas(city)
+            {
                 var city_count = 0;
-                // --> jQuery('#ikt_update_area_no').empty().append('<option value="">{{ 'Select Area '|trans }}</option>');
-
-                if (city != '') {
-
+                if (city != '')
+                {
                     jQuery.each(areas, function (index, el) {
                         if (city == el.city_no) {
                             city_count++;
                             jQuery('#ikt_update_area_no').append('<option value="'+jQuery.trim(el.name)+'">'+jQuery.trim(el.name)+'</option>');
                         }
                     });
-
                 }
                 if (city_count > 0)
                 {
-                    // jQuery('#ikt_update_area_text').val('-1');
-                    // ikt_update_area_no
                     jQuery('#ikt_update_area_no').show();
                     jQuery('#area_text').hide();
-                } else {
+                }
+                else
+                {
                     jQuery('#ikt_update_area_no').empty().append('<option value="-1">-1</option>');
                     jQuery('#ikt_update_area_text').val('');
                     jQuery('.area_no_wrapper').hide();
@@ -231,29 +228,118 @@
             }
 
 
-            {{ form_jquery_validation(form) }}
-            $('form[name="ikt_update"]').on('submit', function (event) {
-                if($( "#ikt_update_dob_year" ).hasClass( "valid" )) {
-                    event.preventDefault();
-                    $.ajax({
-                        type: $(this).attr('method'),
-                        url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function () {
+           {{ form_jquery_validation(form) }}
 
-                            jQuery('#preLoadersUpd').html('<div id="loader"></div>');
-                        },
-                        complete: function () {
+            jQuery("#ikt_update_dob_h_year").change(function()
+            {
+                // alert("testing");
+                jQuery("#ikt_update_dob_h_year-error").remove();
+            });
 
-                        },
-                        success: function (response) {
-                            jQuery('#contents-6').html(response);
+            jQuery("#ikt_update_dob_year").change(function()
+            {
+                // alert("testing");
+                jQuery("#ikt_update_dob_year-error").remove();
+            });
+
+            jQuery('form[name="ikt_update"]').on('submit', function (event)
+            {
+                //  alert("testing");
+                var style = jQuery("#div_dg").attr("style");
+                // alert(style);
+                if(style == "display: none;")
+                {
+                    // alert("gregorean enalbed");
+                    // alert(jQuery("#ikt_update_dob").val());
+                    var ikt_gre = jQuery("#ikt_update_dob_h_year").val();
+                    var ikt_gre_m = jQuery("#ikt_update_dob_h_month").val();
+                    if(ikt_gre == "")
+                    {
+                        // alert("1");
+                        jQuery("#ikt_update_dob_h_year-error").remove();
+                        var htm = '<label id="ikt_update_dob_h_year-error" class="error" for="ikt_update_dob_h_year" style="">{{ 'This field is required'|trans }}</label>';
+                        jQuery("#div_dh").append(htm);
+                        return false;
+                    }
+                    else
+                    {
+                        jQuery("#div_dh").append("");
+                        jQuery("#ikt_update_dob_h_year-error").remove();
+                        // alert("23");
+                        if(jQuery( "#ikt_update_dob_h_year" ).hasClass( "valid" ))
+                        {
+                            // alert("3");
+                            event.preventDefault();
+                            jQuery.ajax({
+                                type: jQuery(this).attr('method'),
+                                url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                                data: new FormData(this),
+                                processData: false,
+                                contentType: false,
+                                beforeSend: function () {
+                                    jQuery('#preLoadersUpd').html('<div id="loader"></div>');
+                                    jQuery('#ikt_update_submit').attr('disabled', "disabled");
+                                },
+                                complete: function () {
+
+                                },
+                                success: function (response) {
+                                    jQuery('#contents-6').html(response);
+                                }
+                            })
                         }
-                    })
+                        return false;
+                    }
                 }
-                else{return false;}
+                else
+                {
+                    // alert('asd---');
+                    // alert(style);
+                    // alert("gregorean enalbed");
+                    // alert(jQuery("#ikt_update_dob").val());
+                    var ikt_gre   = jQuery("#ikt_update_dob_year").val();
+                    var ikt_gre_m = jQuery("#ikt_update_dob_month").val();
+                    if(ikt_gre == "")
+                    {
+                        jQuery("#ikt_update_dob_year-error").remove();
+                        var htm = '<label id="ikt_update_dob_year-error" class="error" for="ikt_update_dob_year" style="">{{ 'This field is required'|trans }}</label>';
+                        jQuery("#div_dg").append(htm);
+                    }
+                    else
+                    {
+                        jQuery("#ikt_update_dob_year-error").remove();
+                        if(jQuery( "#ikt_update_dob_year" ).hasClass( "valid" ))
+                        {
+                            event.preventDefault();
+                            jQuery.ajax({
+                                type: jQuery(this).attr('method'),
+                                url: "{{ path('account_update', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}",
+                                data: new FormData(this),
+                                processData: false,
+                                contentType: false,
+                                beforeSend: function ()
+                                {
+                                    jQuery('#preLoadersUpd').html('<div id="loader"></div>');
+                                    jQuery('#ikt_update_submit').attr('disabled', "disabled");
+                                },
+                                complete: function () {
+
+                                },
+                                success: function (response) {
+                                    jQuery('#contents-6').html(response);
+                                }
+                            })
+                        }
+                        return true;
+                    }
+                    // alert("asdfads");
+                    // var style = jQuery("#div_dg").attr("style");
+                    // var htm = '<label id="ikt_update_dob_h_year-error" class="error" for="ikt_update_dob_h_year">This field is required</label>';
+                    // jQuery("#ikt_update_dob_h").append(htm);
+                    // alert("testing2"+style+jQuery("#div_dh").attr("style"));
+                    return false;
+                }
+
                 });
 
         });

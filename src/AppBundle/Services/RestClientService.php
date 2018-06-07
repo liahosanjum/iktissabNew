@@ -153,7 +153,7 @@ class RestClientService
             }
 
         } catch (\Exception $e) {
-            throw new AccessDeniedException('Unable to process your request at this time.Please try later1');
+            throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
     }
     //    public function restPost($url, $payload, $headers = array())
@@ -214,15 +214,12 @@ class RestClientService
         if (!empty($headerFormatted)) {
             $options = $headerFormatted;
         }
-
         try
         {
             $result = $this->restClient->post($url,$payload, $options);
-
             $result->getContent();
             if($result->getStatusCode() == Response::HTTP_OK)
             {
-
                 if($result->headers->get('content_type') == 'application/json')
                 {
                     $resultFormatted = $this->jsonEncoder->decode($result->getContent(), 'json');
@@ -235,19 +232,17 @@ class RestClientService
             }
             else if($result->getStatusCode() == Response::HTTP_FORBIDDEN )
             {
-                throw new AccessDeniedException('Unable to process your request at this time.Please try later2');
+                throw new AccessDeniedException('Unable to process your request at this time.Please try later');
             }
             else
             {
-                throw new AccessDeniedException('Unable to process your request at this time.Please try later1');
+                throw new AccessDeniedException('Unable to process your request at this time.Please try later');
             }
-
-
         }
         catch (\Exception $e)
         {
 
-            throw new AccessDeniedException('Unable to process your request at this time.Please try later3'.$e->getMessage());
+            throw new AccessDeniedException('Unable to process your request at this time.Please try later'.$e->getMessage());
         }
     }
 

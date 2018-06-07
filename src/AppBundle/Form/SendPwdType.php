@@ -29,7 +29,7 @@ class SendPwdType extends AbstractType
         $country_id = $lookupData['country'];
         $builder->add('iktCardNo', TextType::class, array('label' => 'Enter Iktissab ID',
             'label_attr' => ['class' => 'formLayout form_labels col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding'],
-            'attr' => array('maxlength' => 8 , 'class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout'),
+            'attr' => array('maxlength' => 8 , 'class' => 'form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 '),
             'constraints' => array (
 
                 new Assert\NotBlank(array('message' => 'This field is required')),
@@ -47,7 +47,7 @@ class SendPwdType extends AbstractType
 
             ->add('iqama', TextType::class, array(
                 'label'       => 'Registered Iqama ID/SSN'.$lookupData['country'],
-                'attr'        => array( 'class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 formLayout',
+                'attr'        => array( 'class' => ' form-control-modified col-lg-12 col-md-12 col-sm-12 col-xs-12 ',
                 'maxlength'   => ($lookupData['country'] == 'sa') ? 10 : 14 ),
                 'label_attr'  => ['class' => 'formLayout inq-form form-separator col-lg-12 col-md-12 col-sm-12 col-xs-12    form_labels nopadding'],
                 'constraints' => array(
@@ -55,7 +55,7 @@ class SendPwdType extends AbstractType
                     new Assert\Regex(
                         array(
                             'pattern' => ($lookupData['country'] == 'sa') ? '/^[1,2]([0-9]){9}$/' : '/^([0-9]){14}$/',
-                            'match' => true,
+                            'match'   => true,
                             'message' => 'Invalid Iqama Id/SSN Number'.$lookupData['country'])
                     ),
 

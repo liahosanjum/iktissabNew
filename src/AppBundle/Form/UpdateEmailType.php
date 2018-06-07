@@ -34,8 +34,8 @@ class UpdateEmailType extends AbstractType
                 'type' => TextType::class,
                 'invalid_message' => 'New email and confirm email fields must match',
                 'required' => true,
-                'first_options' => array('attr' =>array('class' => 'form-control formLayout'), 'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels' ]),
-                'second_options' => array('attr' =>array('class' => 'form-control formLayout'), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
+                'first_options' => array('attr' =>array('class' => 'form-control '), 'label' => 'New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels' ]),
+                'second_options' => array('attr' =>array('class' => 'form-control '), 'label' => 'Confirm New Email', 'label_attr' => ['class' => 'required formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12  form_labels']),
                 'constraints' => array (
                     new Assert\NotBlank(array('message' =>  'This field is required')),
                     new Assert\Email(array('message' => 'Invalid email address'))
@@ -43,7 +43,7 @@ class UpdateEmailType extends AbstractType
             ])
             ->add('old_password', PasswordType::class, array('label' => 'Enter Current Password',
                     'label_attr' => ['class' => 'formLayout    form_labels'],
-                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control formLayout'),
+                    'attr' =>array('maxlength' => 99,'class' => 'col-lg-8 form-control '),
                     'constraints' => array(
                         new Assert\NotBlank(array('message' => 'This field is required')),
                         
