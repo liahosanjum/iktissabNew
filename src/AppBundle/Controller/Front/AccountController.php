@@ -133,7 +133,7 @@ class AccountController extends Controller
                 }
                 else
                 {
-                    $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+                    $restClient = $this->get('app.rest_client')->IsAdmin(true);
                     if (!$this->get('session')->get('iktUserData')) {
                         $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                         // echo AppConstant::WEBAPI_URL.$url;
@@ -357,7 +357,7 @@ class AccountController extends Controller
                     $this->get('session')->set('iktUserData', $data['user']);
                 }
             }
-            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient = $this->get('app.rest_client')->IsAdmin(true);
             if (!$this->get('session')->get('iktUserData')) {
                 $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                 // echo AppConstant::WEBAPI_URL.$url;
@@ -506,7 +506,7 @@ class AccountController extends Controller
         {
 
 
-            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient = $this->get('app.rest_client')->IsAdmin(true);
             //print_r($this->get('session')->get('iktUserData'));
             if (!$this->get('session')->get('iktUserData')) {
                 $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
@@ -585,7 +585,7 @@ class AccountController extends Controller
         try
         {
 
-            $restClient       = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient       = $this->get('app.rest_client')->IsAdmin(true);
             $locale_cookie    = $request->getLocale();
             $country_cookie   = $request->get('_country');
             $userLang         = trim($request->query->get('lang'));
@@ -656,6 +656,7 @@ class AccountController extends Controller
                     $this->get('session')->set('new_value', strip_tags(strtolower($data['update_email']['newemail']['first'])));
                     // here we will check if the email is already registered on website or not
                     $email_val = $this->checkEmail(strip_tags(strtolower($data['update_email']['newemail']['first'])), $Country_id, $iktCardNo);
+
                     if (!empty($email_val) && $email_val != null)
                     {
                         // print_r($email_val);
@@ -728,13 +729,13 @@ class AccountController extends Controller
                                     else
                                     {
                                         $newemail = strip_tags(strtolower($data['update_email']['newemail']['first']));
-                                        // here when the offline db password is update then udate online
+                                        // here when the offline db email is update then udate online
                                         $email_changed = $this->accountSMSVerification($request, $newemail);
                                         // print_r($email_changed);
                                         if ($email_changed == true)
                                         {
                                             $tokenStorage->getToken()->getUser()->setUsername($newemail);
-                                            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+                                            $restClient = $this->get('app.rest_client')->IsAdmin(true);
                                             $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                                             $data_user = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
                                             if ($data_user['success'] == true) {
@@ -881,18 +882,16 @@ class AccountController extends Controller
         try {
                 // $data_form['smsverify'];exit;
                 // this method is used to change offline user account email
-                $restClient   = $this->get('app.rest_client')->IsAuthorized(true);
+                $restClient   = $this->get('app.rest_client')->IsAdmin(true);
                 $Country_id   = strtoupper($this->getCountryId($request));
                 $iktUserData  = $this->get('session')->get('iktUserData');
-                //current logged in user iktissab id
                 $iktCardNo    = $iktUserData['C_id'];
                 $iktID_no     = $iktUserData['ID_no'];
-                // get current email of the user
                 $currentEmail = $iktUserData['email'];
-                // form posted data
                 $data_form    = "";
                 $comments     = "";
                 $data_form    = $request->request->all();
+
                 $url          = $request->getLocale() . '/api/update_user_email.json';
                 $comments     = '';
                 $form_data = array(
@@ -912,15 +911,20 @@ class AccountController extends Controller
 
                 if ($data["success"] == true)
                 {
-                    $update_email_status = $this->updateEmailOffline($request, $newemail);
+                    // Due to proxy server implementation no need to update email in the online database.
+                    // there $update_email_status from $this->updateEmailOffline
+                    //$update_email_status = $this->updateEmailOffline($request, $newemail);
+                    $update_email_status = true;
                     if ($update_email_status == true)
                     {
+                        // update local
                         $email_val = $this->updateEmail($this->get('session')->get('new_value'), $Country_id, $iktCardNo);
                     }
                     else
                     {
                         $email_val = 0;
                     }
+
                     if ($email_val == '1')
                     {
                        return true;
@@ -1059,16 +1063,13 @@ class AccountController extends Controller
      */
     public function smsverificationmobile(Request $request)
     {
-
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
         $iktUserData = $this->get('session')->get('iktUserData');
         $activityLog = $this->get('app.activity_log');
         $commFunct   = new FunctionsController();
         $commFunct->setContainer($this->container);
         $session = new Session();
-
         $country_id = $request->get('_country');
-
         if($country_id == 'eg')
         {
             $country_id = 'eg';
@@ -1213,7 +1214,7 @@ class AccountController extends Controller
             return $this->redirectToRoute('login',array('_country' => $request->cookies->get(AppConstant::COOKIE_COUNTRY), '_locale' => $request->cookies->get(AppConstant::COOKIE_LOCALE)));
         }
         $activityLog = $this->get('app.activity_log');
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
         $iktUserData = $this->get('session')->get('iktUserData');
         $commFunct   = new FunctionsController();
         $commFunct->setContainer($this->container);
@@ -1359,7 +1360,7 @@ class AccountController extends Controller
                                         $commFunct->setCsrfToken('account_upd_mobile');
                                         $session = new Session();
                                         $token   = $session->get('account_upd_mobile');
-                                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_ERROR, $iktUserData['C_id'],
+                                        $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MOBILE_PENDING, $iktUserData['C_id'],
                                             array('iktissab_card_no' => $iktUserData['C_id'],
                                             'message' => $data['message'], 'session' => $iktUserData , 'postedData' => $form_data ),
                                             $form_data['old_value'], $form_data['new_value']
@@ -1458,8 +1459,8 @@ class AccountController extends Controller
             $message = $this->get('translator')->trans('An invalid exception occurred');
             $errorcl = 'alert-danger';
             return $this->render('account/mobile.html.twig',
-                array('form' => $form->createView(),'country' => $country_id,
-                    'token' => $token ,
+                array('form'  => $form->createView(),'country' => $country_id,
+                    'token'   => $token ,
                     'message' => $message,'errorcl' => $errorcl)
             );
         }
@@ -1504,7 +1505,7 @@ class AccountController extends Controller
         $country_id  = $request->get('_country');
         $this->getUser()->getIktCardNo();
         //$restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-        $restClient  = $this->get('app.rest_client');
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
         $iktUserData = $this->get('session')->get('iktUserData');
         $iktCardNo   = $iktUserData['C_id'];
         $iktID_no    = $iktUserData['ID_no'];
@@ -1644,7 +1645,7 @@ class AccountController extends Controller
                             {
                                 if ($data['status'] == 1)
                                 {
-                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_ERROR, $iktUserData['C_id'],
+                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_FULLNAME_PENDING, $iktUserData['C_id'],
                                         array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'],
                                             'session' => $iktUserData , 'postedData' => $form_data),$form_data['old_value'],$form_data['new_value']);
                                     $errorcl = 'alert-danger';
@@ -1755,11 +1756,9 @@ class AccountController extends Controller
         $commFunct->setContainer($this->container);
         $country_id  = $request->get('_country');
         $language    = $request->getLocale();
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
         $iktUserData = $this->get('session')->get('iktUserData');
         //print_r($iktUserData);
-
         $iktCardNo   = $iktUserData['C_id'];
         $iktID_no    = $iktUserData['ID_no'];
         $user_country_id = $iktUserData['country_id'];
@@ -1904,7 +1903,7 @@ class AccountController extends Controller
                                     $commFunct->setCsrfToken('account_upd_iqamassn');
                                     $session = new Session();
                                     $token = $session->get('account_upd_iqamassn');
-                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_ERROR, $iktUserData['C_id'],
+                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_IQAMA_PENDING, $iktUserData['C_id'],
                                             array('iktissab_card_no' => $iktUserData['C_id'],
                                             $form_data['old_value'] , $form_data['new_value'],
                                             'message' => $data_rest['message'], 'session' => $iktUserData , 'postedData' => $form_data ),
@@ -2117,7 +2116,11 @@ class AccountController extends Controller
 
                         $new_md5_password = md5(strip_tags($form->get('new_password')->getData()));
                         // here when the offline db password is update then udate online
-                        $password_changed = $this->updatePasswordOffline($request, $new_md5_password);
+                        // $password_changed = $this->updatePasswordOffline($request, $new_md5_password);
+                        // Commentingout this code to update the offline due to proxy server implementation
+                        // assuming the offline db is updated as there is no need of it now so returning TRUE
+
+                        $password_changed = true;
                         if ($password_changed == true) {
                             $userInfoLoggedIn->setPassword($new_md5_password);
                             $em = $this->getDoctrine()->getManager();
@@ -2131,7 +2134,7 @@ class AccountController extends Controller
 
                                 array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog,
                                     'session' => $iktUserData , 'postedData' => array( $form->get('new_password')->getData()) ),
-                                $postData['update_password']['old_password'],$postData['update_password']['new_password']['first']
+                                $old_password,$new_password
                                 );
                             $message = $this->get('translator')->trans('Your password is updated successfully');
                             // update password in the offline database
@@ -2150,7 +2153,7 @@ class AccountController extends Controller
                             $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'],
 
                                 array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $messageLog, 'session' => $iktUserData),
-                                $postData['update_password']['old_password'],$postData['update_password']['new_password']['first']
+                                $old_password,$new_password
                                 );
                             $message = $this->get('translator')->trans('Unable to update record');
                             // update password in the offline database
@@ -2170,7 +2173,7 @@ class AccountController extends Controller
                         $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'],
 
                             array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData),
-                            $postData['update_password']['old_password'],$postData['update_password']['new_password']['first']
+                            $old_password,$new_password
                             );
                         return $this->render('account/updatepassword.html.twig',
                             array('form1' => $form->createView(),'token' => $token,  'message' => $message , 'errorcl' => $errorcl));
@@ -2186,7 +2189,7 @@ class AccountController extends Controller
                     $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_PASSWORD_ERROR, $iktUserData['C_id'],
 
                         array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $message, 'session' => $iktUserData),
-                        $postData['update_password']['old_password'],$postData['update_password']['new_password']['first']
+                        $old_password,$new_password
                         );
                     return $this->render('account/updatepassword.html.twig',
                         array('form1' => $form->createView(),'token' => $token,  'message' => $message , 'errorcl' => $errorcl));
@@ -2234,7 +2237,7 @@ class AccountController extends Controller
         try
         {
             $user = $this->get('session')->get('iktUserData');
-            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient = $this->get('app.rest_client')->IsAdmin(true);
             $url = $request->getLocale() . '/api/cities_areas_and_jobs.json';
             $cities_jobs_area = $restClient->restGet(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
             if(!empty($cities_jobs_area) && $cities_jobs_area !="")
@@ -2398,7 +2401,7 @@ class AccountController extends Controller
                         {
                             // we need to update the session data to reflect the
                             // changes after profile update
-                            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+                            $restClient = $this->get('app.rest_client')->IsAdmin(true);
                             $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/userinfo.json';
                             // echo AppConstant::WEBAPI_URL.$url;
                             $data_user = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => strtoupper($request->get('_country'))));
@@ -2679,7 +2682,7 @@ class AccountController extends Controller
         $activityLog = $this->get('app.activity_log');
         $commFunct = new FunctionsController();
         $commFunct->setContainer($this->container);
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
         $iktUserData = $this->get('session')->get('iktUserData');
         $country_id  = $this->getCountryId($request);
         //  var_dump($iktUserData);
@@ -2781,7 +2784,7 @@ class AccountController extends Controller
                                     $commFunct->setCsrfToken('account_upd_missingcard');
                                     $session = new Session();
                                     $token = $session->get('account_upd_missingcard');
-                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_ERROR, $iktUserData['C_id'],
+                                    $activityLog->logEvent(AppConstant::ACTIVITY_UPDATE_MISSINGCARD_PENDING, $iktUserData['C_id'],
 
                                         array('iktissab_card_no' => $iktUserData['C_id'], 'message' => $data['message'], 'session' => $iktUserData ,
                                             'postData' => $form_data),
@@ -3015,7 +3018,7 @@ class AccountController extends Controller
             {
                 $page = $request->query->get('draw');
             }
-            $restClient = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient = $this->get('app.rest_client')->IsAdmin(true);
             // fetch trans count and save in session for future
             if (!$this->get('session')->get('trans_count')) {
                 $url = $request->getLocale() . '/api/' . $this->getUser()->getIktCardNo() . '/customer_transaction_count.json';
@@ -3447,7 +3450,7 @@ class AccountController extends Controller
             $password = $password;
 
             $country_id  = $request->get('_country');
-            $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient  = $this->get('app.rest_client')->IsAdmin(true);
             $iktUserData = $this->get('session')->get('iktUserData');
             $iktCardNo   = $iktUserData['C_id'];
             if(!empty($password))
@@ -3502,7 +3505,7 @@ class AccountController extends Controller
 
             $country_id  = $request->get('_country');
             $this->getUser()->getIktCardNo();
-            $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
+            $restClient  = $this->get('app.rest_client')->IsAdmin(true);
             $iktUserData = $this->get('session')->get('iktUserData');
             $iktCardNo   = $iktUserData['C_id'];
             if(!empty($email))
@@ -3577,15 +3580,13 @@ class AccountController extends Controller
         $commFunct->changeCountry($request, $userCountry);
         if($this->get('session')->get('iktUserData'))
         {
-            //return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
-            $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+            // return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
+            return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
         else
         {
-            //echo 'sdf';
-            //$url = $this->generateUrl('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale));
+            // $url = $this->generateUrl('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale));
             return $this->redirectToRoute('account_home', array('_country' => $userCountry, '_locale' => $cookieLocale));
-
             //return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }

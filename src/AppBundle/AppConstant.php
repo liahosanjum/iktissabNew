@@ -25,22 +25,29 @@ class AppConstant
 
 
     const  ACTIVITY_UPDATE_MOBILE_SUCCESS = 'UpdateMobileSuccessfull';
-    const  ACTIVITY_UPDATE_MOBILE_ERROR = 'UpdateMobileError';
+    const  ACTIVITY_UPDATE_MOBILE_ERROR   = 'UpdateMobileError';
+    const  ACTIVITY_UPDATE_MOBILE_PENDING = 'UpdateMobilePendingRequest';
 
-    const  ACTIVITY_UPDATE_IQAMA_SUCCESS = 'UpdateIqamaSuccessfull';
-    const  ACTIVITY_UPDATE_IQAMA_ERROR   = 'UpdateIqamaError';
+
+    const  ACTIVITY_UPDATE_IQAMA_SUCCESS  = 'UpdateIqamaSuccessfull';
+    const  ACTIVITY_UPDATE_IQAMA_ERROR    = 'UpdateIqamaError';
+    const  ACTIVITY_UPDATE_IQAMA_PENDING  = 'UpdateIqamaPendingRequest';
 
     const  ACTIVITY_UPDATE_FULLNAME_SUCCESS = 'UpdateFullnameSuccessfull';
     const  ACTIVITY_UPDATE_FULLNAME_ERROR   = 'UpdateFullnameError';
+    const  ACTIVITY_UPDATE_FULLNAME_PENDING = 'UpdateFullnamePendingRequest';
 
     const  ACTIVITY_UPDATE_MISSINGCARD_SUCCESS = 'UpdateMissingCardSuccessfull';
     const  ACTIVITY_UPDATE_MISSINGCARD_ERROR   = 'UpdateMissingCardError';
+    const  ACTIVITY_UPDATE_MISSINGCARD_PENDING = 'UpdateMissingCardPendingRequest';
 
     const  ACTIVITY_UPDATE_PASSWORD_SUCCESS = 'UpdatePasswordSuccessfull';
     const  ACTIVITY_UPDATE_PASSWORD_ERROR   = 'UpdatePasswordError';
+    const  ACTIVITY_UPDATE_PASSWORD_PENDING = 'UpdatePasswordPendingRequest';
 
     const  ACTIVITY_UPDATE_USERINFO_SUCCESS = 'UpdateUserInfoSuccessfull';
     const  ACTIVITY_UPDATE_USERINFO_ERROR   = 'UpdateUserInfoError';
+    const  ACTIVITY_UPDATE_USERINFO_PENDING = 'UpdateUserInfoPendingRequest';
 
     const ACTIVITY_FORGOT_EMAIL_SMS = 'SmsSentForForgotEmail';
     const ACTIVITY_FORGOT_EMAIL_SMS_FAILED = 'SmsNotSentForForgotEmail';
@@ -48,9 +55,11 @@ class AppConstant
 
     const  ACTIVITY_UPDATE_RESETPASSWORD_SUCCESS = 'UpdateRestPasswordSuccessfull';
     const  ACTIVITY_UPDATE_RESETPASSWORD_ERROR   = 'UpdateRestPasswordError';
+    const  ACTIVITY_UPDATE_RESETPASSWORD_PENDING = 'UpdateRestPasswordPendingRequest';
 
     const  ACTIVITY_FORGOT_PASSWORD_SUCCESS = 'UpdateForgotPasswordSuccessfull';
     const  ACTIVITY_FORGOT_PASSWORD_ERROR   = 'UpdateForgotPasswordError';
+    const  ACTIVITY_FORGOT_PASSWORD_PENDING = 'UpdateForgotPasswordPendingRequest';
 
     const  ACTIVITY_UPDATE_EMAIL_SUCCESS = 'UpdateEmailSuccessfull';
     const  ACTIVITY_UPDATE_EMAIL_ERROR   = 'UpdateEmailError';
@@ -61,6 +70,7 @@ class AppConstant
 
     const ACTIVITY_ADD_INQUIRY_FORM = 'InquiryFormSubmittedSuccessfully';
     const ACTIVITY_ADD_INQUIRY_FORM_ERROR = 'InquiryFormSubmittedError';
+
 
     const ACTIVITY_ACCOUNT_HOME = 'ActivityAccountHome';
     const ACTIVITY_ACCOUNT_HOME_ERROR = 'ActivityAccountHomeError';
@@ -116,8 +126,8 @@ class AppConstant
 
     // const BASE_URL = "http://othaimmarkets.com/ikitssab/index.php";
 
-    //const BASE_URL = "http://localhost/iktissabNew/index.php";
+    const BASE_URL = "http://localhost/iktissabNew/index.php";
 
-    const BASE_URL = "http://test.othaimmarkets.com/iktissab/index.php";
+    // const BASE_URL = "http://test.othaimmarkets.com/iktissab/index.php";
 
 }

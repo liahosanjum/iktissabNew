@@ -1978,14 +1978,12 @@ class DefaultController extends Controller
         /***************/
         $tokenStorage = $this->get('security.token_storage');
         $userCountry  =  trim($request->query->get('ccid'));
-
         $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $commFunct->changeCountry($request, $userCountry);
         if($this->get('session')->get('iktUserData')) {
-            //return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
             return $this->redirect($this->generateUrl('account_logout', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
-        else{
+        else {
             return $this->redirect($this->generateUrl('homepage', array('_country' => $userCountry, '_locale' => $cookieLocale)));
         }
     }
@@ -2077,7 +2075,6 @@ class DefaultController extends Controller
 
         try
         {
-
             $form->handleRequest($request);
             $pData = $form->getData();
             $data  = $request->request->all();
@@ -2097,14 +2094,11 @@ class DefaultController extends Controller
                         $commFunction->setCsrfToken('front_forgot_pass');
                         $session = new Session();
                         $token   = $session->get('front_forgot_pass');
-
                         $filename      = $commFunction->saveTextAsImage();
                         $response->setContent($filename['filename']);
                         $captcha_image = $filename['image_captcha'];
-
                         $error['success'] = false;
                         $error['message'] = $this->get('translator')->trans('Please provide valid data');
-
                         return $this->render('/default/send_pwd.twig',
                             array(
                                 'form'    => $form->createView(),
@@ -2112,13 +2106,11 @@ class DefaultController extends Controller
                                 'token'   => $token,
                                 'data'    => $captcha_image, ));
                     }
-
                     try
                     {
                         if ($commFunction->checkCsrfToken($form->get('token')->getData(), 'front_forgot_pass'))
                         {
                             $captchaCode = trim(strtoupper($this->get('session')->get('_CAPTCHA')));
-
                             $captchaCodeSubmitted = trim($form->get('captchaCode')->getData());
                             $filename = $commFunction->saveTextAsImage();
                             $response->setContent($filename['filename']);
