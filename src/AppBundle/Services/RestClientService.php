@@ -242,7 +242,7 @@ class RestClientService
         catch (\Exception $e)
         {
 
-            throw new AccessDeniedException('Unable to process your request at this time.Please try later'.$e->getMessage());
+            throw new AccessDeniedException('Unable to process your request at this time.Please try later');
         }
     }
 
@@ -270,8 +270,8 @@ class RestClientService
         try
         {
             $result = $this->restClient->get($url, $options);
-            // print_r($result);
             $result->getContent();
+
             if($result->getStatusCode() == Response::HTTP_OK)
             {
                 if($result->headers->get('content_type') == 'application/json')

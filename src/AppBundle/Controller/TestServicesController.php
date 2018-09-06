@@ -52,125 +52,57 @@ class TestServicesController extends Controller
         {
             $url = $_POST['url2'];
         }
-        $url = $request->getLocale().'/api/'.$url ;
+        $url = $request->getLocale().'/api/'.$url."/is_ssn_used.json" ;
         if(!empty($_POST))
         {
-            // exit;
-            $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url, array('Country-Id' => $country_id));
-            // print_r($data);
-            // $data = ($data);
-            dump( $data );
-            return $this->render('front/test/gettestRS.html.twig',
-                array
-                (
-                    'data'    => $data,
-                    'errorcl' => 'alert-danger'
-                )
-            );
+            $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url , array('Country-Id' => $country_id));
+            return $this->render('front/test/gettestRS.html.twig', array('data' => $data, 'errorcl' => 'alert-danger'));
         }
         $data = "";
         return $this->render('front/test/gettestRS.html.twig',
-            array
-            (
-                'data'    => $data,
-                'errorcl' => 'alert-danger',
-            )
+            array ( 'data' => $data, 'errorcl' => 'alert-danger')
         );
     }
 
     /**
-     * @Route("/{_country}/{_locale}/testservices/postTestRSEmail")
+     * @Route("/{_country}/{_locale}/testservices/getCardStatus")
      * @param Request $request
      * @return Response
      */
 
-    public function postTestRSEmailAction(Request $request , $form_param)
+    public function getCardStatusAction(Request $request , $form_param)
     {
         $country_id  = $request->get('_country');
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-        echo $url    = $request->getLocale().'/api/'.$_POST['url'] ;
-        if(!empty($_POST['url']))
+        $restClient  = $this->get('app.rest_client')->IsAdmin(true);
+        // print_r($form_param);
+        /************************/
+        // echo $url  = $request->getLocale() . '/api/create_offlineuser.json';
+        if($_POST['url'] != "" )
         {
-            $postData  = $_POST['data'];
-            $data = '';
-            if($postData != "") {
-                $postData = '{ "C_id":"91000153", "field":"email" , "old_value":"sa.aspiresc@gmail.com" , "new_value":"sa.aspiresc@gmail.com", "comments":"testinh"}';
-                $data     = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url,$postData , array('Country-Id' => strtoupper($request->get('_country'))));
-                dump($data);exit;
-            }
-            //dump($data);exit;
-            return $this->render('front/test/testRS.html.twig',
-                array
-                (
-                    'data'    => $data,
-                    'errorcl' => 'alert-danger'
-                )
-            );
+            $url = $_POST['url'];
+        }
+        else
+        {
+            $url = $_POST['url2'];
+        }
+        $url = $request->getLocale().'/api/'.$url."/card_status.json" ;
+        if(!empty($_POST))
+        {
+            $data = $restClient->restGetForm(AppConstant::WEBAPI_URL . $url , array('Country-Id' => $country_id));
+            return $this->render('front/test/getcardstatus.html.twig', array('data' => $data, 'errorcl' => 'alert-danger'));
         }
         $data = "";
-        return $this->render('front/test/testRS.html.twig',
-            array
-            (
-                'data'    => $data,
-                'errorcl' => 'alert-danger',
-            )
+        return $this->render('front/test/getcardstatus.html.twig',
+            array ( 'data' => $data, 'errorcl' => 'alert-danger')
         );
-    }
 
+        // -- values for new card registration
+        /*
+         {"C_id":"50000250","cname":"test test","area":"test","city_no":"2","mobile":"00201211111111","email":"sa50000250@gmail.com",
+        "nat_no":9,"Marital_status":"S","ID_no":"12231121222455","job_no":"1","gender":"M","pur_grp":"3","birthdate":"2002-06-06 12:00:00","pincode":2949,"source":"W",
+        "browser":"Mozilla-5.0 (Macintosh; Intel Mac OS X 10.13; rv:46.0) Gecko-20100101 Firefox-46.0"}
+         */
 
-    /**
-     * @Route("/{_country}/{_locale}/testservices/postTestRSName")
-     * @param Request $request
-     * @return Response
-     */
-
-    public function postTestRSNameAction(Request $request , $form_param)
-    {
-        $country_id  = $request->get('_country');
-        $restClient  = $this->get('app.rest_client')->IsAuthorized(true);
-        $url = "update_user_name";
-        echo $url    = $request->getLocale().'/api/'.$url ;
-        if(!empty($url))
-        {
-            $postData  = $_POST['data'];
-            $data = '';
-            if($postData != "") {
-                $postData = '{ "C_id":"91000153", "field":"cname" , "old_value":"test name" , "new_value":"test name new", "comments":"testing testing tesiting"}';
-                $data     = $restClient->restPostForm(AppConstant::WEBAPI_URL . $url,$postData , array('Country-Id' => strtoupper($request->get('_country'))));
-                dump($data);exit;
-            }
-            //dump($data);exit;
-            return $this->render('front/test/testRSname.html.twig',
-                array
-                (
-                    'data'    => $data,
-                    'errorcl' => 'alert-danger'
-                )
-            );
-        }
-        $data = "";
-        return $this->render('front/test/testRS.html.twig',
-            array
-            (
-                'data'    => $data,
-                'errorcl' => 'alert-danger',
-            )
-        );
-    }
-
-    /**
-     * @Route("/{_country}/{_locale}/testservices/chkbrowser")
-     * @param Request $request
-     * @return Response
-     */
-
-    public function chkbrowserAction(Request $request , $form_param)
-    {
-        echo 'asdf';
-        $browserAgent = $_SERVER['HTTP_USER_AGENT'];
-        echo $browserAgent;
-        echo $date = date('Y-m-d H:i:s');
-        exit;
     }
 
 

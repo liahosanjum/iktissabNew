@@ -230,7 +230,7 @@
 "Email": "البريـد الإلكترونـي"
 "Follow Us": "تابعونــا علـى"
 "Terms and Conditions": "الشروط والأحكام"
-"Copy rights": "جميع الحقوق محفوظة لشركة أسواق عبد الله العثيم @ 2018"
+"Copy rights": "جميع الحقوق محفوظة لشركة أسواق عبد الله العثيم @ "
 "Customer Services": "مركز خدمة العملاء"
 "My Account": "حسابي"
 "Forgot Email": "نسيت البريد الإلكتروني"
@@ -319,7 +319,6 @@
 "Please enter activation code": "فضلاً ادخل كود التفعيل"
 "Please enter 6 digits code you received on your mobile": "لقد تم ارسال كود التفعيل والمكون من 6 أرقام إلى جوالك المنتهي بـ"
 "Thank you. Your activation request has been received successfully": "شكراً لكم لقد تم استلام طلب التفعيل بنجاح "
-"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "عزيزنا العميل تم إرسال بياناتك لفريق اكتساب سوف يتم تفعيل حسابك خلال 48 ساعه بعد مراجعة كافة بياناتك "
 "Retrieve account email": "استعادة البريد الإلكتروني للحساب"
 "Credit Cash": "المبالغ المكتسبة"
 "Unable to update record": "نأسف، تعذر تحديث معلوماتك"
@@ -336,8 +335,8 @@
 'SAR': 'ريال'
 'Currency-sa': 'ريال'
 'Currency-eg': 'جنيه'
-"Freez": "Freez ar"
-"Unfreez": "Unfreez ar"
+"Freez": "غير نشط"
+"Unfreez": "نشط"
 'Sorry! The page your requesting is not available': 'عفواً المحتوى المطلوب غير متوفرة حالياً'
 'SMS sent successfully': 'تم إرسال الرسالة بنجاح'
 'SMS not sent.Please try again': 'نأسف، لقد تعذر أرسال الرسالة إلى جوالك'
@@ -369,17 +368,17 @@
 'Manage Users': 'إدارة المستخدمين'
 'Creation Date': 'تاريخ الإنشاء'
 'Dear': 'عزيزى'
-'Your account has been created at iktissab you can login using the details below': 'لقد تم إنشاء حسابكم في اكتساب بنجاح ويمكنكم الدخول من خلال المعلومات التالية'
+'Your account has been created at iktissab website, you can login using the details below': 'لقد تم إنشاء حسابكم في اكتساب بنجاح ويمكنكم الدخول من خلال المعلومات التالية'
 'Username': 'البريد الإلكتروني'
 'Abdullah Al Othaim Markets Company, Riyadh': 'شركة أسواق عبد الله العثيم'
 'Question': 'أسئلة'
 'link': 'رابط'
 'update lost card': 'تحديث '
-'Unable to process your request.Please try later': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
 'Unable to process your request at this time.Please try later': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
 'You will recieve sms on your mobile number **** %s': 'سوف يتم أرسال رسالة إلى جوالك المنتهي بـ **** %s'
 'Signup': 'تسجيل'
 'Dear customer, your account has been created you can login now': 'عزيزنا العميل، لقد تم إنشاء حسابكم ويمكنكم تسجيل الدخول والاطلاع عليه الآن'
+'Dear customer, your account has been created you can login now after verifying your email address by clicking on the link you received in your email': 'عزيزنا العميل، لقد تم إنشاء حسابكم ويمكنكم تسجيل الدخول والاطلاع عليه الآن'
 'Password must be at least 6 characters': 'كلمة المرور يجب إلا تقل عن 6 أحرف'
 'Inquiry and Suggestions': 'الاستفسارات والمقترحات'
 'Please enter valid Iktissab id and iqama/SSNsa': 'فضلاً أدخل رقم اكتساب وهوية/إقامة صحيحين'
@@ -406,6 +405,7 @@
 "Username or password is incorrect or account has been blocked due to many invalid login attempts": "اسم المستخدم أو كلمة المرور غير صحيحة أو تم  قفل الحساب نتيجة محاولات دخول متكررة غير ناجحة "
 'Invalid Data': 'يرجى إدخال البيانات الصحيحة'
 'Please provide valid data': 'برجاء أدخال قيم صحيحة'
+'Unable to process your request.Please try later': 'نأسف، لقد تعذر استلام طلبكم الآن برجاء المحاولة في وقت آخر'
 'Name cannot be same as current name': 'لا يمكنك استخدام نفس الاسم مرة أخرى'
 'You have already subscribed': 'عزيزيى العميل ، بالفعل لديك اشتراك في هذه الخدمة'
 'The entered mobile number is already used for 5 cards. you can not use the same mobile number more than 5 times': 'لديك خمس بطاقات اكتساب مرتبطه بنفس رقم الجوال، لا يمكنك  استخدام نفس رقم الجوال  لتفعيل أكثر من خمس بطاقات اكتساب'
@@ -414,3 +414,25 @@
 'Please provide valid data for name': 'فضلاً أدخل الاسم صحيح'
 'Nothing to update': 'لم يتم اجراء تحديثات على بياناتك'
 'This value is not valid': 'نرجو تعبئة هذه الخانة'
+'Your email is updated. Next time, please use the': 'تم تحديث بريدكم الإلكتروني. نأمل استخدام البريد'
+'Your email is updated. Next time, please use the ( %email% ) email address for signing to the website': ' تم تحديث بريدكم الإلكتروني. نأمل استخدام البريد (  %email%  ) عند الدخول إلى الموقع مرة أخرى'
+'Note: In case of any SMS blocking on your mobile, you will not receive the website registration and Iktissab activation messages': 'تنويه : رسائل التسجيل بالموقع والتفعيل لبطاقة اكتساب ستصلك في حال عدم وجود حجب لرسائل الجوال'
+'You can reset a new password by sending generated code to your registered email or mobile number': 'يمكنك إعادة تعيين كلمة المرور الخاصة بك من خلال ارسال كود إتمام العملية إلى بريدك الإلكتروني أو ارسال رسالة إلى جوالك'
+'If there is an account associated with this E-mail then you will receive an SMS on your registered mobile number with a code to reset your password': 'إذا كلن هناك حساب مرتبط مع البريد الإلكتروني المدخل فسوف يتم ارسال رسالة إلى رقم الجوال المسجل لدينا وتحتوى على كود التفعيل وذلك لأتمام عملية إعادة تعيين كلمة المرور'
+"Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team": "عزيزنا العميل تم إرسال بياناتك لفريق اكتساب سوف يتم تفعيل حسابك خلال 48 ساعه بعد مراجعة كافة بياناتك "
+"Dear customer, your account information has been sent to us successfully.Your account will be activated in 48 hours after reveiwing your information by Iktissab Team also we have sent you an email containing a link to confirm & activate your Iktissab Account": "عزيزي العميل ، لقد تم استلام طلبكم بنجاح وسوف يتم مراجعة البيانات من خلال القسم المختص، عملية التفعيل قد تستغرق 48 ساعة بحد أقصى ولتأكيد عملية التفعيل برجاء الضغط على الرابط الذي تم ارساله إلى البريد الإلكتروني المسجل"
+'By Email': 'البريد الإلكتروني'
+'By SMS': 'رسالة جوال'
+'Choose to receive code': 'أختر طريقة استلام الكود'
+'Please click on the link below to verify your email account.You will not be able to login even your account is acitivated by Iktissab Team unless you click on the activation link': 'Please click on the link below to verify your email account.You will not be able to login even your account is acitivated by Iktissab Team unless you click on the activation link ar'
+'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours': 'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours ar'
+'The CSRF token is invalid. Please try to resubmit the form or refresh the page': 'Your session is expired. Please try to refresh the page'
+'Email Verification': 'Email Verification'
+'Your email is verified successfully. Once iktissab team activates your account you will be able to login': 'Your email is verified successfully. Once iktissab team activates your account you will be able to login ar'
+'Your email is verified successfully. You can login now': 'Your email is verified successfully. You can login now ar'
+
+
+
+
+
+

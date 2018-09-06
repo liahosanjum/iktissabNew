@@ -11,6 +11,7 @@ parameters:
     app_locales: en|ar
     app_countries: eg|sa
     images_directory: '%kernel.root_dir%/../banners/img'
+    files_directory: '%kernel.root_dir%/../banners/reg_users'
     sms_parameters:
         url: "http://www.mobily.ws/api/msgSend.php"
         application_type: "68"

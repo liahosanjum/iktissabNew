@@ -24,13 +24,10 @@ class FaqsController extends Controller
      */
     public function faqlistAction(Request $request)
     {
-        try {
+        try
+        {
             $activityLog = $this->get('app.activity_log');
             $commFunction = new FunctionsController();
-         
-
-
-
             if ($commFunction->checkSessionCookies($request) == false) {
                 return $this->redirect($this->generateUrl('landingpage'));
             } else {
@@ -336,6 +333,8 @@ class FaqsController extends Controller
         }
         return $data_validate;
     }
+
+    
     
 }
 

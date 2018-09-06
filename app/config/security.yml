@@ -28,9 +28,7 @@ security:
             pattern: ^/(%app_countries%)/(%app_locales%)/api/
             stateless: true
             wsse: true
-
             # activate different ways to authenticate
-
             # http_basic: ~
             # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 

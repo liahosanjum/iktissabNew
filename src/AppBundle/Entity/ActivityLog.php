@@ -38,9 +38,9 @@ class ActivityLog
     private $actionData;
 
     /**
-     * @var integer
+     * @var \DateTime
      *
-     * @ORM\Column(name="action_date", type="integer", nullable=false)
+     * @ORM\Column(name="action_date", type="datetime",nullable=true)
      */
     private $actionDate;
 
@@ -90,7 +90,10 @@ class ActivityLog
 
 
 
-
+    public function __construct()
+    {
+        $this->actionDate = new  \DateTime();
+    }
 
 
 
@@ -156,7 +159,7 @@ class ActivityLog
     /**
      * Set actionDate
      *
-     * @param integer $actionDate
+     * @param \DateTime $actionDate
      *
      * @return ActivityLog
      */
@@ -170,7 +173,7 @@ class ActivityLog
     /**
      * Get actionDate
      *
-     * @return integer
+     * @return \DateTime
      */
     public function getActionDate()
     {

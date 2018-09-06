@@ -22,7 +22,7 @@
                 <div class="img-ikt-info"><img alt="total-balance" src="{{ asset('img/22.svg')}}"></div>
                 <div class="ikt-info-price">
                     <div class="ikt-info-price-title">{{ 'Used Balance'|trans }} </div>
-                    <div class="ikti-info-price-details orange-color">{{ iktData['balance_used']|round(2, 'floor') }}</div>
+                    <div class="ikti-info-price-details orange-color">000 {{ iktData['balance_used']|round(2, 'floor') }}</div>
                     <div class="ikt-info-price-currency">{{ ("Currency-"~ app.request.get('_country'))|trans }}</div>
                 </div>
 

@@ -301,13 +301,14 @@ class UserController extends Controller
         // $action = $request->query->get('action', '');
         // $email = $request->query->get('email', '');
         $logs = $em->getRepository('AppBundle:ActivityLog')->findBy(array('id' => $id ));
-
+        $dateObj = $logs[0]->getActionDate();
+        $datte = $dateObj->format($logs[0]->getActionDate()->format('Y-m-d H:i:s'));
         if(!empty($logs)) {
             $log_data = unserialize($logs[0]->getActionData());
             $i = 0;
             $log_other_data['actionType'] = $logs[0]->getActionType();
             $log_other_data['id'] = $logs[0]->getId();
-            $log_other_data['actionDate'] = date('Y-m-d H:i:s',$logs[0]->getActionDate());
+            $log_other_data['actionDate'] = $datte;
             $log_other_data['Iktissab'] = $logs[0]->getIktCardNo();
         }
         $session_log = "";
@@ -513,8 +514,10 @@ class UserController extends Controller
 
             $page = $request->query->get('page', 1);
             $logs = $em->getRepository('AppBundle:ActivityLog')->searchActivityLog($ikt, $action, $email);
+            // var_dump($logs);
+
             $pager = new Pagerfanta(new DoctrineORMAdapter($logs, true));
-            //var_dump($pager);
+            // var_dump($pager);
 
             $pager->setMaxPerPage(User::NUM_ITEMS);
 

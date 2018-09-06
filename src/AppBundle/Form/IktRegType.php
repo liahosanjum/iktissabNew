@@ -9,6 +9,7 @@
 namespace AppBundle\Form;
 
 
+use AppBundle\AppConstant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -159,7 +160,8 @@ class IktRegType extends AbstractType
                 'label' => 'Marital Status',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels '],
 
-                'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
+                'choices' => array('Single' => AppConstant::SINGLE, 'Married' => AppConstant::MARRIED, 'Widow' => AppConstant::WIDOW
+                , 'Divorce' => AppConstant::DIVORCE),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
@@ -250,7 +252,8 @@ class IktRegType extends AbstractType
                 'label' => 'Shoppers',
                 'label_attr' => ['class' => 'formLayout    form_labels'],
                 'placeholder' => 'Select Shopper',
-                'choices' => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
+                'choices' => array('Husband' => AppConstant::HUSBAND , 'Wife' => AppConstant::WIFE, 'Children' => AppConstant::CHILDREN,
+                    'Relative' => AppConstant::RELATIVE, 'Applicant' => AppConstant::APPLICANT, 'Servent' => AppConstant::SERVENT),
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )

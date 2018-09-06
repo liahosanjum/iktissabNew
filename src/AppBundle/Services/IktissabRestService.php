@@ -127,7 +127,6 @@ class IktissabRestService
             } else {
                 return $result->getContent();
             }
-
         } catch (\Exception $e) {
             throw new RestServiceFailedException(404, $e);
         }
@@ -145,7 +144,6 @@ class IktissabRestService
         $uri = $this->GetWebServiceUrl($path);
         try {
             $result = $this->restClient->post($uri, $payload, $options);
-
             if($result->getStatusCode() == Response::HTTP_FORBIDDEN){
                 throw new AccessDeniedException();
             }

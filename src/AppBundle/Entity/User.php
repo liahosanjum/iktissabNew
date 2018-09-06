@@ -28,7 +28,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=80, nullable=false, unique=true)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false, unique=true)
      */
     private $email;
 
@@ -49,7 +49,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=32, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
 
@@ -87,6 +87,20 @@ class User
      * @ORM\Column(name="modified", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $modified;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="verify_email", type="integer", nullable=false)
+     */
+    private $verifyemail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_email_v_hash_id", type="string", length=255 , nullable=false)
+     */
+    private $useremailhashid;
 
     
 
@@ -326,6 +340,39 @@ class User
         $this->modified = $d->getTimestamp();
     }
 
+
+    /**
+     * @param int $verifyemail
+     */
+    public function setVerifyemail($verifyemail)
+    {
+        $this->verifyemail = $verifyemail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVerifyemail()
+    {
+        return $this->verifyemail;
+    }
+
+
+    /**
+     * @param string $useremailhashid
+     */
+    public function setUseremailhashid($useremailhashid)
+    {
+        $this->useremailhashid = $useremailhashid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUseremailhashid()
+    {
+        return $this->useremailhashid;
+    }
 
    
 

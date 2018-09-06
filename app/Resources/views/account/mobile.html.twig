@@ -1,48 +1,41 @@
 <div class="row">
-            <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
-
-                <div class="titleForm_main iqama-id-wrapper">
-                    {{ 'Dear customer'|trans}}
-                </div>
-
-                <div class="titleForm_sub iqama-id-wrapper">
-                    {{ 'You can update your information through the following form'|trans }}
-                </div>
-                {% if message != '' %}
-                <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper-mobile">
-                    {{ message }}
-                </div>
-                {% endif %}
-                <div id="preLoadersMob"></div>
-                <div class="claerfix"></div>
-            </div>
+    <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12  ">
+        <div class="titleForm_main iqama-id-wrapper">
+            {{ 'Dear customer'|trans}}
+        </div>
+        <div class="titleForm_sub iqama-id-wrapper">
+            {{ 'You can update your information through the following form'|trans }}
+        </div>
+        {% if message != '' %}
+        <div class="alert-success-forms formMessage alert {{ errorcl }} fade in alert-dismissable messsage-wrapper-mobile">
+            {{ message }}
+        </div>
+        {% endif %}
+        <div id="preLoadersMob"></div>
+        <div class="claerfix"></div>
+    </div>
 </div>
         {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
-
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
-
-                        <div class="row mobile-form-mags">
-                           {{ form_row(form.iqamaid_mobile) }}
-                         </div>
-
+                     <div class="row mobile-form-mags">
+                         {{ form_row(form.iqamaid_mobile) }}
+                     </div>
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 mobile-form-mags">
                     <div class="row">
                         <div class="col-lg-10  col-md-10 col-sm-7 col-xs-7 mobile-number-wraper  " style="">
-                                {{ form_row(form.mobile) }}
-                         </div>
+                            {{ form_row(form.mobile) }}
+                        </div>
                         <div class="mobile-ext-wraper col-lg-2  col-md-2 col-sm-5 col-xs-5">
-                        {{ form_row(form.ext) }}
+                            {{ form_row(form.ext) }}
                         </div>
                     </div>
                     <div class="claerfix"></div>
                 </div>
-             </div>
-
+            </div>
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 " >
                     <div class="row mobile-form-mags" >
@@ -53,32 +46,21 @@
             <div class="row">
                 <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 iqama-id-wrapper-form">
                     {{ form_widget(form.token, {'attr': {'value':  token  }}) }}
-
                     {{ form_end(form) }}
                 </div>
             </div>
 
 
 
-
-
-
-
-
-<style type="text/css"></style>
-
-
-
-
 {% block javascripts %}
     <script type="text/javascript">
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function ()
+        {
             {{ form_jquery_validation(form) }}
-
-
             jQuery('form[name="mobile"]').on('submit', function (event) {
                 if(jQuery( "#mobile_mobile" ).hasClass( "valid" )) {
-                    if(jQuery( "#mobile_comment_mobile" ).hasClass( "valid" )) {
+                    if(jQuery( "#mobile_comment_mobile" ).hasClass( "valid" ))
+                     {
                         event.preventDefault();
                         jQuery.ajax({
                             type: jQuery(this).attr('method'),
@@ -94,7 +76,6 @@
 
                             },
                             success: function (response) {
-                                //$('#preLoaders').html('');
                                 jQuery('#contents-7').html(response);
                             }
                         })

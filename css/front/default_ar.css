@@ -1,4 +1,12 @@
-﻿.captcha-inp-reset { padding-top: 10px; }
+﻿.sms_code{ float: right;  }
+.email_code{ float: right; width: 43%; font-weight: 600; }
+.mediam_emailsms { float: right; width: 100%;}
+.mediam_chose{ float:right;  width: 100%; padding-bottom:5px; font-weight: 600;  }
+.mediam_opt { float: right; width: 100%; font-weight: 600; }
+.contents-sms{ float:right; padding-bottom: 6px; padding-top: 7px; }
+
+.enter_rec_value_bl { color:#FFFFFF;background-color:#FF0000; padding:10px ; border:2px solid; margin-bottom:20px; }
+.captcha-inp-reset { padding-top: 10px; }
 .captcha-text { float: left; width: 100%;  }
 .captcha-inp-reset { padding-top: 10px; }
 .cap-bordering{ border: 1px solid #4e4e4e; }
@@ -98,7 +106,7 @@ label.required:after {
 .captcha-image-reset { float: left; margin-top: 10px; text-align: left; padding-right: 0px   }
 .captcha-image-reset-login { float: left; margin-top: 11px; text-align: left; padding-right: 0px   }
 
-.captcha-image-forgotemail { float: left; margin-top: 45px; text-align: left; padding-right: 0px ;  }
+.captcha-image-forgotemail { float: left; margin-top: 44px; text-align: left; padding-right: 0px ;  }
 .captcha-code{ float: left; width: 100%; }
 .contact-map { float: right; }
 .alert-dismissable, .alert-dismissible { padding-right:15px; text-align: right; }
@@ -1414,7 +1422,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .login-list-title-wrapper  h1{  color: #347F5B; font-size: 22px; font-weight: 900; text-align: right; }
 
 .login-inner-contents .contents-cms { padding-top: 43px; margin-bottom: 7px; font-weight: 600; }
-.memberlogin-emailarea .contents-cms { padding-top: 30px; margin-bottom: 10px; line-height: 20px; font-weight: 500;}
+.memberlogin-emailarea .contents-sms { padding-top: 11px; margin-bottom: 10px; line-height: 20px; font-weight: 600;}
+.contents-cms-login { padding-top: 30px; margin-bottom: 10px; line-height: 20px; font-weight: 600;}
 .contactus-inner-contents{ float:right;   }
 .contactus-inner-contents-message{ float:right; width: 100%; }
 .login-inner-contents{ float:right; width: 100%; text-align: right;  }
@@ -1553,6 +1562,7 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .steps-wrapper{ float: right;  }
 .steps-title{ text-align: center; font-size: 14px; font-weight: 900; margin-bottom: 15px; }
 .card-activation-phone-message { font-size: 14px; font-weight: 700; margin-top: 34px; }
+.card-activation-phone-message-blink { font-size: 14px; font-weight: 700; margin-top: 34px; width: 96%; margin-right: 2%; }
 .card-activation-phone-title{ font-size: 14px; font-weight: 700; margin-top: 34px; margin-right: 23%;  }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
 .card-activation-phone-code { margin-top: 10px; margin-right: 35%; margin-left: 35%; float: right; }
@@ -2023,7 +2033,7 @@ table.user-details { margin-bottom: 0px !important; }
 .memeberloginwrapper h4 { color: #347f5b; font-size: 17px; font-weight:700;  line-height: 20px;}
 .memeberloginwrapper h5 { color: #505050; font-size: 14px; font-weight: 600; line-height: 20px;  }
 
-.memeberloginwrapper { margin-bottom: 50px; }
+.memeberloginwrapper { margin-bottom: 20px; }
 
 #appbundle_enquiryandsuggestion_job:focus {
     border-color: #969696;
@@ -2108,7 +2118,7 @@ table.user-details { margin-bottom: 0px !important; }
     box-sizing:unset;
     margin: 0 0 0 8px;
 }
-.memeberloginwrapper label { font-size: 14px; font-weight: 600; color: #505050; }
+.memeberloginwrapper label { font-size: 13px; font-weight: 600; color: #505050; }
 
 .memeberloginwrapper .title-contents { color: #343434; font-size: 17px;  text-align: right; font-weight: 700;
     margin-bottom: 15px; padding-top: 10px;  }
@@ -2246,7 +2256,11 @@ table.user-details { margin-bottom: 0px !important; }
 
 @media screen and (max-width: 1024px) {
     .menu-wrapper .navbar-nav > li > a { height: 41px; }
-    .menu-wrapper { height: 41px; }
+    /*.menu-wrapper { height: 41px; }*/
+
+
+
+
     .iktissab-activation-step3 { margin-right: 0%; }
     #btn_dob { width: 100%; }
     .youtube-wrapper{ width: 100%; }
@@ -2412,6 +2426,7 @@ table.user-details { margin-bottom: 0px !important; }
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
+
     .mobile-form-mags { margin-left: 0px !important; margin-right: 0px !important; }
     .login-inner-contents-wrapper{ border: none; padding-left: 0px;  }
     .account-info-column { font-size: 12px; font-weight: 700; float: none; }
@@ -2554,5 +2569,8 @@ table.user-details { margin-bottom: 0px !important; }
     .appstore { padding-right:9px;  }
     .gplay { padding-right:9px; }
     .social-icons-footer > li { float: right; }
+}
+@media screen and (min-width: 320px) and (max-width: 400px) {
+    .chk-agree-desc { font-size: 11px;  }
 }
 

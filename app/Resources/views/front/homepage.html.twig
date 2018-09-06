@@ -40,15 +40,20 @@
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-3 message-promo-wrapper">
+                {% if data_news != "" %}
                 <div class="message-promo">
-                    <div class="row">
-
+                   <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="mid-arrow-content">
                                 <div class="marquee_{{ app.request.get('_locale') }}" >
+
+
+
                                     {% for item_news in data_news %}
          &nbsp; &nbsp; &nbsp;   {{ item_news.details }} &nbsp; &nbsp; &nbsp;
                                     {%  endfor %}
+
+
                                 </div>
                             </div>
                         </div>
@@ -56,6 +61,7 @@
                         <div class="claerfix"></div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -91,10 +97,7 @@
             </div>
             <div class="col-lg-9 col-md-8  col-sm-12  col-xs-12">
                 <div class="main-slider-wrapper">
-
-
                     <div class="slickitem slider slick-products">
-
                         {% if image_data != "" %}
                             {% for image_data_val in image_data %}
                                 <div class="home-page-slider">
@@ -169,13 +172,12 @@
                                     </div>
                                     <div class="priceAfterDescount">
                                         <span class="price-afterdesc">
-                                             <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >
+                                            <span class="current-price-after">{{ DataPromo[i].SpecialPrice|round(2, 'floor') }}</span><span class="current-after" >
                                                 {% if app.request.cookies.get('c_country') == 'eg' %}
-                                                {{ 'EGP'|trans }}
+                                                    {{ 'EGP'|trans }}
                                                 {% else %}
-                                                {{ 'SAR'|trans }}
+                                                    {{ 'SAR'|trans }}
                                                 {% endif %}
-
                                             </span>
                                         </span>
                                     </div>

@@ -4,16 +4,23 @@
             <div class="logo-wrapper"><img alt="logo" class="img-responsive" src="{{ asset('img/logo.svg') }} "></div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mid-container">
-            <div class="mid-content-banner"><img alt="banner" class="img-responsive" src="{{ asset('img/mid-banner.jpg') }}" /></div>
+            <div class="mid-content-banner">
+
+                {% if  app.session.get('header_image_top')  != ""  %}
+                    <img alt="banner" class="img-responsive" src="{{ asset('banners/img/'~ app.session.get('header_image_top') ) }}" />
+                {% else %}
+                    <img alt="banner" class="img-responsive" src="{{ asset('banners/img/mid-banner.jpg') }}" />
+                {% endif %}
+            </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 header-contact-wrap ">
             <div class="header-contactno">
                 <div class="header-contact-text">{{ 'Customer Services'|trans }}</div>
                 <div class="header-contact-number">
                     {% if app.request.cookies.get('c_country') == 'eg' %}
-                    19279
+                        19279
                     {% else %}
-                    920000702
+                        920000702
                     {%  endif %}
                 </div>
                 <div class="claerfix"></div>
@@ -68,10 +75,8 @@
         </div>
     </div>
 </div>
-
 <style>
     ul.nav li.dropdown:hover > ul.dropdown-menu {
         display: block;
-
     }
 </style>

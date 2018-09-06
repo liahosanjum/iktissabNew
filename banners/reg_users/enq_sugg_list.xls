@@ -1,0 +1,86 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--[if gte mso 9]>
+    <xml>
+        <x:ExcelWorkbook>
+            <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                    <x:Name><![CDATA[Total Records]]></x:Name>
+                    <x:WorksheetOptions>
+                        <x:Print>
+                            <x:ValidPrinterInfo/>
+                        </x:Print>
+                    </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+            </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+    </xml>
+    <![endif]-->
+    
+    <style type="text/css">
+table td{border: 1px solid #bbbbbb;}
+        .center { text-align: center;}
+        .center-graylight {text-align: center; background-color: #bbbeee;}
+        .highlight {background-color: #ffff00;}
+        .center-highlight {text-align: center; background-color: #ffff00;}
+        .left { padding-left:20px;text-align: left;}
+        .h3{font-weight: bold; font-size: 18px;}
+        .bold{font-weight: bold;}
+    </style>
+</head>
+<body>
+<table>
+        <tr class ="center"><td colspan="8" class="h3"></td></tr>
+        <tr class ="center">
+        <td class ="bold">Sr.No</td>
+        <td class ="bold">Name</td> 
+        <td class ="bold">Date</td></tr>
+        <td class ="bold">Job</td></tr><tr><td></td></tr><tr class="center-highlight">
+            <td>1</td>
+            <td>test</td>
+            <td>testing</td>
+            <td>01121212121</td>
+            <td>test@gmail.com</td>
+            <td>C</td>
+            <td>testing</td>
+            <td></td>
+            </tr><tr class="center">
+            <td>2</td>
+            <td>test</td>
+            <td>asdf</td>
+            <td>01112112121</td>
+            <td>testt@gmail.com</td>
+            <td>C</td>
+            <td>1212</td>
+            <td></td>
+            </tr><tr class="center">
+            <td>3</td>
+            <td>test</td>
+            <td>sdf</td>
+            <td>01111211111</td>
+            <td>sa@gmail.com</td>
+            <td>C</td>
+            <td>111</td>
+            <td></td>
+            </tr><tr class="center">
+            <td>4</td>
+            <td>test</td>
+            <td>test</td>
+            <td>01221111111</td>
+            <td>sa.aspire@gmail.com</td>
+            <td>C</td>
+            <td>test</td>
+            <td></td>
+            </tr><tr class="center">
+            <td>5</td>
+            <td>test</td>
+            <td>test</td>
+            <td>01221111111</td>
+            <td>sa.aspire@gmail.com</td>
+            <td>C</td>
+            <td>test</td>
+            <td></td>
+            </tr></table>
+</body>
+</html>

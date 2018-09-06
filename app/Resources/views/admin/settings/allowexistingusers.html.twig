@@ -1,0 +1,76 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+
+
+        <div class="col-lg-12  col-md-12 col-sm-12 ">
+            <div class="title-form">Enabling / Allowing Existing Registered User to Login<BR> (REGISTRATION EMAIL VERIFICATION )</div>
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}" style="margin-top: 20px; margin-bottom: 20px; font-size: 17px;">
+
+                    {{ message }}
+
+                </div>
+            {% endif %}
+            <div class="row Reg_Setting">
+                <div class="col-lg-12  col-md-12 col-sm-12 reg_email_settingss ">
+                    <form  id="reg_settings" name="reg_settings" action="allowexistinguser" autocomplete="off" method="post">
+
+
+
+                        <div id="prev_users_enb_dnb" class="prev_user_enbdnb row" style="display: {{ show_form }}">
+                            <div class="col-lg-12  col-md-12 col-sm-12">
+                                <div class="">
+                                    BEFORE ENABLING EMAIL VERIFICATION FOR NEW REGISTERED USERS WE NEED TO ALLOW THE USERS WHO HAS ALREADY
+                                    CREATED THEIR ACCOUNT AS IF WE ENABLE THE EMAIL VERIFICATION OPTION THEY WILL NOT BE ABLE TO LOGIN
+                                    TO THE SYSTEM.<br><br>
+                                </div>
+                                <div class="mediam_emailsms_reg">
+                                    <div class="mediam_opt_reg" >
+                                        <div class="email_code_reg" style="width: 100%;">
+                                            <input  type="radio"  checked value="1" name="all_users_email_verfy">
+                                            Enabling / Allowing Existing Registered User to Login
+                                        </div>
+                                        <div class="sbmt col-lg-12  col-md-12 col-sm-12" style="padding-top: 20px;">
+                                            <input type="submit" value="Enable" name="reg_email_vrfy" id="reg_email_vrfy" />
+                                        </div>
+                                    </div>
+                                    <div class="claerfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="claerfix"></div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <style>
+        .cmsForm .required { width: 200px; }
+    </style>
+{% endblock %}
+
+{% block javascripts2 %}
+
+    <script type="text/javascript">
+
+    </script>
+    <style>
+        .reg_email_settingss{ float: left; padding-top:20px; font-size: 15px; }
+        .mediam_emailsms_reg{float: left;}
+        .mediam_opt_reg{float: left;}
+        .email_code_reg{float: left; padding-right: 20px;}
+        .sms_code_reg{float: left;}
+        .user_enbdnb{ float: left; padding-top: 100px; width: 100%;}
+        .prev_user_enbdnb{ float: left; width: 100%; }
+
+
+    </style>
+
+
+{% endblock %}

@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
-
-    <section class="container ">
-        {% if app.request.cookies.get('c_locale') == "en" %}
-            {%  set side = 'right'  %}
-        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
-            {%  set side = 'left'  %}
-        {% else %}
-            {%  set side = 'left'  %}
-        {% endif %}
-        <div class="breadcrum-wrapper">
+        <section class="container ">
+            {% if app.request.cookies.get('c_locale') == "en" %}
+                {%  set side = 'right'  %}
+            {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+                {%  set side = 'left'  %}
+            {% else %}
+                {%  set side = 'left'  %}
+            {% endif %}
+            <div class="breadcrum-wrapper">
             <div class="row">
                 <div class="breadcrumb">
                     <a  class="in-active-link" href="{{ path('homepage', {'_country': app.request.get('_country'), '_locale':app.request.get('_locale') }) }}">{{ 'Home'|trans }}</a>
@@ -22,51 +20,36 @@
         </div>
         </section>
         <section class="container verify_reset_password_wrapper">
-        <div class="row">
-            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                <div><h1> {{ 'Reset Password'|trans}}</h1></div>
+            <div class="row">
+                <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div><h1> {{ 'Reset Password'|trans}}</h1></div>
+                </div>
             </div>
-        </div>
-        <div class="row">
+            <div class="row">
                 <div class="login-passreset  col-lg-6 col-md-6 col-sm-12 col-xs-12  col-lg-offset-3  col-md-offset-3">
-
-
-
                     {% if message != "" %}
-
                         <div class="alert-success-forms alert formMessage {{ errorcl }} fade in alert-dismissable "> {{ message}}</div>
-
                     {% endif %}
                 </div>
-        </div>
-
+            </div>
             <div class="row">
                 <div class="login-passreset  col-lg-4  col-md-4 col-sm-12 col-xs-12 col-lg-offset-4  col-md-offset-4">
-
-                        <div class="form-reset-wrapper  ">
-                                {% if (data.show_form == 1 ) %}
-                                        {{ form(form) }}
-
-                                        <div>
-                                            <div>
-                                              {{ form_row(form.resetcode) }}
-                                            </div>
-
-                                        </div>
-                                        {{ form_end(form) }}
-
-                                {% endif %}
-                        </div>
+                    <div class="form-reset-wrapper  ">
+                        {% if (data.show_form == 1 ) %}
+                            {{ form(form) }}
+                            <div>
+                                <div>
+                                    {{ form_row(form.resetcode) }}
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </section>
-
-
     {% endblock %}
     {% block javascripts %}
-
-
         <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
         <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
         <script type="text/javascript">
@@ -74,7 +57,4 @@
                 {{ form_jquery_validation(form) }}
             });
         </script>
-
-
-
 {% endblock %}

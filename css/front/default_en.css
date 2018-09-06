@@ -1,18 +1,18 @@
-﻿.captcha-inp-reset { padding-top: 10px; }
-
-.avoid-clicks {
-    pointer-events: none;
-}
-
-.footer-murasilat .modal-header .close {
-    margin-right: -20px;
-    margin-top: -8px;
-}
+﻿.sms_code{ float: left; }
+.email_code{ float: left; padding-right: 14px; }
+#contents-fp{ float:left; width: 100%; }
+.mediam_emailsms { float: left; width: 100%;}
+.mediam_chose{ float:left;  width: 100%; margin-bottom: 6px;}
+.mediam_opt { float: left; }
+.contents-sms{ float:left; padding-top: 7px; }
+.enter_rec_value_bl { color:#FFFFFF;background-color:#FF0000; padding:10px ; border:2px solid; margin-bottom:20px; }
+.captcha-inp-reset { padding-top: 10px; }
+.avoid-clicks{pointer-events:none;}
+.footer-murasilat .modal-header .close {  margin-right: -20px;  margin-top: -8px;  }
 .navbar-nav { margin:0px; }
-
 .send_pwd_msg { padding-top:20px; }
 .frm-ads{ padding-top:15px; }
-#ikt_customer_info_password label { margin-bottom: 0px !important;    }
+#ikt_customer_info_password label { margin-bottom: 0px !important; }
 .marquee_en {
     overflow: hidden;
     font-size: 14px;
@@ -1621,10 +1621,9 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 
 }
 .login-inner-contents .contents-cms { padding-top: 26px; margin-bottom: 7px; font-weight: 500; }
-.memberlogin-emailarea .contents-cms { padding-top: 30px; margin-bottom: 10px; line-height: 20px; font-weight: 500;}
+.memberlogin-emailarea .contents-sms { padding-top: 7px; margin-bottom: 10px; line-height: 20px; font-weight: 500;}
 .contactus-inner-contents{ float:left; margin-bottom:20px;  }
 .contactus-inner-contents-message{ float:left; width: 100%;   }
-
 .login-inner-contents{ float:left; width: 100%;  }
 .title-contactus-form{ float: left; padding-bottom: 10px; padding-top: 10px; font-weight: 700; font-size: 14px; }
 .contactForm input {
@@ -1775,6 +1774,8 @@ a.last-breadcrumb:hover{ text-decoration: none; }
 .steps-title{ text-align: center; font-size: 15px; font-family: Verdana; margin-bottom: 15px; }
 .card-activation-phone-message { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
     padding-left: 10px; float: left; width: 100%; }
+.card-activation-phone-message-blink { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
+    padding-left: 10px; float: left; width: 96%; margin-left:2%; }
 .card-activation-phone-title { direction:ltr;font-size: 14px;  margin-top: 34px; font-family: Verdana;
     padding-left: 10px; float: left; width: 80%; margin-left:20%; }
 .card-activation-phone-message-success { font-size: 16px; font-weight: 700; margin-top: 65px; margin-bottom: 115px; }
@@ -2070,7 +2071,7 @@ table.user-details { margin-bottom: 0px !important; }
 .memeberloginwrapper h4 { color: #347f5b; font-size: 17px; font-weight:700;  line-height: 20px;}
 .memeberloginwrapper h5 { color: #505050; font-size: 14px; font-weight: 600; line-height: 20px;  }
 
-.memeberloginwrapper { margin-bottom: 50px; }
+.memeberloginwrapper { margin-bottom: 20px; }
 .memeberloginwrapper .form-control:focus {
     border-color: #969696;
     outline: 0;
@@ -2200,10 +2201,7 @@ padding-left:26px !important;
 
 
 }
-
-
-@media screen and (max-width: 769px)
-{
+@media screen and (max-width: 769px) {
     .top-lang-wrapper { float: left; }
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     #enter_otp_otp { margin-left:35%; margin-right:35%; width: 30%; }
@@ -2270,7 +2268,6 @@ padding-left:26px !important;
     .navbar-collapse { padding-right:4px !important; }
     .dropdown-menu { left:-1px; }
 }
-
 @media screen and (max-width: 600px) {
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
     #enter_otp_otp { margin-left:30%; margin-right:30%; width: 40%; }
@@ -2324,11 +2321,9 @@ padding-left:26px !important;
     .ikt-save-more-contents { padding-bottom: 2px; }
 
 }
-
 @media screen and (max-width: 1024px)
 {
     .topMenu li.dropdown > ul.dropdown-menu { box-shadow: 2px 7px 9px #dedede;  }
-    .menu-wrapper .navbar-nav > li { height: 41px; }
     .captcha-image-forgotemail { padding-left: 0px; }
     .menu-wrapper .navbar-nav > li > a { height: 41px; }
     .youtube-wrapper{ width: 100%; }
@@ -2414,9 +2409,6 @@ padding-left:26px !important;
     .header-contact-number { font-size: 18px; }
     .ikt-save-more-contents { margin-bottom: 30px; }
 }
-
-
-
 @media screen and (min-width: 600px) and (max-width: 768px) {
     .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
 
@@ -2518,7 +2510,6 @@ padding-left:26px !important;
     .eservices-wrapper .eservice-list-contents { min-height: 0px; }
     .form_labels{ padding-left:0px !important; }
 }
-
 @media screen and (max-width: 480px) {
     .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
 
@@ -2553,7 +2544,6 @@ padding-left:26px !important;
     .eservices-wrapper .eservice-list-contents { min-height: 0px; }
 
 }
-
 @media screen and (min-width: 320px) and (max-width: 600px) {
     .menu-wrapper ul.nav li.dropdown:hover > ul.dropdown-menu { width: 100%; }
 
@@ -2662,7 +2652,9 @@ padding-left:26px !important;
         display: inline-block;
         width: 100% !important;
     }
+
     .menu-wrapper .navbar-nav > li > a { width: 100%; }
+
     .ikti-info-price-details{ padding-left: 0px !important; }
     .mobile-form-mags { margin-left:0px !important; margin-right:5px !important;}
     .ikt-info-price-title{ padding-left:0px !important; }
@@ -2707,4 +2699,3 @@ padding-left:26px !important;
     .gplay { padding-right:9px; }
     .card-activation-phone-code ul li { float: left; padding-left: 0px;  width: 100%; margin-right: 0%; margin-left: 0%; color:#FF0000; margin-top:5px; list-style: none;  }
 }
-

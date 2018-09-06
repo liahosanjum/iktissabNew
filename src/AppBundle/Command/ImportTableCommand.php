@@ -44,7 +44,7 @@ class ImportTableCommand extends ContainerAwareCommand
          * @var Connection
          */
         $connection = $doctrine->getConnection();
-
+        
 
 
         $handle = fopen($file_path, 'r');

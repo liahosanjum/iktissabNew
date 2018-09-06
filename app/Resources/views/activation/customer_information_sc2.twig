@@ -55,7 +55,6 @@
                                         <div class="steps-wrapper col-lg-3 col-md-3  col-sm-3 col-xs-3 ">
                                             <div class="steps-title">
                                                 {{ 'Card Activation'|trans }}
-
                                             </div>
                                             <div class="steps-circle ">
                                                 <div class="badge">3</div> <div class="badge-border   ">&nbsp;</div>
@@ -73,11 +72,11 @@
                                 </div>
                                 <div class="row">
                                         <div class="form-cardactivation-wrapper col-lg-10 col-md-12 col-sm-12 col-xs-12 ">
-                                    {% if(error.success == false) %}
-                                        <div class=" alert alert-danger" style="padding-top:20px;">
-                                            {{ error.message }}
-                                        </div>
-                                    {% endif %}
+                                        {% if(error.success == false) %}
+                                            <div class=" alert alert-danger" style="padding-top:20px;">
+                                                {{ error.message }}
+                                            </div>
+                                        {% endif %}
                                         </div>
                                 </div>
                                 <div class="row">
@@ -102,8 +101,6 @@
                                         <div class="title-cardactivation-form">
                                             {{ form_errors(form.email) }}
                                         </div>
-
-
                                         <div class="cardactivationForm">
                                             {{ form_widget(form.password) }}
                                         </div>
@@ -132,8 +129,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+
+
     <script type="text/javascript">
         $(document).ready(function () {
             $("#status_id").hide();
@@ -141,15 +138,15 @@
         });
 
         $('#activate_cardone_submit').click(function (event) {
-
             if($("#activate_cardone_status").is(':checked')){
                 $("#status_id").hide();
             }
-            else{
-
+            else {
                 $("#status_id").show();
-
             }
         });
+
+
+
     </script>
 {% endblock %}

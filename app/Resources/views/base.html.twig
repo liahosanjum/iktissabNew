@@ -20,14 +20,11 @@
 {% block headerhome %}
     {% include(':front:header_home.html.twig') %}
 {% endblock %}
-
-
 {% if app.request.cookies.get('c_locale') == "en" %}
     {%  set side = 'right'  %}
 {% else %}
     {%  set side = 'left'  %}
 {% endif %}
-
 <body>
 <div class="main-wrapper">
     {% block top_menu %}
@@ -36,43 +33,28 @@
     {% block main_menu %}
         {% include(':front:main_menu.html.twig') %}
     {% endblock %}
-
-
-
-{% block messages %}
-    {% for flashMessage in app.session.flashbag.get('error') %}
-        <div class="col-lg-12 text-center alert alert-danger">
-            {{ flashMessage }}
-        </div>
-
-
-    {% endfor %}
-    {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="col-lg-12 text-center alert alert-success">
-            {{ flashMessage }}
-        </div>
-    {% endfor %}
-{% endblock %}
-
-{% block body %}{% endblock %}
-
-{% block javascripts %}{% endblock %}
-
-{#base.html country = {{ app.request.get('_country') }}#}
-{#{{ render(controller('AppBundle:Default:subscription',{'country':app.request.get('_country')})) }}#}
-
-
-
-{% block homefooter %}
-    {% include(':front:footer_home.html.twig') %}
-{% endblock %}
-
-{% block copyrightfooter %}
-   {% include(':front:footer_copyright.html.twig') %}
-{% endblock %}
-
-
-
+    {% block messages %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="col-lg-12 text-center alert alert-danger">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="col-lg-12 text-center alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% endblock %}
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+    {#base.html country = {{ app.request.get('_country') }}#}
+    {#{{ render(controller('AppBundle:Default:subscription',{'country':app.request.get('_country')})) }}#}
+    {% block homefooter %}
+        {% include(':front:footer_home.html.twig') %}
+    {% endblock %}
+    {% block copyrightfooter %}
+       {% include(':front:footer_copyright.html.twig') %}
+    {% endblock %}
 </div>
 </body>
 </html>

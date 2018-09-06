@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="container ">
+        {% if app.request.cookies.get('c_locale') == "en" %}
+            {%  set side = 'right'  %}
+        {% elseif app.request.cookies.get('c_locale') == "ar"  %}
+            {%  set side = 'left'  %}
+        {% else %}
+            {%  set side = 'left'  %}
+        {% endif %}
+        <div class="breadcrum-wrapper">
+            <div class="row">
+                <div class="breadcrumb">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container verify_reset_password_wrapper">
+        <div class="row">
+            <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <div><h1> Testing Services Get</h1></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="  col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                <div style="float: left; width: 800px;">
+                    {% if data !="" %}
+                        {{ dump(data) }}
+                    {% endif %}
+                    <form id="getCardStatus" name="getCardStatus" action="getCardStatus" method="post">
+                        <br><br><br>
+                        <br><br><br>
+                        <div> GET CARD STATUS </div>
+                        <input type="text" placeholder="" style="height: 40px; margin-bottom: 20px;" class="col-lg-12  col-md-12" id="url" name="url">
+                        <br><br><br>
+                        <input type="text" id="reg" name="reg" value="{"C_id":"91000914","cname":"test test","area":"3","city_no":"2","mobile":"0585855858","email":"test91000914@gmail.com","nat_no":7,"Marital_status":"M","ID_no":"2594999944","job_no":"5","gender":"M","pur_grp":"2","birthdate":"2006-05-05 12:00:00","pincode":5235,"source":"W","browser":"Mozilla-5.0 (Macintosh; Intel Mac OS X 10.13; rv:46.0) Gecko-20100101 Firefox-46.0"}">
+                        <input type="submit" id="check" name="check" />
+                        <br><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+    {% block javascripts %}
+
+
+
+
+
+
+    {% endblock %}

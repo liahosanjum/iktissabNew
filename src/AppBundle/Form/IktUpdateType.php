@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Form;
 
+use AppBundle\AppConstant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -59,11 +60,11 @@ class IktUpdateType extends AbstractType
 
             ))
             ->add('maritial_status', ChoiceType::class, array(
-                'label' => 'Marital Status',
+                'label'      => 'Marital Status',
                 'label_attr' => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels mstatus'],
-                'attr' =>array('class' => 'form-control ' ),
-                'choices' => array('Single' => 'S', 'Married' => 'M', 'Widow' => 'W', 'Divorce' => 'D'),
-
+                'attr'       => array('class' => 'form-control ' ),
+                'choices'    => array('Single' => AppConstant::SINGLE, 'Married' => AppConstant::MARRIED, 'Widow' => AppConstant::WIDOW,
+                'Divorce'    => AppConstant::DIVORCE),
             ))
             ->add('job_no', ChoiceType::class, array(
                 'choices' => $lookupData['jobs'],
@@ -103,7 +104,8 @@ class IktUpdateType extends AbstractType
                 'label'         => 'Shoppers',
                 'label_attr'    => ['class' => 'formLayout col-lg-12 col-md-12 col-sm-12 col-xs-12   form_labels'],
                 'placeholder'   => 'Select Shopper',
-                'choices'       => array('Husband' => '1', 'Wife' => '2', 'Children' => '3', 'Relative' => '4', 'Applicant' => '5', 'Servent' => '6'),
+                'choices'       => array('Husband' => AppConstant::HUSBAND , 'Wife' => AppConstant::WIFE, 'Children' => AppConstant::CHILDREN,
+                    'Relative' => AppConstant::RELATIVE, 'Applicant' => AppConstant::APPLICANT, 'Servent' => AppConstant::SERVENT),
                 'attr'          => array('class' => 'form-control formLayout' ),
 
             ))

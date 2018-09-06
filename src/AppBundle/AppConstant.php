@@ -12,17 +12,24 @@ class AppConstant
 {
     //Activity Log Constants
     const  ACTIVITY_LOGIN = 'Login';
+    const  ACTIVITY_LOGINADMIN = 'LoginAdmin';
     const  ACTIVITY_LOGOUT = 'Logout';
     const  ACTIVITY_SEND_SMS = 'SmsSent';
     const  ACTIVITY_SEND_SMS_FAILED = 'SmsNotSent';
     const  ACTIVITY_SEND_EMAIL = 'EmailSent';
     const  ACTIVITY_NEW_CARD_REGISTRATION = 'NewCardRegistration';
     const  ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS = 'NewCardRegistrationSuccessfull';
+    const  ACTIVITY_NEW_CARD_REGISTRATION_SUCCESS_NO_SMS = 'NewCardRegistrationSuccessfullWithNoSMSSent';
+    const  ACTIVITY_SEND_SMS_RESET_FAILED    = 'SendingSMSByResetPasswordFailed';
+    const  ACTIVITY_SEND_SMS_RESET_SUCCESS   = 'SendingSMSByResetPasswordSuccessfull';
+    const  ACTIVITY_SEND_EMAIL_RESET_FAILED  = 'SendingEmailByResetPasswordFailed';
+    const  ACTIVITY_SEND_EMAIL_RESET_SUCCESS = 'SendingEmailByResetPasswordSuccessfull';
+
     const  ACTIVITY_NEW_CARD_REGISTRATION_ERROR = 'NewCardRegistrationError';
     const  ACTIVITY_EXISTING_CARD_REGISTRATION = 'ExistingCardRegistration';
     const  ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS = 'ExistingCardRegistrationSuccessfull';
+    const  ACTIVITY_EXISTING_CARD_REGISTRATION_SUCCESS_NO_SMS = 'ExistingCardRegistrationSuccessfullWithNoSMSSent';
     const  ACTIVITY_EXISTING_CARD_REGISTRATION_ERROR = 'ExistingCardRegistrationError';
-
 
     const  ACTIVITY_UPDATE_MOBILE_SUCCESS = 'UpdateMobileSuccessfull';
     const  ACTIVITY_UPDATE_MOBILE_ERROR   = 'UpdateMobileError';
@@ -80,9 +87,10 @@ class AppConstant
 
 
     //   related to cookies
-    const  COOKIE_EXPIRY   = 2592000; //'86400*30';
-    const  COOKIE_LOCALE   = 'c_locale';
-    const  COOKIE_COUNTRY  = 'c_country';
+    const COOKIE_EXPIRY   = 2592000; //'86400*30';
+    const COOKIE_LOCALE   = 'c_locale';
+    const COOKIE_COUNTRY  = 'c_country';
+    const SET_DEFAULT_LANGUAGE_ARABIC = "ar";
 
     //webservice main url
 
@@ -118,16 +126,21 @@ class AppConstant
     const DATE_FORMAT_DOB  = "Y-m-d";
     const DATE_FORMAT      = "m/d/Y";
     const DATE_TIME_FORMAT = "Y-m-d h:i:m";
-
-    
     const PROMOTIONS_PATH    = 'http://www.othaimmarkets.com/othaim-promotions/promotions';
     const PROMOTIONS_PATH_EG = 'http://www.othaimmarkets.com/eg/othaim-promotions/promotions';
     // const COOKIE_NOT_PRESENT_URL = "http://test.othaimmarkets.com/splash";
-
     // const BASE_URL = "http://othaimmarkets.com/ikitssab/index.php";
-
     const BASE_URL = "http://localhost/iktissabNew/index.php";
-
     // const BASE_URL = "http://test.othaimmarkets.com/iktissab/index.php";
+    const SINGLE  = 'S';
+    const MARRIED = 'M';
+    const WIDOW   = 'W';
+    const DIVORCE = 'D';
 
+    const HUSBAND   = '1';
+    const WIFE      = '2';
+    const CHILDREN  = '3';
+    const RELATIVE  = '4';
+    const APPLICANT = '5';
+    const SERVENT   = '6';
 }

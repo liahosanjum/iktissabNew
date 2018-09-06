@@ -39,7 +39,8 @@ class IktissabAdminSuccessHandler implements AuthenticationSuccessHandlerInterfa
             // $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
             $user = $token->getUser()->getId();
             $acrivityLog = $this->containerInterface->get('app.activity_log');
-            $acrivityLog->logLoginEvent($user);
+            //$acrivityLog->logLoginEvent($user);
+            $acrivityLog->logLoginAdminEvent($user);
             $response = new RedirectResponse($this->router->generate('cmslistall'));
         }
         return $response;

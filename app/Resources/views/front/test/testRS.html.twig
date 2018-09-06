@@ -32,12 +32,18 @@
                             {% if data !="" %}
                                 {{ dump(data) }}
                             {% endif %}
-                        <form id="testRS" name="testRS" action="postTestRSName" method="post">
+                        <form id="testRS" name="testRS" action="postTestRSEmail" method="post">
                             <br><br><br>
-                            <input type="text" placeholder="datajson" height="100" style="height: 100px; margin-bottom: 20px;" class=" col-lg-12  col-md-12" id="data" name="data">
+                            <select id="data" name="data">
+                                <option value="update_user_email">update_user_email</option>
+                                <option value="update_user_mobile">update_user_mobile</option>
+                                <option value="update_user_name">update_user_name</option>
+                                <option value="update_lost_card">update_lost_card</option>
+                                <option value="update_user_detail">update_user_detail</option>
+                                <option ></option>
+                                <option ></option>
+                            </select>
                             <br><br><br>
-                            <input type="text" placeholder="url" style="height: 40px; margin-bottom: 20px;" class="  col-lg-12  col-md-12" id="url" name="url">
-
                             <br><br><br>
 
                             <input type="submit" id="check" name="check" />

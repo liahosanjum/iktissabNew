@@ -44,14 +44,15 @@
             </div>
 
             <div class="cmsForm">
+                {{ form_label(form.display) }}
+                {{ form_errors(form.display) }}
+                {{ form_widget(form.display) }}
+            </div>
+            <div class="cmsForm">
                 {{ form_label(form.status) }}
                 {{ form_errors(form.status) }}
                 {{ form_widget(form.status) }}
             </div>
-
-
-
-
             <div class="cmsFormSaveBtn">
                 {{ form_label(form.save) }}
 

@@ -1,0 +1,83 @@
+{% extends '::baseadmin.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+
+
+        <div class="col-lg-12  col-md-12 col-sm-12 ">
+            <div class="title-form">Registration Settings For New Users</div>
+            {%  if message != "" %}
+                <div class="cmsForm {{ error_cl }}" style="font-size: 16px; margin-top: 10px;">
+
+                    {{ message }}
+
+                </div>
+            {% endif %}
+            <div class="row Reg_Setting">
+                <div class="col-lg-12  col-md-12 col-sm-12 reg_email_settingss ">
+                    <form  id="reg_settings" name="reg_settings" action="regsettings" autocomplete="off" method="post">
+                        <div class=" alert-danger alert " style="display: {{ message_ex_users }} ; color: #FF0000; background-color: #FFFFFF; border-color: #000000; ">
+                            Before Enabling to email verification for new registered users we need to allow the users who has already
+                            created their account as if we enable the email verification option they will not be able to login
+                            to the system.<br>
+                            Please Enable existing registered users for email verification to login to the system.<br><br>
+                            Link: <br><a href="{{ path('allowexistinguser') }}">Enabling Existing Users for email verifcation</a>
+                        </div>
+                        <div style="display: {{ show_form }}">
+
+
+                        <div id="users_enb_dnb" class="user_enbdnb row">
+                            <div class="col-lg-12  col-md-12 col-sm-12 " style="margin-bottom:20px;">
+                                Enable / Disable Email Verification For New User Registration Process
+                            </div>
+                            <div class="col-lg-12  col-md-12 col-sm-12">
+                                <div class="mediam_emailsms_reg">
+                                    <div class="mediam_opt_reg">
+                                        <div class="email_code_reg">
+                                            <input type="radio" {% if email_verification_enabled == 1 %} checked {% endif %}  value="1" name="verifi_reg_email"> Enable
+                                        </div>
+                                        <div class="sms_code_reg">
+                                            <input type="radio" {% if email_verification_enabled == 0 %} checked {% endif %}  value="0" name="verifi_reg_email"> Disable</div>
+                                        <div class="claerfix"></div>
+                                    </div>
+                                    <div class="claerfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sbmt col-lg-12  col-md-12 col-sm-12" style="margin-top:10px">
+                            <input type="submit" name="reg_email_vrfy" id="reg_email_vrfy" />
+                        </div>
+                        <div class="claerfix"></div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <style>
+        .cmsForm .required { width: 200px; }
+    </style>
+{% endblock %}
+
+{% block javascripts2 %}
+
+    <script type="text/javascript">
+
+    </script>
+    <style>
+        .reg_email_settingss{ float: left; padding-top:20px; font-size: 15px; }
+        .mediam_emailsms_reg{float: left;}
+        .mediam_opt_reg{float: left;}
+        .email_code_reg{float: left; padding-right: 20px;}
+        .sms_code_reg{float: left;}
+        .user_enbdnb{ float: left; padding-top: 20px; width: 100%;}
+        .prev_user_enbdnb{ float: left; width: 100%; }
+
+
+    </style>
+
+
+{% endblock %}

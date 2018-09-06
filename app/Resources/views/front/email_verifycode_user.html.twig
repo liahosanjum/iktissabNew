@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <section class="container breadcrum-wrapper">
+        <div class="row">
+            <div class="breadcrumb">
+                <a href="/iktissabNew/index.php/eg/ar/" class="in-active-link">الرئيسية</a>
+                <span class="breadcrumb-separator"><i aria-hidden="true" class="fa fa-angle-left"></i></span>
+                <a class="last-breadcrumb" href="#">{{ "Email Verification"|trans}}</a>
+            </div>
+        </div>
+    </section>
+        <section class="container verify_reset_password_wrapper">
+            <div class="row">
+                <div class="login-list-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div><h1> {{ 'Email Verification'|trans}}</h1></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="login-passreset  col-lg-6 col-md-6 col-sm-12 col-xs-12  col-lg-offset-3  col-md-offset-3">
+                    {% if message != "" %}
+                        <div class="alert-success-forms alert formMessage {{ errorcl }} fade in alert-dismissable "> {{ message}}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </section>
+    {% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
+        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
+        <script type="text/javascript"></script>
+{% endblock %}

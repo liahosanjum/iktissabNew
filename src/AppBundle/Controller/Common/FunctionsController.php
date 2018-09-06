@@ -3,8 +3,9 @@
 namespace AppBundle\Controller\Common;
 
 use AppBundle\Entity\User;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Query\ResultSetMapping;
-
+use Doctrine\ORM\EntityManager;
 use AppBundle\AppConstant;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -17,9 +18,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class FunctionsController extends Controller
 {
-
-
-
     Public function getIP()
     {
         return $_SERVER['REMOTE_ADDR'];
@@ -105,10 +103,8 @@ class FunctionsController extends Controller
 
     public function checkSessionCookies(Request $request)
     {
-        $cookieLocale = $request->cookies->get(AppConstant::COOKIE_LOCALE);
+        $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
         $cookieCountry = $request->cookies->get(AppConstant::COOKIE_COUNTRY);
-        // if((!isset($cookieLocale)) || ($cookieLocale == '') || (!isset($cookieCountry)) || ($cookieCountry == ''))
-
         if (((!isset($cookieLocale) || ($cookieLocale == '')) || (!isset($cookieCountry) || ($cookieCountry == '')))) {
             return false;
         } else {
@@ -135,9 +131,7 @@ class FunctionsController extends Controller
         for ($i = 0; $i < strlen($iqama); $i++) {
             $temp = '';
             if ($i % 2) { // odd number
-
                 $oddSum = $oddSum + $iqama[$i];
-
             } else {
                 //even
                 $multE = $iqama[$i] * 2;
@@ -155,7 +149,6 @@ class FunctionsController extends Controller
         } else {
             return false;
         }
-
     }
 
     /**
@@ -184,17 +177,15 @@ class FunctionsController extends Controller
                 $bg_path . 'white-carbon.png',
                 $bg_path . 'white-wave.png'
             ),
-            'fonts'     => array(
-                $font_path . 'times_new_yorker.ttf'
-            ),
-            'characters' => 'ABCDEFGHJKLMNPRSTUVWXYZabcdefghjkmnprstuvwxyz23456789',
+            'fonts'     => array( $font_path . 'times_new_yorker.ttf' ),
+            'characters'    => 'ABCDEFGHJKLMNPRSTUVWXYZabcdefghjkmnprstuvwxyz23456789',
             'min_font_size' => 10,
             'max_font_size' => 12,
-            'color' => '#666',
-            'angle_min' => 0,
-            'angle_max' => 10,
-            'shadow' => true,
-            'shadow_color' => '#FF0000',
+            'color'         => '#666',
+            'angle_min'     => 0,
+            'angle_max'     => 10,
+            'shadow'        => true,
+            'shadow_color'  => '#FF0000',
             'shadow_offset_x' => -1,
             'shadow_offset_y' => 1
         );
@@ -249,12 +240,10 @@ class FunctionsController extends Controller
         // you may change these values to your own
         $secret_key = 'abc123abcnmkgk';
         $secret_iv  = 'gfhjdkslwlsa';
-
-        $output = false;
+        $output     = false;
         $encrypt_method = "AES-256-CBC";
         $key = hash( 'sha256', $secret_key );
-        $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-
+        $iv  = substr( hash( 'sha256', $secret_iv ), 0, 16 );
         if( $action == 'e' ) {
             $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
         }
@@ -265,15 +254,8 @@ class FunctionsController extends Controller
     }
 
 
-
-
-
-
     public function checkAccessRole($roleName , $resourceNameRequested)
     {
-
-
-
         $resourceOfEditor = array('MANAGE_USER',
              'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
              'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
@@ -288,19 +270,14 @@ class FunctionsController extends Controller
             //'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
             //'MANAGE_LOGS',
         );
-
         /*
-         $resourceOfEditorViewer = a array('MANAGE_USER',
+        $resourceOfEditorViewer = a array('MANAGE_USER',
              'MANAGE_EMAIL_SETTINGS','MANAGE_EMAIL_SETTINGS_ADD', 'MANAGE_EMAIL_SETTINGS_EDIT','MANAGE_EMAIL_SETTINGS_DELETE',
              'MANAGE_FORM_VIEW', 'MANAGE_FORM_ADD','MANAGE_FORM_EDIT','MANAGE_FORM_DELETE',
              'MANAGE_CMS', 'MANAGE_CMS_ADD','MANAGE_CMS_EDIT','MANAGE_CMS_DELETE',
              'MANAGE_NEWS', 'MANAGE_NEWS_ADD','MANAGE_NEWS_EDIT','MANAGE_NEWS_DELETE',
              'MANAGE_LOGS',
-        );
-        */
-
-
-
+        ); */
         if($roleName == 'ADMIN_ROLE')
         {
             return true;
@@ -325,43 +302,37 @@ class FunctionsController extends Controller
         }
     }
 
+    //
     public function checkAccessRole2($roleName='EDITOR_ROLE' , $resourceNameRequested='MANAGE_CMS_VIEW')
     {
         if($roleName == 'ADMIN_ROLE')
         {
             return true;
         }
-
         $em = $this->getDoctrine()->getManager();
         $resourceList = $this->getDoctrine()
             ->getRepository('AppBundle:Resources')
             ->findBy(array( 'status' => '1' , 'resourceName' => $resourceNameRequested , 'assignedTo' => $roleName ));
-
-        if(!empty($resourceList))
-        {
-            if($resourceList[0]->getId() != "" && $resourceList[0]->getId() != null)
-            {
+        if(!empty($resourceList)) {
+            if($resourceList[0]->getId() != "" && $resourceList[0]->getId() != null) {
                 return true;
             }
             return false;
-
         } else {
             return false;
         }
     }
 
 
-    public function isValidRule($resource){
+    public function isValidRule($resource) {
         $tokenStorage  = $this->get('security.token_storage');
         $roleName = $tokenStorage->getToken()->getUser()->getRoleName();
-        //$roleId   =  $tokenStorage->getToken()->getUser()->getRoleId();
-
-
+        // $roleId   =  $tokenStorage->getToken()->getUser()->getRoleId();
         if(!$this->checkAccessRole2($roleName , $resource))
         {
             return false;
         }
-        else{
+        else {
             return true;
         }
     }
@@ -409,13 +380,11 @@ class FunctionsController extends Controller
     public function checkCsrfToken($csf_token , $token_name){
         $session = new Session();
         $token_name = $token_name;
-        $token_val = $session->get($token_name);
-        if($token_val == $csf_token)
-        {
+        $token_val  = $session->get($token_name);
+        if($token_val == $csf_token) {
             return true;
         }
-        else
-        {
+        else {
             return false;
         }
     }
@@ -443,13 +412,12 @@ class FunctionsController extends Controller
 
     public function validateData ($data)
     {
-
         $count_errors = 0;
         try
         {
             foreach ($data as $value)
             {
-                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-+ك؛،,َ ً ِ ٍ ُ ٌ ْ ّ ،!@#٪&*١٢٣٤٥٦٧٨٩٠._]*$/u", $value))
+                if (!preg_match("/^[a-zA-Z\p{Arabic}0-9\s\-+؛،,َ ً ِ ٍ ُ ٌ ْ ّ ،!@#٪&*١٢٣٤٥٦٧٨٩٠._]*$/u", $value))
                 {
                     echo $count_errors++;
                 }
@@ -590,13 +558,24 @@ class FunctionsController extends Controller
         return str_replace("/","-",$_SERVER['HTTP_USER_AGENT']);
     }
 
-
-
-
-
-
-
-
-
-
+    public function email_vrfy(EntityManager $entityManager)
+    {
+        // for DBAL
+        // $entityManager = $this->get('doctrine.orm.default_entity_manager');
+        try
+        {
+            $conn   = $entityManager->getConnection();
+            $stm    = $conn->prepare("SELECT * FROM registration_settings");
+            $stm->execute();
+            $result = $stm->fetch();
+            if(!empty($result)){
+                return $result['email_verification'];
+            } else {
+                return 0;
+            }
+        }
+        catch (\Exception $e){
+            return 0;
+        }
+    }
 }

@@ -36,7 +36,6 @@ class GalleryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
         $builder
             ->add('atitle' , TextType::class, array('label' => 'Title Arabic','required' => true,
                 'attr' => array(
@@ -77,16 +76,28 @@ class GalleryType extends AbstractType
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => 'This field is required')),
                 )
-
-                ))
+            ))
 
             ->add('status', CheckboxType::class, array(
                 'label'    => 'Status',
                 'mapped'   => false,
                 'required' => false,
             ))
-            
-            ->add('save', SubmitType::class, array('label' => 'Create Page','attr' => array(
+
+
+
+            ->add('display', ChoiceType::class, array(
+                'label' => 'Select Type ',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                'choices' => array( 'Slider' => '1', 'Banner' => '2' ),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => 'This field is required')),
+                )
+            ))
+
+            ->add('save', SubmitType::class, array('label' => 'Add Image','attr' => array(
                 'class' => 'form-control cms-button' , 
             )));
     }

@@ -1,0 +1,56 @@
+{% extends "/email-templates/email-base-customers.email.twig" %}
+{% block emailbody %}
+    {% if app.request.cookies.get('c_locale') == "en" %}
+        {%  set side = 'left'  %}
+    {% else %}
+        {%  set side = 'right'  %}
+{% endif %}
+
+    <table align="center" class="bgItem" border="0" cellpadding="0" cellspacing="0" valign="top" width="100%"
+           style="background: #ffffff; border:1px solid #4e4e4e; ">
+        <tbody>
+        <tr>
+            <td align="{{ side }}" valign="top">
+                <img alt="Iktissab" src="https://ci6.googleusercontent.com/proxy/JxQ2JMDCn1WhfgZCMQ1Q2lqgDgz7DdNyJ638Wq3tSxv_i6a-GVtu33DBOkxuwG1MJ1p3qH1DUVF7mSijm12fSvi27Y4hlDUQN43RHD7pl-yAuOJvy1J0IsDwbyCxjHNplf4=s0-d-e1-ft#http://www.othaimmarkets.com/iktissab/themes/iktissab/images/mail/header.png" class="CToWUd" width="100%">
+            </td>
+        </tr>
+        <tr>
+            <td align="{{ side }}" valign="top">
+
+            </td>
+        </tr>
+        <tr>
+            <td align="{{ side }}" valign="top" >
+                <div style="float: left">
+                    <div style="min-height:270px ;margin-top:50px; padding-left:15px; padding-right:10px;  text-align: {{ side }}">
+                        <p style="font-weight:bold;color: #555555;font-size: 20px;line-height: 30px;margin: 0;font-size: 16px; font-family: Cairo">
+
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;font-size: 16px; font-family: Cairo;">
+
+                        </div>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;font-size: 16px; font-family: Cairo; float: left; ">
+                            Number of Registered users from {{ fromDate }} to {{ toDate }} via mobile app: {{ mobile_total }}
+                        </div>
+                        <br>
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;font-size: 16px; font-family: Cairo; float: left; ">
+                            Number of Registered users from {{ fromDate }} to {{ toDate }} via website: {{ website_total }}
+                        </div>
+
+
+                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;font-family: Cairo;font-size: 16px;">
+                           <a href=""></a>
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr><td style="background-color:#008544;color:#ffffff;height:50px;text-align:center;font-size: 13px; font-family: Cairo" colspan="2">
+                All Rights Reserved to Abdullah AlOthaim Markets Company @ {{ "now"|date("Y") }}
+        </td></tr>
+        </tbody>
+    </table>
+{% endblock %}

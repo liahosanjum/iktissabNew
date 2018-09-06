@@ -39,8 +39,10 @@ class ActivityLogService
             $iktCardNo = 0;
         }
         $activityLog->setIktCardNo($iktCardNo);
-        $date = date('Y-m-d H:i:s');
-        $activityLog->setActionDate($date);
+        //$date  = date('Y-m-d H:i:s');
+        //$date = date('Y-m-d H:i:s');
+
+        //$activityLog->setActionDate($date);
         $this->em->persist($activityLog);
         // update the lastlogin in user table
         $this->em->flush();
@@ -56,9 +58,29 @@ class ActivityLogService
         $browserAgent = $this->getBrowserInfo();
         $activityLog->setBrowser($browserAgent);
         $activityLog->setVersion('');
-        $date = date('Y-m-d H:i:s');
-        $activityLog->setActionDate($date);
+        //$date  = date('Y-m-d H:i:s');
+        //$date = date('Y-m-d H:i:s');
+        //$activityLog->setActionDate($date);
         $activityLog->setActionType(AppConstant::ACTIVITY_LOGIN);
+        $this->em->persist($activityLog);
+        // update the lastlogin in user table
+        $this->em->flush();
+    }
+
+    public function logLoginAdminEvent($ikt_card_no)
+    {
+        $activityLog = new ActivityLog();
+        $activityLog->setIktCardNo($ikt_card_no);
+        $actionData = array('login_ip' => $this->containerInterface->get('request_stack')->getCurrentRequest()->getClientIp());
+        $activityLog->setActionData(serialize($actionData));
+        $activityLog->setSource('W');
+        $browserAgent = $this->getBrowserInfo();
+        $activityLog->setBrowser($browserAgent);
+        $activityLog->setVersion('');
+        //$date  = date('Y-m-d H:i:s');
+        //$date = date('Y-m-d H:i:s');
+        //$activityLog->setActionDate($date);
+        $activityLog->setActionType(AppConstant::ACTIVITY_LOGINADMIN);
         $this->em->persist($activityLog);
         // update the lastlogin in user table
         $this->em->flush();
@@ -78,8 +100,10 @@ class ActivityLogService
         $browserAgent = $this->getBrowserInfo();
         $activityLog->setBrowser($browserAgent);
         $activityLog->setVersion('');
-        $date = date('Y-m-d H:i:s');
-        $activityLog->setActionDate($date);
+        //$date  = date('Y-m-d');
+
+        // $date = date('Y-m-d H:i:s');
+        //$activityLog->setActionDate($date);
         $activityLog->setActionType(AppConstant::ACTIVITY_LOGOUT.$type);
         $this->em->persist($activityLog);
         $this->em->flush();

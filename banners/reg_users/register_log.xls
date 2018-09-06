@@ -1,0 +1,37 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--[if gte mso 9]>
+    <xml>
+        <x:ExcelWorkbook>
+            <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                    <x:Name><![CDATA[Total Users]]></x:Name>
+                    <x:WorksheetOptions>
+                        <x:Print>
+                            <x:ValidPrinterInfo/>
+                        </x:Print>
+                    </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+            </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+    </xml>
+    <![endif]-->
+    <style type="text/css">
+table td{border: 1px solid #bbbbbb;}
+        .center { text-align: center;}
+        .center-graylight {text-align: center; background-color: #bbbeee;}
+        .highlight {background-color: #ffff00;}
+        .center-highlight {text-align: center; background-color: #ffff00;}
+        .left { padding-left:20px;text-align: left;}
+        .h3{font-weight: bold; font-size: 18px;}
+        .bold{font-weight: bold;}
+    
+    </style>
+</head>
+<body>
+<table>
+    <tr class ="center"><td colspan="4" class="h3">Number of Registered users from 2018/07/12 to 2018/09/05</td></tr>
+    <tr class ="center"><td class ="bold">Sr.No</td><td class ="bold">Date</td><td class ="bold">Mobile</td><td class ="bold">Website</td></tr><tr class="center-highlight"><td>1</td><td>test user</td><td>test user</td><td></td></tr><tr class="center"><td>2</td><td>sd asd</td><td>sd asd</td><td></td></tr><tr class="center"><td>3</td><td>test</td><td>test</td><td></td></tr><tr class="center"><td>4</td><td>test</td><td>test</td><td></td></tr><tr class="center"><td>5</td><td>test</td><td>test</td><td></td></tr><tr class="center"><td>6</td><td>test</td><td>test</td><td></td></tr><tr class="center"><td>7</td><td>test</td><td>test</td><td></td></tr></table><tr class="center"><td>8</td><td>2018/07/15</td><td></td><td>3</td></tr><tr class="center"><td>9</td><td>2018/07/16</td><td></td><td>2</td></tr><tr class="center"><td>10</td><td>2018/07/17</td><td></td><td>2</td></tr><tr class="center"><td>11</td><td>2018/07/22</td><td></td><td>11</td></tr><tr class="center"><td>12</td><td>2018/07/23</td><td></td><td>4</td></tr><tr class="center"><td>13</td><td>2018/07/24</td><td></td><td>1</td></tr><tr class="center"><td>14</td><td>2018/07/25</td><td></td><td>2</td></tr><tr class="center"><td>15</td><td>2018/07/31</td><td></td><td>3</td></tr><tr class="center"><td>16</td><td>2018/08/01</td><td></td><td>1</td></tr><tr class="center"><td>17</td><td>2018/08/27</td><td>2</td><td>4</td></tr><tr class="center"><td>18</td><td>2018/08/29</td><td></td><td>1</td></tr><tr class="center"><td>19</td><td>2018/09/02</td><td></td><td>1</td></tr><tr class="center-graylight"><td class="left" colspan="2"><strong>Sub Total</strong></td><td><strong>2</strong></td><td><strong>35</strong></td></tr><tr class="highlight"><td class="left" colspan="3"><strong>Total</strong></td><td class="center"><strong>37</strong></td></tr></table>
+</body>
+</html>

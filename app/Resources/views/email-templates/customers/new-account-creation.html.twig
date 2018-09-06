@@ -14,51 +14,45 @@
                 <img alt="Iktissab" src="https://ci6.googleusercontent.com/proxy/JxQ2JMDCn1WhfgZCMQ1Q2lqgDgz7DdNyJ638Wq3tSxv_i6a-GVtu33DBOkxuwG1MJ1p3qH1DUVF7mSijm12fSvi27Y4hlDUQN43RHD7pl-yAuOJvy1J0IsDwbyCxjHNplf4=s0-d-e1-ft#http://www.othaimmarkets.com/iktissab/themes/iktissab/images/mail/header.png" class="CToWUd" width="100%">
             </td>
         </tr>
-
         <tr>
-            <td align="right" valign="top">
-                &nbsp;
-            </td>
+            <td align="right" valign="top">&nbsp;</td>
         </tr>
-
-
         <tr>
             <td align="{{ lang }}" valign="top">
                 <div>
                     <div  style="margin-left: 30px; margin-right: 30px;min-height:300px; float: {{ lang }}; margin-top:60px;">
-                        <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
-                            <div style="float: {{ lang }}; width: 150px;">  {{ 'Dear'|trans }}  </div><div style="float: {{ lang }}"> {{ customer }} </div>
+                        <div style="color: #555555;font-size: 16px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px; font-weight: bold; ">  {{ 'Dear'|trans }}  </div><div style="font-weight: bold; float: {{ lang }}"> {{ customer }} </div>
                         </div>
                         <div style="color: #555555;font-size: 20px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
                             <div style="float: {{ lang }}; ">
-                                <p style="color: #555555;font-size: 17px;line-height: 30px;margin: 0; margin-top: 10px; margin-bottom: 10px">
-                                    {{ 'Your account has been created at iktissab you can login using the details below'|trans }}
+                                <p style="color: #555555;font-size: 14px;line-height: 30px;margin: 0; margin-top: 10px; margin-bottom: 10px">
+                                    {{ message_email }}
                                 </p>
                             </div>
                         </div>
 
-                        <div style="color: #555555;font-size: 17px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
-                            <div style="float: {{ lang }}; width: 150px;"> {{ 'Username'|trans }} </div><div style="float: {{ lang }}"> {{ email }} </div>
+                        <div style="color: #555555;font-size: 14px;line-height: 30px;margin: 0;width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;"> {{ 'Username'|trans }}:</div><div style="float: {{ lang }}"> {{ email }} </div>
                         </div>
-                        <div style="color: #555555;font-size: 17px;line-height: 30px;margin: 0; width: 100%; float: {{ lang }}">
-                            <div style="float: {{ lang }}; width: 150px;"> {{ 'Password'|trans }} </div><div style="float: {{ lang }}"> {{ password }} </div>
+
+                        <div style="color: #555555;font-size: 14px;line-height: 30px;margin: 0; width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 150px;"> {{ 'Password'|trans }}:</div><div style="float: {{ lang }}"> {{ password }} </div>
                         </div>
+                        {% if link != "" %}
+                        <div style="color: #555555;font-size: 14px;line-height: 30px;margin: 0; width: 100%; float: {{ lang }}">
+                            <div style="float: {{ lang }}; width: 850px;"> {{ 'Please click on the link below to verify your email account.You will not be able to login even your account is acitivated by Iktissab Team unless you click on the activation link'|trans }}  </div>
+                            <div style="float: {{ lang }}"> {{ link }} </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </td>
         </tr>
+        <tr><td>&nbsp;</td></tr>
         <tr>
-            <td>&nbsp;</td>
+            <td style="background-color:#008544;color:#ffffff;height:50px;text-align:center;font-size: 16px;" colspan="2">{{ 'Copy rights'|trans }} {{ "now"|date("Y") }}</td>
         </tr>
-
-        <tr><td style="background-color:#008544;color:#ffffff;height:50px;text-align:center;font-size: 16px;" colspan="2">
-
-                {{ 'Copy rights'|trans }}
-
-            </td></tr>
-
-
-
         </tbody>
     </table>
 {% endblock %}

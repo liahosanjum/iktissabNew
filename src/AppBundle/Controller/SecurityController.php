@@ -61,8 +61,6 @@ class SecurityController extends Controller
                 }
             }
         }
-
-
         $userCountry = '';
         if($request->query->get('ccid')) {
             $userCountry = $request->query->get('ccid');
@@ -78,10 +76,6 @@ class SecurityController extends Controller
                 }
             }
         }
-
-
-
-
         if($request->cookies->get(AppConstant::COOKIE_LOCALE))
         {
             $cookieLocale  = $request->cookies->get(AppConstant::COOKIE_LOCALE);
@@ -93,14 +87,15 @@ class SecurityController extends Controller
                 return $this->redirect($this->generateUrl('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale)));
             }
         }
+
         /*
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             // create current user country session
-
             $this->get('session')->set('userSelectedCountry',$request->get('_country'));
             return $this->redirectToRoute('homepage', array('_country' => $cookieCountry, '_locale' => $cookieLocale));
         }
         */
+
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             // create current user country session
             $this->get('session')->set('userSelectedCountry',$request->get('_country'));

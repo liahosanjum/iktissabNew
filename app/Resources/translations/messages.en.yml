@@ -233,7 +233,7 @@
 "Email": "Email"
 "Follow Us": "Follow Us"
 "Terms and Conditions": "Terms and Conditions"
-"Copy rights": "All Rights Reserved to Abdullah AlOthaim Markets Company @ 2018"
+"Copy rights": "All Rights Reserved to Abdullah AlOthaim Markets Company @"
 "Customer Services": "Customer Services"
 "My Account": "My Account"
 "Forgot Email": "Forgot Email"
@@ -323,7 +323,7 @@
 "Please enter activation code": "Please enter activation code"
 "Please enter 6 digits code you received on your mobile": "Please enter 6 digits code you received on your mobile"
 "Thank you. Your activation request has been received successfully": "Thank you. Your activation request has been received successfully"
-"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team."
+"Dear customer, your account information has been sent to us successfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account": "Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team also we have sent you an email containing a link to confirm & verify your email address."
 "Retrieve account email": "Retrieve account email"
 "Credit Cash": "Credit Cash"
 'Unable to update record': 'Your information is not updated'
@@ -380,11 +380,11 @@
 'Question': 'Question'
 'link': 'link'
 'update lost card': 'Update lost card'
-'Unable to process your request.Please try later': 'Unable to process your request at this time.Please try later'
 'Unable to process your request at this time.Please try later': 'Unable to process your request at this time.Please try later'
 'You will recieve sms on your mobile number **** %s': 'You will recieve sms on your mobile number **** %s'
 'Signup': 'Signup'
 'Dear customer, your account has been created you can login now': 'Dear customer, your account has been created you can login now'
+'Dear customer, your account has been created you can login now after verifying your email address by clicking on the link you received in your email': 'Dear customer, your account has been created you can login now after verifying your email address by clicking on the link you received in your email'
 'Password must be at least 6 characters': 'Password must be at least 6 characters'
 'Iktissab card is a loyalty card used for general purchases. Collection of credits and redeeming it, while its usage for special offers only will stop the card':
 'Inquiry and Suggestions': 'Inquiry and Suggestions'
@@ -395,7 +395,7 @@
 'Please insert this temporary code to continue with Iktissab Card registration:': 'Please insert this temporary code to continue with Iktissab Card registration:'
 'Welcome to iktissab website your Username:': 'Welcome to iktissab your user name is:'
 'This Card is already registered': 'This Card is already registered'
-'Iktissab card is already registered':  'Iktissab card is already registeredً'
+'Iktissab card is already registered': 'Iktissab card is already registeredً'
 'New Iktissab id and old Iktissab id must not be same': 'New Iktissab id and old Iktissab id must not be same'
 "R": "Reason"
 "C": "Complaint"
@@ -414,10 +414,27 @@
 "Invalid Data": "Invalid Data"
 'Please provide valid data': 'Please provide valid data'
 'Name cannot be same as current name': 'Name cannot be same as current name'
-'You have already subscribed': 'You have already subscribed en'
+'You have already subscribed': 'You have already subscribed'
+'Unable to process your request.Please try later': 'Unable to process your request at this time.Please try later'
 'Dear customer, your account information has been sent to us succesfully. the Iktissab Team will send you the security code and the activation number to your registered mobile number, also we have sent you an email containing a link to confirm & activate your Iktissab Account duumy text': 'test'
 'Mobile Number Must be 10 digits': 'Mobile Number Must be 10 digits starting with 05'
 'Invalid mobile number': 'Invalid mobile number'
 'Please provide valid data for name': 'Please provide valid data for name'
 'Nothing to update': 'Nothing to update'
 'This value is not valid': 'This field is required'
+'Your email is updated. Next time, please use the ( %email% ) email address for signing to the website': 'Your email is updated. Next time, please use the ( %email% ) email address for signing to the website'
+'Note: In case of any SMS blocking on your mobile, you will not receive the website registration and Iktissab activation messages': 'Note: In case of any SMS blocking on your mobile, you will not receive the website registration and Iktissab activation messages'
+'You can reset a new password by sending generated code to your registered email or mobile number': 'You can reset a new password by sending generated code to your registered email or mobile number'
+'If there is an account associated with this E-mail then you will receive an SMS with a code to reset your password': 'If there is an account associated with this E-mail then you will receive an SMS with a code to reset your password'
+"Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team": "Dear customer, your account information has been sent to us successfully. Your account will be activated in 48 hours after reveiwing your information by Iktissab Team"
+'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours': 'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours'
+'Your account has been created at iktissab website, you can login using the details below': 'Your account has been created at iktissab website, you can login using the details below'
+'By Email': 'By Email'
+'By SMS': 'By SMS'
+'Choose to receive code': 'Choose to receive code'
+'Please click on the link below to verify your email account.You will not be able to login even your account is acitivated by Iktissab Team unless you click on the activation link': 'Please click on the link below to verify your email account.You will not be able to login even your account is acitivated by Iktissab Team unless you click on the activation link'
+'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours': 'Your account has been created at iktissab website, you can login using the details below after activation of your account by Iktissab Team after 48 hours'
+'The CSRF token is invalid. Please try to resubmit the form or refresh the page': 'Your session is expired.Please try to refresh the page'
+'Email Verification': 'Email Verification'
+'Your email is verified successfully. Once iktissab team activates your account you will be able to login': 'Your email is verified successfully. Once iktissab team activates your account you will be able to login'
+'Your email is verified successfully. You can login now': 'Your email is verified successfully. You can login now'

@@ -46,7 +46,7 @@
                             <tr>
                                 <td>{{ log.a_iktCardNo }}</td>
                                 <td>{{ log.u_email }}</td>
-                                <td>{{ log.a_actionDate|date(constant('AppBundle\\AppConstant::DATE_TIME_FORMAT')) }}</td>
+                                <td>{{ log.a_actionDate|date('Y-m-d H:i:s') }}</td>
                                 <td>{{ log.a_actionType }}</td>
                                 <td>{{ log.a_actionType }}</td>
                                 <td>

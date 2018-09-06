@@ -26,7 +26,7 @@ use Doctrine\ORM\NoResultException;
 
 class IktissabAdminProvider implements UserProviderInterface
 {
-    const MAX_COUNT_ATTEMPTS = 10;
+    const MAX_COUNT_ATTEMPTS = 5;
     const TIMEOUT = 300;
     private $em;
 
@@ -63,15 +63,22 @@ class IktissabAdminProvider implements UserProviderInterface
     {
         try {
             $loginRepo = $this->em->getRepository("AppBundle:LoginAttempt");
-            if ($loginRepo->getCountAttempts($this->request) >= self::MAX_COUNT_ATTEMPTS) {
-                $lastAttemptDate = $loginRepo->getLastAttempt($this->request);
-                $dateAllowLogin = $lastAttemptDate->modify('+' . self::TIMEOUT . ' second');
-                if ($dateAllowLogin->diff(new \DateTime())->invert === 1) {
-                    return false;
+            if($this->request != null || $this->request != "") {
+                if ($loginRepo->getCountAttempts($this->request) >= self::MAX_COUNT_ATTEMPTS) {
+                    $lastAttemptDate = $loginRepo->getLastAttempt($this->request);
+                    $dateAllowLogin  = $lastAttemptDate->modify('+' . self::TIMEOUT . ' second');
+                    if ($dateAllowLogin->diff(new \DateTime())->invert === 1) {
+                        return false;
+                    }
+                }else{
+                    return true;
                 }
             }
+            else
+            {
+                return false;
+            }
 
-            return true;
         } catch (NoResultException $e) {
             return true;
         } catch (NonUniqueResultException $e) {
@@ -80,14 +87,16 @@ class IktissabAdminProvider implements UserProviderInterface
 
     }
     public function incrementLoginAttempts(){
-        $this->em->getRepository('AppBundle:LoginAttempt')->incrementCountAttempts($this->request);
+        if($this->request != null || $this->request != "") {
+            $this->em->getRepository('AppBundle:LoginAttempt')->incrementCountAttempts($this->request);
+        }
     }
 
     public function clearLoginAttempts(){
-        $this->em->getRepository("AppBundle:LoginAttempt")->clearAttempts($this->request->getClientIp());
+        if($this->request != null || $this->request != "") {
+            $this->em->getRepository("AppBundle:LoginAttempt")->clearAttempts($this->request->getClientIp());
+        }
     }
-
-
 
     public function loadUserByUsername($username)
     {
@@ -98,16 +107,15 @@ class IktissabAdminProvider implements UserProviderInterface
             ->setParameter('email', $username)
             ->getQuery()
             ->getOneOrNullResult();
-
         //echo $user->getQuery()->getSQL();
-
         if ($user) {
             // return new WebserviceUser($username, $password, $salt, $roles);
             return new IktissabAdmin($user->getEmail(), $user->getPassword(),$user->getId(),
                 '', array('ROLE_IKTADMIN'), $user->getRoleName() );
-            // TODO: Implement loadUserByUsername() method.
         }
-
+        if($this->request != null || $this->request != "") {
+            $this->em->getRepository('AppBundle:LoginAttempt')->incrementCountAttempts($this->request);
+        }
         throw new UsernameNotFoundException(
             sprintf('Username or password is incorrect or account has been blocked due to many invalid login attempts')
         );

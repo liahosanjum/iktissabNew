@@ -48,6 +48,7 @@ class LoginAttemptRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getCountAttempts(Request $request)
     {
+        
         if (!$this->hasIp($request)) {
             return 0;
         }
@@ -64,6 +65,7 @@ class LoginAttemptRepository extends \Doctrine\ORM\EntityRepository
             ))
             ->getQuery()
             ->getSingleScalarResult();
+        
 
     }
 

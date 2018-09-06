@@ -17,6 +17,7 @@
                     <th>Title</th>
                     <th>Image</th>
                     <th>Status</th>
+                    <th>Displayed Area</th>
                     <th colspan="2">Action</th>
                 </tr>
                 </thead>
@@ -29,6 +30,15 @@
                     <td><img width="50" height="50" src="{{ asset('banners/img/') ~ item.image  }} "></td>
 
                     <td>{{  item.Status }}</td>
+                    <td>
+                    {% if item.display == 1 %}
+                        Slider
+                        {%  elseif item.display == 2 %}
+                        Top Banner
+                        {% endif %}
+                    </td>
+
+
                     <td colspan="2">
                         <a href="{{ app.request.getBaseURL()  }}/admin/gallerylistdelete/{{ item.id }}" onclick="return delRecord({{ item.id }})">Delete</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ app.request.getBaseURL()  }}/admin/gallerylistupdate/{{item.id}}">Update</a>

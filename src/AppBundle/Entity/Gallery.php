@@ -68,6 +68,13 @@ class Gallery
     private $image;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="display", type="string", nullable=false)
+    */
+    private $display;
+
+    /**
      * Get id
      *
      * @return int
@@ -221,6 +228,30 @@ class Gallery
     public function setImage($image)
     {
         $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * Get display
+     *
+     * @return string
+     */
+
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * Set display
+     *
+     * @param string $display
+     *
+     * @return Display
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
         return $this;
     }
 

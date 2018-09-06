@@ -22,5 +22,4 @@ class HttpCode
     const  HTTP_FORBIDDEN          = 403;
     const  HTTP_NOT_FOUND          = 404;
     const  HTTP_METHOD_NOT_ALLOWED = 405;
-
 }

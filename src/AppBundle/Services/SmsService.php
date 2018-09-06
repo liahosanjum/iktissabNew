@@ -78,7 +78,7 @@ class SmsService
             $receiver;
             $this->cleanMobile($receiver, $country);
             $number    = $prefix . $this->cleanMobile($receiver, $country);
-            // todo: remove below code
+            // todo: remove below code of mobile number
             $number    = "966583847092";
             $msgID     = rand(1, 9999);
             $deleteKey = rand(1, 9999);

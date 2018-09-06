@@ -7,19 +7,15 @@
         <div class="col-lg-offset-1 col-lg-10">
             <div class="header-title-admin">ADMIN LOGIN</div>
             {% if error %}
-
                 <div class="alert-danger alert"> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
-
             {% endif %}
             <div class="login-admin-conts">
             <form action="{{ path('admin_admin')}}" method="post" autocomplete="off">
                 <label class="input-admin"  for="username">Username: </label>
-                <input class="form-control"  type="text" id="username" name="_username" value="{{ last_username }}" />
+                <input class="form-control"  type="text" id="username" name="_username" value="" />
                 <label class="input-admin" for="password">Password:</label>
-                <input class="form-control" type="password" id="password" name="_password" />
-
+                <input class="form-control" type="password" id="password" name="_password" value="" />
                 <button class="login-admin-btn" type="submit">Login</button>
-
             </form>
             </div>
             </div>

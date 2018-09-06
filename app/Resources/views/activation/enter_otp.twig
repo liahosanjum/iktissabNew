@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 {% set title =  'Card Activation'|trans   %}
 {% block body %}
-
-
-
-
     <section class="container breadcrum-wrapper">
         <div class="row">
             <div class="breadcrumb">
@@ -38,8 +34,6 @@
                 </div>
             {% endif %}
         </div>
-
-
     </section>
     <section class="container cardactivation-form-wrapper">
         <div class="row">
@@ -111,6 +105,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="row form-cardactivation-inner">
                                     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card-activation-phone-message"> {{ 'Please enter activation code'|trans }}   <span class="required">*</span></div>
@@ -127,7 +122,6 @@
                                                 {{ form_errors(form.otp) }}
 
                                                 {{ form_end(form) }}
-
                                         </div>
                                     </div>
                                 </div>
@@ -141,6 +135,13 @@
 
                                     </div>
                                 </div>
+                                <div class="row form-cardactivation-inner" style="display: block">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="card-activation-phone-message-blink enter_rec_value_bl">
+                                            <label class="blink-me">{{ 'Note: In case of any SMS blocking on your mobile, you will not receive the website registration and Iktissab activation messages'|trans }} </label>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -148,20 +149,19 @@
                 </div>
             </div>
         </div>
-
     </section>
 {% endblock %}
     {% block javascripts %}
-        <script type="text/javascript" src="{{ asset('default/jquery-validation-1.15.0/dist/jquery.validate.js') }}"></script>
-        <script type="text/javascript" src="{{ asset("bundles/boekkooijqueryvalidation/additional-methods.js") }}"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
+            jQuery(document).ready(function () {
                 {{ form_jquery_validation(form) }}
-
-
-
-
             });
-
+        </script>
+        <script type="text/javascript">
+            function blink_text() {
+                jQuery('.blink-me').fadeOut(900);
+                jQuery('.blink-me').fadeIn(900);
+            }
+            setInterval(blink_text, 900);
         </script>
 {% endblock %}

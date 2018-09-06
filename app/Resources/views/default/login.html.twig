@@ -51,14 +51,26 @@
             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 memberlogin-divider">
                 <div class="memberlogin-emailarea">
                     <h4>{{ 'Did you forgot your password'|trans }}</h4>
-                    <h3>{{ 'if you have forgotten your password, you can reset a new password by sending some instructions to our registered email'|trans }}</h3>
+                    <h3>{{ 'You can reset a new password by sending generated code to your registered email or mobile number'|trans }}</h3>
+                    <form id="forgotpassword_form" name="forgotpassword_form"
+                          action="{{ path('forgotpasswordsms',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post" autocomplete="off">
+
+                    <div class="mediam_emailsms">
+                        <div class="mediam_chose">
+                            {{ 'Choose to receive code'|trans }}
+                        </div>
+                        <div class="mediam_opt">
+                            <div  class="email_code"><input type="radio" name="verifcodemediam"  value="1" checked /> {{ 'By Email'|trans }}</div>
+                            <div  class="sms_code"><input type="radio" name="verifcodemediam" value="2" > {{ 'By SMS'|trans }}</div>
+                            <div class="claerfix"></div>
+                        </div>
+                        <div class="claerfix"></div>
+                    </div>
                     {% if message  %} <div id="contents-fp" class=" {{ errorcl }} alert  ">{{ message }} </div> {% endif %}
                     <div id="preLoaders">
                     </div>
-                    <div class="contents-cms">{{ 'Please enter your e-mail and click the Reset Password button'|trans }}</div>
-                    <form id="forgotpassword_form" name="forgotpassword_form"
-                          action="{{ path('forgotpassword',{'_locale':app.request.getLocale(),'_country':app.request.get('_country')}) }}" method="post" autocomplete="off">
-                        <div class="form-group">
+                    <div class="contents-sms">{{ 'Please enter your e-mail and click the Reset Password button'|trans }}</div>
+                     <div class="form-group">
                             <input type="email" class="form-control" id="email" name="email" placeholder="someone@email.com">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7">
